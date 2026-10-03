@@ -100,14 +100,14 @@
       <p>Download the installer to read it, then run it with options:</p>
       <div class="code wrap"><pre><code><span class="prompt">$ </span>curl --proto '=https' --tlsv1.2 -fsSLo install-cytoweave.sh https://raw.githubusercontent.com/robert-mcdermott/cytoweave/main/install.sh
 <span class="prompt">$ </span>less install-cytoweave.sh
-<span class="prompt">$ </span>sh install-cytoweave.sh --version v0.2.0 --install-dir "$HOME/bin"</code></pre></div>
+<span class="prompt">$ </span>sh install-cytoweave.sh --version v0.3.0 --install-dir "$HOME/bin"</code></pre></div>
       <p>The piped form reads the same settings from environment variables:</p>
-      <div class="code wrap"><pre><code><span class="prompt">$ </span>curl --proto '=https' --tlsv1.2 -fsSL https://raw.githubusercontent.com/robert-mcdermott/cytoweave/main/install.sh | CYTOWEAVE_VERSION=v0.2.0 sh</code></pre></div>
+      <div class="code wrap"><pre><code><span class="prompt">$ </span>curl --proto '=https' --tlsv1.2 -fsSL https://raw.githubusercontent.com/robert-mcdermott/cytoweave/main/install.sh | CYTOWEAVE_VERSION=v0.3.0 sh</code></pre></div>
       <div class="table-wrap">
         <table>
           <thead><tr><th>Option</th><th>Environment variable</th><th>Purpose</th></tr></thead>
           <tbody>
-            <tr><td><code>--version</code></td><td><code>CYTOWEAVE_VERSION</code></td><td>Release tag to install, such as <code>v0.2.0</code>. Defaults to the latest release.</td></tr>
+            <tr><td><code>--version</code></td><td><code>CYTOWEAVE_VERSION</code></td><td>Release tag to install, such as <code>v0.3.0</code>. Defaults to the latest release.</td></tr>
             <tr><td><code>--install-dir</code></td><td><code>CYTOWEAVE_INSTALL_DIR</code></td><td>Absolute installation folder. Defaults to <code>$HOME/.local/bin</code>.</td></tr>
             <tr><td></td><td><code>CYTOWEAVE_REPOSITORY</code></td><td>GitHub <code>owner/repository</code>, to install from a fork.</td></tr>
           </tbody>
@@ -117,11 +117,11 @@
 
       <h3 id="options-windows">Windows</h3>
       <p><code>irm … | iex</code> reads the script into memory and runs it, so the PowerShell execution policy, which governs script files, does not apply. Piping cannot pass parameters: set environment variables instead, or build a script block.</p>
-      <div class="code"><span class="code-label">powershell</span><pre><code>$env:CYTOWEAVE_VERSION = 'v0.2.0'
+      <div class="code"><span class="code-label">powershell</span><pre><code>$env:CYTOWEAVE_VERSION = 'v0.3.0'
 $env:CYTOWEAVE_INSTALL_DIR = "$HOME\bin"
 irm https://raw.githubusercontent.com/robert-mcdermott/cytoweave/main/install.ps1 | iex</code></pre></div>
       <div class="code"><span class="code-label">powershell</span><pre><code>&amp; ([scriptblock]::Create((irm https://raw.githubusercontent.com/robert-mcdermott/cytoweave/main/install.ps1))) `
-  -Version v0.2.0 -InstallDir "$HOME\bin"</code></pre></div>
+  -Version v0.3.0 -InstallDir "$HOME\bin"</code></pre></div>
       <div class="table-wrap">
         <table>
           <thead><tr><th>Parameter</th><th>Environment variable</th><th>Purpose</th></tr></thead>

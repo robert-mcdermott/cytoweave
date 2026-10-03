@@ -4,11 +4,11 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>FlowJo and Gating-ML · CytoWeave</title>
-  <meta name="description" content="Import FlowJo 10 workspaces into CytoWeave with a report of what converted exactly, compare every population count with FlowJo's in the migration report, and exchange gates with Gating-ML 2.0 and CLR." />
+  <meta name="description" content="Import FlowJo 10 workspaces into CytoWeave with a report of what converted exactly, compare every population count with FlowJo's, export workspaces back to FlowJo, and exchange gates with Gating-ML 2.0 and CLR." />
   <link rel="canonical" href="https://robert-mcdermott.github.io/cytoweave/docs/flowjo.html" />
   <meta property="og:type" content="website" />
   <meta property="og:title" content="FlowJo and Gating-ML" />
-  <meta property="og:description" content="Import FlowJo 10 workspaces into CytoWeave with a report of what converted exactly, compare every population count with FlowJo's in the migration report, and exchange gates with Gating-ML 2.0 and CLR." />
+  <meta property="og:description" content="Import FlowJo 10 workspaces into CytoWeave with a report of what converted exactly, compare every population count with FlowJo's, export workspaces back to FlowJo, and exchange gates with Gating-ML 2.0 and CLR." />
   <meta property="og:url" content="https://robert-mcdermott.github.io/cytoweave/docs/flowjo.html" />
   <meta property="og:image" content="https://robert-mcdermott.github.io/cytoweave/assets/img/og-image.jpg" />
   <meta name="twitter:card" content="summary_large_image" />
@@ -86,7 +86,7 @@
 
     <main id="main" class="doc">
       <h1>FlowJo and Gating-ML</h1>
-      <p class="doc-lede">Bring an analysis over from FlowJo and see, population by population, that it gives the same counts; exchange gates with other tools through Gating-ML.</p>
+      <p class="doc-lede">Bring an analysis over from FlowJo and see, population by population, that it gives the same counts; send one back to FlowJo; exchange gates with other tools through Gating-ML.</p>
 
       <h2 id="import">Importing a FlowJo workspace</h2>
       <p>CytoWeave reads FlowJo 10 workspaces (<code>.wsp</code>, also written by FlowJo 11): their samples, gates, compensation matrices and scales. FlowJo 9 workspaces and FlowJo 11's <code>.flowjo</code> format are not read; export <code>.wsp</code> from FlowJo.</p>
@@ -114,6 +114,31 @@
       <p>Small differences are expected. FlowJo evaluates gates at its display resolution, which moves events near gate boundaries: typically well under 1% of a large population, more for populations of a few dozen events. CytoWeave evaluates gates exactly. Larger differences usually mean different compensation, a different FCS file, or a population whose parent already differs.</p>
       <p>FlowJo's biexponential scale is reproduced exactly, from FlowJo's own table algorithm, and checked against BD's published lookup tables. On FlowJo's own test workspaces CytoWeave reproduces the counts FlowJo saved; on real workspaces it matches them exactly at least as often as FlowKit does, and within 0.1–0.3% for large populations.</p>
       <div class="callout"><p><strong>Limits.</strong> Curly quadrants import with straight dividers. Template group gates import as per-sample copies, merged where samples agree.</p></div>
+
+      <h2 id="export">Exporting to FlowJo</h2>
+      <figure>
+        <div class="shot"><img class="shot-dark" src="../assets/img/flowjo-export-dark.webp" width="2000" height="1250" loading="lazy" alt="Export as a FlowJo workspace: 162 population-sample pairs written exactly, none traced or left out, with options to include the counts, the FCS files and to remove identifying keywords" /><img class="shot-light" src="../assets/img/flowjo-export-light.webp" width="2000" height="1250" loading="lazy" alt="Export as a FlowJo workspace: 162 population-sample pairs written exactly, none traced or left out, with options to include the counts, the FCS files and to remove identifying keywords" /></div>
+        <figcaption>The export's report: every population of the PBMC example is written exactly.</figcaption>
+      </figure>
+      <p>To hand an analysis to a FlowJo user, or to keep a copy in FlowJo's format, choose <strong>Workspace → Export → FlowJo workspace (.wsp)…</strong>. CytoWeave writes a FlowJo 10 workspace, which FlowJo 11 also opens:</p>
+      <ul>
+        <li>One gating tree per sample, as FlowJo keeps them: the gates that apply to that sample, with its own adjustments, and gates limited to a group only in that group's samples.</li>
+        <li>Each sample's compensation, the scales of its channels, and the workspace's sample groups.</li>
+        <li>Optionally, CytoWeave's count of every population, so the counts FlowJo shows can be checked against CytoWeave's.</li>
+        <li>Optionally, the FCS files, in a ZIP with the workspace, and optionally <a href="workspaces.html#deidentify">de-identified</a>.</li>
+      </ul>
+      <p>Before exporting, the dialog lists every population as one of:</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Status</th><th>Meaning</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Exact</strong></td><td>FlowJo evaluates the same gate. Rectangles, ranges, quadrants and splits are always exact; polygons and ellipses are when they were drawn on the scale written for their channels.</td></tr>
+            <tr><td><strong>Traced</strong></td><td>A polygon or ellipse drawn on another scale than the one written. FlowJo draws gate edges straight on its own axes, so the outline is written with enough vertices to follow the original.</td></tr>
+            <tr><td><strong>Not exported</strong></td><td>Gates FlowJo cannot evaluate: category gates (QC pass, barcodes, clusters), gates on channels CytoWeave computed (unmixed, normalized, ratios), and gates of three or more dimensions. Their children are left out too.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>The export is checked in the validation suite: the bundled example, ten FlowKit test workspaces and a workspace built in CytoWeave (with splits, quadrants on mixed scales, Boolean populations, per-sample adjustments and group scopes) each import back with every count unchanged, and FlowKit reads every export and counts what CytoWeave counts. The exports have not yet been opened in FlowJo itself; if you try one, please report how it went.</p>
 
       <h2 id="gating-ml">Gating-ML 2.0</h2>
       <p>Gating-ML is ISAC's standard for gates, transformations and compensation. Open a Gating-ML <code>.xml</code> file like any other file, and export with <strong>Workspace → Export → Gates as Gating-ML 2.0</strong>. Import and export cover:</p>

@@ -56,7 +56,7 @@
         <table>
           <thead><tr><th>Area</th><th>Checked against</th><th>Result</th></tr></thead>
           <tbody>
-            <tr><td><strong>FCS</strong></td><td>All 82 example files</td><td>Parsed without warnings; written and read back bit-exact</td></tr>
+            <tr><td><strong>FCS</strong></td><td>All 112 example files</td><td>Parsed without warnings; written and read back bit-exact</td></tr>
             <tr><td><strong>Compensation</strong></td><td>The true spillover of the PBMC example</td><td>Matrices within 0.02 of the truth; the planted error found first, corrected to 0.158 (true 0.157)</td></tr>
             <tr><td><strong>Gating</strong></td><td>True cell types</td><td>Precision 91–100%, recall 96–100%</td></tr>
             <tr><td><strong>QC</strong></td><td>Known clogs, bubbles and drift</td><td>99.8–100% of anomalous events removed; ≤ 1.4% of clean events, none from clean or drifting files</td></tr>
@@ -68,16 +68,24 @@
             <tr><td><strong>Normalization</strong></td><td>Same-donor anchors in two batches</td><td>Batch distance reduced 25×</td></tr>
             <tr><td><strong>Scales</strong></td><td>BD's FlowJo lookup tables</td><td>Biexponential within 5e-6 (the tables' precision)</td></tr>
             <tr><td><strong>Statistics</strong></td><td>R 4.x</td><td>t-tests, Wilcoxon, Benjamini–Hochberg and t quantiles agree</td></tr>
+            <tr><td><strong>Autogating</strong></td><td>True cell types of a cohort with instrument shifts up to fivefold</td><td>Every shifted gate more accurate (T cells F1 0.954 → 0.994), none less; the 4 least accurate of 66 sent to review; nothing sent to review without a shift</td></tr>
+            <tr><td><strong>Instrument (Q and B)</strong></td><td>30 simulated bead runs with known Q and B, and a PMT, flow cell and laser problem</td><td>Q within 2% (median), B within 6%; every problem flagged at once on Levey–Jennings charts, none in the 20 baseline runs</td></tr>
+            <tr><td><strong>Spectral library</strong></td><td>A second experiment's controls, and a tandem that lost 5% of its emission</td><td>Independent controls all match (largest difference 0.01); the degraded PE-Cy7 flagged and nothing else; a library spectrum unmixes as well as the dye's own control</td></tr>
+            <tr><td><strong>Figure provenance</strong></td><td>A 60-plot figure of 12 samples</td><td>Read back intact from SVG, PNG and PDF; rebuilt with every plot drawn from the same events</td></tr>
             <tr><td><strong>Gating-ML</strong></td><td>ISAC's compliance suite</td><td>All 190 gates match on every event</td></tr>
             <tr><td><strong>FlowJo</strong></td><td>FlowJo's saved counts in 14 workspaces, and FlowKit's</td><td>The bundled example and FlowKit's synthetic workspaces exact; real 8-colour workspaces at least as close to FlowJo as FlowKit</td></tr>
+            <tr><td><strong>FlowJo export</strong></td><td>The workspace imported back, and FlowKit reading the export</td><td>Every count unchanged in 12 workspaces; FlowKit counts what CytoWeave counts (ellipse boundaries aside)</td></tr>
+            <tr><td><strong>De-identification</strong></td><td>Every example and corpus FCS file</td><td>The same events, bit for bit</td></tr>
             <tr><td><strong>Reference tools</strong></td><td>FlowKit 1.3.2 and FlowIO</td><td>FCS decoding, compensation, spectral unmixing and transforms agree</td></tr>
             <tr><td><strong>FCS files</strong></td><td>16 instrument and malformed test files</td><td>All readable files read and written back bit-exact; malformed ones refused with a clear message</td></tr>
             <tr><td><strong>R packages</strong></td><td>flowCore, PeacoQC 1.22, FlowSOM and CytoNorm in R, on their example data and other public files</td><td>Values read, compensated and logicle-scaled within 1e-7; PeacoQC (classic) removes the same events; FlowSOM maps every event alike and agrees with R as closely as R agrees with itself; CytoNorm within 1e-5</td></tr>
             <tr><td><strong>BD FACSDiva</strong></td><td>Its spillover matrix from 15 real single-stain controls</td><td>Every entry within 0.015 (median method), with no manual gating</td></tr>
+            <tr><td><strong>Autogating, against experts</strong></td><td>An expert's per-donor gates in 4 FlowJo workspaces of a cytokine study (48 wells)</td><td>Agreement with the expert unchanged (F1 0.9876 → 0.9877), no adjustment lowering it; wells gated differently sent to review 3× as often as the others</td></tr>
+            <tr><td><strong>flowQB</strong></td><td>flowQB on its own LSR II data: an LED series, 8-peak and 6-peak beads</td><td>The same peaks, Q, B and standard errors in all 36 detectors (within 6e-9)</td></tr>
           </tbody>
         </table>
       </div>
-      <p>The public test data behind the last six rows are not part of the program: <code>node validation/fetch.mjs</code> downloads them and checks their checksums. The tolerances, the notes on each comparison and how to run the suite are in the <a href="https://github.com/robert-mcdermott/cytoweave/blob/main/validation/README.md">validation README</a>.</p>
+      <p>The public test data behind the last eight rows are not part of the program: <code>node validation/fetch.mjs</code> downloads them and checks their checksums. The tolerances, the notes on each comparison and how to run the suite are in the <a href="https://github.com/robert-mcdermott/cytoweave/blob/main/validation/README.md">validation README</a>.</p>
 
       <h3 id="truth">What a simulated truth can and cannot show</h3>
       <p>The bundled examples are generated by a simulator that keeps the truth for every event: its cell type, its fluorochrome abundances, whether it falls inside a clog or bubble, and the true spillover, phase fractions, precursor frequencies and batch effects. That tests the software against answers known exactly, which real data cannot provide. It does not test whether the simulator is realistic. The simulator models what makes real analyses hard: spillover and spreading from photon statistics, lymphoid and myeloid autofluorescence, dead cells, debris and doublets, clogs, bubbles and drift, and batch effects. Real data can still fail in ways it does not model, which is why the suite also runs on real instrument files, real FlowJo workspaces and the R packages these methods come from.</p>
@@ -120,7 +128,7 @@
       <div class="code"><span class="code-label">bibtex</span><pre><code>@software{cytoweave,
   author  = {McDermott, Robert},
   title   = {CytoWeave: a flow cytometry analysis workbench},
-  version = {0.2.0},
+  version = {0.3.0},
   url     = {https://github.com/robert-mcdermott/cytoweave},
   license = {Apache-2.0},
   year    = {2026}

@@ -117,7 +117,7 @@ between stimulated and unstimulated samples.</code></pre></div>
     }
   }
 }</code></pre></div>
-      <p>Options go after <code>mcp</code>: <code>--port</code> (default 8770; the next free one is used), <code>--data-dir</code> (the workspace library) and <code>--window app|browser|none</code> (how the window opens when a tool needs it). Proposals and the <code>propose_compensation</code> and <code>proposals</code> tools need CytoWeave 0.2.0 or later.</p>
+      <p>Options go after <code>mcp</code>: <code>--port</code> (default 8770; the next free one is used), <code>--data-dir</code> (the workspace library) and <code>--window app|browser|none</code> (how the window opens when a tool needs it). Proposals and the <code>propose_compensation</code> and <code>proposals</code> tools need CytoWeave 0.2.0 or later, and <code>adapt_gate</code> 0.3.0.</p>
 
       <h2 id="proposals">Reviewing proposals</h2>
       <figure>
@@ -154,6 +154,7 @@ between stimulated and unstimulated samples.</code></pre></div>
             <tr><td><code>propose_compensation</code></td><td>Computes a spillover matrix from the single-stain controls and proposes it for the samples</td></tr>
             <tr><td><code>proposals</code></td><td>The agent's open proposal and your recent decisions</td></tr>
             <tr><td><code>review_gate</code></td><td>A gate's frequency on every sample with a robust z-score and boundary robustness, outliers first</td></tr>
+            <tr><td><code>adapt_gate</code></td><td>Adapts a gate to every sample with a confidence for each: confident adjustments are proposed, uncertain samples listed for you to check; <code>groupBy</code> keeps one gate per donor or subject</td></tr>
             <tr><td><code>compare</code></td><td>Tests a statistic between groups of samples defined by annotations, optionally paired</td></tr>
             <tr><td><code>methods</code></td><td>A methods paragraph with numbered references</td></tr>
             <tr><td><code>export_gating_ml</code></td><td>The gating strategy as Gating-ML 2.0</td></tr>

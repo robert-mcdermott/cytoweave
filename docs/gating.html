@@ -144,7 +144,7 @@
       <p>Right-click a population in the tree (or use its <strong>⋯</strong> menu) for:</p>
       <ul>
         <li><strong>Rename</strong>, <strong>Color</strong>, and <strong>Backgate on ancestors</strong> (<kbd>B</kbd>): the population's events highlighted on every plot of its gating path.</li>
-        <li><strong>Review across samples…</strong> (below).</li>
+        <li><strong>Review across samples…</strong> and <strong>Adapt to each sample…</strong> (below).</li>
         <li><strong>Copy to another population…</strong>: the gate, and its children, under another parent.</li>
         <li><strong>Applies to</strong>: all samples or one group.</li>
         <li><strong>New Boolean population…</strong> (below).</li>
@@ -182,6 +182,26 @@
 
       <h3 id="robustness">Boundary robustness</h3>
       <p>In the inspector, <strong>Check boundary robustness</strong> moves the selected gate's boundary in small steps and plots how the frequency follows, in points per 1% of the axis. A <em>robust</em> gate sits in a density valley; a <em>moderate</em> or <em>sensitive</em> one cuts through dense events, so where exactly it was drawn changes the answer. Move it into the valley, or report the uncertainty.</p>
+
+      <h2 id="adapt">Adapting a gate to each sample</h2>
+      <figure>
+        <div class="shot"><img class="shot-dark" src="../assets/img/autogate-dark.webp" width="2000" height="1250" loading="lazy" alt="Adapt Monocytes to each sample: eleven PBMC samples acquired with drifting detector gains; six confident adjustments ticked, four that already fit, and D06_Stim sent to review because the boundary would cut through denser events than in the other samples" /><img class="shot-light" src="../assets/img/autogate-light.webp" width="2000" height="1250" loading="lazy" alt="Adapt Monocytes to each sample: eleven PBMC samples acquired with drifting detector gains; six confident adjustments ticked, four that already fit, and D06_Stim sent to review because the boundary would cut through denser events than in the other samples" /></div>
+        <figcaption>The monocyte gate adapted to samples acquired with drifting detector gains: six adjustments, four that fit, one to check.</figcaption>
+      </figure>
+      <p>When the data shift between samples (another day, another voltage, a different staining), a shared gate can drift off its population. <strong>Adapt to each sample…</strong> moves it for you, sample by sample, and says how sure it is.</p>
+      <p>It learns from the samples the gate is known to be right on: where you drew it, adjusted it, or confirmed it. On every other sample it finds the density peaks of the parent population along the gate's axes, matches them to those of the most similar known samples, and carries the gate across, snapping a boundary that sat in a valley to the valley it lands in. Repeating this over several known samples, smoothings and halves of the events gives each sample a confidence. Each sample gets one of three statuses:</p>
+      <ul>
+        <li><strong>Fits:</strong> the gate already fits, or does not cut into a population there. Nothing changes.</li>
+        <li><strong>Adjust:</strong> a confident adjustment, ticked. <strong>Apply</strong> applies the ticked ones in one undoable step, as adjustments for those samples.</li>
+        <li><strong>Review:</strong> uncertain, listed first with the reason (the peaks do not match, the carried-over gates disagree, or the boundary would cut through dense events). Click <strong>Show</strong> to adjust the gate on that sample by hand, or <strong>Looks right</strong> if it is right as it is, then adapt again: CytoWeave learns from every sample you check.</li>
+      </ul>
+      <p>A gate is moved only where its boundary cuts into a population and the adaptation finds sparser events. Populations also move for biological reasons, and those moves are what you are measuring: a PMA stimulation down-regulates CD3 and CD4, and following them would gate the effect away. Two habits help:</p>
+      <ul>
+        <li>When each donor or subject has several samples that differ by a stimulation (unstimulated, peptide and PMA wells), set <strong>Keep one gate per</strong> to that metadata field. Each donor's samples are adapted together, on their pooled events, so they keep one gate between them, as an expert would gate them. A sample unlike the rest of its donor goes to review.</li>
+        <li>Adapt a parent gate before its children. A sample under review for a parent stays under review for the gates below it.</li>
+      </ul>
+      <p><strong>Probabilities (CLR)</strong> exports each event's probability of belonging to the adapted gate, one file per sample, for tools that read classification results. The methods paragraph describes the adaptation and how many samples were adjusted or flagged. Polygons, rectangles, ellipses, ranges, splits and quadrants can be adapted. An <a href="agents.html">AI agent</a> can run it too (<code>adapt_gate</code>); its adjustments wait in its proposal for you.</p>
+      <p>How it was checked: on a simulated cohort with instrument shifts it made every shifted gate more accurate and none less; against an expert's own per-donor gates in a real cytokine study it left agreement with the expert unchanged, with no adjustment lowering it. Details are on the <a href="../science.html">science page</a>.</p>
 
       <h2 id="next">Where to go next</h2>
       <div class="card-grid">

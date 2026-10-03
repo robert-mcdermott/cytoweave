@@ -142,6 +142,19 @@
       <p><strong>Residuals</strong> shows where the reference set fails to explain the data: the median residual per detector and a heat strip of events binned from dim to bright. A missing dye, a degraded tandem or an unexpected autofluorescence shows as a systematic misfit in the detectors where it emits. When the residuals scatter around zero in every detector, the references explain the population well. <strong>Signature</strong> draws the raw spectral signature of the selected population: the density of its events' signal in every detector.</p>
       <p>Against the true abundances of the 25-colour example, unmixed values correlate with a median r of 0.988, within 0.001 of unmixing with the true spectra.</p>
 
+      <h2 id="library">The spectral library</h2>
+      <figure>
+        <div class="shot"><img class="shot-dark" src="../assets/img/spectral-library-dark.webp" width="2000" height="1250" loading="lazy" alt="The Library tab: PE-Cy7 marked changed, differing from the library by 0.111 at YG1-A, the other dyes matching; below, PE-Cy7's spectrum in this experiment against the library's, with extra emission where PE emits" /><img class="shot-light" src="../assets/img/spectral-library-light.webp" width="2000" height="1250" loading="lazy" alt="The Library tab: PE-Cy7 marked changed, differing from the library by 0.111 at YG1-A, the other dyes matching; below, PE-Cy7's spectrum in this experiment against the library's, with extra emission where PE emits" /></div>
+        <figcaption>A later experiment whose PE-Cy7 has degraded, against the spectra saved from an earlier one.</figcaption>
+      </figure>
+      <p>Reference spectra are worth keeping: a tandem dye degrades in the vial, a new lot differs, a laser is realigned. The <strong>Library</strong> tab keeps spectra across experiments, per instrument (by cytometer and serial number):</p>
+      <ul>
+        <li><strong>Save to the library</strong> stores the spectra of this experiment's controls, with their file, date and quality.</li>
+        <li>Each control is compared with the library's latest spectrum of its fluorochrome, detector by detector with both scaled to a peak of 1. A difference above 0.03 anywhere marks it <strong>changed</strong>, in the table and in the list of controls; click it to overlay the two spectra. Independent controls of one instrument usually agree within about 0.01; a PE-Cy7 that has lost 5% of its emission to PE differs by 0.05 at the yellow-green laser's first detector. Unmixing such a dye with its old spectrum moves its PE emission into PE: in the validation, PE's correlation with the truth falls from 0.68 to 0.48.</li>
+        <li><strong>Add to the panel</strong> brings in the library spectrum of a fluorochrome you have no control for. It is unmixed like any other reference (in the validation, as accurately as with its own control) but has no control events, so it is left out of the spreading matrix. The methods paragraph says which spectra came from the library.</li>
+      </ul>
+      <p>A library spectrum is only valid for the same instrument, detectors and settings: CytoWeave matches entries by detector names and keeps one library per instrument.</p>
+
       <h2 id="next">Where to go next</h2>
       <div class="card-grid">
         <a class="card" href="gating.html"><h3>Gating</h3><p>Gate the unmixed channels.</p></a>

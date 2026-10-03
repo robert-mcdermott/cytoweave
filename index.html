@@ -48,12 +48,12 @@
   <main id="main">
     <section class="hero">
       <div class="container hero-grid">
-        <a class="eyebrow" href="https://github.com/robert-mcdermott/cytoweave/releases/tag/v0.2.0"><span class="pill">v0.2.0</span> AI agents that propose, Boolean populations, index sorting and ten-million-event samples</a>
+        <a class="eyebrow" href="https://github.com/robert-mcdermott/cytoweave/releases/tag/v0.3.0"><span class="pill">v0.3.0</span> Gates adapted to each sample, Q and B of your cytometer, FlowJo export and figures that carry their analysis</a>
         <h1>Flow cytometry analysis <span class="accent">you can check</span></h1>
         <p class="lede">CytoWeave is an analysis workbench for conventional, spectral and mass cytometry. It runs on your own computer as one self-contained program, installed with a single command: no licence server, no account, no Python, R or plugins. Files are read and analyzed in your browser and never leave your machine.</p>
         <figure class="hero-shot">
         <div class="shot shot-window" data-url="127.0.0.1:8770"><img class="shot-dark" src="assets/img/gate-dark.webp" width="2000" height="1250" fetchpriority="high" alt="The Gate view of CytoWeave: the gating path of T cells in a 14-colour PBMC experiment, with CD4 against CD8 and CD45RA against CCR7 plots, the population tree and the T-cell statistics" /><img class="shot-light" src="assets/img/gate-light.webp" width="2000" height="1250" fetchpriority="high" alt="The Gate view of CytoWeave: the gating path of T cells in a 14-colour PBMC experiment, with CD4 against CD8 and CD45RA against CCR7 plots, the population tree and the T-cell statistics" /></div>
-        <figcaption>The gating path of T cells in the bundled 14-colour PBMC experiment, one of nine example experiments.</figcaption>
+        <figcaption>The gating path of T cells in the bundled 14-colour PBMC experiment, one of ten example experiments.</figcaption>
       </figure>
         <div class="btn-row">
           <a class="btn btn-primary" href="install.html">
@@ -187,6 +187,24 @@
 
         <article class="feature">
           <div class="feature-text">
+            <span class="kicker">Instrument</span>
+            <h3>Know your cytometer: Q, B and every run since</h3>
+            <p>Measure every detector's efficiency Q and optical background B from multi-level beads or an LED pulser, with the weighted quadratic fit of Parks et al. that flowQB uses, and get flowQB's answers. Keep the runs in the instrument's record and follow them on Levey–Jennings charts: a failing PMT, a dirty flow cell or a weak laser shows on the day it happens.</p>
+            <ul class="checklist">
+              <li>Westgard rules against a baseline of runs</li>
+              <li>A spectral library that catches a degraded tandem</li>
+              <li>Library spectra for dyes you have no control for</li>
+            </ul>
+            <a class="more-link" href="docs/qc.html#instrument">Q, B and Levey–Jennings</a>
+          </div>
+          <figure>
+        <div class="shot"><img class="shot-dark" src="assets/img/levey-jennings-dark.webp" width="2000" height="1250" loading="lazy" alt="A Levey–Jennings chart of one detector's Q over 30 daily bead runs: in control for 20 baseline runs, then falling out of control" /><img class="shot-light" src="assets/img/levey-jennings-light.webp" width="2000" height="1250" loading="lazy" alt="A Levey–Jennings chart of one detector's Q over 30 daily bead runs: in control for 20 baseline runs, then falling out of control" /></div>
+        <figcaption>An ageing violet detector: its Q leaves the control limits the second day it fails.</figcaption>
+      </figure>
+        </article>
+
+        <article class="feature reverse">
+          <div class="feature-text">
             <span class="kicker">Clustering and maps</span>
             <h3>Maps that say how far to trust them</h3>
             <p>FlowSOM, Leiden, Louvain or k-means clustering, and UMAP, t-SNE or PCA across samples. Clusters are named from their marker enrichment and become gateable populations. Every map reports its trustworthiness, continuity, neighbour preservation, sample mixing and seed stability.</p>
@@ -203,7 +221,7 @@
       </figure>
         </article>
 
-        <article class="feature reverse">
+        <article class="feature">
           <div class="feature-text">
             <span class="kicker">Review</span>
             <h3>Every sample's result for a gate, outliers first</h3>
@@ -218,6 +236,24 @@
           <figure>
         <div class="shot"><img class="shot-dark" src="assets/img/review-dark.webp" width="2000" height="1250" loading="lazy" alt="Review Lymphocytes across samples: 12 samples with their percentage of parent, event counts, robust z-scores, and typical frequency and robust boundary ratings" /><img class="shot-light" src="assets/img/review-light.webp" width="2000" height="1250" loading="lazy" alt="Review Lymphocytes across samples: 12 samples with their percentage of parent, event counts, robust z-scores, and typical frequency and robust boundary ratings" /></div>
         <figcaption>The lymphocyte gate on 12 samples: every frequency typical, every boundary robust.</figcaption>
+      </figure>
+        </article>
+
+        <article class="feature reverse">
+          <div class="feature-text">
+            <span class="kicker">Autogating</span>
+            <h3>Gates that follow drifting samples, and say when they can't</h3>
+            <p>Adapt a gate to every sample: CytoWeave learns from the samples you drew, adjusted or confirmed it on, carries it across by the density peaks of the parent population, and gives each sample a confidence. Confident adjustments are ticked for you to apply; uncertain samples come first, with the reason. A gate that sits in a valley stays, because populations also move for biological reasons.</p>
+            <ul class="checklist">
+              <li>One gate per donor for stimulation assays</li>
+              <li>Checked against an expert's own gates in a real cytokine study</li>
+              <li>Membership probabilities for every event, as CLR</li>
+            </ul>
+            <a class="more-link" href="docs/gating.html#adapt">Adapting a gate to each sample</a>
+          </div>
+          <figure>
+        <div class="shot"><img class="shot-dark" src="assets/img/autogate-dark.webp" width="2000" height="1250" loading="lazy" alt="Adapt Monocytes to each sample: six confident adjustments ticked, four samples that already fit and one sent to review, each with its confidence and reason" /><img class="shot-light" src="assets/img/autogate-light.webp" width="2000" height="1250" loading="lazy" alt="Adapt Monocytes to each sample: six confident adjustments ticked, four samples that already fit and one sent to review, each with its confidence and reason" /></div>
+        <figcaption>The monocyte gate adapted to samples acquired with drifting detector gains: six adjustments, four that fit, one to check.</figcaption>
       </figure>
         </article>
 
@@ -264,6 +300,8 @@
             <p>FlowJo 10 workspaces import with their samples, gates, compensation and scales. The import lists every population as exact, approximated or unsupported, and the migration report compares every population count with FlowJo's, with the likely cause of any difference.</p>
             <ul class="checklist">
               <li>FlowJo's biexponential reproduced from its own algorithm</li>
+              <li>Workspaces exported back to FlowJo, one gating tree per sample</li>
+              <li>De-identified FCS files for sharing, with the events untouched</li>
               <li>Gating-ML 2.0 in and out: all 190 compliance gates exact</li>
               <li>Archival Cytometry Standard containers and CLR</li>
             </ul>
@@ -281,6 +319,7 @@
             <h3>Figures, methods and checkpoints</h3>
             <p>Build the gating strategy of a population in one click, or lay out plots across samples; they stay live until you export SVG, PNG or a 300 dpi PDF. The Report view writes a methods paragraph with numbered references from what the workspace actually did, and checkpoints compare two versions of an analysis in plain language.</p>
             <ul class="checklist">
+              <li>Exported figures carry the analysis that made them; open one to see what changed</li>
               <li>Every algorithm with its parameters and seed</li>
               <li>BibTeX for the references, and a MIFlowCyt checklist</li>
               <li>"The Live gate moved by 3% of the axis", with its effect on every frequency</li>
@@ -329,8 +368,8 @@
           </a>
           <a class="card" href="docs/getting-started.html#examples">
             <span class="icon-badge pink"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 3h6M10 3v6l-5 9a2 2 0 0 0 1.7 3h10.6a2 2 0 0 0 1.7-3l-5-9V3"/></svg></span>
-            <h3>Nine example experiments</h3>
-            <p>Simulated with the truth of every event: a planted compensation error, a FlowJo workspace, a spectral panel, a barcoded plate and more.</p>
+            <h3>Ten example experiments</h3>
+            <p>Simulated with the truth of every event: a planted compensation error, a FlowJo workspace, a spectral panel, a barcoded plate, a month of bead QC and more.</p>
           </a>
         </div>
       </div>
@@ -353,6 +392,8 @@
               <tr><td><strong>Spectral</strong></td><td>True abundances of 25 fluorochromes</td><td class="agree">median r = 0.988</td></tr>
               <tr><td><strong>Gating-ML</strong></td><td>ISAC's compliance suite</td><td class="agree">190 of 190 gates exact</td></tr>
               <tr><td><strong>FlowJo</strong></td><td>FlowJo's saved counts in 14 workspaces</td><td class="agree">as close as FlowKit or closer</td></tr>
+              <tr><td><strong>Autogating</strong></td><td>An expert's per-donor gates in a real cytokine study</td><td class="agree">no adjustment moved away from the expert</td></tr>
+              <tr><td><strong>Q and B</strong></td><td>flowQB on its own LSR II data</td><td class="agree">equal within 6e-9</td></tr>
               <tr><td><strong>R packages</strong></td><td>flowCore, PeacoQC, FlowSOM and CytoNorm</td><td class="agree">within 1e-7 to 1e-5</td></tr>
             </tbody>
           </table>
@@ -366,7 +407,7 @@
         <div class="cta">
           <div>
             <h2 id="get-title">Get started in a minute</h2>
-            <p>Install with one command, then run <code>cytoweave</code>. It opens its own window, with nine example experiments ready to explore.</p>
+            <p>Install with one command, then run <code>cytoweave</code>. It opens its own window, with ten example experiments ready to explore.</p>
             <div class="btn-row">
               <a class="btn btn-primary" href="docs/getting-started.html">Getting started</a>
               <a class="btn" href="https://github.com/robert-mcdermott/cytoweave/releases/latest">All downloads</a>

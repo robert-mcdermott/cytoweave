@@ -129,6 +129,24 @@
       <p>On the validation suite's simulated wells, refined QC removes 99.8–100% of the anomalous events and none from the clean or drifting files. <strong>Classic</strong>, a port of PeacoQC 1.22, removes the same events as PeacoQC in R.</p>
       <p>Under <strong>Sensitivity</strong>, choose the variant and PeacoQC's parameters (MAD threshold, isolation-tree limit, consecutive bins), then <strong>Re-run and compare</strong> to see how much the result depends on them, side by side.</p>
 
+      <h2 id="instrument">Q, B and Levey–Jennings</h2>
+      <figure>
+        <div class="shot"><img class="shot-dark" src="../assets/img/instrument-dark.webp" width="2000" height="1250" loading="lazy" alt="QC Instrument: Q and B with standard errors for 18 detectors on one bead run, flags for an ageing BV421 detector and a weaker violet laser, and BV421-A's peak variance against mean with the fitted quadratic and its three terms" /><img class="shot-light" src="../assets/img/instrument-light.webp" width="2000" height="1250" loading="lazy" alt="QC Instrument: Q and B with standard errors for 18 detectors on one bead run, flags for an ageing BV421 detector and a weaker violet laser, and BV421-A's peak variance against mean with the fitted quadratic and its three terms" /></div>
+        <figcaption>Every detector's Q and B on one run of 8-peak beads, and the fit behind them.</figcaption>
+      </figure>
+      <p>The <strong>Instrument</strong> tab characterizes the cytometer itself. How many photoelectrons a detector collects per unit of signal (its efficiency <strong>Q</strong>) and how much background light and electronic noise it adds (<strong>B</strong>, in photoelectrons) decide how dim a population it can resolve. Both come from beads of known uniformity: each intensity level's variance grows with its mean as c0 + c1·mean + c2·mean², so Q = 1/c1, B = c0/c1² and √c2 is the beads' own CV (Parks et al. 2017).</p>
+      <ol>
+        <li>Acquire multi-level beads (8-peak rainbow beads, 6-peak beads and the like) and give the files the role <strong>bead</strong>, or use an LED pulser series with one level per file.</li>
+        <li>Choose the beads (or the number of levels) and click <strong>Measure</strong>. The levels are found by k-means on the detectors together after a scatter gate; each level's mean and SD are those of a normal fitted to its central 80%; levels outside the detector's linear range are left out; the fit is weighted and re-weighted until it settles. This is flowQB's method, and the validation suite checks that CytoWeave gives flowQB's results on flowQB's data.</li>
+        <li>Read each detector's Q and B with their standard errors, the beads' CV and the brightest level's robust CV. Click a detector for its peak variance against mean, with the fit and its three terms.</li>
+      </ol>
+      <figure>
+        <div class="shot"><img class="shot-dark" src="../assets/img/levey-jennings-dark.webp" width="2000" height="1250" loading="lazy" alt="A Levey–Jennings chart of BV421-A's Q over 30 daily runs: in control for the 20 baseline runs, then falling run after run, with the runs that break a rejection rule in red" /><img class="shot-light" src="../assets/img/levey-jennings-light.webp" width="2000" height="1250" loading="lazy" alt="A Levey–Jennings chart of BV421-A's Q over 30 daily runs: in control for the 20 baseline runs, then falling run after run, with the runs that break a rejection rule in red" /></div>
+        <figcaption>The ageing BV421 detector: its Q leaves the control limits on the second run after it starts to fail.</figcaption>
+      </figure>
+      <p><strong>Save to the instrument's record</strong> keeps the runs in the library, by cytometer and serial number, so later experiments add to the same history. <strong>Levey–Jennings</strong> charts follow Q, B, the beads' CV or one bead level of any detector across runs, against the mean and SD of the first runs (20 by default). A run is out of control when it breaks a Westgard rule: one value beyond 3 SD, two beyond 2 SD on one side, a swing of 4 SD between runs, four beyond 1 SD or ten on one side. One value beyond 2 SD only warns: among dozens of detectors, that happens by chance on most days. A falling Q points to a detector or its voltage, a rising B to stray light or a dirty flow cell, and a falling bead level with steady Q to a laser.</p>
+      <p>Try it on the example <strong>Daily bead QC</strong>: 30 runs, a PMT that ages from run 21, a dirty flow cell on run 25 and a weaker violet laser from run 27.</p>
+
       <h2 id="next">Where to go next</h2>
       <div class="card-grid">
         <a class="card" href="cohorts.html"><h3>Normalization and debarcoding</h3><p>The other tabs of the QC view.</p></a>

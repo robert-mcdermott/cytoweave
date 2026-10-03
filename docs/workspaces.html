@@ -124,9 +124,21 @@
             <tr><td><strong>Workspace with FCS files (ACS archive)</strong></td><td>Everything, in an Archival Cytometry Standard container: to send to a colleague, or to archive with a paper</td></tr>
             <tr><td><strong>Gates as Gating-ML 2.0</strong></td><td>Other tools that read Gating-ML 2.0, such as FlowKit. See <a href="flowjo.html#gating-ml">Gating-ML</a>.</td></tr>
             <tr><td><strong>Population memberships (CLR)…</strong></td><td>Classification results: a column per population or cluster for every event</td></tr>
+            <tr><td><strong>FlowJo workspace (.wsp)…</strong></td><td>FlowJo users, with or without the FCS files; see <a href="flowjo.html#export">Exporting to FlowJo</a></td></tr>
+            <tr><td><strong>De-identified FCS files…</strong></td><td>Sharing data outside your institution: the files without identifying keywords, as a ZIP or with the workspace in an ACS archive (below)</td></tr>
           </tbody>
         </table>
       </div>
+
+      <h2 id="deidentify">De-identified files</h2>
+      <p>FCS files carry more than events: operator and specimen fields, patient identifiers some instruments record, free-text comments, the original file name, acquisition dates, instrument serial numbers and many vendor keywords. <strong>Workspace → Export → De-identified FCS files…</strong> writes copies that keep only the keywords needed to read and analyze the data: parameter names, markers, ranges, voltages and amplification, compensation, the instrument model, the time step and index-sort wells. Everything else is removed, and the dialog shows what it removes from the current sample.</p>
+      <ul>
+        <li>Only the keyword text is rewritten. The events are copied byte for byte, whatever their data type; the validation suite checks this on every example and corpus file.</li>
+        <li>Acquisition dates and times are removed unless you tick <strong>Keep acquisition dates and times</strong>.</li>
+        <li>Files are named after their samples. Sample names are kept, so rename any sample whose name identifies a person before exporting.</li>
+        <li>As an <strong>ACS archive</strong>, the workspace goes with the files, refers to the new copies, and keeps none of the removed keywords; records of FlowJo imports, which hold file paths, are left out. The change log is kept: it names samples and gates.</li>
+      </ul>
+      <p>The population menu's <strong>Export events as de-identified FCS…</strong> does the same for one population, and the FlowJo export can de-identify the workspace and its files.</p>
       <p>The population menu exports one population's events as FCS (raw values and the original keywords) or CSV, and tables export as CSV. Opening a <code>.cwz</code> or ACS file restores the workspace.</p>
 
       <h2 id="large-files">Large files</h2>

@@ -4,11 +4,11 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Figures, methods and checkpoints · CytoWeave</title>
-  <meta name="description" content="Build publication figures from live plots in CytoWeave, export SVG, PNG or 300 dpi PDF, copy a methods paragraph with numbered references and BibTeX, check the MIFlowCyt checklist, and compare versions of an analysis with checkpoints." />
+  <meta name="description" content="Build publication figures from live plots in CytoWeave, export SVG, PNG or 300 dpi PDF that carry the analysis behind them, copy a methods paragraph with numbered references and BibTeX, check the MIFlowCyt checklist, and compare versions of an analysis with checkpoints." />
   <link rel="canonical" href="https://robert-mcdermott.github.io/cytoweave/docs/figures.html" />
   <meta property="og:type" content="website" />
   <meta property="og:title" content="Figures, methods and checkpoints" />
-  <meta property="og:description" content="Build publication figures from live plots in CytoWeave, export SVG, PNG or 300 dpi PDF, copy a methods paragraph with numbered references and BibTeX, check the MIFlowCyt checklist, and compare versions of an analysis with checkpoints." />
+  <meta property="og:description" content="Build publication figures from live plots in CytoWeave, export SVG, PNG or 300 dpi PDF that carry the analysis behind them, copy a methods paragraph with numbered references and BibTeX, check the MIFlowCyt checklist, and compare versions of an analysis with checkpoints." />
   <meta property="og:url" content="https://robert-mcdermott.github.io/cytoweave/docs/figures.html" />
   <meta property="og:image" content="https://robert-mcdermott.github.io/cytoweave/assets/img/og-image.jpg" />
   <meta name="twitter:card" content="summary_large_image" />
@@ -101,6 +101,27 @@
       </ul>
       <p>Any plot's <strong>⋯</strong> menu in the Gate view also has <strong>Add to figure</strong>. Click an item to edit it, drag it to move it (it snaps to 5 px), drag its corner to resize it, and press <kbd>Delete</kbd> to remove it. Pages come in slide (16:9), Letter and A4 portrait, Letter landscape and square sizes, or any width and height.</p>
       <p>Plots in a figure stay <strong>live</strong>: they follow gate edits and compensation changes until you export. Export the page as <strong>SVG</strong> (to edit in Illustrator or Inkscape), <strong>PNG</strong> or <strong>PDF (300 dpi)</strong>.</p>
+
+      <h2 id="provenance">Figures that carry their analysis</h2>
+      <p>A figure in a paper or a slide is usually cut off from the analysis that made it. CytoWeave's exports are not: every figure and plot exported as SVG, PNG or PDF carries a record of what it shows.</p>
+      <ul>
+        <li>The samples, by name and by the SHA-256 checksum of each FCS file.</li>
+        <li>Every gate the plots depend on: each population's ancestors, the gates drawn on the plot and Boolean operands, with their per-sample adjustments.</li>
+        <li>The scales of the channels and the compensation each sample was drawn with.</li>
+        <li>Each plot's population, axes and event count, and the page layout.</li>
+      </ul>
+      <p>The record goes in the SVG's metadata, a PNG text chunk, or a PDF attachment named <code>cytoweave-provenance.json</code>, which PDF readers list among the document's attachments. It holds no keywords and no event data. Untick <strong>Embed the analysis</strong> at the top of the Figures view to leave it out.</p>
+      <h3 id="open-figure">Opening an exported figure</h3>
+      <figure>
+        <div class="shot"><img class="shot-dark" src="../assets/img/figure-provenance-dark.webp" width="2000" height="1250" loading="lazy" alt="An exported T-cell gating strategy opened again: exported by CytoWeave from this workspace, four of its five plots unchanged and the lymphocyte plot changed because the T cells gate moved, with buttons to add it to this workspace or rebuild it in a new one" /><img class="shot-light" src="../assets/img/figure-provenance-light.webp" width="2000" height="1250" loading="lazy" alt="An exported T-cell gating strategy opened again: exported by CytoWeave from this workspace, four of its five plots unchanged and the lymphocyte plot changed because the T cells gate moved, with buttons to add it to this workspace or rebuild it in a new one" /></div>
+        <figcaption>A figure opened after a gate moved: the one plot it affects is marked.</figcaption>
+      </figure>
+      <p>Drop an exported SVG, PNG or PDF on CytoWeave (or open it like any file). The dialog says when and by which CytoWeave it was exported, from which workspace, and, plot by plot, whether it would look the same today: "Live changed; 84,450 events now, 84,284 in the figure", "the scale of APC-A changed (logicle → arcsinh)", "the compensation matrix changed". In another workspace, plots are matched by file checksum and population path. Then:</p>
+      <ul>
+        <li><strong>Rebuild in a new workspace</strong> recreates the samples, gates, scales, matrices and the figure itself, exactly as they were, from the same files. The library finds them by checksum; files it does not have can be added, whatever their names now.</li>
+        <li><strong>Add to this workspace</strong> places the figure back in the open workspace, on its matching samples and populations.</li>
+      </ul>
+      <p>The validation suite exports a 60-plot figure of 12 samples, reads its record back intact from all three formats, rebuilds it with every plot drawn from the same events, and checks that moving one gate flags exactly the plots it affects.</p>
 
       <h2 id="methods">The methods paragraph</h2>
       <figure>
