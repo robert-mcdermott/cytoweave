@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Figures, methods and checkpoints · CytoWeave</title>
+  <meta name="description" content="Build publication figures from live plots in CytoWeave, export SVG, PNG or 300 dpi PDF, copy a methods paragraph with numbered references and BibTeX, check the MIFlowCyt checklist, and compare versions of an analysis with checkpoints." />
+  <link rel="canonical" href="https://robert-mcdermott.github.io/cytoweave/docs/figures.html" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Figures, methods and checkpoints" />
+  <meta property="og:description" content="Build publication figures from live plots in CytoWeave, export SVG, PNG or 300 dpi PDF, copy a methods paragraph with numbered references and BibTeX, check the MIFlowCyt checklist, and compare versions of an analysis with checkpoints." />
+  <meta property="og:url" content="https://robert-mcdermott.github.io/cytoweave/docs/figures.html" />
+  <meta property="og:image" content="https://robert-mcdermott.github.io/cytoweave/assets/img/og-image.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="theme-color" content="#07090e" />
+  <link rel="icon" href="../assets/img/logo.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="../assets/css/site.css" />
+  <script>try { const t = localStorage.getItem('cytoweave-theme'); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
+  <script src="../assets/js/site.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="../"><img src="../assets/img/logo.svg" alt="" width="30" height="30" /><span>Cyto<b>Weave</b></span></a>
+      <nav class="site-nav" id="site-nav" aria-label="Main">
+        <a href="../#features">Features</a>
+        <a href="../docs/" aria-current="page">Documentation</a>
+        <a href="../install.html">Install</a>
+        <a href="../science.html">Science</a>
+      </nav>
+      <div class="header-actions">
+        <a class="icon-button" href="https://github.com/robert-mcdermott/cytoweave" aria-label="CytoWeave on GitHub">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5a11.5 11.5 0 0 0-3.64 22.41c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.37-3.88-1.37-.53-1.34-1.29-1.7-1.29-1.7-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.71 1.26 3.37.96.1-.75.4-1.26.73-1.55-2.56-.29-5.25-1.28-5.25-5.69 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.84 1.19 3.1 0 4.42-2.7 5.4-5.26 5.68.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .5Z"/></svg>
+        </a>
+        <button class="icon-button theme-toggle" type="button" aria-label="Switch between light and dark">
+          <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/></svg>
+          <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+        </button>
+        <button class="icon-button nav-toggle" type="button" aria-label="Menu" aria-controls="site-nav" aria-expanded="false">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div class="docs-layout">
+    <aside class="docs-sidebar" aria-label="Documentation">
+      <button class="btn docs-menu-toggle" type="button" aria-expanded="false">Documentation menu <span aria-hidden="true">▾</span></button>
+      <nav>
+        <h4>Start</h4>
+        <ul>
+          <li><a href="./">Overview</a></li>
+          <li><a href="getting-started.html">Getting started</a></li>
+          <li><a href="opening-data.html">Opening data</a></li>
+        </ul>
+        <h4>Analysis</h4>
+        <ul>
+          <li><a href="gating.html">Gating</a></li>
+          <li><a href="compensation.html">Compensation</a></li>
+          <li><a href="spectral.html">Spectral unmixing</a></li>
+          <li><a href="qc.html">Acquisition QC</a></li>
+          <li><a href="cohorts.html">Normalization and debarcoding</a></li>
+          <li><a href="explore.html">Clustering and maps</a></li>
+        </ul>
+        <h4>Results</h4>
+        <ul>
+          <li><a href="statistics.html">Tables and comparisons</a></li>
+          <li><a href="assays.html">Cell cycle, proliferation and index sorting</a></li>
+          <li><a href="figures.html" aria-current="page">Figures, methods and checkpoints</a></li>
+        </ul>
+        <h4>Share and automate</h4>
+        <ul>
+          <li><a href="workspaces.html">Workspaces and large files</a></li>
+          <li><a href="flowjo.html">FlowJo and Gating-ML</a></li>
+          <li><a href="agents.html">AI agents (MCP)</a></li>
+          <li><a href="scripting.html">Scripting and command line</a></li>
+        </ul>
+        <h4>Reference</h4>
+        <ul>
+          <li><a href="troubleshooting.html">Troubleshooting</a></li>
+        </ul>
+      </nav>
+    </aside>
+
+    <main id="main" class="doc">
+      <h1>Figures, methods and checkpoints</h1>
+      <p class="doc-lede">Leave with what a paper needs: figures that stay true to the analysis until you export them, a methods paragraph written from what you actually did, and a record of every change.</p>
+
+      <h2 id="figures">Publication figures</h2>
+      <figure>
+        <div class="shot"><img class="shot-dark" src="../assets/img/figures-dark.webp" width="2000" height="1250" loading="lazy" alt="The Figures view: a page holding the gating strategy of T cells, five plots from all events to T cells joined by arrows, with the page properties and buttons to add text, plots and arrows" /><img class="shot-light" src="../assets/img/figures-light.webp" width="2000" height="1250" loading="lazy" alt="The Figures view: a page holding the gating strategy of T cells, five plots from all events to T cells joined by arrows, with the page properties and buttons to add text, plots and arrows" /></div>
+        <figcaption>The gating strategy of T cells, built in one click.</figcaption>
+      </figure>
+      <p>The <strong>Figures</strong> view lays out pages of plots. <strong>Build</strong> one of three ways:</p>
+      <ul>
+        <li><strong>Gating strategy of the selected population:</strong> one plot per step of its gating path, joined by arrows. Select the population in the Gate view first.</li>
+        <li><strong>The current plots across samples:</strong> the selected population's plots from the Gate view, one row per sample (the samples of the group shown in the sample list, up to 24).</li>
+        <li><strong>Blank page:</strong> add <strong>Text</strong>, a <strong>Plot of the current population</strong> and <strong>Arrows</strong> yourself.</li>
+      </ul>
+      <p>Any plot's <strong>⋯</strong> menu in the Gate view also has <strong>Add to figure</strong>. Click an item to edit it, drag it to move it (it snaps to 5 px), drag its corner to resize it, and press <kbd>Delete</kbd> to remove it. Pages come in slide (16:9), Letter and A4 portrait, Letter landscape and square sizes, or any width and height.</p>
+      <p>Plots in a figure stay <strong>live</strong>: they follow gate edits and compensation changes until you export. Export the page as <strong>SVG</strong> (to edit in Illustrator or Inkscape), <strong>PNG</strong> or <strong>PDF (300 dpi)</strong>.</p>
+
+      <h2 id="methods">The methods paragraph</h2>
+      <figure>
+        <div class="shot"><img class="shot-dark" src="../assets/img/report-dark.webp" width="2000" height="1250" loading="lazy" alt="The Report view: a methods paragraph written from the PBMC workspace, describing the instrument, compensation, scales, gating hierarchy and analyses, with numbered references" /><img class="shot-light" src="../assets/img/report-light.webp" width="2000" height="1250" loading="lazy" alt="The Report view: a methods paragraph written from the PBMC workspace, describing the instrument, compensation, scales, gating hierarchy and analyses, with numbered references" /></div>
+        <figcaption>A methods paragraph written from the workspace, with numbered references.</figcaption>
+      </figure>
+      <p>The <strong>Report</strong> view writes the methods from what the workspace contains, not from a template:</p>
+      <ul>
+        <li>the instrument and files, from the files' keywords;</li>
+        <li>the compensation, and where it came from;</li>
+        <li>the scales of the channels;</li>
+        <li>the gating hierarchy;</li>
+        <li>every recorded analysis with its parameters and seed: QC, unmixing, normalization, clustering, embeddings, model fits;</li>
+        <li>the statistical comparisons you saved for the report.</li>
+      </ul>
+      <p>References are numbered, with DOIs. <strong>Copy</strong> the paragraph, or download it as <strong>Markdown</strong> and the references as <strong>BibTeX</strong>. Edit it to taste before publishing. Gates proposed by an <a href="agents.html">AI agent</a> and accepted by you are described as such.</p>
+
+      <h3 id="miflowcyt">MIFlowCyt</h3>
+      <p>The <strong>MIFlowCyt checklist</strong> (Lee et al. 2008) shows which items of the minimum information for a flow experiment the workspace documents and which are missing. CytoWeave fills what the files and the analysis record. The rest (the purpose of the experiment, specimen details, reagent clones and lots, instrument settings not in the files) belongs in the <strong>Workspace notes</strong> below it, which are saved with the workspace.</p>
+
+      <h2 id="checkpoints">Checkpoints</h2>
+      <p>A checkpoint keeps the gates, compensation and scales as they are, to compare with or return to later. Create one before you change an analysis, for example before adjusting gates for a revision:</p>
+      <ol>
+        <li>In <strong>Report → Checkpoints</strong>, click <strong>Create checkpoint</strong> and name it.</li>
+        <li>Change the analysis.</li>
+        <li>Select the checkpoint. CytoWeave lists what changed in words, such as "the Live gate moved by 3% of the axis" or "the compensation of 12 samples changed", and the effect on every population's frequency in the loaded samples.</li>
+        <li><strong>Restore</strong> returns to the checkpoint; the current analysis stays available through undo.</li>
+      </ol>
+
+      <h2 id="change-log">The change log</h2>
+      <p>Every change to the analysis is recorded, newest first, and saved with the workspace: who made it (you, or which agent proposed it and what you decided), when, and what changed. Download it as <strong>JSON</strong> for an audit trail.</p>
+
+      <h2 id="next">Where to go next</h2>
+      <div class="card-grid">
+        <a class="card" href="workspaces.html"><h3>Workspaces</h3><p>Archive the analysis with its FCS files.</p></a>
+        <a class="card" href="../science.html#cite"><h3>Cite CytoWeave</h3><p>The citation, and the methods it builds on.</p></a>
+        <a class="card" href="statistics.html#compare"><h3>Comparisons</h3><p>Save a comparison for the report.</p></a>
+      </div>
+
+      <nav class="doc-pager" aria-label="Pages">
+        <a class="prev" href="assays.html"><span>Previous</span>Cell cycle, proliferation and index sorting</a>
+        <a class="next" href="workspaces.html"><span>Next</span>Workspaces and large files</a>
+      </nav>
+    </main>
+
+    <aside class="toc" aria-label="On this page">
+      <h4>On this page</h4>
+      <ul></ul>
+    </aside>
+  </div>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-about">
+          <a class="brand" href="../"><img src="../assets/img/logo.svg" alt="" width="30" height="30" /><span>Cyto<b>Weave</b></span></a>
+          <p>A flow cytometry analysis workbench for conventional, spectral and mass cytometry. Free and open source under the Apache License 2.0.</p>
+        </div>
+        <div>
+          <h4>Product</h4>
+          <ul>
+            <li><a href="../#features">Features</a></li>
+            <li><a href="../install.html">Install</a></li>
+            <li><a href="../science.html">Science</a></li>
+            <li><a href="https://github.com/robert-mcdermott/cytoweave/blob/main/CHANGELOG.md">Changelog</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Documentation</h4>
+          <ul>
+            <li><a href="../docs/getting-started.html">Getting started</a></li>
+            <li><a href="../docs/gating.html">Gating</a></li>
+            <li><a href="../docs/agents.html">AI agents</a></li>
+            <li><a href="../docs/scripting.html">Scripting</a></li>
+            <li><a href="../docs/troubleshooting.html">Troubleshooting</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Project</h4>
+          <ul>
+            <li><a href="https://github.com/robert-mcdermott/cytoweave">GitHub</a></li>
+            <li><a href="https://github.com/robert-mcdermott/cytoweave/releases">Releases</a></li>
+            <li><a href="https://github.com/robert-mcdermott/cytoweave/issues">Issues</a></li>
+            <li><a href="../science.html#cite">Cite CytoWeave</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">CytoWeave is licensed under the Apache License 2.0. It is research software, not a medical device. The example experiments are simulated; see <a href="../science.html#credits">credits and trademarks</a>.</div>
+    </div>
+  </footer>
+</body>
+</html>

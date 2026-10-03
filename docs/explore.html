@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Clustering and maps · CytoWeave</title>
+  <meta name="description" content="Cluster cytometry data across samples with FlowSOM, Leiden (PhenoGraph), Louvain or k-means, make UMAP, t-SNE or PCA maps, check how faithful a map is, name clusters by marker enrichment, place new samples on a finished UMAP, and turn clusters into populations." />
+  <link rel="canonical" href="https://robert-mcdermott.github.io/cytoweave/docs/explore.html" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Clustering and maps" />
+  <meta property="og:description" content="Cluster cytometry data across samples with FlowSOM, Leiden (PhenoGraph), Louvain or k-means, make UMAP, t-SNE or PCA maps, check how faithful a map is, name clusters by marker enrichment, place new samples on a finished UMAP, and turn clusters into populations." />
+  <meta property="og:url" content="https://robert-mcdermott.github.io/cytoweave/docs/explore.html" />
+  <meta property="og:image" content="https://robert-mcdermott.github.io/cytoweave/assets/img/og-image.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="theme-color" content="#07090e" />
+  <link rel="icon" href="../assets/img/logo.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="../assets/css/site.css" />
+  <script>try { const t = localStorage.getItem('cytoweave-theme'); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
+  <script src="../assets/js/site.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="../"><img src="../assets/img/logo.svg" alt="" width="30" height="30" /><span>Cyto<b>Weave</b></span></a>
+      <nav class="site-nav" id="site-nav" aria-label="Main">
+        <a href="../#features">Features</a>
+        <a href="../docs/" aria-current="page">Documentation</a>
+        <a href="../install.html">Install</a>
+        <a href="../science.html">Science</a>
+      </nav>
+      <div class="header-actions">
+        <a class="icon-button" href="https://github.com/robert-mcdermott/cytoweave" aria-label="CytoWeave on GitHub">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5a11.5 11.5 0 0 0-3.64 22.41c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.37-3.88-1.37-.53-1.34-1.29-1.7-1.29-1.7-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.71 1.26 3.37.96.1-.75.4-1.26.73-1.55-2.56-.29-5.25-1.28-5.25-5.69 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.84 1.19 3.1 0 4.42-2.7 5.4-5.26 5.68.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .5Z"/></svg>
+        </a>
+        <button class="icon-button theme-toggle" type="button" aria-label="Switch between light and dark">
+          <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/></svg>
+          <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+        </button>
+        <button class="icon-button nav-toggle" type="button" aria-label="Menu" aria-controls="site-nav" aria-expanded="false">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div class="docs-layout">
+    <aside class="docs-sidebar" aria-label="Documentation">
+      <button class="btn docs-menu-toggle" type="button" aria-expanded="false">Documentation menu <span aria-hidden="true">▾</span></button>
+      <nav>
+        <h4>Start</h4>
+        <ul>
+          <li><a href="./">Overview</a></li>
+          <li><a href="getting-started.html">Getting started</a></li>
+          <li><a href="opening-data.html">Opening data</a></li>
+        </ul>
+        <h4>Analysis</h4>
+        <ul>
+          <li><a href="gating.html">Gating</a></li>
+          <li><a href="compensation.html">Compensation</a></li>
+          <li><a href="spectral.html">Spectral unmixing</a></li>
+          <li><a href="qc.html">Acquisition QC</a></li>
+          <li><a href="cohorts.html">Normalization and debarcoding</a></li>
+          <li><a href="explore.html" aria-current="page">Clustering and maps</a></li>
+        </ul>
+        <h4>Results</h4>
+        <ul>
+          <li><a href="statistics.html">Tables and comparisons</a></li>
+          <li><a href="assays.html">Cell cycle, proliferation and index sorting</a></li>
+          <li><a href="figures.html">Figures, methods and checkpoints</a></li>
+        </ul>
+        <h4>Share and automate</h4>
+        <ul>
+          <li><a href="workspaces.html">Workspaces and large files</a></li>
+          <li><a href="flowjo.html">FlowJo and Gating-ML</a></li>
+          <li><a href="agents.html">AI agents (MCP)</a></li>
+          <li><a href="scripting.html">Scripting and command line</a></li>
+        </ul>
+        <h4>Reference</h4>
+        <ul>
+          <li><a href="troubleshooting.html">Troubleshooting</a></li>
+        </ul>
+      </nav>
+    </aside>
+
+    <main id="main" class="doc">
+      <h1>Clustering and maps</h1>
+      <p class="doc-lede">Cluster a population across samples, look at it as a map, and find out how far the map can be trusted before you read anything into it.</p>
+
+      <h2 id="run">Running an analysis</h2>
+      <figure>
+        <div class="shot"><img class="shot-dark" src="../assets/img/explore-dark.webp" width="2000" height="1250" loading="lazy" alt="The Explore view: settings on the left, a UMAP of 60,000 live cells from 12 samples coloured by 12 FlowSOM clusters in the middle, and the faithfulness panel with trustworthiness 0.99, continuity 0.99 and kNN kept 13.6% on the right" /><img class="shot-light" src="../assets/img/explore-light.webp" width="2000" height="1250" loading="lazy" alt="The Explore view: settings on the left, a UMAP of 60,000 live cells from 12 samples coloured by 12 FlowSOM clusters in the middle, and the faithfulness panel with trustworthiness 0.99, continuity 0.99 and kNN kept 13.6% on the right" /></div>
+        <figcaption>Live cells of 12 samples: FlowSOM clusters on a UMAP, with the map's faithfulness and a plain-language reading.</figcaption>
+      </figure>
+      <ol>
+        <li><strong>Cells.</strong> Choose the <strong>Population</strong> (usually live single cells, or a lineage such as T cells), the <strong>Samples</strong> (all samples except controls, a group, or the current sample), the <strong>Events per sample</strong> to embed and the <strong>Seed</strong>. The map embeds an equal number of events from each sample, so no sample dominates; clustering uses every event of the population.</li>
+        <li><strong>Markers.</strong> Lineage and phenotype markers are chosen for you; viability, DNA, dump and bead channels are left out. Values use each channel's scale (logicle, arcsinh) as in the plots.</li>
+        <li><strong>Methods.</strong> Choose a clustering, an embedding, or both:
+          <ul>
+            <li><strong>FlowSOM:</strong> a self-organizing map of grid × grid nodes (10 × 10 by default), metaclustered by consensus clustering into the number of <strong>Metaclusters</strong> you choose.</li>
+            <li><strong>Leiden</strong> (as in PhenoGraph) or <strong>Louvain:</strong> community detection on a nearest-neighbour graph; <strong>Resolution</strong> sets how finely it splits.</li>
+            <li><strong>k-means</strong> (k-means++ seeding, Hamerly's algorithm).</li>
+            <li><strong>UMAP</strong> (<strong>Neighbours</strong>, 15 by default, favours global structure as it grows; <strong>Minimum distance</strong>, 0.1, sets how tightly points pack), <strong>t-SNE</strong> (<strong>Perplexity</strong>, 30 by default, with opt-SNE's learning rate), or <strong>PCA</strong>.</li>
+          </ul>
+        </li>
+        <li>Click <strong>Run</strong>. Large analyses run in background workers; the same seed always gives the same result.</li>
+      </ol>
+      <p>Colour the map by cluster, density, sample, any annotation or any marker, and click a legend entry to highlight it (<kbd>⌥</kbd>-click hides it). In the examples, <strong>Simulated truth</strong> colours by each event's true cell type.</p>
+
+      <h2 id="faithful">How faithful is the map?</h2>
+      <p>A UMAP or t-SNE map always looks convincing. The panel on the right measures what the picture cannot show:</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Measure</th><th>Question</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Trustworthiness</strong></td><td>Are neighbours on the map true neighbours in marker space? (Venna and Kaski; 1 is perfect)</td></tr>
+            <tr><td><strong>Continuity</strong></td><td>Do true neighbours stay together on the map?</td></tr>
+            <tr><td><strong>kNN kept</strong></td><td>The share of each event's 15 nearest neighbours that stay among its nearest on the map. A strict test: t-SNE and UMAP usually keep a minority, because among similar cells the very nearest are largely noise.</td></tr>
+            <tr><td><strong>Sample mixing</strong> on the map and in the data</td><td>LISI (Korsunsky et al.), as a fraction of perfect mixing. If samples mix less on the map than in the data, the map is separating samples that the data do not.</td></tr>
+            <tr><td><strong>Compare with another seed</strong></td><td>The share of neighbours shared between two runs, and how much the arrangement changed (Procrustes)</td></tr>
+            <tr><td><strong>Shade unreliable regions</strong></td><td>Dims events whose map neighbours mostly come from elsewhere in the data</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>Each result comes with a plain-language reading, such as "Islands are meaningful, the arrangement of events within them is not."</p>
+
+      <h2 id="clusters">Clusters</h2>
+      <figure>
+        <div class="shot"><img class="shot-dark" src="../assets/img/explore-clusters-dark.webp" width="2000" height="1250" loading="lazy" alt="The cluster heatmap: the median of every marker per FlowSOM cluster, scaled per marker, with marker enrichment names such as CD3+ CD4+ CD127+" /><img class="shot-light" src="../assets/img/explore-clusters-light.webp" width="2000" height="1250" loading="lazy" alt="The cluster heatmap: the median of every marker per FlowSOM cluster, scaled per marker, with marker enrichment names such as CD3+ CD4+ CD127+" /></div>
+        <figcaption>Each cluster's median of every marker, with names from marker enrichment.</figcaption>
+      </figure>
+      <ul>
+        <li>The <strong>heatmap</strong> shows each cluster's median of every marker, scaled from the 1st to the 99th percentile, with rows and columns ordered by similarity. Click a cluster to find it on the map.</li>
+        <li>Clusters are <strong>named from their marker enrichment</strong> (MEM, Diggins et al.): "C3 CD3+ CD4+ CD127+".</li>
+        <li><strong>Cluster frequencies per sample</strong> lists each cluster as a percentage of the population in every sample. <strong>Test differences</strong> takes them to <a href="statistics.html#screens">Compare</a>.</li>
+        <li><strong>Make populations of the clusters</strong> adds one gate per cluster under the population, so clusters get plots, statistics and figures like gated populations. <strong>CSV</strong> exports the cluster table.</li>
+        <li><strong>Lasso a population</strong> draws around cells on the map to make a population of them.</li>
+      </ul>
+
+      <h2 id="place">Placing new samples on a map</h2>
+      <figure>
+        <div class="shot"><img class="shot-dark" src="../assets/img/explore-placed-dark.webp" width="2000" height="1250" loading="lazy" alt="A UMAP made from D01_Unstim, with D01_Stim and D02_Stim placed on it, coloured by sample: the three samples overlap in every island" /><img class="shot-light" src="../assets/img/explore-placed-light.webp" width="2000" height="1250" loading="lazy" alt="A UMAP made from D01_Unstim, with D01_Stim and D02_Stim placed on it, coloured by sample: the three samples overlap in every island" /></div>
+        <figcaption>A map made from one sample, with two more placed on it afterwards.</figcaption>
+      </figure>
+      <p>A UMAP changes every time it is recomputed, which makes it hard to compare samples acquired later. <strong>Place samples on this map</strong> positions other samples' events on a finished UMAP without changing it (the UMAP transform). Choose the samples, click <strong>Place</strong>, and select <strong>With the placed samples</strong> to see them with the original ones. A placed sample whose cells land outside the islands holds cells the map was not built from.</p>
+
+      <h2 id="next">Where to go next</h2>
+      <div class="card-grid">
+        <a class="card" href="statistics.html#screens"><h3>Screen clusters</h3><p>Differential abundance of every cluster.</p></a>
+        <a class="card" href="cohorts.html#normalize"><h3>Per-cluster normalization</h3><p>CytoNorm per cluster.</p></a>
+        <a class="card" href="gating.html"><h3>Gating</h3><p>Once clusters are populations, plot, gate and backgate them.</p></a>
+      </div>
+
+      <nav class="doc-pager" aria-label="Pages">
+        <a class="prev" href="cohorts.html"><span>Previous</span>Normalization and debarcoding</a>
+        <a class="next" href="statistics.html"><span>Next</span>Tables and comparisons</a>
+      </nav>
+    </main>
+
+    <aside class="toc" aria-label="On this page">
+      <h4>On this page</h4>
+      <ul></ul>
+    </aside>
+  </div>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-about">
+          <a class="brand" href="../"><img src="../assets/img/logo.svg" alt="" width="30" height="30" /><span>Cyto<b>Weave</b></span></a>
+          <p>A flow cytometry analysis workbench for conventional, spectral and mass cytometry. Free and open source under the Apache License 2.0.</p>
+        </div>
+        <div>
+          <h4>Product</h4>
+          <ul>
+            <li><a href="../#features">Features</a></li>
+            <li><a href="../install.html">Install</a></li>
+            <li><a href="../science.html">Science</a></li>
+            <li><a href="https://github.com/robert-mcdermott/cytoweave/blob/main/CHANGELOG.md">Changelog</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Documentation</h4>
+          <ul>
+            <li><a href="../docs/getting-started.html">Getting started</a></li>
+            <li><a href="../docs/gating.html">Gating</a></li>
+            <li><a href="../docs/agents.html">AI agents</a></li>
+            <li><a href="../docs/scripting.html">Scripting</a></li>
+            <li><a href="../docs/troubleshooting.html">Troubleshooting</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Project</h4>
+          <ul>
+            <li><a href="https://github.com/robert-mcdermott/cytoweave">GitHub</a></li>
+            <li><a href="https://github.com/robert-mcdermott/cytoweave/releases">Releases</a></li>
+            <li><a href="https://github.com/robert-mcdermott/cytoweave/issues">Issues</a></li>
+            <li><a href="../science.html#cite">Cite CytoWeave</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">CytoWeave is licensed under the Apache License 2.0. It is research software, not a medical device. The example experiments are simulated; see <a href="../science.html#credits">credits and trademarks</a>.</div>
+    </div>
+  </footer>
+</body>
+</html>

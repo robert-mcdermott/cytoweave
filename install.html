@@ -1,0 +1,238 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Install · CytoWeave</title>
+  <meta name="description" content="Install CytoWeave on macOS, Linux or Windows with one command. One self-contained program, checked against its SHA-256 checksum, with no administrator rights needed." />
+  <link rel="canonical" href="https://robert-mcdermott.github.io/cytoweave/install.html" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Install" />
+  <meta property="og:description" content="Install CytoWeave on macOS, Linux or Windows with one command. One self-contained program, checked against its SHA-256 checksum, with no administrator rights needed." />
+  <meta property="og:url" content="https://robert-mcdermott.github.io/cytoweave/install.html" />
+  <meta property="og:image" content="https://robert-mcdermott.github.io/cytoweave/assets/img/og-image.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="theme-color" content="#07090e" />
+  <link rel="icon" href="assets/img/logo.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="assets/css/site.css" />
+  <script>try { const t = localStorage.getItem('cytoweave-theme'); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
+  <script src="assets/js/site.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="./"><img src="assets/img/logo.svg" alt="" width="30" height="30" /><span>Cyto<b>Weave</b></span></a>
+      <nav class="site-nav" id="site-nav" aria-label="Main">
+        <a href="./#features">Features</a>
+        <a href="docs/">Documentation</a>
+        <a href="install.html" aria-current="page">Install</a>
+        <a href="science.html">Science</a>
+      </nav>
+      <div class="header-actions">
+        <a class="icon-button" href="https://github.com/robert-mcdermott/cytoweave" aria-label="CytoWeave on GitHub">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5a11.5 11.5 0 0 0-3.64 22.41c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.37-3.88-1.37-.53-1.34-1.29-1.7-1.29-1.7-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.71 1.26 3.37.96.1-.75.4-1.26.73-1.55-2.56-.29-5.25-1.28-5.25-5.69 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.84 1.19 3.1 0 4.42-2.7 5.4-5.26 5.68.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .5Z"/></svg>
+        </a>
+        <button class="icon-button theme-toggle" type="button" aria-label="Switch between light and dark">
+          <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/></svg>
+          <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+        </button>
+        <button class="icon-button nav-toggle" type="button" aria-label="Menu" aria-controls="site-nav" aria-expanded="false">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div class="page-layout">
+    <main id="main" class="doc">
+      <h1>Install CytoWeave</h1>
+      <p class="doc-lede">CytoWeave is one executable. The browser application and the example experiments are inside it, so nothing else needs to be installed. One command downloads the release for your computer, checks it and installs it.</p>
+
+      <div class="install-card" style="max-width:none">
+        <div class="tablist" role="tablist" aria-label="Operating system" data-os>
+          <button class="tab" role="tab" id="tab-unix" aria-controls="panel-unix" aria-selected="true" data-os="macos linux">macOS and Linux</button>
+          <button class="tab" role="tab" id="tab-win" aria-controls="panel-win" aria-selected="false" tabindex="-1" data-os="windows">Windows</button>
+        </div>
+        <div class="tabpanel" role="tabpanel" id="panel-unix" aria-labelledby="tab-unix">
+          <div class="code wrap"><pre><code><span class="prompt">$ </span>curl --proto '=https' --tlsv1.2 -fsSL https://raw.githubusercontent.com/robert-mcdermott/cytoweave/main/install.sh | sh</code></pre></div>
+          <p class="note">Installs the latest release as <code>~/.local/bin/cytoweave</code>. No <code>sudo</code>, and your <code>PATH</code> is left as it is; if <code>~/.local/bin</code> is not on it, the installer prints the full path to run.</p>
+        </div>
+        <div class="tabpanel" role="tabpanel" id="panel-win" aria-labelledby="tab-win" hidden>
+          <div class="code wrap"><pre><code><span class="prompt">PS&gt; </span>irm https://raw.githubusercontent.com/robert-mcdermott/cytoweave/main/install.ps1 | iex</code></pre></div>
+          <p class="note">Run in PowerShell. Installs to <code>%LocalAppData%\Programs\CytoWeave</code> and adds it to your user <code>PATH</code>. No administrator rights and no change to the execution policy needed.</p>
+        </div>
+      </div>
+
+      <h2 id="start">Start it</h2>
+      <div class="code"><pre><code><span class="prompt">$ </span>cytoweave</code></pre></div>
+      <p>CytoWeave starts a local server and opens its window. If Chrome, Edge, Brave or Chromium is installed, the window is a desktop app window with its own profile; otherwise your default browser is used. Closing the window stops the program. On Windows, open a new terminal after installing so that it sees the updated <code>PATH</code>.</p>
+      <p>Files and folders named on the command line open directly, and running <code>cytoweave &lt;files&gt;</code> again while it is open hands them to the open window:</p>
+      <div class="code"><pre><code><span class="prompt">$ </span>cytoweave ~/data/2026-09-30_panel1/</code></pre></div>
+      <p>Then continue with <a href="docs/getting-started.html">Getting started</a>.</p>
+
+      <h2 id="requirements">Requirements</h2>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Operating system</th><th>Architecture</th><th>Release file</th></tr></thead>
+          <tbody>
+            <tr><td><strong>macOS</strong></td><td>Apple silicon (ARM64)</td><td><code>cytoweave-darwin-arm64</code></td></tr>
+            <tr><td><strong>macOS</strong></td><td>Intel (x64)</td><td><code>cytoweave-darwin-amd64</code></td></tr>
+            <tr><td><strong>Linux</strong></td><td>x64</td><td><code>cytoweave-linux-amd64</code></td></tr>
+            <tr><td><strong>Linux</strong></td><td>ARM64</td><td><code>cytoweave-linux-arm64</code></td></tr>
+            <tr><td><strong>Windows</strong></td><td>x64</td><td><code>cytoweave-windows-amd64.exe</code></td></tr>
+            <tr><td><strong>Windows</strong></td><td>ARM64</td><td><code>cytoweave-windows-arm64.exe</code></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>Each release also has <code>SHA256SUMS</code>, the checksum of every file, which the installers require.</p>
+      <p>CytoWeave runs in a browser window. It is developed and tested in Chrome, Edge and Brave. It uses only standard web features (module workers, canvas, IndexedDB and the origin-private file system), so current Firefox and Safari should work when you open the printed address in them, but they are not tested regularly.</p>
+      <p>Memory is the limit for very large experiments: plan on about 4 bytes per event per parameter of every loaded sample, plus as much again for the compensated channels in use. See <a href="docs/workspaces.html#large-files">large files</a>.</p>
+
+      <h2 id="what-it-does">What the installer does</h2>
+      <p>The installer detects your operating system and processor, downloads the matching file and <code>SHA256SUMS</code> from the same GitHub release, and requires exactly one matching checksum. It then runs the downloaded program's <code>--version</code>, and only after both checks pass does it move the program into place, so a failed download never replaces a working copy. It does not start CytoWeave.</p>
+      <p>Because it downloads with <code>curl</code> or PowerShell rather than a browser, the program does not get the quarantine flag (macOS) or the mark of the web (Windows), so you are not asked to confirm an unsigned download.</p>
+      <div class="callout"><p><strong>Read it first.</strong> Both installers are short scripts in the repository: <a href="https://github.com/robert-mcdermott/cytoweave/blob/main/install.sh"><code>install.sh</code></a> and <a href="https://github.com/robert-mcdermott/cytoweave/blob/main/install.ps1"><code>install.ps1</code></a>.</p></div>
+
+      <h2 id="options">Versions and install locations</h2>
+      <h3 id="options-unix">macOS and Linux</h3>
+      <p>Download the installer to read it, then run it with options:</p>
+      <div class="code wrap"><pre><code><span class="prompt">$ </span>curl --proto '=https' --tlsv1.2 -fsSLo install-cytoweave.sh https://raw.githubusercontent.com/robert-mcdermott/cytoweave/main/install.sh
+<span class="prompt">$ </span>less install-cytoweave.sh
+<span class="prompt">$ </span>sh install-cytoweave.sh --version v0.2.0 --install-dir "$HOME/bin"</code></pre></div>
+      <p>The piped form reads the same settings from environment variables:</p>
+      <div class="code wrap"><pre><code><span class="prompt">$ </span>curl --proto '=https' --tlsv1.2 -fsSL https://raw.githubusercontent.com/robert-mcdermott/cytoweave/main/install.sh | CYTOWEAVE_VERSION=v0.2.0 sh</code></pre></div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Option</th><th>Environment variable</th><th>Purpose</th></tr></thead>
+          <tbody>
+            <tr><td><code>--version</code></td><td><code>CYTOWEAVE_VERSION</code></td><td>Release tag to install, such as <code>v0.2.0</code>. Defaults to the latest release.</td></tr>
+            <tr><td><code>--install-dir</code></td><td><code>CYTOWEAVE_INSTALL_DIR</code></td><td>Absolute installation folder. Defaults to <code>$HOME/.local/bin</code>.</td></tr>
+            <tr><td></td><td><code>CYTOWEAVE_REPOSITORY</code></td><td>GitHub <code>owner/repository</code>, to install from a fork.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>For a system-wide installation, download and read the script, then run it with an administrator-owned <code>--install-dir</code>. Never pipe a download straight into <code>sudo sh</code>.</p>
+
+      <h3 id="options-windows">Windows</h3>
+      <p><code>irm … | iex</code> reads the script into memory and runs it, so the PowerShell execution policy, which governs script files, does not apply. Piping cannot pass parameters: set environment variables instead, or build a script block.</p>
+      <div class="code"><span class="code-label">powershell</span><pre><code>$env:CYTOWEAVE_VERSION = 'v0.2.0'
+$env:CYTOWEAVE_INSTALL_DIR = "$HOME\bin"
+irm https://raw.githubusercontent.com/robert-mcdermott/cytoweave/main/install.ps1 | iex</code></pre></div>
+      <div class="code"><span class="code-label">powershell</span><pre><code>&amp; ([scriptblock]::Create((irm https://raw.githubusercontent.com/robert-mcdermott/cytoweave/main/install.ps1))) `
+  -Version v0.2.0 -InstallDir "$HOME\bin"</code></pre></div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Parameter</th><th>Environment variable</th><th>Purpose</th></tr></thead>
+          <tbody>
+            <tr><td><code>-Version</code></td><td><code>CYTOWEAVE_VERSION</code></td><td>Release tag to install. Defaults to the latest release.</td></tr>
+            <tr><td><code>-InstallDir</code></td><td><code>CYTOWEAVE_INSTALL_DIR</code></td><td>Absolute installation folder.</td></tr>
+            <tr><td><code>-Repository</code></td><td><code>CYTOWEAVE_REPOSITORY</code></td><td>GitHub <code>owner/repository</code>, for forks.</td></tr>
+            <tr><td><code>-Architecture</code></td><td><code>CYTOWEAVE_ARCH</code></td><td><code>amd64</code> or <code>arm64</code>, when detection fails.</td></tr>
+            <tr><td><code>-NoPathUpdate</code></td><td><code>CYTOWEAVE_NO_PATH_UPDATE</code></td><td>Leave the user <code>PATH</code> unchanged.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>A parameter takes precedence over its environment variable. A saved copy of the installer is subject to the execution policy; bypass it for that one run rather than changing the setting:</p>
+      <div class="code"><span class="code-label">powershell</span><pre><code>powershell -ExecutionPolicy Bypass -File .\install-cytoweave.ps1</code></pre></div>
+
+      <h2 id="manual">Downloading and verifying by hand</h2>
+      <p>Choose the file for your computer from the table above. On macOS, use <code>shasum -a 256 --check -</code> in place of <code>sha256sum --check -</code>.</p>
+      <div class="code"><span class="code-label">macOS and Linux</span><pre><code>ASSET=cytoweave-linux-amd64
+curl -fLO "https://github.com/robert-mcdermott/cytoweave/releases/latest/download/$ASSET"
+curl -fLO https://github.com/robert-mcdermott/cytoweave/releases/latest/download/SHA256SUMS
+grep "  $ASSET\$" SHA256SUMS | sha256sum --check -
+chmod +x "$ASSET"
+./"$ASSET" --version</code></pre></div>
+      <div class="code"><span class="code-label">powershell</span><pre><code>$Asset = 'cytoweave-windows-amd64.exe'
+$Base = 'https://github.com/robert-mcdermott/cytoweave/releases/latest/download'
+Invoke-WebRequest -UseBasicParsing "$Base/$Asset" -OutFile $Asset
+Invoke-WebRequest -UseBasicParsing "$Base/SHA256SUMS" -OutFile SHA256SUMS
+$Expected = (Select-String -Path SHA256SUMS -Pattern ('  ' + [regex]::Escape($Asset) + '$')).Line.Split(' ')[0]
+$Actual = (Get-FileHash -Algorithm SHA256 $Asset).Hash.ToLowerInvariant()
+if ($Actual -ne $Expected) { throw 'Checksum verification failed' }
+&amp; ".\$Asset" --version</code></pre></div>
+      <p>The checksum detects a damaged download and a file that differs from the release's list. Both come from the same release, so it cannot protect against someone able to replace both.</p>
+
+      <h3 id="unsigned">Files downloaded in a browser</h3>
+      <p>CytoWeave's programs are not signed with an Apple or Microsoft certificate. A file saved from a browser is flagged, and its first start asks for confirmation.</p>
+      <ul>
+        <li><strong>macOS:</strong> a warning such as <em>Apple could not verify "cytoweave-darwin-arm64" is free of malware</em> appears. Open <strong>System Settings → Privacy &amp; Security</strong> and click <strong>Open Anyway</strong> next to the message about CytoWeave, or remove the flag with <code>xattr -d com.apple.quarantine ./cytoweave-darwin-arm64</code>.</li>
+        <li><strong>Windows:</strong> if SmartScreen blocks the program, click <strong>More info</strong>, then <strong>Run anyway</strong>, or run <code>Unblock-File .\cytoweave-windows-amd64.exe</code> in PowerShell first.</li>
+      </ul>
+
+      <h2 id="upgrade">Upgrading and going back</h2>
+      <p>Running the installer again upgrades CytoWeave. A failed download, checksum or version check leaves the installed copy as it was, and the workspace library is not touched. Windows cannot replace a running program, so close CytoWeave before upgrading there. To go back to an earlier release (v0.1.0 or later), install it by tag as shown above.</p>
+
+      <h2 id="uninstall">Uninstalling</h2>
+      <p>Delete the program: <code>~/.local/bin/cytoweave</code> on macOS and Linux, or the <code>%LocalAppData%\Programs\CytoWeave</code> folder on Windows, whose entry you can also remove from the user <code>PATH</code>.</p>
+      <p>Your workspace library (saved workspaces, and one copy of each FCS file you added, stored by checksum) is separate:</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>System</th><th>Library folder</th></tr></thead>
+          <tbody>
+            <tr><td>macOS</td><td><code>~/Library/Application Support/CytoWeave</code></td></tr>
+            <tr><td>Linux</td><td><code>~/.config/CytoWeave</code> (or <code>$XDG_CONFIG_HOME/CytoWeave</code>)</td></tr>
+            <tr><td>Windows</td><td><code>%AppData%\CytoWeave</code></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>Delete it only if you no longer need those workspaces.</p>
+
+      <h2 id="source">Building from source</h2>
+      <p>With Go 1.24 or later (CytoWeave uses only the standard library):</p>
+      <div class="code"><pre><code><span class="prompt">$ </span>git clone https://github.com/robert-mcdermott/cytoweave.git
+<span class="prompt">$ </span>cd cytoweave
+<span class="prompt">$ </span>go build -o cytoweave .
+<span class="prompt">$ </span>./cytoweave</code></pre></div>
+      <p>The web application is plain ES modules, with no build step. The <a href="https://github.com/robert-mcdermott/cytoweave#development">README's Development section</a> covers tests, the validation suite and releases.</p>
+    </main>
+
+    <aside class="toc" aria-label="On this page">
+      <h4>On this page</h4>
+      <ul></ul>
+    </aside>
+  </div>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-about">
+          <a class="brand" href="./"><img src="assets/img/logo.svg" alt="" width="30" height="30" /><span>Cyto<b>Weave</b></span></a>
+          <p>A flow cytometry analysis workbench for conventional, spectral and mass cytometry. Free and open source under the Apache License 2.0.</p>
+        </div>
+        <div>
+          <h4>Product</h4>
+          <ul>
+            <li><a href="./#features">Features</a></li>
+            <li><a href="install.html">Install</a></li>
+            <li><a href="science.html">Science</a></li>
+            <li><a href="https://github.com/robert-mcdermott/cytoweave/blob/main/CHANGELOG.md">Changelog</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Documentation</h4>
+          <ul>
+            <li><a href="docs/getting-started.html">Getting started</a></li>
+            <li><a href="docs/gating.html">Gating</a></li>
+            <li><a href="docs/agents.html">AI agents</a></li>
+            <li><a href="docs/scripting.html">Scripting</a></li>
+            <li><a href="docs/troubleshooting.html">Troubleshooting</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Project</h4>
+          <ul>
+            <li><a href="https://github.com/robert-mcdermott/cytoweave">GitHub</a></li>
+            <li><a href="https://github.com/robert-mcdermott/cytoweave/releases">Releases</a></li>
+            <li><a href="https://github.com/robert-mcdermott/cytoweave/issues">Issues</a></li>
+            <li><a href="science.html#cite">Cite CytoWeave</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">CytoWeave is licensed under the Apache License 2.0. It is research software, not a medical device. The example experiments are simulated; see <a href="science.html#credits">credits and trademarks</a>.</div>
+    </div>
+  </footer>
+</body>
+</html>

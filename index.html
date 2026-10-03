@@ -1,0 +1,434 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CytoWeave: flow cytometry analysis you can check</title>
+  <meta name="description" content="A flow cytometry analysis workbench for conventional, spectral and mass cytometry. Gating, compensation, spectral unmixing, QC, clustering, statistics and publication figures in one self-contained program for your own computer; your files never leave your machine." />
+  <link rel="canonical" href="https://robert-mcdermott.github.io/cytoweave/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="CytoWeave" />
+  <meta property="og:description" content="A flow cytometry analysis workbench for conventional, spectral and mass cytometry. Gating, compensation, spectral unmixing, QC, clustering, statistics and publication figures in one self-contained program for your own computer; your files never leave your machine." />
+  <meta property="og:url" content="https://robert-mcdermott.github.io/cytoweave/" />
+  <meta property="og:image" content="https://robert-mcdermott.github.io/cytoweave/assets/img/og-image.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="theme-color" content="#07090e" />
+  <link rel="icon" href="assets/img/logo.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="assets/css/site.css" />
+  <script>try { const t = localStorage.getItem('cytoweave-theme'); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
+  <script src="assets/js/site.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="./"><img src="assets/img/logo.svg" alt="" width="30" height="30" /><span>Cyto<b>Weave</b></span></a>
+      <nav class="site-nav" id="site-nav" aria-label="Main">
+        <a href="./#features">Features</a>
+        <a href="docs/">Documentation</a>
+        <a href="install.html">Install</a>
+        <a href="science.html">Science</a>
+      </nav>
+      <div class="header-actions">
+        <a class="icon-button" href="https://github.com/robert-mcdermott/cytoweave" aria-label="CytoWeave on GitHub">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5a11.5 11.5 0 0 0-3.64 22.41c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.37-3.88-1.37-.53-1.34-1.29-1.7-1.29-1.7-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.71 1.26 3.37.96.1-.75.4-1.26.73-1.55-2.56-.29-5.25-1.28-5.25-5.69 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.84 1.19 3.1 0 4.42-2.7 5.4-5.26 5.68.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .5Z"/></svg>
+        </a>
+        <button class="icon-button theme-toggle" type="button" aria-label="Switch between light and dark">
+          <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/></svg>
+          <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+        </button>
+        <button class="icon-button nav-toggle" type="button" aria-label="Menu" aria-controls="site-nav" aria-expanded="false">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="hero">
+      <div class="container hero-grid">
+        <a class="eyebrow" href="https://github.com/robert-mcdermott/cytoweave/releases/tag/v0.2.0"><span class="pill">v0.2.0</span> AI agents that propose, Boolean populations, index sorting and ten-million-event samples</a>
+        <h1>Flow cytometry analysis <span class="accent">you can check</span></h1>
+        <p class="lede">CytoWeave is an analysis workbench for conventional, spectral and mass cytometry. It runs on your own computer as one self-contained program, installed with a single command: no licence server, no account, no Python, R or plugins. Files are read and analyzed in your browser and never leave your machine.</p>
+        <figure class="hero-shot">
+        <div class="shot shot-window" data-url="127.0.0.1:8770"><img class="shot-dark" src="assets/img/gate-dark.webp" width="2000" height="1250" fetchpriority="high" alt="The Gate view of CytoWeave: the gating path of T cells in a 14-colour PBMC experiment, with CD4 against CD8 and CD45RA against CCR7 plots, the population tree and the T-cell statistics" /><img class="shot-light" src="assets/img/gate-light.webp" width="2000" height="1250" fetchpriority="high" alt="The Gate view of CytoWeave: the gating path of T cells in a 14-colour PBMC experiment, with CD4 against CD8 and CD45RA against CCR7 plots, the population tree and the T-cell statistics" /></div>
+        <figcaption>The gating path of T cells in the bundled 14-colour PBMC experiment, one of nine example experiments.</figcaption>
+      </figure>
+        <div class="btn-row">
+          <a class="btn btn-primary" href="install.html">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg>
+            Install CytoWeave
+          </a>
+          <a class="btn" href="docs/">Read the guide</a>
+        </div>
+
+        <div class="install-card">
+          <div class="tablist" role="tablist" aria-label="Operating system" data-os>
+            <button class="tab" role="tab" id="hero-tab-unix" aria-controls="hero-panel-unix" aria-selected="true" data-os="macos linux">macOS and Linux</button>
+            <button class="tab" role="tab" id="hero-tab-win" aria-controls="hero-panel-win" aria-selected="false" tabindex="-1" data-os="windows">Windows</button>
+          </div>
+          <div class="tabpanel" role="tabpanel" id="hero-panel-unix" aria-labelledby="hero-tab-unix">
+            <div class="code wrap"><pre><code><span class="prompt">$ </span>curl --proto '=https' --tlsv1.2 -fsSL https://raw.githubusercontent.com/robert-mcdermott/cytoweave/main/install.sh | sh</code></pre></div>
+            <p class="note">Installs the latest release in <code>~/.local/bin</code> after checking its SHA-256 checksum, then prints how to start it. <a href="install.html">Other options</a></p>
+          </div>
+          <div class="tabpanel" role="tabpanel" id="hero-panel-win" aria-labelledby="hero-tab-win" hidden>
+            <div class="code wrap"><pre><code><span class="prompt">PS&gt; </span>irm https://raw.githubusercontent.com/robert-mcdermott/cytoweave/main/install.ps1 | iex</code></pre></div>
+            <p class="note">Run in PowerShell. No administrator rights needed. Then open a new terminal and run <code>cytoweave</code>. <a href="install.html">Other options</a></p>
+          </div>
+        </div>
+        <p class="hero-meta">Free and open source (Apache 2.0) · macOS, Linux and Windows · x64 and ARM64</p>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="why-title">
+      <div class="container">
+        <h2 id="why-title" class="visually-hidden" hidden>Why CytoWeave</h2>
+        <div class="pillars">
+          <div class="pillar">
+            <h3><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>Private by design</h3>
+            <p>FCS files are parsed and analyzed in your browser. Nothing is uploaded, and CytoWeave makes no network requests of its own.</p>
+          </div>
+          <div class="pillar">
+            <h3><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 8 12 3 3 8v8l9 5 9-5Z"/><path d="m3 8 9 5 9-5M12 13v8"/></svg>Self-contained</h3>
+            <p>One program for macOS, Linux and Windows, installed with one command. No licence server, account, Python, R or plugins, and no administrator rights.</p>
+          </div>
+          <div class="pillar">
+            <h3><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 12l2 2 4-4"/><path d="M12 3l7 3v6c0 4.5-3 8-7 9-4-1-7-4.5-7-9V6Z"/></svg>Checked at every step</h3>
+            <p>Each step checks itself: the compensation against its controls, gates across samples, maps for faithfulness. The whole pipeline is validated against flowCore, FlowKit, PeacoQC, FlowSOM, CytoNorm and FlowJo.</p>
+          </div>
+          <div class="pillar">
+            <h3><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5a2 2 0 0 1 2-2h12v16H6a2 2 0 0 0-2 2Z"/><path d="M4 21V5M8 7h6M8 11h6"/></svg>Ready to publish</h3>
+            <p>Live publication figures, a methods paragraph with references written from what you did, and a MIFlowCyt checklist.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-alt" id="features" aria-labelledby="features-title">
+      <div class="container">
+        <div class="section-head">
+          <span class="kicker">What it does</span>
+          <h2 id="features-title">The analysis loop of a cytometry lab, in one place</h2>
+          <p>Compensate or unmix, clean the acquisition, gate the cohort consistently, explore it with clustering and maps, compare groups, and leave with figures and a methods paragraph.</p>
+        </div>
+
+        <article class="feature">
+          <div class="feature-text">
+            <span class="kicker">Gating</span>
+            <h3>Gate the whole cohort, adjust one sample</h3>
+            <p>Draw rectangle, polygon, ellipse, freehand, quadrant, range and split gates, or let the magic wand take the density basin under the cursor. Gates are shared by every sample; adjusting one for a single sample makes a visible override, not a copy.</p>
+            <ul class="checklist">
+              <li>The gating path of any population as a row of plots</li>
+              <li>Logicle, arcsinh, log and FlowJo's biexponential, reproduced exactly</li>
+              <li>Backgating, overlays and Boolean populations</li>
+            </ul>
+            <a class="more-link" href="docs/gating.html">Gating</a>
+          </div>
+          <figure>
+        <div class="shot"><img class="shot-dark" src="assets/img/gate-dark.webp" width="2000" height="1250" loading="lazy" alt="The Gate view: the gating path from all events to T cells, and T-cell plots of CD4 against CD8 and CD45RA against CCR7" /><img class="shot-light" src="assets/img/gate-light.webp" width="2000" height="1250" loading="lazy" alt="The Gate view: the gating path from all events to T cells, and T-cell plots of CD4 against CD8 and CD45RA against CCR7" /></div>
+        <figcaption>T cells of donor D01, with their path through cells, singlets, live cells and lymphocytes.</figcaption>
+      </figure>
+        </article>
+
+        <article class="feature reverse">
+          <div class="feature-text">
+            <span class="kicker">Compensation</span>
+            <h3>A spillover matrix checked against its controls</h3>
+            <p>Compute spillover from single-stain controls by median difference or robust regression, or bring the file's matrix. Then check it: each control is compensated and what its positives still leave in other detectors is measured. A residual means the value is off by about that much, and CytoWeave suggests the correction.</p>
+            <ul class="checklist">
+              <li>Autofluorescent positives, such as dead cells, recognized as such</li>
+              <li>The spillover spreading matrix and N×N pair plots</li>
+              <li>Corrections in one undoable step</li>
+            </ul>
+            <a class="more-link" href="docs/compensation.html">Compensation</a>
+          </div>
+          <figure>
+        <div class="shot"><img class="shot-dark" src="assets/img/compensate-dark.webp" width="2000" height="1250" loading="lazy" alt="The compensation check of the PBMC example: CD8 into CD4 has a residual of 4.77%, with a suggested value of 15.75%, and the viability control is flagged as autofluorescence" /><img class="shot-light" src="assets/img/compensate-light.webp" width="2000" height="1250" loading="lazy" alt="The compensation check of the PBMC example: CD8 into CD4 has a residual of 4.77%, with a suggested value of 15.75%, and the viability control is flagged as autofluorescence" /></div>
+        <figcaption>The PBMC example's file matrix has one wrong value, APC into Alexa Fluor 700; the check finds it and suggests 15.75%.</figcaption>
+      </figure>
+        </article>
+
+        <article class="feature">
+          <div class="feature-text">
+            <span class="kicker">Spectral</span>
+            <h3>Unmixing, and the evidence to choose a model</h3>
+            <p>Reference spectra are gated from the single-stain controls automatically, and several autofluorescence signatures are extracted from the unstained control. Unmix by ordinary, weighted or non-negative least squares, with per-event autofluorescence.</p>
+            <ul class="checklist">
+              <li>Complexity index, similarity and spreading matrices</li>
+              <li>Seven unmixing models compared on your own sample</li>
+              <li>A residual channel that shows what the references miss</li>
+            </ul>
+            <a class="more-link" href="docs/spectral.html">Spectral unmixing</a>
+          </div>
+          <figure>
+        <div class="shot"><img class="shot-dark" src="assets/img/spectral-dark.webp" width="2000" height="1250" loading="lazy" alt="The Spectral view: 25 reference spectra across 64 detectors with autofluorescence signatures from the unstained control" /><img class="shot-light" src="assets/img/spectral-light.webp" width="2000" height="1250" loading="lazy" alt="The Spectral view: 25 reference spectra across 64 detectors with autofluorescence signatures from the unstained control" /></div>
+        <figcaption>A 25-colour panel on 64 detectors: references from the controls, autofluorescence from the unstained sample.</figcaption>
+      </figure>
+        </article>
+
+        <article class="feature reverse">
+          <div class="feature-text">
+            <span class="kicker">Acquisition QC</span>
+            <h3>Find clogs and bubbles, leave clean data alone</h3>
+            <p>PeacoQC, a flow-rate check, margin events and per-channel drift, with a 0–100 score per sample and plain-language findings. CytoWeave's refined PeacoQC stops the published algorithm removing events from clean or slowly drifting files; the classic port is one click away.</p>
+            <ul class="checklist">
+              <li>A "QC pass" channel to gate on; your data are never changed</li>
+              <li>A cohort overview of every sample</li>
+              <li>The classic algorithm removes the same events as PeacoQC in R</li>
+            </ul>
+            <a class="more-link" href="docs/qc.html">Acquisition QC</a>
+          </div>
+          <figure>
+        <div class="shot"><img class="shot-dark" src="assets/img/qc-dark.webp" width="2000" height="1250" loading="lazy" alt="The QC view of a four-well plate: a clean well scored 100, a signal surge with a flow-rate drop, a drift and a burst, with the PeacoQC traces of the second well" /><img class="shot-light" src="assets/img/qc-light.webp" width="2000" height="1250" loading="lazy" alt="The QC view of a four-well plate: a clean well scored 100, a signal surge with a flow-rate drop, a drift and a burst, with the PeacoQC traces of the second well" /></div>
+        <figcaption>Four wells: clean, a clog, gradual drift and a burst. Only the anomalies are removed.</figcaption>
+      </figure>
+        </article>
+
+        <article class="feature">
+          <div class="feature-text">
+            <span class="kicker">Clustering and maps</span>
+            <h3>Maps that say how far to trust them</h3>
+            <p>FlowSOM, Leiden, Louvain or k-means clustering, and UMAP, t-SNE or PCA across samples. Clusters are named from their marker enrichment and become gateable populations. Every map reports its trustworthiness, continuity, neighbour preservation, sample mixing and seed stability.</p>
+            <ul class="checklist">
+              <li>Shading of unreliable regions on the map</li>
+              <li>Later samples placed on a finished UMAP</li>
+              <li>Cluster abundance straight into group comparisons</li>
+            </ul>
+            <a class="more-link" href="docs/explore.html">Clustering and maps</a>
+          </div>
+          <figure>
+        <div class="shot"><img class="shot-dark" src="assets/img/explore-dark.webp" width="2000" height="1250" loading="lazy" alt="The Explore view: a UMAP of 60,000 live cells from 12 samples colored by 12 FlowSOM clusters, with trustworthiness and continuity of 0.99" /><img class="shot-light" src="assets/img/explore-light.webp" width="2000" height="1250" loading="lazy" alt="The Explore view: a UMAP of 60,000 live cells from 12 samples colored by 12 FlowSOM clusters, with trustworthiness and continuity of 0.99" /></div>
+        <figcaption>FlowSOM clusters on a UMAP of 12 samples, with the map's faithfulness and a plain-language reading.</figcaption>
+      </figure>
+        </article>
+
+        <article class="feature reverse">
+          <div class="feature-text">
+            <span class="kicker">Review</span>
+            <h3>Every sample's result for a gate, outliers first</h3>
+            <p>Review a gate across the cohort: samples are ranked by how unusual their frequency is, by whether the boundary cuts through dense events, and by low counts. Boundary robustness shows how much a frequency depends on exactly where the gate was drawn.</p>
+            <ul class="checklist">
+              <li>Robust z-scores against the cohort</li>
+              <li>Click a sample to adjust the gate for it alone</li>
+              <li>Overrides stay visible in the population tree</li>
+            </ul>
+            <a class="more-link" href="docs/gating.html#review">Review across samples</a>
+          </div>
+          <figure>
+        <div class="shot"><img class="shot-dark" src="assets/img/review-dark.webp" width="2000" height="1250" loading="lazy" alt="Review Lymphocytes across samples: 12 samples with their percentage of parent, event counts, robust z-scores, and typical frequency and robust boundary ratings" /><img class="shot-light" src="assets/img/review-light.webp" width="2000" height="1250" loading="lazy" alt="Review Lymphocytes across samples: 12 samples with their percentage of parent, event counts, robust z-scores, and typical frequency and robust boundary ratings" /></div>
+        <figcaption>The lymphocyte gate on 12 samples: every frequency typical, every boundary robust.</figcaption>
+      </figure>
+        </article>
+
+        <article class="feature">
+          <div class="feature-text">
+            <span class="kicker">Statistics</span>
+            <h3>The right test for the design</h3>
+            <p>Statistics tables of every population across samples, and group comparisons that pick the test from the design: Welch's t-test, paired t-test, Welch's ANOVA or repeated-measures ANOVA, each with its nonparametric counterpart, effect sizes and bootstrap confidence intervals.</p>
+            <ul class="checklist">
+              <li>Paired designs detected from a subject field</li>
+              <li>Screens of every population or cluster with a volcano plot</li>
+              <li>Benjamini–Hochberg, Benjamini–Yekutieli, Holm or Bonferroni</li>
+            </ul>
+            <a class="more-link" href="docs/statistics.html">Tables and comparisons</a>
+          </div>
+          <figure>
+        <div class="shot"><img class="shot-dark" src="assets/img/compare-dark.webp" width="2000" height="1250" loading="lazy" alt="The Compare view: the median CD25 of T cells in stimulated and unstimulated samples, with the paired test, effect size and confidence interval" /><img class="shot-light" src="assets/img/compare-light.webp" width="2000" height="1250" loading="lazy" alt="The Compare view: the median CD25 of T cells in stimulated and unstimulated samples, with the paired test, effect size and confidence interval" /></div>
+        <figcaption>Median CD25 on T cells, stimulated against unstimulated: six donors, paired by subject, so the paired t-test was chosen.</figcaption>
+      </figure>
+        </article>
+
+        <article class="feature reverse">
+          <div class="feature-text">
+            <span class="kicker">AI agents</span>
+            <h3>Let an agent gate while you watch, then decide</h3>
+            <p>CytoWeave is an MCP server, so Claude Code and other agents can open data, gate, compute statistics, review gates, compare groups and write the methods, in the window you are watching. Their changes arrive as proposals: new gates appear marked as proposed with real counts, and renames, deletions and compensation matrices wait for you.</p>
+            <ul class="checklist">
+              <li>Accept or reject the whole proposal from one strip</li>
+              <li>The change log records which agent proposed what</li>
+              <li>Every change can be undone</li>
+            </ul>
+            <a class="more-link" href="docs/agents.html">AI agents (MCP)</a>
+          </div>
+          <figure>
+        <div class="shot"><img class="shot-dark" src="assets/img/agents-review-dark.webp" width="2000" height="1250" loading="lazy" alt="Review the proposal: Claude Code proposes three gates with their frequencies and a compensation matrix for 12 samples, with Reject all and Accept all buttons" /><img class="shot-light" src="assets/img/agents-review-light.webp" width="2000" height="1250" loading="lazy" alt="Review the proposal: Claude Code proposes three gates with their frequencies and a compensation matrix for 12 samples, with Reject all and Accept all buttons" /></div>
+        <figcaption>Claude Code proposes single cells, live cells and a compensation matrix; nothing is final until you accept.</figcaption>
+      </figure>
+        </article>
+
+        <article class="feature">
+          <div class="feature-text">
+            <span class="kicker">Moving from FlowJo</span>
+            <h3>Bring your FlowJo workspaces, and see that they match</h3>
+            <p>FlowJo 10 workspaces import with their samples, gates, compensation and scales. The import lists every population as exact, approximated or unsupported, and the migration report compares every population count with FlowJo's, with the likely cause of any difference.</p>
+            <ul class="checklist">
+              <li>FlowJo's biexponential reproduced from its own algorithm</li>
+              <li>Gating-ML 2.0 in and out: all 190 compliance gates exact</li>
+              <li>Archival Cytometry Standard containers and CLR</li>
+            </ul>
+            <a class="more-link" href="docs/flowjo.html">FlowJo and Gating-ML</a>
+          </div>
+          <figure>
+        <div class="shot"><img class="shot-dark" src="assets/img/flowjo-dark.webp" width="2000" height="1250" loading="lazy" alt="The FlowJo migration report: 56 of 56 population counts agree exactly with FlowJo, listed by population and sample" /><img class="shot-light" src="assets/img/flowjo-light.webp" width="2000" height="1250" loading="lazy" alt="The FlowJo migration report: 56 of 56 population counts agree exactly with FlowJo, listed by population and sample" /></div>
+        <figcaption>The bundled FlowJo workspace: 56 of 56 population counts agree exactly.</figcaption>
+      </figure>
+        </article>
+
+        <article class="feature reverse">
+          <div class="feature-text">
+            <span class="kicker">Reproducible</span>
+            <h3>Figures, methods and checkpoints</h3>
+            <p>Build the gating strategy of a population in one click, or lay out plots across samples; they stay live until you export SVG, PNG or a 300 dpi PDF. The Report view writes a methods paragraph with numbered references from what the workspace actually did, and checkpoints compare two versions of an analysis in plain language.</p>
+            <ul class="checklist">
+              <li>Every algorithm with its parameters and seed</li>
+              <li>BibTeX for the references, and a MIFlowCyt checklist</li>
+              <li>"The Live gate moved by 3% of the axis", with its effect on every frequency</li>
+            </ul>
+            <a class="more-link" href="docs/figures.html">Figures, methods and checkpoints</a>
+          </div>
+          <figure>
+        <div class="shot"><img class="shot-dark" src="assets/img/figures-dark.webp" width="2000" height="1250" loading="lazy" alt="The Figures view: the gating strategy of T cells laid out on a page with one plot per step" /><img class="shot-light" src="assets/img/figures-light.webp" width="2000" height="1250" loading="lazy" alt="The Figures view: the gating strategy of T cells laid out on a page with one plot per step" /></div>
+        <figcaption>The gating strategy of T cells, laid out in one click and still live.</figcaption>
+      </figure>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="more-title">
+      <div class="container">
+        <div class="section-head">
+          <span class="kicker">And more</span>
+          <h2 id="more-title">Built for the work a core and a lab actually do</h2>
+        </div>
+        <div class="card-grid">
+          <a class="card" href="docs/assays.html#index-sorting">
+            <span class="icon-badge"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8" cy="10" r="1.2"/><circle cx="12" cy="10" r="1.2"/><circle cx="16" cy="10" r="1.2"/><circle cx="8" cy="14" r="1.2"/><circle cx="12" cy="14" r="1.2"/><circle cx="16" cy="14" r="1.2"/></svg></span>
+            <h3>Index sorting</h3>
+            <p>The plate of sorted cells, each well colored by its cell's population; click a well to find its cell on every plot.</p>
+          </a>
+          <a class="card" href="docs/assays.html">
+            <span class="icon-badge pink"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 20h18"/><path d="M5 20c1-6 2-12 3-12s2 12 3 12M13 20c1-4 1.5-8 2.5-8s1.5 4 2.5 8"/></svg></span>
+            <h3>Cell cycle and proliferation</h3>
+            <p>Dean–Jett–Fox and Watson fits of DNA content; generations of dye dilution with division and proliferation indices.</p>
+          </a>
+          <a class="card" href="docs/cohorts.html">
+            <span class="icon-badge gold"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h10M4 12h16M4 17h7"/><circle cx="17" cy="7" r="2"/><circle cx="14" cy="17" r="2"/></svg></span>
+            <h3>Batches and barcodes</h3>
+            <p>CytoNorm normalization with a confounding check, bead normalization for mass cytometry, and debarcoding into one sample per well.</p>
+          </a>
+          <a class="card" href="docs/gating.html#boolean">
+            <span class="icon-badge mint"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="12" r="6"/><circle cx="15" cy="12" r="6"/></svg></span>
+            <h3>Boolean populations</h3>
+            <p>The events in all of, any of or none of chosen populations, with a live count while you choose.</p>
+          </a>
+          <a class="card" href="docs/workspaces.html#large-files">
+            <span class="icon-badge"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 2 4 14h7l-1 8 9-12h-7Z"/></svg></span>
+            <h3>Ten million events</h3>
+            <p>Files are read in parts and never held whole, populations are bitsets, and background analyses share the events instead of copying them.</p>
+          </a>
+          <a class="card" href="docs/getting-started.html#examples">
+            <span class="icon-badge pink"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 3h6M10 3v6l-5 9a2 2 0 0 0 1.7 3h10.6a2 2 0 0 0 1.7-3l-5-9V3"/></svg></span>
+            <h3>Nine example experiments</h3>
+            <p>Simulated with the truth of every event: a planted compensation error, a FlowJo workspace, a spectral panel, a barcoded plate and more.</p>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-alt" id="validation" aria-labelledby="validation-title">
+      <div class="container">
+        <div class="section-head">
+          <span class="kicker">Validated</span>
+          <h2 id="validation-title">Same answers as the truth and the reference tools</h2>
+          <p>A validation suite runs the complete pipelines, as the app does, against answers known in advance, published reference values and the tools the methods come from.</p>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Area</th><th>Checked against</th><th>Agreement</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Compensation</strong></td><td>The true spillover of the PBMC example</td><td class="agree">within 0.02; planted error found first</td></tr>
+              <tr><td><strong>BD FACSDiva</strong></td><td>Its matrix from 15 real single-stain controls</td><td class="agree">every entry within 0.015</td></tr>
+              <tr><td><strong>QC</strong></td><td>Known clogs, bubbles and drift</td><td class="agree">99.8–100% of anomalies removed</td></tr>
+              <tr><td><strong>Spectral</strong></td><td>True abundances of 25 fluorochromes</td><td class="agree">median r = 0.988</td></tr>
+              <tr><td><strong>Gating-ML</strong></td><td>ISAC's compliance suite</td><td class="agree">190 of 190 gates exact</td></tr>
+              <tr><td><strong>FlowJo</strong></td><td>FlowJo's saved counts in 14 workspaces</td><td class="agree">as close as FlowKit or closer</td></tr>
+              <tr><td><strong>R packages</strong></td><td>flowCore, PeacoQC, FlowSOM and CytoNorm</td><td class="agree">within 1e-7 to 1e-5</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p style="text-align:center"><a class="more-link" href="science.html">Methods, validation and citation</a></p>
+      </div>
+    </section>
+
+    <section class="section" id="get" aria-labelledby="get-title">
+      <div class="container">
+        <div class="cta">
+          <div>
+            <h2 id="get-title">Get started in a minute</h2>
+            <p>Install with one command, then run <code>cytoweave</code>. It opens its own window, with nine example experiments ready to explore.</p>
+            <div class="btn-row">
+              <a class="btn btn-primary" href="docs/getting-started.html">Getting started</a>
+              <a class="btn" href="https://github.com/robert-mcdermott/cytoweave/releases/latest">All downloads</a>
+            </div>
+          </div>
+          <div class="install-card">
+            <div class="tablist" role="tablist" aria-label="Operating system" data-os>
+              <button class="tab" role="tab" id="cta-tab-unix" aria-controls="cta-panel-unix" aria-selected="true" data-os="macos linux">macOS and Linux</button>
+              <button class="tab" role="tab" id="cta-tab-win" aria-controls="cta-panel-win" aria-selected="false" tabindex="-1" data-os="windows">Windows</button>
+            </div>
+            <div class="tabpanel" role="tabpanel" id="cta-panel-unix" aria-labelledby="cta-tab-unix">
+              <div class="code wrap"><pre><code><span class="prompt">$ </span>curl --proto '=https' --tlsv1.2 -fsSL https://raw.githubusercontent.com/robert-mcdermott/cytoweave/main/install.sh | sh</code></pre></div>
+              <div class="code"><pre><code><span class="prompt">$ </span>cytoweave</code></pre></div>
+            </div>
+            <div class="tabpanel" role="tabpanel" id="cta-panel-win" aria-labelledby="cta-tab-win" hidden>
+              <div class="code wrap"><pre><code><span class="prompt">PS&gt; </span>irm https://raw.githubusercontent.com/robert-mcdermott/cytoweave/main/install.ps1 | iex</code></pre></div>
+              <div class="code"><pre><code><span class="prompt">PS&gt; </span>cytoweave</code></pre></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-about">
+          <a class="brand" href="./"><img src="assets/img/logo.svg" alt="" width="30" height="30" /><span>Cyto<b>Weave</b></span></a>
+          <p>A flow cytometry analysis workbench for conventional, spectral and mass cytometry. Free and open source under the Apache License 2.0.</p>
+        </div>
+        <div>
+          <h4>Product</h4>
+          <ul>
+            <li><a href="./#features">Features</a></li>
+            <li><a href="install.html">Install</a></li>
+            <li><a href="science.html">Science</a></li>
+            <li><a href="https://github.com/robert-mcdermott/cytoweave/blob/main/CHANGELOG.md">Changelog</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Documentation</h4>
+          <ul>
+            <li><a href="docs/getting-started.html">Getting started</a></li>
+            <li><a href="docs/gating.html">Gating</a></li>
+            <li><a href="docs/agents.html">AI agents</a></li>
+            <li><a href="docs/scripting.html">Scripting</a></li>
+            <li><a href="docs/troubleshooting.html">Troubleshooting</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Project</h4>
+          <ul>
+            <li><a href="https://github.com/robert-mcdermott/cytoweave">GitHub</a></li>
+            <li><a href="https://github.com/robert-mcdermott/cytoweave/releases">Releases</a></li>
+            <li><a href="https://github.com/robert-mcdermott/cytoweave/issues">Issues</a></li>
+            <li><a href="science.html#cite">Cite CytoWeave</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">CytoWeave is licensed under the Apache License 2.0. It is research software, not a medical device. The example experiments are simulated; see <a href="science.html#credits">credits and trademarks</a>.</div>
+    </div>
+  </footer>
+</body>
+</html>

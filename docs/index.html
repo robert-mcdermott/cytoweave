@@ -1,0 +1,216 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Documentation · CytoWeave</title>
+  <meta name="description" content="The CytoWeave user guide: gating, compensation, spectral unmixing, QC, normalization, clustering, statistics, figures, FlowJo migration, AI agents and scripting." />
+  <link rel="canonical" href="https://robert-mcdermott.github.io/cytoweave/docs/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Documentation" />
+  <meta property="og:description" content="The CytoWeave user guide: gating, compensation, spectral unmixing, QC, normalization, clustering, statistics, figures, FlowJo migration, AI agents and scripting." />
+  <meta property="og:url" content="https://robert-mcdermott.github.io/cytoweave/docs/" />
+  <meta property="og:image" content="https://robert-mcdermott.github.io/cytoweave/assets/img/og-image.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="theme-color" content="#07090e" />
+  <link rel="icon" href="../assets/img/logo.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="../assets/css/site.css" />
+  <script>try { const t = localStorage.getItem('cytoweave-theme'); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
+  <script src="../assets/js/site.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="../"><img src="../assets/img/logo.svg" alt="" width="30" height="30" /><span>Cyto<b>Weave</b></span></a>
+      <nav class="site-nav" id="site-nav" aria-label="Main">
+        <a href="../#features">Features</a>
+        <a href="../docs/" aria-current="page">Documentation</a>
+        <a href="../install.html">Install</a>
+        <a href="../science.html">Science</a>
+      </nav>
+      <div class="header-actions">
+        <a class="icon-button" href="https://github.com/robert-mcdermott/cytoweave" aria-label="CytoWeave on GitHub">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5a11.5 11.5 0 0 0-3.64 22.41c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.37-3.88-1.37-.53-1.34-1.29-1.7-1.29-1.7-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.71 1.26 3.37.96.1-.75.4-1.26.73-1.55-2.56-.29-5.25-1.28-5.25-5.69 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.84 1.19 3.1 0 4.42-2.7 5.4-5.26 5.68.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .5Z"/></svg>
+        </a>
+        <button class="icon-button theme-toggle" type="button" aria-label="Switch between light and dark">
+          <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/></svg>
+          <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+        </button>
+        <button class="icon-button nav-toggle" type="button" aria-label="Menu" aria-controls="site-nav" aria-expanded="false">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div class="docs-layout">
+    <aside class="docs-sidebar" aria-label="Documentation">
+      <button class="btn docs-menu-toggle" type="button" aria-expanded="false">Documentation menu <span aria-hidden="true">▾</span></button>
+      <nav>
+        <h4>Start</h4>
+        <ul>
+          <li><a href="./" aria-current="page">Overview</a></li>
+          <li><a href="getting-started.html">Getting started</a></li>
+          <li><a href="opening-data.html">Opening data</a></li>
+        </ul>
+        <h4>Analysis</h4>
+        <ul>
+          <li><a href="gating.html">Gating</a></li>
+          <li><a href="compensation.html">Compensation</a></li>
+          <li><a href="spectral.html">Spectral unmixing</a></li>
+          <li><a href="qc.html">Acquisition QC</a></li>
+          <li><a href="cohorts.html">Normalization and debarcoding</a></li>
+          <li><a href="explore.html">Clustering and maps</a></li>
+        </ul>
+        <h4>Results</h4>
+        <ul>
+          <li><a href="statistics.html">Tables and comparisons</a></li>
+          <li><a href="assays.html">Cell cycle, proliferation and index sorting</a></li>
+          <li><a href="figures.html">Figures, methods and checkpoints</a></li>
+        </ul>
+        <h4>Share and automate</h4>
+        <ul>
+          <li><a href="workspaces.html">Workspaces and large files</a></li>
+          <li><a href="flowjo.html">FlowJo and Gating-ML</a></li>
+          <li><a href="agents.html">AI agents (MCP)</a></li>
+          <li><a href="scripting.html">Scripting and command line</a></li>
+        </ul>
+        <h4>Reference</h4>
+        <ul>
+          <li><a href="troubleshooting.html">Troubleshooting</a></li>
+        </ul>
+      </nav>
+    </aside>
+
+    <main id="main" class="doc">
+      <h1>Documentation</h1>
+      <p class="doc-lede">How to analyze flow, spectral and mass cytometry data with CytoWeave, from a first example experiment to a methods paragraph. New here? Start with <a href="getting-started.html">Getting started</a>.</p>
+
+      <h2 id="quick-start">Quick start</h2>
+      <ol>
+        <li><a href="../install.html">Install CytoWeave</a> with one command.</li>
+        <li>Run <code>cytoweave</code> in a terminal. It opens its own window.</li>
+        <li>Open an <strong>example experiment</strong> from the start page and click <strong>Add suggested gates</strong>, or drop your own FCS files or a folder on the window.</li>
+        <li>Work through the views in the bar at the top: <strong>Gate</strong>, <strong>QC</strong>, <strong>Compensate</strong>, <strong>Spectral</strong>, <strong>Explore</strong>, <strong>Tables</strong>, <strong>Compare</strong>, <strong>Figures</strong> and <strong>Report</strong>.</li>
+        <li>Press <kbd>⌘K</kbd> (<kbd>Ctrl</kbd>+<kbd>K</kbd>) to find any sample, population, channel or command, and <kbd>?</kbd> for every keyboard shortcut.</li>
+      </ol>
+
+      <h2 id="tasks">How do I…</h2>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Task</th><th>Where</th></tr></thead>
+          <tbody>
+            <tr><td>Open my FCS files and annotate them by condition, donor and batch</td><td><a href="opening-data.html#annotate">Opening data</a></td></tr>
+            <tr><td>Gate the same way on every sample, and fix the gate on one</td><td><a href="gating.html#one-sample">Gating</a></td></tr>
+            <tr><td>Find the samples where a gate does not fit</td><td><a href="gating.html#review">Review across samples</a></td></tr>
+            <tr><td>Compute a spillover matrix from single-stain controls</td><td><a href="compensation.html#compute">Compensation</a></td></tr>
+            <tr><td>Check whether a matrix from the cytometer is right</td><td><a href="compensation.html#check">Check against the controls</a></td></tr>
+            <tr><td>Unmix a spectral experiment and choose the unmixing model</td><td><a href="spectral.html">Spectral unmixing</a></td></tr>
+            <tr><td>Remove clogs and bubbles before gating</td><td><a href="qc.html">Acquisition QC</a></td></tr>
+            <tr><td>Remove a batch effect, or debarcode a pooled plate</td><td><a href="cohorts.html">Normalization and debarcoding</a></td></tr>
+            <tr><td>Cluster, make a UMAP and know whether to trust it</td><td><a href="explore.html">Clustering and maps</a></td></tr>
+            <tr><td>Get a frequency table of every population for every sample</td><td><a href="statistics.html#tables">Tables</a></td></tr>
+            <tr><td>Test a difference between stimulated and unstimulated samples</td><td><a href="statistics.html#compare">Comparisons</a></td></tr>
+            <tr><td>Fit the cell cycle or proliferation, or read an index-sorted plate</td><td><a href="assays.html">Cell cycle, proliferation and index sorting</a></td></tr>
+            <tr><td>Make a gating-strategy figure and write the methods</td><td><a href="figures.html">Figures, methods and checkpoints</a></td></tr>
+            <tr><td>Move an analysis over from FlowJo</td><td><a href="flowjo.html">FlowJo and Gating-ML</a></td></tr>
+            <tr><td>Send an analysis to a colleague with its FCS files</td><td><a href="workspaces.html#export">Workspaces</a></td></tr>
+            <tr><td>Let Claude Code or another agent do the gating</td><td><a href="agents.html">AI agents (MCP)</a></td></tr>
+            <tr><td>Run CytoWeave from a Python script or a pipeline</td><td><a href="scripting.html">Scripting and command line</a></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2 id="start">Start</h2>
+      <div class="card-grid">
+        <a class="card" href="getting-started.html"><h3>Getting started</h3><p>Start CytoWeave, the window, the nine example experiments, and the workflow with your own data.</p></a>
+        <a class="card" href="opening-data.html"><h3>Opening data</h3><p>FCS files and folders, groups, annotations, controls, and the repairs CytoWeave makes to unusual files.</p></a>
+      </div>
+
+      <h2 id="analysis">Analysis</h2>
+      <div class="card-grid">
+        <a class="card" href="gating.html"><h3>Gating</h3><p>Plots, gate tools, the magic wand, scales, per-sample adjustments, Boolean populations, review and robustness.</p></a>
+        <a class="card" href="compensation.html"><h3>Compensation</h3><p>Spillover from controls, editing a matrix, checking it against the controls, spreading and pair plots.</p></a>
+        <a class="card" href="spectral.html"><h3>Spectral unmixing</h3><p>Reference spectra, autofluorescence, panel quality, unmixing methods and the comparison of models.</p></a>
+        <a class="card" href="qc.html"><h3>Acquisition QC</h3><p>PeacoQC, flow rate, margin events and drift, scores, and the "QC pass" gate.</p></a>
+        <a class="card" href="cohorts.html"><h3>Normalization and debarcoding</h3><p>CytoNorm with a confounding check, bead normalization, and splitting a barcoded plate into samples.</p></a>
+        <a class="card" href="explore.html"><h3>Clustering and maps</h3><p>FlowSOM, Leiden, Louvain and k-means; UMAP, t-SNE and PCA; faithfulness, and placing new samples.</p></a>
+      </div>
+
+      <h2 id="results">Results</h2>
+      <div class="card-grid">
+        <a class="card" href="statistics.html"><h3>Tables and comparisons</h3><p>Statistics across samples, group comparisons with the right test, and screens of every population.</p></a>
+        <a class="card" href="assays.html"><h3>Cell cycle, proliferation and index sorting</h3><p>DNA content models, dye dilution generations, and the plate of an index sort.</p></a>
+        <a class="card" href="figures.html"><h3>Figures, methods and checkpoints</h3><p>Publication pages, the methods paragraph, MIFlowCyt, checkpoints and the change log.</p></a>
+      </div>
+
+      <h2 id="share">Share and automate</h2>
+      <div class="card-grid">
+        <a class="card" href="workspaces.html"><h3>Workspaces and large files</h3><p>The library, undo, exports, archives, and samples of ten million events.</p></a>
+        <a class="card" href="flowjo.html"><h3>FlowJo and Gating-ML</h3><p>Importing FlowJo workspaces, the migration report, Gating-ML 2.0 and CLR.</p></a>
+        <a class="card" href="agents.html"><h3>AI agents (MCP)</h3><p>Let Claude Code or another agent gate and analyze in your window, with proposals you accept or reject.</p></a>
+        <a class="card" href="scripting.html"><h3>Scripting and command line</h3><p>Command-line options and remote control from Python, Jupyter or shell scripts.</p></a>
+      </div>
+
+      <h2 id="reference">Reference</h2>
+      <div class="card-grid">
+        <a class="card" href="troubleshooting.html"><h3>Troubleshooting</h3><p>Window, port, file, memory and agent problems, and where to get help.</p></a>
+        <a class="card" href="https://github.com/robert-mcdermott/cytoweave#readme"><h3>README</h3><p>The whole manual on one page, in the repository.</p></a>
+        <a class="card" href="https://github.com/robert-mcdermott/cytoweave/blob/main/CHANGELOG.md"><h3>Changelog</h3><p>What changed in each release.</p></a>
+      </div>
+
+      <nav class="doc-pager" aria-label="Pages">
+        <span></span>
+        <a class="next" href="getting-started.html"><span>Next</span>Getting started</a>
+      </nav>
+    </main>
+
+    <aside class="toc" aria-label="On this page">
+      <h4>On this page</h4>
+      <ul></ul>
+    </aside>
+  </div>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-about">
+          <a class="brand" href="../"><img src="../assets/img/logo.svg" alt="" width="30" height="30" /><span>Cyto<b>Weave</b></span></a>
+          <p>A flow cytometry analysis workbench for conventional, spectral and mass cytometry. Free and open source under the Apache License 2.0.</p>
+        </div>
+        <div>
+          <h4>Product</h4>
+          <ul>
+            <li><a href="../#features">Features</a></li>
+            <li><a href="../install.html">Install</a></li>
+            <li><a href="../science.html">Science</a></li>
+            <li><a href="https://github.com/robert-mcdermott/cytoweave/blob/main/CHANGELOG.md">Changelog</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Documentation</h4>
+          <ul>
+            <li><a href="../docs/getting-started.html">Getting started</a></li>
+            <li><a href="../docs/gating.html">Gating</a></li>
+            <li><a href="../docs/agents.html">AI agents</a></li>
+            <li><a href="../docs/scripting.html">Scripting</a></li>
+            <li><a href="../docs/troubleshooting.html">Troubleshooting</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Project</h4>
+          <ul>
+            <li><a href="https://github.com/robert-mcdermott/cytoweave">GitHub</a></li>
+            <li><a href="https://github.com/robert-mcdermott/cytoweave/releases">Releases</a></li>
+            <li><a href="https://github.com/robert-mcdermott/cytoweave/issues">Issues</a></li>
+            <li><a href="../science.html#cite">Cite CytoWeave</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">CytoWeave is licensed under the Apache License 2.0. It is research software, not a medical device. The example experiments are simulated; see <a href="../science.html#credits">credits and trademarks</a>.</div>
+    </div>
+  </footer>
+</body>
+</html>

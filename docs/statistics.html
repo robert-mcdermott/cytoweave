@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Tables and comparisons · CytoWeave</title>
+  <meta name="description" content="Build statistics tables across samples in CytoWeave and compare groups with the test the design calls for: Welch's t-test, paired t-test, ANOVA or repeated measures with nonparametric counterparts, effect sizes, bootstrap confidence intervals, and screens of every population or cluster with multiple-testing correction." />
+  <link rel="canonical" href="https://robert-mcdermott.github.io/cytoweave/docs/statistics.html" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Tables and comparisons" />
+  <meta property="og:description" content="Build statistics tables across samples in CytoWeave and compare groups with the test the design calls for: Welch's t-test, paired t-test, ANOVA or repeated measures with nonparametric counterparts, effect sizes, bootstrap confidence intervals, and screens of every population or cluster with multiple-testing correction." />
+  <meta property="og:url" content="https://robert-mcdermott.github.io/cytoweave/docs/statistics.html" />
+  <meta property="og:image" content="https://robert-mcdermott.github.io/cytoweave/assets/img/og-image.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="theme-color" content="#07090e" />
+  <link rel="icon" href="../assets/img/logo.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="../assets/css/site.css" />
+  <script>try { const t = localStorage.getItem('cytoweave-theme'); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
+  <script src="../assets/js/site.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="../"><img src="../assets/img/logo.svg" alt="" width="30" height="30" /><span>Cyto<b>Weave</b></span></a>
+      <nav class="site-nav" id="site-nav" aria-label="Main">
+        <a href="../#features">Features</a>
+        <a href="../docs/" aria-current="page">Documentation</a>
+        <a href="../install.html">Install</a>
+        <a href="../science.html">Science</a>
+      </nav>
+      <div class="header-actions">
+        <a class="icon-button" href="https://github.com/robert-mcdermott/cytoweave" aria-label="CytoWeave on GitHub">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5a11.5 11.5 0 0 0-3.64 22.41c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.37-3.88-1.37-.53-1.34-1.29-1.7-1.29-1.7-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.71 1.26 3.37.96.1-.75.4-1.26.73-1.55-2.56-.29-5.25-1.28-5.25-5.69 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.84 1.19 3.1 0 4.42-2.7 5.4-5.26 5.68.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .5Z"/></svg>
+        </a>
+        <button class="icon-button theme-toggle" type="button" aria-label="Switch between light and dark">
+          <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/></svg>
+          <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+        </button>
+        <button class="icon-button nav-toggle" type="button" aria-label="Menu" aria-controls="site-nav" aria-expanded="false">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div class="docs-layout">
+    <aside class="docs-sidebar" aria-label="Documentation">
+      <button class="btn docs-menu-toggle" type="button" aria-expanded="false">Documentation menu <span aria-hidden="true">▾</span></button>
+      <nav>
+        <h4>Start</h4>
+        <ul>
+          <li><a href="./">Overview</a></li>
+          <li><a href="getting-started.html">Getting started</a></li>
+          <li><a href="opening-data.html">Opening data</a></li>
+        </ul>
+        <h4>Analysis</h4>
+        <ul>
+          <li><a href="gating.html">Gating</a></li>
+          <li><a href="compensation.html">Compensation</a></li>
+          <li><a href="spectral.html">Spectral unmixing</a></li>
+          <li><a href="qc.html">Acquisition QC</a></li>
+          <li><a href="cohorts.html">Normalization and debarcoding</a></li>
+          <li><a href="explore.html">Clustering and maps</a></li>
+        </ul>
+        <h4>Results</h4>
+        <ul>
+          <li><a href="statistics.html" aria-current="page">Tables and comparisons</a></li>
+          <li><a href="assays.html">Cell cycle, proliferation and index sorting</a></li>
+          <li><a href="figures.html">Figures, methods and checkpoints</a></li>
+        </ul>
+        <h4>Share and automate</h4>
+        <ul>
+          <li><a href="workspaces.html">Workspaces and large files</a></li>
+          <li><a href="flowjo.html">FlowJo and Gating-ML</a></li>
+          <li><a href="agents.html">AI agents (MCP)</a></li>
+          <li><a href="scripting.html">Scripting and command line</a></li>
+        </ul>
+        <h4>Reference</h4>
+        <ul>
+          <li><a href="troubleshooting.html">Troubleshooting</a></li>
+        </ul>
+      </nav>
+    </aside>
+
+    <main id="main" class="doc">
+      <h1>Tables and comparisons</h1>
+      <p class="doc-lede">Turn populations into numbers for every sample, and compare groups of samples with a test chosen from the design rather than by habit.</p>
+
+      <h2 id="tables">Tables</h2>
+      <figure>
+        <div class="shot"><img class="shot-dark" src="../assets/img/tables-dark.webp" width="2000" height="1250" loading="lazy" alt="The Tables view: a table of every population's percentage of parent for 12 samples, with condition, subject and batch columns, shown as a heat map with the mean and SD below" /><img class="shot-light" src="../assets/img/tables-light.webp" width="2000" height="1250" loading="lazy" alt="The Tables view: a table of every population's percentage of parent for 12 samples, with condition, subject and batch columns, shown as a heat map with the mean and SD below" /></div>
+        <figcaption>One row per sample, one column per statistic, with the samples' annotations alongside.</figcaption>
+      </figure>
+      <p>A table has one row per sample and one column per statistic. <strong>Create a table of every population</strong> builds the usual frequency table in one click: every population as a percentage of its parent. To build your own:</p>
+      <ol>
+        <li>Click <strong>New table</strong>, or start from the frequency table.</li>
+        <li>Under <strong>Add a column</strong>, choose a <strong>Population</strong> and a <strong>Statistic</strong>, plus a <strong>Channel</strong>, <strong>Relative to</strong> population, or percentile or threshold where the statistic needs one. Click <strong>Add column</strong>, or <strong>All medians</strong> for the median of every fluorescence channel of the population.</li>
+        <li>Under <strong>Rows</strong>, choose the samples (all, or a group), and whether to include controls.</li>
+      </ol>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Kind</th><th>Statistics</th></tr></thead>
+          <tbody>
+            <tr><td>Counts and frequencies</td><td>Count; % of parent, grandparent, total or any ancestor; concentration per µL (from <code>$VOL</code>)</td></tr>
+            <tr><td>Location</td><td>Median, mean, geometric mean, mode</td></tr>
+            <tr><td>Spread</td><td>SD, robust SD, CV, robust CV, median absolute deviation</td></tr>
+            <tr><td>Distribution</td><td>Minimum, maximum, any percentile, % above a threshold</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>Show a table as a <strong>Heat map</strong>, <strong>Copy</strong> it as TSV to paste into a spreadsheet, or save it as <strong>CSV</strong>. A column's menu renames, moves or removes it, or sends it to <strong>Compare between groups</strong>. Frequencies in the inspector carry a 95% binomial confidence interval.</p>
+
+      <h2 id="compare">Comparing groups</h2>
+      <figure>
+        <div class="shot"><img class="shot-dark" src="../assets/img/compare-dark.webp" width="2000" height="1250" loading="lazy" alt="The Compare view: the median CD25 of T cells, stimulated against unstimulated, paired by subject: a dot plot with lines joining each donor's samples, a paired t-test p = 3.1×10⁻⁵, the Wilcoxon signed-rank check, group summaries and effect sizes with 95% confidence intervals" /><img class="shot-light" src="../assets/img/compare-light.webp" width="2000" height="1250" loading="lazy" alt="The Compare view: the median CD25 of T cells, stimulated against unstimulated, paired by subject: a dot plot with lines joining each donor's samples, a paired t-test p = 3.1×10⁻⁵, the Wilcoxon signed-rank check, group summaries and effect sizes with 95% confidence intervals" /></div>
+        <figcaption>Median CD25 on T cells: six donors, paired by subject, so the paired t-test was chosen.</figcaption>
+      </figure>
+      <ol>
+        <li><strong>What to compare:</strong> a <strong>Population</strong> statistic (for example the median CD25 of T cells, or the % of parent of Tregs), a <strong>Table column</strong>, or a <strong>Cluster</strong>'s abundance.</li>
+        <li><strong>Design:</strong> <strong>Group samples by</strong> any annotation or by the workspace's groups, tick the groups, and choose the <strong>Reference (A)</strong>. <strong>Pair samples by</strong> a subject field when the same donor is in each group.</li>
+        <li><strong>Test:</strong> leave <strong>Automatic (from the design)</strong>, or choose one.</li>
+      </ol>
+      <p>The automatic test follows the design, and its nonparametric counterpart is always shown beside it as a robustness check:</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Design</th><th>Test</th><th>Counterpart</th></tr></thead>
+          <tbody>
+            <tr><td>Two groups</td><td>Welch's t-test</td><td>Mann–Whitney U</td></tr>
+            <tr><td>Two groups, paired</td><td>Paired t-test</td><td>Wilcoxon signed-rank</td></tr>
+            <tr><td>Several groups</td><td>Welch's ANOVA</td><td>Kruskal–Wallis</td></tr>
+            <tr><td>Several groups, repeated measures</td><td>Repeated-measures ANOVA</td><td>Friedman</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>Several groups are followed by Holm-adjusted comparisons of each group with the reference. The result shows each group's n, mean, SD, median and IQR; effect sizes with 95% confidence intervals (the difference and ratio of means, or their paired forms, Hedges' g and the Hodges–Lehmann shift); and a note on the assumptions. Decide on the test before looking at the results: the second test is there to show the conclusion does not hang on the choice.</p>
+      <p>The plot shows every sample as a dot, with the mean and its 95% t confidence interval or the median and a 95% bootstrap interval, and lines joining paired samples; click a dot to see that sample's gating. Export it as SVG or PNG, copy the <strong>Methods text</strong>, or <strong>Save for report</strong> so the <a href="figures.html#methods">methods paragraph</a> cites the comparison.</p>
+
+      <h2 id="screens">Screening every population or cluster</h2>
+      <p><strong>Screen populations</strong> tests one statistic for every population at once, and <strong>Screen clusters</strong> tests the abundance of every cluster of a clustering channel. Results are corrected for multiple testing (<strong>Benjamini–Hochberg</strong>, <strong>Benjamini–Yekutieli</strong>, <strong>Holm</strong> or <strong>Bonferroni</strong>) and shown on a volcano plot of effect against significance; click a point to compare that one in detail.</p>
+      <p>Cluster abundance (cells of the cluster ÷ cells of the parent population, per sample) is tested with a quasi-binomial GLM and a likelihood-ratio F test, in the manner of diffcyt, with optional covariates as fixed effects. Try it on the mass cytometry cohort example, where non-classical monocytes are doubled in the case group.</p>
+
+      <h2 id="next">Where to go next</h2>
+      <div class="card-grid">
+        <a class="card" href="figures.html"><h3>Figures and methods</h3><p>Cite the comparison in the methods paragraph.</p></a>
+        <a class="card" href="explore.html"><h3>Clustering</h3><p>Make the clusters to screen.</p></a>
+        <a class="card" href="opening-data.html#annotate"><h3>Annotations</h3><p>Groups and pairing come from them.</p></a>
+      </div>
+
+      <nav class="doc-pager" aria-label="Pages">
+        <a class="prev" href="explore.html"><span>Previous</span>Clustering and maps</a>
+        <a class="next" href="assays.html"><span>Next</span>Cell cycle, proliferation and index sorting</a>
+      </nav>
+    </main>
+
+    <aside class="toc" aria-label="On this page">
+      <h4>On this page</h4>
+      <ul></ul>
+    </aside>
+  </div>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-about">
+          <a class="brand" href="../"><img src="../assets/img/logo.svg" alt="" width="30" height="30" /><span>Cyto<b>Weave</b></span></a>
+          <p>A flow cytometry analysis workbench for conventional, spectral and mass cytometry. Free and open source under the Apache License 2.0.</p>
+        </div>
+        <div>
+          <h4>Product</h4>
+          <ul>
+            <li><a href="../#features">Features</a></li>
+            <li><a href="../install.html">Install</a></li>
+            <li><a href="../science.html">Science</a></li>
+            <li><a href="https://github.com/robert-mcdermott/cytoweave/blob/main/CHANGELOG.md">Changelog</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Documentation</h4>
+          <ul>
+            <li><a href="../docs/getting-started.html">Getting started</a></li>
+            <li><a href="../docs/gating.html">Gating</a></li>
+            <li><a href="../docs/agents.html">AI agents</a></li>
+            <li><a href="../docs/scripting.html">Scripting</a></li>
+            <li><a href="../docs/troubleshooting.html">Troubleshooting</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Project</h4>
+          <ul>
+            <li><a href="https://github.com/robert-mcdermott/cytoweave">GitHub</a></li>
+            <li><a href="https://github.com/robert-mcdermott/cytoweave/releases">Releases</a></li>
+            <li><a href="https://github.com/robert-mcdermott/cytoweave/issues">Issues</a></li>
+            <li><a href="../science.html#cite">Cite CytoWeave</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">CytoWeave is licensed under the Apache License 2.0. It is research software, not a medical device. The example experiments are simulated; see <a href="../science.html#credits">credits and trademarks</a>.</div>
+    </div>
+  </footer>
+</body>
+</html>

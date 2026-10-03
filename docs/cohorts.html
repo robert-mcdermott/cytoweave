@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Normalization and debarcoding · CytoWeave</title>
+  <meta name="description" content="Remove batch effects with CytoNorm and reference samples, correct mass cytometry signal drift with EQ beads, and debarcode a pooled, palladium-barcoded plate into one sample per well in CytoWeave." />
+  <link rel="canonical" href="https://robert-mcdermott.github.io/cytoweave/docs/cohorts.html" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Normalization and debarcoding" />
+  <meta property="og:description" content="Remove batch effects with CytoNorm and reference samples, correct mass cytometry signal drift with EQ beads, and debarcode a pooled, palladium-barcoded plate into one sample per well in CytoWeave." />
+  <meta property="og:url" content="https://robert-mcdermott.github.io/cytoweave/docs/cohorts.html" />
+  <meta property="og:image" content="https://robert-mcdermott.github.io/cytoweave/assets/img/og-image.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="theme-color" content="#07090e" />
+  <link rel="icon" href="../assets/img/logo.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="../assets/css/site.css" />
+  <script>try { const t = localStorage.getItem('cytoweave-theme'); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
+  <script src="../assets/js/site.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="../"><img src="../assets/img/logo.svg" alt="" width="30" height="30" /><span>Cyto<b>Weave</b></span></a>
+      <nav class="site-nav" id="site-nav" aria-label="Main">
+        <a href="../#features">Features</a>
+        <a href="../docs/" aria-current="page">Documentation</a>
+        <a href="../install.html">Install</a>
+        <a href="../science.html">Science</a>
+      </nav>
+      <div class="header-actions">
+        <a class="icon-button" href="https://github.com/robert-mcdermott/cytoweave" aria-label="CytoWeave on GitHub">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5a11.5 11.5 0 0 0-3.64 22.41c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.37-3.88-1.37-.53-1.34-1.29-1.7-1.29-1.7-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.71 1.26 3.37.96.1-.75.4-1.26.73-1.55-2.56-.29-5.25-1.28-5.25-5.69 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.84 1.19 3.1 0 4.42-2.7 5.4-5.26 5.68.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .5Z"/></svg>
+        </a>
+        <button class="icon-button theme-toggle" type="button" aria-label="Switch between light and dark">
+          <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/></svg>
+          <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+        </button>
+        <button class="icon-button nav-toggle" type="button" aria-label="Menu" aria-controls="site-nav" aria-expanded="false">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div class="docs-layout">
+    <aside class="docs-sidebar" aria-label="Documentation">
+      <button class="btn docs-menu-toggle" type="button" aria-expanded="false">Documentation menu <span aria-hidden="true">▾</span></button>
+      <nav>
+        <h4>Start</h4>
+        <ul>
+          <li><a href="./">Overview</a></li>
+          <li><a href="getting-started.html">Getting started</a></li>
+          <li><a href="opening-data.html">Opening data</a></li>
+        </ul>
+        <h4>Analysis</h4>
+        <ul>
+          <li><a href="gating.html">Gating</a></li>
+          <li><a href="compensation.html">Compensation</a></li>
+          <li><a href="spectral.html">Spectral unmixing</a></li>
+          <li><a href="qc.html">Acquisition QC</a></li>
+          <li><a href="cohorts.html" aria-current="page">Normalization and debarcoding</a></li>
+          <li><a href="explore.html">Clustering and maps</a></li>
+        </ul>
+        <h4>Results</h4>
+        <ul>
+          <li><a href="statistics.html">Tables and comparisons</a></li>
+          <li><a href="assays.html">Cell cycle, proliferation and index sorting</a></li>
+          <li><a href="figures.html">Figures, methods and checkpoints</a></li>
+        </ul>
+        <h4>Share and automate</h4>
+        <ul>
+          <li><a href="workspaces.html">Workspaces and large files</a></li>
+          <li><a href="flowjo.html">FlowJo and Gating-ML</a></li>
+          <li><a href="agents.html">AI agents (MCP)</a></li>
+          <li><a href="scripting.html">Scripting and command line</a></li>
+        </ul>
+        <h4>Reference</h4>
+        <ul>
+          <li><a href="troubleshooting.html">Troubleshooting</a></li>
+        </ul>
+      </nav>
+    </aside>
+
+    <main id="main" class="doc">
+      <h1>Normalization and debarcoding</h1>
+      <p class="doc-lede">Make batches comparable with reference samples or beads, and split a barcoded pool back into its samples. Both live in the QC view, next to Clean.</p>
+
+      <p>Neither changes your data: normalization writes new channels named "<em>channel</em> (norm)", and debarcoding writes a "Barcode" channel, gates or new samples. Plot, gate and compare them like any other channel.</p>
+
+      <h2 id="normalize">Batch normalization with CytoNorm</h2>
+      <figure>
+        <div class="shot"><img class="shot-dark" src="../assets/img/normalize-dark.webp" width="2000" height="1250" loading="lazy" alt="The Normalize result for a two-batch mass cytometry cohort: the distance of each batch to the pooled distribution before (grey) and after (colored) for 33 channels, with the change in percent" /><img class="shot-light" src="../assets/img/normalize-light.webp" width="2000" height="1250" loading="lazy" alt="The Normalize result for a two-batch mass cytometry cohort: the distance of each batch to the pooled distribution before (grey) and after (colored) for 33 channels, with the change in percent" /></div>
+        <figcaption>A two-batch mass cytometry cohort after CytoNorm: each channel's distance of each batch to the pooled data, before and after.</figcaption>
+      </figure>
+      <p>CytoNorm (Van Gassen et al. 2020) learns, for each batch and channel, a monotone spline that maps the batch's quantiles onto a shared target, from a reference sample acquired in every batch (the same control, such as an aliquot of one donor's cells). The splines are then applied to every sample of that batch.</p>
+      <ol>
+        <li><strong>Annotate the batches.</strong> Give every sample a <strong>batch</strong> field: the day or run it was acquired. See <a href="opening-data.html#annotate">Annotating the design</a>.</li>
+        <li><strong>Mark the references.</strong> Set the role of each batch's anchor sample to <strong>Reference</strong>. At least two batches need one.</li>
+        <li>Open <strong>QC → Normalize</strong>, and choose the <strong>Markers</strong> to normalize.</li>
+        <li>Choose the <strong>Clustering</strong>: <strong>None: one global model</strong>, or a clustering channel (from <a href="explore.html">Explore</a>, run on all samples) to correct batch effects that differ between cell types, one model per cluster.</li>
+        <li>Choose the <strong>Target distribution</strong> (the mean of the batches, CytoNorm's default, or their median) and the number of <strong>Quantiles</strong> (99, CytoNorm's default).</li>
+        <li>Click <strong>Train and normalize</strong>.</li>
+      </ol>
+      <div class="callout warn"><p><strong>Confounding check.</strong> Before training, CytoWeave checks the batch design. If batch and condition are confounded (all cases in one batch, all controls in the other), normalization would remove the biology along with the batch effect, so it stops and says so. You can still go ahead with <strong>I understand; normalize anyway</strong>.</p></div>
+      <p>The <strong>Result</strong> shows, for every channel, the earth mover's distance of each batch to all batches pooled, before (grey) and after (coloured), and <strong>Reference samples before and after</strong> overlays the references, which should overlap once normalized. In the validation suite, CytoNorm agrees with the R package to 1e-5 and reduces the distance between same-donor anchors 25-fold.</p>
+
+      <h3 id="beads">Bead normalization (mass cytometry)</h3>
+      <p>Mass cytometers lose sensitivity during a run. EQ beads (Ce140, Eu151, Eu153, Ho165, Lu175) spiked into the sample trace that drift. <strong>Bead normalization…</strong> (Finck et al. 2013) takes a running median of the bead channels over time and scales each moment's signal back to a baseline: the mean bead medians of all the files (a shared baseline, which also puts the files on one scale) or each file's own (which removes only the drift within each file). The result reports the range of the correction over the run.</p>
+
+      <h2 id="debarcode">Debarcoding a pooled plate</h2>
+      <figure>
+        <div class="shot"><img class="shot-dark" src="../assets/img/debarcode-dark.webp" width="2000" height="1250" loading="lazy" alt="The Debarcode result for a barcoded plate: 89.6% of events assigned to 20 of 20 codes at a separation cutoff of 0.30, the yield curves of every code against the cutoff, and the events per code with their palladium channels" /><img class="shot-light" src="../assets/img/debarcode-light.webp" width="2000" height="1250" loading="lazy" alt="The Debarcode result for a barcoded plate: 89.6% of events assigned to 20 of 20 codes at a separation cutoff of 0.30, the yield curves of every code against the cutoff, and the events per code with their palladium channels" /></div>
+        <figcaption>A 20-sample palladium-barcoded plate: 89.6% of events assigned at cutoff 0.30, about 5% per well.</figcaption>
+      </figure>
+      <p>Barcoding labels each sample with a unique combination of <em>k</em> positive channels out of <em>n</em> (for example 3 of 6 palladium isotopes), so samples can be pooled, stained and acquired together. CytoWeave uses single-cell debarcoding (Zunder et al. 2015):</p>
+      <ol>
+        <li>Open <strong>QC → Debarcode</strong> with the pooled file selected.</li>
+        <li>Choose the barcode channels and <strong>Positive channels (k)</strong>, how many are positive in every code. The <strong>Arcsinh cofactor</strong> sets the scale the intensities are compared on (10, the CATALYST default).</li>
+        <li>Paste the barcode key (<strong>Paste a key</strong>) as CSV: a header row of <code>code</code> and the barcode masses (<code>code,102,104,105,106,108,110</code>), then one row per code with its name and a 0 or 1 for each channel (<code>A1,1,1,1,0,0,0</code>). Name codes after the samples they hold. Without a key, every <em>k</em>-of-<em>n</em> combination is a code, numbered in order.</li>
+        <li>Click <strong>Debarcode</strong>. Each event goes to the code of its <em>k</em> brightest barcode channels, after scaling each population.</li>
+        <li>Set the <strong>separation cutoff</strong> on the yield plot. Each thin line is one code, the fraction of its events whose separation (the gap between its dimmest positive and brightest negative barcode channel) exceeds the cutoff; the thick line is all codes. A good cutoff sits where the curves flatten, past the doublets and debris but before real events are lost. Drag it; the assignments update when you let go.</li>
+        <li>Events far from their code's population (squared Mahalanobis distance above the <strong>Mahalanobis cutoff</strong>, 30 by default) are left unassigned.</li>
+      </ol>
+      <p>Then use the result in one of three ways:</p>
+      <ul>
+        <li><strong>Save the "Barcode" channel</strong>, to gate or colour by.</li>
+        <li><strong>Add a gate per code</strong>: one category gate per code at the top of the gating tree.</li>
+        <li><strong>Split into samples</strong>: one new sample per code, named after it (or after the sample the key gives it), which you can then <a href="opening-data.html#annotate">annotate with Suggest from file names</a> and compare like any other samples.</li>
+      </ul>
+      <p>On the validation suite's simulated plate, every assigned cell lands in its true well and 98.7% of cells are assigned.</p>
+
+      <h2 id="next">Where to go next</h2>
+      <div class="card-grid">
+        <a class="card" href="explore.html"><h3>Clustering and maps</h3><p>Cluster across the normalized batches.</p></a>
+        <a class="card" href="statistics.html#screens"><h3>Screens</h3><p>Differential abundance of every cluster.</p></a>
+        <a class="card" href="qc.html"><h3>Acquisition QC</h3><p>The Clean tab.</p></a>
+      </div>
+
+      <nav class="doc-pager" aria-label="Pages">
+        <a class="prev" href="qc.html"><span>Previous</span>Acquisition QC</a>
+        <a class="next" href="explore.html"><span>Next</span>Clustering and maps</a>
+      </nav>
+    </main>
+
+    <aside class="toc" aria-label="On this page">
+      <h4>On this page</h4>
+      <ul></ul>
+    </aside>
+  </div>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-about">
+          <a class="brand" href="../"><img src="../assets/img/logo.svg" alt="" width="30" height="30" /><span>Cyto<b>Weave</b></span></a>
+          <p>A flow cytometry analysis workbench for conventional, spectral and mass cytometry. Free and open source under the Apache License 2.0.</p>
+        </div>
+        <div>
+          <h4>Product</h4>
+          <ul>
+            <li><a href="../#features">Features</a></li>
+            <li><a href="../install.html">Install</a></li>
+            <li><a href="../science.html">Science</a></li>
+            <li><a href="https://github.com/robert-mcdermott/cytoweave/blob/main/CHANGELOG.md">Changelog</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Documentation</h4>
+          <ul>
+            <li><a href="../docs/getting-started.html">Getting started</a></li>
+            <li><a href="../docs/gating.html">Gating</a></li>
+            <li><a href="../docs/agents.html">AI agents</a></li>
+            <li><a href="../docs/scripting.html">Scripting</a></li>
+            <li><a href="../docs/troubleshooting.html">Troubleshooting</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Project</h4>
+          <ul>
+            <li><a href="https://github.com/robert-mcdermott/cytoweave">GitHub</a></li>
+            <li><a href="https://github.com/robert-mcdermott/cytoweave/releases">Releases</a></li>
+            <li><a href="https://github.com/robert-mcdermott/cytoweave/issues">Issues</a></li>
+            <li><a href="../science.html#cite">Cite CytoWeave</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">CytoWeave is licensed under the Apache License 2.0. It is research software, not a medical device. The example experiments are simulated; see <a href="../science.html#credits">credits and trademarks</a>.</div>
+    </div>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Workspaces and large files · CytoWeave</title>
+  <meta name="description" content="How CytoWeave saves workspaces to a local library, keeps FCS files by checksum, undoes any change, exports workspaces, ACS archives, Gating-ML and CLR, and handles samples of ten million events." />
+  <link rel="canonical" href="https://robert-mcdermott.github.io/cytoweave/docs/workspaces.html" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Workspaces and large files" />
+  <meta property="og:description" content="How CytoWeave saves workspaces to a local library, keeps FCS files by checksum, undoes any change, exports workspaces, ACS archives, Gating-ML and CLR, and handles samples of ten million events." />
+  <meta property="og:url" content="https://robert-mcdermott.github.io/cytoweave/docs/workspaces.html" />
+  <meta property="og:image" content="https://robert-mcdermott.github.io/cytoweave/assets/img/og-image.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="theme-color" content="#07090e" />
+  <link rel="icon" href="../assets/img/logo.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="../assets/css/site.css" />
+  <script>try { const t = localStorage.getItem('cytoweave-theme'); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
+  <script src="../assets/js/site.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="../"><img src="../assets/img/logo.svg" alt="" width="30" height="30" /><span>Cyto<b>Weave</b></span></a>
+      <nav class="site-nav" id="site-nav" aria-label="Main">
+        <a href="../#features">Features</a>
+        <a href="../docs/" aria-current="page">Documentation</a>
+        <a href="../install.html">Install</a>
+        <a href="../science.html">Science</a>
+      </nav>
+      <div class="header-actions">
+        <a class="icon-button" href="https://github.com/robert-mcdermott/cytoweave" aria-label="CytoWeave on GitHub">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5a11.5 11.5 0 0 0-3.64 22.41c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.37-3.88-1.37-.53-1.34-1.29-1.7-1.29-1.7-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.71 1.26 3.37.96.1-.75.4-1.26.73-1.55-2.56-.29-5.25-1.28-5.25-5.69 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.84 1.19 3.1 0 4.42-2.7 5.4-5.26 5.68.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .5Z"/></svg>
+        </a>
+        <button class="icon-button theme-toggle" type="button" aria-label="Switch between light and dark">
+          <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/></svg>
+          <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+        </button>
+        <button class="icon-button nav-toggle" type="button" aria-label="Menu" aria-controls="site-nav" aria-expanded="false">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div class="docs-layout">
+    <aside class="docs-sidebar" aria-label="Documentation">
+      <button class="btn docs-menu-toggle" type="button" aria-expanded="false">Documentation menu <span aria-hidden="true">▾</span></button>
+      <nav>
+        <h4>Start</h4>
+        <ul>
+          <li><a href="./">Overview</a></li>
+          <li><a href="getting-started.html">Getting started</a></li>
+          <li><a href="opening-data.html">Opening data</a></li>
+        </ul>
+        <h4>Analysis</h4>
+        <ul>
+          <li><a href="gating.html">Gating</a></li>
+          <li><a href="compensation.html">Compensation</a></li>
+          <li><a href="spectral.html">Spectral unmixing</a></li>
+          <li><a href="qc.html">Acquisition QC</a></li>
+          <li><a href="cohorts.html">Normalization and debarcoding</a></li>
+          <li><a href="explore.html">Clustering and maps</a></li>
+        </ul>
+        <h4>Results</h4>
+        <ul>
+          <li><a href="statistics.html">Tables and comparisons</a></li>
+          <li><a href="assays.html">Cell cycle, proliferation and index sorting</a></li>
+          <li><a href="figures.html">Figures, methods and checkpoints</a></li>
+        </ul>
+        <h4>Share and automate</h4>
+        <ul>
+          <li><a href="workspaces.html" aria-current="page">Workspaces and large files</a></li>
+          <li><a href="flowjo.html">FlowJo and Gating-ML</a></li>
+          <li><a href="agents.html">AI agents (MCP)</a></li>
+          <li><a href="scripting.html">Scripting and command line</a></li>
+        </ul>
+        <h4>Reference</h4>
+        <ul>
+          <li><a href="troubleshooting.html">Troubleshooting</a></li>
+        </ul>
+      </nav>
+    </aside>
+
+    <main id="main" class="doc">
+      <h1>Workspaces and large files</h1>
+      <p class="doc-lede">Where your analysis lives, how to send it to someone, and how CytoWeave stays fast with very large samples.</p>
+
+      <h2 id="workspace">What a workspace holds</h2>
+      <ul>
+        <li>the samples, their roles and annotations, and the groups;</li>
+        <li>gates, compensation matrices and channel scales;</li>
+        <li>derived results: QC masks, unmixed and normalized channels, clusters and maps, model fits;</li>
+        <li>figures, tables, saved comparisons, checkpoints, notes and the change log.</li>
+      </ul>
+      <p>Every edit can be undone (<kbd>⌘Z</kbd>) and redone (<kbd>⇧⌘Z</kbd>), including what an <a href="agents.html">AI agent</a> did.</p>
+
+      <h2 id="library">The library</h2>
+      <p>Workspaces save themselves as you work, to the <strong>library</strong>, a folder in your user configuration directory:</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>System</th><th>Library</th></tr></thead>
+          <tbody>
+            <tr><td>macOS</td><td><code>~/Library/Application Support/CytoWeave</code></td></tr>
+            <tr><td>Linux</td><td><code>~/.config/CytoWeave</code> (or <code>$XDG_CONFIG_HOME/CytoWeave</code>)</td></tr>
+            <tr><td>Windows</td><td><code>%AppData%\CytoWeave</code></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>The dot beside the workspace name shows its state: green when saved, amber while changes wait to be saved, red if saving failed (point at it for the reason). <kbd>⌘S</kbd> saves at once. The status bar shows where the library is; <code>--data-dir</code> moves it.</p>
+      <p>The library keeps each FCS file once, under its SHA-256 checksum, and workspaces refer to files by checksum. A workspace therefore keeps working when the original files are moved, renamed or deleted, and adding the same file twice stores it once.</p>
+      <p>The workspace menu (click the workspace name) has <strong>New workspace</strong>, <strong>Open…</strong> (<kbd>⇧⌘O</kbd>, every saved workspace with its sample count and date), <strong>Rename…</strong> and <strong>Save now</strong>. Deleted workspaces go to the library's <code>trash</code> folder rather than disappearing. The start page lists recent workspaces.</p>
+      <p>With <code>--no-library</code>, workspaces are kept in the browser's own storage instead.</p>
+
+      <h2 id="export">Exporting and sharing</h2>
+      <p><strong>Workspace → Export</strong> writes:</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Export</th><th>For</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Workspace file (.cwz)</strong></td><td>The analysis without the data, for a colleague who has the same FCS files</td></tr>
+            <tr><td><strong>Workspace with FCS files (ACS archive)</strong></td><td>Everything, in an Archival Cytometry Standard container: to send to a colleague, or to archive with a paper</td></tr>
+            <tr><td><strong>Gates as Gating-ML 2.0</strong></td><td>Other tools that read Gating-ML 2.0, such as FlowKit. See <a href="flowjo.html#gating-ml">Gating-ML</a>.</td></tr>
+            <tr><td><strong>Population memberships (CLR)…</strong></td><td>Classification results: a column per population or cluster for every event</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>The population menu exports one population's events as FCS (raw values and the original keywords) or CSV, and tables export as CSV. Opening a <code>.cwz</code> or ACS file restores the workspace.</p>
+
+      <h2 id="large-files">Large files</h2>
+      <p>Samples of ten million events open in seconds and stay responsive:</p>
+      <ul>
+        <li>Files are read in parts, as they arrive, and never held whole: only the columns of event values are kept.</li>
+        <li>Compensated channels are computed when first used, not when the file opens.</li>
+        <li>Populations are kept as bitsets, one bit per event, so a gating tree of a ten-million-event sample takes a few megabytes.</li>
+        <li>QC, unmixing, clustering and maps run in background workers that share the events with the window rather than copying them.</li>
+        <li>Moving a gate re-evaluates every population below it in a fraction of a second.</li>
+      </ul>
+      <p>Memory is the limit. Plan on about 4 bytes per event per parameter of every loaded sample, plus as much again for the compensated channels in use: ten million events with 21 parameters is 0.8 GB, about 1.5 GB in use. Samples load when first shown (<strong>Load every sample</strong> in the sample list loads them all), and the least recently used are dropped beyond 1.6 GB, or 3 GB on computers with 8 GB of memory or more. The status bar shows how much is loaded.</p>
+      <div class="callout"><p><strong>Measured.</strong> On a ten-million-event, 801 MB file, reading takes 0.75 s, moving the top gate 0.43 s, and a statistics table of 14 channels of 6.7 million events 0.78 s; acquisition QC runs in about 70 s with the window responsive throughout. See <a href="../science.html#performance">performance</a>.</p></div>
+
+      <h2 id="next">Where to go next</h2>
+      <div class="card-grid">
+        <a class="card" href="flowjo.html"><h3>FlowJo and Gating-ML</h3><p>Interchange with other tools.</p></a>
+        <a class="card" href="scripting.html"><h3>Command line</h3><p><code>--data-dir</code>, <code>--no-library</code> and the other options.</p></a>
+        <a class="card" href="troubleshooting.html#memory"><h3>Memory</h3><p>When a browser runs short.</p></a>
+      </div>
+
+      <nav class="doc-pager" aria-label="Pages">
+        <a class="prev" href="figures.html"><span>Previous</span>Figures, methods and checkpoints</a>
+        <a class="next" href="flowjo.html"><span>Next</span>FlowJo and Gating-ML</a>
+      </nav>
+    </main>
+
+    <aside class="toc" aria-label="On this page">
+      <h4>On this page</h4>
+      <ul></ul>
+    </aside>
+  </div>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-about">
+          <a class="brand" href="../"><img src="../assets/img/logo.svg" alt="" width="30" height="30" /><span>Cyto<b>Weave</b></span></a>
+          <p>A flow cytometry analysis workbench for conventional, spectral and mass cytometry. Free and open source under the Apache License 2.0.</p>
+        </div>
+        <div>
+          <h4>Product</h4>
+          <ul>
+            <li><a href="../#features">Features</a></li>
+            <li><a href="../install.html">Install</a></li>
+            <li><a href="../science.html">Science</a></li>
+            <li><a href="https://github.com/robert-mcdermott/cytoweave/blob/main/CHANGELOG.md">Changelog</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Documentation</h4>
+          <ul>
+            <li><a href="../docs/getting-started.html">Getting started</a></li>
+            <li><a href="../docs/gating.html">Gating</a></li>
+            <li><a href="../docs/agents.html">AI agents</a></li>
+            <li><a href="../docs/scripting.html">Scripting</a></li>
+            <li><a href="../docs/troubleshooting.html">Troubleshooting</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Project</h4>
+          <ul>
+            <li><a href="https://github.com/robert-mcdermott/cytoweave">GitHub</a></li>
+            <li><a href="https://github.com/robert-mcdermott/cytoweave/releases">Releases</a></li>
+            <li><a href="https://github.com/robert-mcdermott/cytoweave/issues">Issues</a></li>
+            <li><a href="../science.html#cite">Cite CytoWeave</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">CytoWeave is licensed under the Apache License 2.0. It is research software, not a medical device. The example experiments are simulated; see <a href="../science.html#credits">credits and trademarks</a>.</div>
+    </div>
+  </footer>
+</body>
+</html>

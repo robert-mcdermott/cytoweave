@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Cell cycle, proliferation and index sorting · CytoWeave</title>
+  <meta name="description" content="Fit the cell cycle (Dean–Jett–Fox or Watson) and dye-dilution proliferation models in CytoWeave, with division, proliferation, expansion and replication indices, and read an index-sorted plate well by well." />
+  <link rel="canonical" href="https://robert-mcdermott.github.io/cytoweave/docs/assays.html" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Cell cycle, proliferation and index sorting" />
+  <meta property="og:description" content="Fit the cell cycle (Dean–Jett–Fox or Watson) and dye-dilution proliferation models in CytoWeave, with division, proliferation, expansion and replication indices, and read an index-sorted plate well by well." />
+  <meta property="og:url" content="https://robert-mcdermott.github.io/cytoweave/docs/assays.html" />
+  <meta property="og:image" content="https://robert-mcdermott.github.io/cytoweave/assets/img/og-image.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="theme-color" content="#07090e" />
+  <link rel="icon" href="../assets/img/logo.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="../assets/css/site.css" />
+  <script>try { const t = localStorage.getItem('cytoweave-theme'); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
+  <script src="../assets/js/site.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="../"><img src="../assets/img/logo.svg" alt="" width="30" height="30" /><span>Cyto<b>Weave</b></span></a>
+      <nav class="site-nav" id="site-nav" aria-label="Main">
+        <a href="../#features">Features</a>
+        <a href="../docs/" aria-current="page">Documentation</a>
+        <a href="../install.html">Install</a>
+        <a href="../science.html">Science</a>
+      </nav>
+      <div class="header-actions">
+        <a class="icon-button" href="https://github.com/robert-mcdermott/cytoweave" aria-label="CytoWeave on GitHub">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5a11.5 11.5 0 0 0-3.64 22.41c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.37-3.88-1.37-.53-1.34-1.29-1.7-1.29-1.7-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.71 1.26 3.37.96.1-.75.4-1.26.73-1.55-2.56-.29-5.25-1.28-5.25-5.69 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.84 1.19 3.1 0 4.42-2.7 5.4-5.26 5.68.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .5Z"/></svg>
+        </a>
+        <button class="icon-button theme-toggle" type="button" aria-label="Switch between light and dark">
+          <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/></svg>
+          <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+        </button>
+        <button class="icon-button nav-toggle" type="button" aria-label="Menu" aria-controls="site-nav" aria-expanded="false">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div class="docs-layout">
+    <aside class="docs-sidebar" aria-label="Documentation">
+      <button class="btn docs-menu-toggle" type="button" aria-expanded="false">Documentation menu <span aria-hidden="true">▾</span></button>
+      <nav>
+        <h4>Start</h4>
+        <ul>
+          <li><a href="./">Overview</a></li>
+          <li><a href="getting-started.html">Getting started</a></li>
+          <li><a href="opening-data.html">Opening data</a></li>
+        </ul>
+        <h4>Analysis</h4>
+        <ul>
+          <li><a href="gating.html">Gating</a></li>
+          <li><a href="compensation.html">Compensation</a></li>
+          <li><a href="spectral.html">Spectral unmixing</a></li>
+          <li><a href="qc.html">Acquisition QC</a></li>
+          <li><a href="cohorts.html">Normalization and debarcoding</a></li>
+          <li><a href="explore.html">Clustering and maps</a></li>
+        </ul>
+        <h4>Results</h4>
+        <ul>
+          <li><a href="statistics.html">Tables and comparisons</a></li>
+          <li><a href="assays.html" aria-current="page">Cell cycle, proliferation and index sorting</a></li>
+          <li><a href="figures.html">Figures, methods and checkpoints</a></li>
+        </ul>
+        <h4>Share and automate</h4>
+        <ul>
+          <li><a href="workspaces.html">Workspaces and large files</a></li>
+          <li><a href="flowjo.html">FlowJo and Gating-ML</a></li>
+          <li><a href="agents.html">AI agents (MCP)</a></li>
+          <li><a href="scripting.html">Scripting and command line</a></li>
+        </ul>
+        <h4>Reference</h4>
+        <ul>
+          <li><a href="troubleshooting.html">Troubleshooting</a></li>
+        </ul>
+      </nav>
+    </aside>
+
+    <main id="main" class="doc">
+      <h1>Cell cycle, proliferation and index sorting</h1>
+      <p class="doc-lede">Models for DNA content and dye dilution, and the plate view for index sorts. All three work on a population you have gated.</p>
+
+      <h2 id="cell-cycle">Cell cycle</h2>
+      <figure>
+        <div class="shot"><img class="shot-dark" src="../assets/img/cellcycle-dark.webp" width="2000" height="1250" loading="lazy" alt="The cell-cycle model of a nocodazole-arrested culture: the fitted DNA histogram with G0/G1 25.0%, S 28.5% and G2/M 46.6%, the residuals below, and the G1 and G2 means, CVs, G2/G1 ratio and reduced chi-square" /><img class="shot-light" src="../assets/img/cellcycle-light.webp" width="2000" height="1250" loading="lazy" alt="The cell-cycle model of a nocodazole-arrested culture: the fitted DNA histogram with G0/G1 25.0%, S 28.5% and G2/M 46.6%, the residuals below, and the G1 and G2 means, CVs, G2/G1 ratio and reduced chi-square" /></div>
+        <figcaption>A nocodazole-arrested culture fitted with Dean–Jett–Fox: 46.6% of cycling cells in G2/M.</figcaption>
+      </figure>
+      <ol>
+        <li>Gate single nuclei. Doublets of two G1 nuclei have the DNA area of one G2 nucleus but a longer pulse, so gate on the DNA dye's area against its width (for example PI-A against PI-W). The dialog's <strong>Suggest a singlet gate</strong> proposes one.</li>
+        <li>Right-click the singlet population and choose <strong>Cell cycle (DNA content)…</strong>.</li>
+        <li>Choose the <strong>DNA channel</strong> (the linear area parameter of the dye) and the model:
+          <ul>
+            <li><strong>Dean–Jett–Fox</strong> (Fox 1980) fits the whole histogram: two Gaussians and a broadened quadratic S phase. The usual choice for clean, well-resolved histograms.</li>
+            <li><strong>Watson pragmatic</strong> (Watson et al. 1987) fits Gaussians to the outer flanks of G1 and G2 only; S phase is what remains between them. Robust when S phase has an unusual shape.</li>
+          </ul>
+        </li>
+        <li>Optionally model debris (exponential) and aggregates (G1+G2, G2+G2), constrain the G2/G1 ratio, or tie the G2 CV to the G1 CV.</li>
+      </ol>
+      <p>The result gives the G0/G1, S and G2/M percentages of the cycling cells (debris and aggregates excluded) with standard errors, the G1 and G2 means and CVs, the G2/G1 ratio and the goodness of fit. A reduced χ² near 1 means the model explains the histogram within counting noise; above about 3, or runs of residual bars beyond the dashed ±2 lines, the model misses something (debris, doublets, apoptotic sub-G1 cells or a second population). G1 CVs below about 5% give reliable S-phase estimates; above 8% they do not.</p>
+      <p>The fitted histogram exports as SVG or PNG. <strong>Save this sample</strong> stores the fit with the workspace, and <strong>Run on all samples</strong> fits every sample with the same settings. On the simulated cultures, Dean–Jett–Fox recovers the true phase fractions within 1.6 points and Watson within 2.</p>
+
+      <h2 id="proliferation">Proliferation</h2>
+      <figure>
+        <div class="shot"><img class="shot-dark" src="../assets/img/proliferation-dark.webp" width="2000" height="1250" loading="lazy" alt="The proliferation model of stimulated CD4 T cells: the CellTrace Violet histogram with the fitted generations, and the division, proliferation, expansion and replication indices" /><img class="shot-light" src="../assets/img/proliferation-light.webp" width="2000" height="1250" loading="lazy" alt="The proliferation model of stimulated CD4 T cells: the CellTrace Violet histogram with the fitted generations, and the division, proliferation, expansion and replication indices" /></div>
+        <figcaption>CD4 T cells after four days of stimulation: generations of CellTrace Violet dilution.</figcaption>
+      </figure>
+      <p>Each division halves a cell's dye, so the dye histogram of a proliferating population is a series of peaks, one per generation. CytoWeave fits a generation mixture model to it.</p>
+      <ol>
+        <li>Gate the responding population (for example live CD4 T cells), right-click it and choose <strong>Proliferation (dye dilution)…</strong>.</li>
+        <li>Choose the <strong>Dye channel</strong>: CellTrace Violet, CFSE or a similar dye (compensated, linear values).</li>
+        <li>Set the <strong>Undivided peak</strong> (generation 0). An unstimulated control marks it exactly (<strong>Take from a control…</strong>); otherwise the brightest substantial peak is used and refined.</li>
+        <li>Choose the number of <strong>Generations</strong> (automatic, up to 10) and whether to fit the spacing (the dye lost per division). Off, generations are exactly 2-fold apart.</li>
+      </ol>
+      <p>The result lists the cells in each generation and the indices, as defined by Roederer (2011):</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Index</th><th>Meaning</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Division index</strong></td><td>The average number of divisions of all the original cells, including those that never divided</td></tr>
+            <tr><td><strong>Proliferation index</strong></td><td>The average number of divisions of the cells that divided at least once</td></tr>
+            <tr><td><strong>Expansion index</strong></td><td>The fold expansion of the whole culture</td></tr>
+            <tr><td><strong>Replication index</strong></td><td>The fold expansion of the cells that responded</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>On the simulated cultures, the division index is within 3% of the truth. <strong>Run on all samples</strong> fits every sample with the same settings, sharing a fixed undivided peak.</p>
+
+      <h2 id="index-sorting">Index sorting</h2>
+      <figure>
+        <div class="shot"><img class="shot-dark" src="../assets/img/indexsort-dark.webp" width="2000" height="1250" loading="lazy" alt="An index-sorted 96-well plate below two plots: wells coloured by the deepest population (CD27+ IgD−, CD27− IgD+, CD19−), well C3 marked, its cell circled on the FSC/SSC and CD27/IgD plots, and its values listed" /><img class="shot-light" src="../assets/img/indexsort-light.webp" width="2000" height="1250" loading="lazy" alt="An index-sorted 96-well plate below two plots: wells coloured by the deepest population (CD27+ IgD−, CD27− IgD+, CD19−), well C3 marked, its cell circled on the FSC/SSC and CD27/IgD plots, and its values listed" /></div>
+        <figcaption>A 96-well index sort coloured by population, with well C3's cell marked on every plot.</figcaption>
+      </figure>
+      <p>An index sort records the well each sorted cell went to, so every well's cell can be traced back to its phenotype. When a sample carries index-sort data, the Gate view shows its plate below the plots. Wells are read from BD FACSDiva's <code>INDEX SORTING LOCATIONS</code> keyword, or from event parameters such as "Index X" and "Index Y" or "Well Row" and "Well Column"; the plate size comes from the sorter's device type or from the positions.</p>
+      <ul>
+        <li><strong>Colour wells by</strong> the deepest population each cell falls in, by one population, or by a channel's value. Selecting a population in the tree colours its wells and counts them.</li>
+        <li><strong>Point at a well</strong> to see its cell: the event, its population and its marker values.</li>
+        <li><strong>Click a well</strong> to mark its cell on every plot of the sample, circled and labelled; click again or <strong>Unmark</strong> to clear it.</li>
+        <li><strong>Export wells (CSV)</strong> writes one row per sorted cell: its well, row, column, event, population and every channel's value.</li>
+      </ul>
+      <p>Gate the presort sample first: the gates apply to the sorted events too. Wells that received more than one event are marked and listed.</p>
+
+      <h2 id="next">Where to go next</h2>
+      <div class="card-grid">
+        <a class="card" href="gating.html"><h3>Gating</h3><p>Gate the populations these models use.</p></a>
+        <a class="card" href="statistics.html"><h3>Tables and comparisons</h3><p>Compare the fits across samples.</p></a>
+      </div>
+
+      <nav class="doc-pager" aria-label="Pages">
+        <a class="prev" href="statistics.html"><span>Previous</span>Tables and comparisons</a>
+        <a class="next" href="figures.html"><span>Next</span>Figures, methods and checkpoints</a>
+      </nav>
+    </main>
+
+    <aside class="toc" aria-label="On this page">
+      <h4>On this page</h4>
+      <ul></ul>
+    </aside>
+  </div>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-about">
+          <a class="brand" href="../"><img src="../assets/img/logo.svg" alt="" width="30" height="30" /><span>Cyto<b>Weave</b></span></a>
+          <p>A flow cytometry analysis workbench for conventional, spectral and mass cytometry. Free and open source under the Apache License 2.0.</p>
+        </div>
+        <div>
+          <h4>Product</h4>
+          <ul>
+            <li><a href="../#features">Features</a></li>
+            <li><a href="../install.html">Install</a></li>
+            <li><a href="../science.html">Science</a></li>
+            <li><a href="https://github.com/robert-mcdermott/cytoweave/blob/main/CHANGELOG.md">Changelog</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Documentation</h4>
+          <ul>
+            <li><a href="../docs/getting-started.html">Getting started</a></li>
+            <li><a href="../docs/gating.html">Gating</a></li>
+            <li><a href="../docs/agents.html">AI agents</a></li>
+            <li><a href="../docs/scripting.html">Scripting</a></li>
+            <li><a href="../docs/troubleshooting.html">Troubleshooting</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Project</h4>
+          <ul>
+            <li><a href="https://github.com/robert-mcdermott/cytoweave">GitHub</a></li>
+            <li><a href="https://github.com/robert-mcdermott/cytoweave/releases">Releases</a></li>
+            <li><a href="https://github.com/robert-mcdermott/cytoweave/issues">Issues</a></li>
+            <li><a href="../science.html#cite">Cite CytoWeave</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">CytoWeave is licensed under the Apache License 2.0. It is research software, not a medical device. The example experiments are simulated; see <a href="../science.html#credits">credits and trademarks</a>.</div>
+    </div>
+  </footer>
+</body>
+</html>
