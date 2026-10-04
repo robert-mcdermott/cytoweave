@@ -79,6 +79,7 @@
         </ul>
         <h4>Reference</h4>
         <ul>
+          <li><a href="accessibility.html">Accessibility</a></li>
           <li><a href="troubleshooting.html">Troubleshooting</a></li>
         </ul>
       </nav>
@@ -88,12 +89,12 @@
       <h1>Spectral unmixing</h1>
       <p class="doc-lede">Turn raw detector data from a spectral cytometer into one channel per dye, and see which unmixing model resolves your dim populations best.</p>
 
-      <p>The Spectral view works on raw data from spectral cytometers (Cytek Aurora and Northern Lights, Sony ID7000, BD FACSDiscover and others) with the detector channels intact. Files that hold only unmixed channels can be gated, but not unmixed again. The <strong>Spectral 25-colour panel</strong> example has 64 detectors, 25 single-stain references, an unstained control and three stained samples, with the true abundances of every dye kept for every event.</p>
+      <p>The Spectral view works on raw data from spectral cytometers (Cytek Aurora and Northern Lights, Sony ID7000, BD FACSDiscover and others) with the detector channels intact. Files that hold only unmixed channels can be gated, but not unmixed again. The <strong>Spectral 25-color panel</strong> example has 64 detectors, 25 single-stain references, an unstained control and three stained samples, with the true abundances of every dye kept for every event.</p>
 
       <h2 id="workflow">The workflow</h2>
       <figure>
         <div class="shot"><img class="shot-dark" src="../assets/img/spectral-dark.webp" width="2000" height="1250" loading="lazy" alt="The Spectral view: the five-step workflow with the first four done, the reference controls with their peak detectors, and 25 reference spectra across five lasers with two dashed autofluorescence signatures" /><img class="shot-light" src="../assets/img/spectral-light.webp" width="2000" height="1250" loading="lazy" alt="The Spectral view: the five-step workflow with the first four done, the reference controls with their peak detectors, and 25 reference spectra across five lasers with two dashed autofluorescence signatures" /></div>
-        <figcaption>Reference spectra of the 25-colour panel across five lasers, with two autofluorescence signatures (dashed).</figcaption>
+        <figcaption>Reference spectra of the 25-color panel across five lasers, with two autofluorescence signatures (dashed).</figcaption>
       </figure>
       <p>The <strong>Workflow</strong> list on the left tracks five steps and shows what each one found.</p>
       <ol>
@@ -140,7 +141,7 @@
 
       <h2 id="residuals">Residuals and signatures</h2>
       <p><strong>Residuals</strong> shows where the reference set fails to explain the data: the median residual per detector and a heat strip of events binned from dim to bright. A missing dye, a degraded tandem or an unexpected autofluorescence shows as a systematic misfit in the detectors where it emits. When the residuals scatter around zero in every detector, the references explain the population well. <strong>Signature</strong> draws the raw spectral signature of the selected population: the density of its events' signal in every detector.</p>
-      <p>Against the true abundances of the 25-colour example, unmixed values correlate with a median r of 0.988, within 0.001 of unmixing with the true spectra.</p>
+      <p>Against the true abundances of the 25-color example, unmixed values correlate with a median r of 0.988, within 0.001 of unmixing with the true spectra.</p>
 
       <h2 id="library">The spectral library</h2>
       <figure>
@@ -154,6 +155,31 @@
         <li><strong>Add to the panel</strong> brings in the library spectrum of a fluorochrome you have no control for. It is unmixed like any other reference (in the validation, as accurately as with its own control) but has no control events, so it is left out of the spreading matrix. The methods paragraph says which spectra came from the library.</li>
       </ul>
       <p>A library spectrum is only valid for the same instrument, detectors and settings: CytoWeave matches entries by detector names and keeps one library per instrument.</p>
+
+      <h2 id="design">Panel design: predicted spread</h2>
+      <figure>
+        <div class="shot"><img class="shot-dark" src="../assets/img/spectral-design-dark.webp" width="2000" height="1250" loading="lazy" alt="The Panel design tab: noise fitted to the 25 controls with its check, the panel with BV711 left out, the predicted spreading matrix" /><img class="shot-light" src="../assets/img/spectral-design-light.webp" width="2000" height="1250" loading="lazy" alt="The Panel design tab: noise fitted to the 25 controls with its check, the panel with BV711 left out, the predicted spreading matrix" /></div>
+        <figcaption>The 25-color panel without BV711: its spread into BV750 (30) is gone, and BV570 into BV605 (29) is now the largest.</figcaption>
+      </figure>
+      <p>The <strong>Panel design</strong> tab predicts the spreading matrix of a panel from its spectra and the instrument's noise, so you can try a change before running it. Spread has two sources:</p>
+      <ul>
+        <li><strong>Photon noise.</strong> Every detector a dye reaches counts photoelectrons, and its noise grows with the signal (1/Q, as in <a href="qc.html#instrument">instrument characterization</a>). Unmixing carries that noise into the other channels.</li>
+        <li><strong>Laser fluctuations.</strong> Each laser's intensity varies a little from cell to cell, independently of the other lasers. A dye excited by two lasers (BV421 also by the UV laser, PerCP-Cy5.5 also by the violet) then spreads in proportion to its brightness, not its square root. On real controls this is what made the difference for the largest spreads.</li>
+      </ul>
+      <p>The noise comes from one of three places:</p>
+      <ul>
+        <li><strong>This experiment's controls.</strong> <strong>Compute</strong> in Panel quality also fits the noise to the controls' spread and checks the fit by predicting each control from all the others. The tab shows how well that worked.</li>
+        <li><strong>Kept for the instrument.</strong> <strong>Keep for</strong> stores the fitted noise in the library, beside the instrument's spectra.</li>
+        <li><strong>Bead runs.</strong> Photon noise comes from the instrument's multi-level bead runs; laser fluctuations come from controls when there are any. Q depends on detector gains, so use runs at the same settings.</li>
+      </ul>
+      <p>Click a dye to leave it out, or add a library spectrum, and the matrix, the complexity index and the table below follow. <strong>Spread received by each channel</strong> sums what every other dye adds to a channel's negative population when all are on the same cell: the channels at the top suit dim or critical markers. With no files open, <strong>Design a panel from the spectral library</strong> on the Spectral page does the same from an instrument's library alone, before any control is run.</p>
+      <p>What it does not predict: spread from a heterogeneous dye (a degraded tandem) or from autofluorescence that differs between positive and negative cells (dead cells in a viability control). Gate bead controls on singlets first, as for compensation.</p>
+      <p>How well it works:</p>
+      <ul>
+        <li><strong>Real controls.</strong> On the 15 bead controls of a BD LSRFortessa, each control's spread predicted from the other 14 was within 2× of the observed value for 79% of the pairs measured to 4 standard errors. With photon noise alone, 67%.</li>
+        <li><strong>Simulated controls.</strong> On the simulated 25-color panel, 98% were within 2×. A 15-dye panel predicted with the noise of the 25-dye controls matched its own unmixed controls within 2× for every pair.</li>
+      </ul>
+      <p>No public spectral data set with single-stain reference controls was found to repeat the real-data check on a spectral instrument.</p>
 
       <h2 id="next">Where to go next</h2>
       <div class="card-grid">

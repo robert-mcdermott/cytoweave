@@ -79,6 +79,7 @@
         </ul>
         <h4>Reference</h4>
         <ul>
+          <li><a href="accessibility.html">Accessibility</a></li>
           <li><a href="troubleshooting.html">Troubleshooting</a></li>
         </ul>
       </nav>
@@ -117,13 +118,13 @@
 
       <h2 id="export">Exporting to FlowJo</h2>
       <figure>
-        <div class="shot"><img class="shot-dark" src="../assets/img/flowjo-export-dark.webp" width="2000" height="1250" loading="lazy" alt="Export as a FlowJo workspace: 162 population-sample pairs written exactly, none traced or left out, with options to include the counts, the FCS files and to remove identifying keywords" /><img class="shot-light" src="../assets/img/flowjo-export-light.webp" width="2000" height="1250" loading="lazy" alt="Export as a FlowJo workspace: 162 population-sample pairs written exactly, none traced or left out, with options to include the counts, the FCS files and to remove identifying keywords" /></div>
-        <figcaption>The export's report: every population of the PBMC example is written exactly.</figcaption>
+        <div class="shot"><img class="shot-dark" src="../assets/img/flowjo-export-dark.webp" width="2000" height="1250" loading="lazy" alt="Export as a FlowJo workspace: 135 population-sample pairs written exactly and 27 traced (the Live gate, a polygon on a logicle channel), none left out, with options to include the counts, the FCS files and to remove identifying keywords" /><img class="shot-light" src="../assets/img/flowjo-export-light.webp" width="2000" height="1250" loading="lazy" alt="Export as a FlowJo workspace: 135 population-sample pairs written exactly and 27 traced (the Live gate, a polygon on a logicle channel), none left out, with options to include the counts, the FCS files and to remove identifying keywords" /></div>
+        <figcaption>The export's report for the PBMC example: the Live gate, a polygon drawn on a logicle scale, is traced to follow its outline on FlowJo's biexponential scale; every other population is exact.</figcaption>
       </figure>
       <p>To hand an analysis to a FlowJo user, or to keep a copy in FlowJo's format, choose <strong>Workspace → Export → FlowJo workspace (.wsp)…</strong>. CytoWeave writes a FlowJo 10 workspace, which FlowJo 11 also opens:</p>
       <ul>
         <li>One gating tree per sample, as FlowJo keeps them: the gates that apply to that sample, with its own adjustments, and gates limited to a group only in that group's samples.</li>
-        <li>Each sample's compensation, the scales of its channels, and the workspace's sample groups.</li>
+        <li>Each sample's compensation, the scales of its channels, and the workspace's sample groups. Logicle and arcsinh scales are written as FlowJo's biexponential, the closest FlowJo scale and the only one of the three that FlowJo 11 reads correctly.</li>
         <li>Optionally, CytoWeave's count of every population, so the counts FlowJo shows can be checked against CytoWeave's.</li>
         <li>Optionally, the FCS files, in a ZIP with the workspace, and optionally <a href="workspaces.html#deidentify">de-identified</a>.</li>
       </ul>
@@ -132,13 +133,26 @@
         <table>
           <thead><tr><th>Status</th><th>Meaning</th></tr></thead>
           <tbody>
-            <tr><td><strong>Exact</strong></td><td>FlowJo evaluates the same gate. Rectangles, ranges, quadrants and splits are always exact; polygons and ellipses are when they were drawn on the scale written for their channels.</td></tr>
-            <tr><td><strong>Traced</strong></td><td>A polygon or ellipse drawn on another scale than the one written. FlowJo draws gate edges straight on its own axes, so the outline is written with enough vertices to follow the original.</td></tr>
+            <tr><td><strong>Exact</strong></td><td>FlowJo evaluates the same gate. Rectangles, ranges, quadrants and splits are always exact; polygons and ellipses are when they were drawn on the scale written for their channels (linear, logarithmic or biexponential).</td></tr>
+            <tr><td><strong>Traced</strong></td><td>A polygon or ellipse drawn on another scale than the one written, which includes every polygon and ellipse on a logicle or arcsinh channel. FlowJo draws gate edges straight on its own axes, so the outline is written with enough vertices to follow the original; counts stay within 0.5% of CytoWeave's.</td></tr>
             <tr><td><strong>Not exported</strong></td><td>Gates FlowJo cannot evaluate: category gates (QC pass, barcodes, clusters), gates on channels CytoWeave computed (unmixed, normalized, ratios), and gates of three or more dimensions. Their children are left out too.</td></tr>
           </tbody>
         </table>
       </div>
-      <p>The export is checked in the validation suite: the bundled example, ten FlowKit test workspaces and a workspace built in CytoWeave (with splits, quadrants on mixed scales, Boolean populations, per-sample adjustments and group scopes) each import back with every count unchanged, and FlowKit reads every export and counts what CytoWeave counts. The exports have not yet been opened in FlowJo itself; if you try one, please report how it went.</p>
+      <h3 id="export-checks">How the export is checked</h3>
+      <ul>
+        <li><strong>Round trip:</strong> the bundled example, ten FlowKit test workspaces and a workspace built in CytoWeave (with splits, quadrants on mixed scales, Boolean populations, per-sample adjustments and group scopes) each import back into CytoWeave with every count unchanged (traced outlines within 0.5%).</li>
+        <li><strong>FlowKit 1.3</strong> reads every export and counts what CytoWeave counts (ellipse boundaries aside).</li>
+        <li><strong>CytoML 2.24</strong> (Bioconductor's FlowJo reader) reads every export; 306 of 313 counts equal CytoWeave's. The seven others are ellipses, which CytoML reads differently from FlowJo, on FlowJo's own workspaces too.</li>
+        <li><strong>FlowJo 11.2.0</strong> (build 11.2.0.210156, macOS) was used for compatibility testing. Three exports were opened in it: the bundled example, the workspace built in CytoWeave and FlowKit's 8-color workspace. Every population is within 0.6 percentage points of CytoWeave's, most within 0.1 (FlowJo evaluates gates at its display resolution, which moves a few events near a boundary in a dense region).</li>
+      </ul>
+      <p>Opening an export in <strong>FlowJo 11</strong>:</p>
+      <ul>
+        <li>Choose <strong>File → Import FlowJo v10 Workspace</strong>. FlowJo 11 opens the samples, groups, compensation and gates.</li>
+        <li>FlowJo 11 reports the FCS files as missing: click its link to reconnect them and choose the folder that holds them (the ZIP's folder, when the files were exported with the workspace).</li>
+        <li>FlowJo 11 does not import Boolean populations, from workspaces written by FlowJo 10 either; recreate them in FlowJo if needed.</li>
+      </ul>
+      <p>FlowJo 10 has not been tried. It reads the same format, and the biexponential is its own default scale; please report how it goes if you open an export in it.</p>
 
       <h2 id="gating-ml">Gating-ML 2.0</h2>
       <p>Gating-ML is ISAC's standard for gates, transformations and compensation. Open a Gating-ML <code>.xml</code> file like any other file, and export with <strong>Workspace → Export → Gates as Gating-ML 2.0</strong>. Import and export cover:</p>
@@ -147,7 +161,7 @@
         <li>the flin, flog, fasinh, logicle, hyperlog and ratio transformations, with their bounds;</li>
         <li>spectrum matrices, including spectral unmixing matrices, and the compensation each gate dimension names.</li>
       </ul>
-      <p>All 190 gates of ISAC's Gating-ML 2.0 compliance suite select exactly the expected events. Re-importing a CytoWeave export restores names, colours and scales exactly. Gating-ML has no biexponential, so biexponential axes are written as their closest logicle, with the gate coordinates converted; the export warns when it does this.</p>
+      <p>All 190 gates of ISAC's Gating-ML 2.0 compliance suite select exactly the expected events. Re-importing a CytoWeave export restores names, colors and scales exactly. Gating-ML has no biexponential, so biexponential axes are written as their closest logicle, with the gate coordinates converted; the export warns when it does this.</p>
 
       <h2 id="clr">Classification results (CLR)</h2>
       <p><strong>Population memberships (CLR)…</strong> exports, for every event of a sample, a column per population or cluster saying whether the event belongs to it, for tools that read memberships. Choose the populations and the column names (population names, or paths when names repeat).</p>

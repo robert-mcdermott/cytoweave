@@ -79,6 +79,7 @@
         </ul>
         <h4>Reference</h4>
         <ul>
+          <li><a href="accessibility.html">Accessibility</a></li>
           <li><a href="troubleshooting.html" aria-current="page">Troubleshooting</a></li>
         </ul>
       </nav>
@@ -122,6 +123,9 @@
       <h3 id="saving">The workspace is not saved</h3>
       <p>The dot beside the workspace name turns red when saving fails; point at it for the reason. The library must be a folder you can write to, with free space: see <a href="workspaces.html#library">the library</a>, or start CytoWeave with <code>--data-dir</code> pointing elsewhere.</p>
 
+      <h3 id="watch">A watched folder does not pick up a file</h3>
+      <p>QC → Live lists files that are still being written under <strong>Being written</strong>. A file is picked up once its size has stopped changing and its FCS header says all its data are there, so a file whose export was interrupted stays there: export it again. Files that were in the folder before watching began are opened only when you click <strong>Check the files already there</strong>. Hidden files, names starting with ~ and other extensions (<code>.part</code>, <code>.tmp</code>) are ignored until they are renamed to <code>.fcs</code>. Watching needs the CytoWeave program; it does not work when CytoWeave is served as a plain web site.</p>
+
       <h2 id="memory">Memory and very large samples</h2>
       <p>Very large experiments are limited by browser memory: about 4 bytes per event per parameter of every loaded sample, plus as much again for the compensated channels in use. Samples load on demand, and the least recently used are dropped beyond 1.6 GB (3 GB on computers with 8 GB of memory or more). If the window becomes slow:</p>
       <ul>
@@ -134,7 +138,7 @@
       <h2 id="agents">AI agents</h2>
       <ul>
         <li><strong>The agent cannot start CytoWeave.</strong> Give the full path to the program in the MCP configuration (<code>~/.local/bin/cytoweave</code>, or <code>%LOCALAPPDATA%\Programs\CytoWeave\cytoweave.exe</code>): agents often start programs without your shell's <code>PATH</code>.</li>
-        <li><strong>Proposals or <code>propose_compensation</code> are missing.</strong> They need CytoWeave 0.2.0 or later (<code>adapt_gate</code> 0.3.0): check <code>cytoweave --version</code>.</li>
+        <li><strong>Proposals or <code>propose_compensation</code> are missing.</strong> They need CytoWeave 0.2.0 or later (<code>adapt_gate</code> 0.3.0, <code>check_robustness</code> 0.4.0): check <code>cytoweave --version</code>.</li>
         <li><strong>"The CytoWeave page did not answer in time."</strong> Actions run in the window: make sure it is open and not waiting in a dialog.</li>
         <li><strong>A script gets "Opening files needs the X-CytoWeave-Token header".</strong> <code>open_files</code> reads from disk, so scripts need the token CytoWeave printed at startup; see <a href="scripting.html#token">Opening files by path</a>.</li>
       </ul>
@@ -143,7 +147,7 @@
       <p>Report problems and ask questions on <a href="https://github.com/robert-mcdermott/cytoweave/issues">GitHub Issues</a>. Include the CytoWeave version (<code>cytoweave --version</code>, also in the status bar), your operating system and browser, what you did, and what you expected. For a file that does not read correctly, the notes in the inspector's <strong>Sample</strong> section help most. Do not attach data from patients or anything you are not allowed to share; one of the <a href="getting-started.html#examples">example experiments</a> often reproduces a problem.</p>
 
       <nav class="doc-pager" aria-label="Pages">
-        <a class="prev" href="scripting.html"><span>Previous</span>Scripting and command line</a>
+        <a class="prev" href="accessibility.html"><span>Previous</span>Accessibility</a>
         
       </nav>
     </main>

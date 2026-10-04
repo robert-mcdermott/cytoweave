@@ -79,6 +79,7 @@
         </ul>
         <h4>Reference</h4>
         <ul>
+          <li><a href="accessibility.html">Accessibility</a></li>
           <li><a href="troubleshooting.html">Troubleshooting</a></li>
         </ul>
       </nav>
@@ -147,7 +148,7 @@
         <li>Files are read in parts, as they arrive, and never held whole: only the columns of event values are kept.</li>
         <li>Compensated channels are computed when first used, not when the file opens.</li>
         <li>Populations are kept as bitsets, one bit per event, so a gating tree of a ten-million-event sample takes a few megabytes.</li>
-        <li>QC, unmixing, clustering and maps run in background workers that share the events with the window rather than copying them.</li>
+        <li>QC, unmixing, clustering and maps run in background workers that share the events with the window rather than copying them. PeacoQC splits its channels among up to four workers, about three times faster on large samples, with exactly the same result.</li>
         <li>Moving a gate re-evaluates every population below it in a fraction of a second.</li>
       </ul>
       <p>Memory is the limit. Plan on about 4 bytes per event per parameter of every loaded sample, plus as much again for the compensated channels in use: ten million events with 21 parameters is 0.8 GB, about 1.5 GB in use. Samples load when first shown (<strong>Load every sample</strong> in the sample list loads them all), and the least recently used are dropped beyond 1.6 GB, or 3 GB on computers with 8 GB of memory or more. The status bar shows how much is loaded.</p>

@@ -72,9 +72,12 @@
             <tr><td><strong>Instrument (Q and B)</strong></td><td>30 simulated bead runs with known Q and B, and a PMT, flow cell and laser problem</td><td>Q within 2% (median), B within 6%; every problem flagged at once on Levey–Jennings charts, none in the 20 baseline runs</td></tr>
             <tr><td><strong>Spectral library</strong></td><td>A second experiment's controls, and a tandem that lost 5% of its emission</td><td>Independent controls all match (largest difference 0.01); the degraded PE-Cy7 flagged and nothing else; a library spectrum unmixes as well as the dye's own control</td></tr>
             <tr><td><strong>Figure provenance</strong></td><td>A 60-plot figure of 12 samples</td><td>Read back intact from SVG, PNG and PDF; rebuilt with every plot drawn from the same events</td></tr>
+            <tr><td><strong>Predicted spread</strong></td><td>Simulated controls with known photon noise and laser fluctuations</td><td>Photon noise within 1% of the truth; each control's spread predicted from the other 24 within 2× for 98% of pairs; a 15-dye panel predicted from the 25-dye fit within 2× for every pair</td></tr>
+            <tr><td><strong>Robustness to analysis choices</strong></td><td>Comparisons with known answers: a real effect, a gain shift, clogs and a stale matrix in one group, and no effect</td><td>The real effect holds in 64 of 64 analyses; each artifact called fragile or traced to the choice behind it; under no effect, half of the chance findings are flagged</td></tr>
+            <tr><td><strong>Accessibility</strong></td><td>Every text color on every surface, the palettes in simulated color-vision deficiencies, and axe-core in 66 pages</td><td>Contrast ≥ 4.5:1 everywhere in both themes; friendly palette ≥ 11 apart (CIEDE2000) in every kind of vision; no axe-core violations</td></tr>
             <tr><td><strong>Gating-ML</strong></td><td>ISAC's compliance suite</td><td>All 190 gates match on every event</td></tr>
-            <tr><td><strong>FlowJo</strong></td><td>FlowJo's saved counts in 14 workspaces, and FlowKit's</td><td>The bundled example and FlowKit's synthetic workspaces exact; real 8-colour workspaces at least as close to FlowJo as FlowKit</td></tr>
-            <tr><td><strong>FlowJo export</strong></td><td>The workspace imported back, and FlowKit reading the export</td><td>Every count unchanged in 12 workspaces; FlowKit counts what CytoWeave counts (ellipse boundaries aside)</td></tr>
+            <tr><td><strong>FlowJo</strong></td><td>FlowJo's saved counts in 14 workspaces, and FlowKit's</td><td>The bundled example and FlowKit's synthetic workspaces exact; real 8-color workspaces at least as close to FlowJo as FlowKit</td></tr>
+            <tr><td><strong>FlowJo export</strong></td><td>The workspace imported back, FlowKit and CytoML reading the export, and FlowJo 11.2.0 (build 11.2.0.210156) opening three exports</td><td>Every count unchanged in 12 workspaces; FlowKit counts what CytoWeave counts (ellipse boundaries aside), CytoML 306 of 313 counts equal; in FlowJo 11 every population within 0.6 percentage points, most within 0.1</td></tr>
             <tr><td><strong>De-identification</strong></td><td>Every example and corpus FCS file</td><td>The same events, bit for bit</td></tr>
             <tr><td><strong>Reference tools</strong></td><td>FlowKit 1.3.2 and FlowIO</td><td>FCS decoding, compensation, spectral unmixing and transforms agree</td></tr>
             <tr><td><strong>FCS files</strong></td><td>16 instrument and malformed test files</td><td>All readable files read and written back bit-exact; malformed ones refused with a clear message</td></tr>
@@ -82,10 +85,12 @@
             <tr><td><strong>BD FACSDiva</strong></td><td>Its spillover matrix from 15 real single-stain controls</td><td>Every entry within 0.015 (median method), with no manual gating</td></tr>
             <tr><td><strong>Autogating, against experts</strong></td><td>An expert's per-donor gates in 4 FlowJo workspaces of a cytokine study (48 wells)</td><td>Agreement with the expert unchanged (F1 0.9876 → 0.9877), no adjustment lowering it; wells gated differently sent to review 3× as often as the others</td></tr>
             <tr><td><strong>flowQB</strong></td><td>flowQB on its own LSR II data: an LED series, 8-peak and 6-peak beads</td><td>The same peaks, Q, B and standard errors in all 36 detectors (within 6e-9)</td></tr>
+            <tr><td><strong>Predicted spread, real controls</strong></td><td>A BD LSRFortessa's 15 bead controls, each predicted from the other 14</td><td>Within 2× of the observed spread for 79% of well-measured pairs (median ×1.32)</td></tr>
+            <tr><td><strong>Robustness, real study</strong></td><td>4 donors of an intracellular cytokine study</td><td>Every PMA comparison holds in all analyses; one small IL-4 peptide response fragile</td></tr>
           </tbody>
         </table>
       </div>
-      <p>The public test data behind the last eight rows are not part of the program: <code>node validation/fetch.mjs</code> downloads them and checks their checksums. The tolerances, the notes on each comparison and how to run the suite are in the <a href="https://github.com/robert-mcdermott/cytoweave/blob/main/validation/README.md">validation README</a>.</p>
+      <p>The public test data behind the last ten rows are not part of the program: <code>node validation/fetch.mjs</code> downloads them and checks their checksums. The tolerances, the notes on each comparison and how to run the suite are in the <a href="https://github.com/robert-mcdermott/cytoweave/blob/main/validation/README.md">validation README</a>.</p>
 
       <h3 id="truth">What a simulated truth can and cannot show</h3>
       <p>The bundled examples are generated by a simulator that keeps the truth for every event: its cell type, its fluorochrome abundances, whether it falls inside a clog or bubble, and the true spillover, phase fractions, precursor frequencies and batch effects. That tests the software against answers known exactly, which real data cannot provide. It does not test whether the simulator is realistic. The simulator models what makes real analyses hard: spillover and spreading from photon statistics, lymphoid and myeloid autofluorescence, dead cells, debris and doublets, clogs, bubbles and drift, and batch effects. Real data can still fail in ways it does not model, which is why the suite also runs on real instrument files, real FlowJo workspaces and the R packages these methods come from.</p>
@@ -128,7 +133,7 @@
       <div class="code"><span class="code-label">bibtex</span><pre><code>@software{cytoweave,
   author  = {McDermott, Robert},
   title   = {CytoWeave: a flow cytometry analysis workbench},
-  version = {0.3.0},
+  version = {0.4.0},
   url     = {https://github.com/robert-mcdermott/cytoweave},
   license = {Apache-2.0},
   year    = {2026}
@@ -146,10 +151,10 @@
       <p>CytoWeave is written by Robert McDermott and licensed under the <a href="https://github.com/robert-mcdermott/cytoweave/blob/main/LICENSE">Apache License 2.0</a>. Ported code:</p>
       <ul>
         <li>The FlowJo biexponential algorithm is ported from <a href="https://github.com/whitews/FlowKit">FlowKit</a> (BSD-3-Clause, Scott White), which ported it from cytolib.</li>
-        <li>The validation suite includes excerpts of BD's FlowJo transformation lookup tables (MIT licence, © 2020 Becton, Dickinson and Company).</li>
+        <li>The validation suite includes excerpts of BD's FlowJo transformation lookup tables (MIT license, © 2020 Becton, Dickinson and Company).</li>
       </ul>
       <p>FlowJo, FACSDiva, FACSDiscover, BD, Cytek, Aurora, Northern Lights, Sony, ID7000, Amnis, CellView, CellTrace and the other product and company names on this site and in CytoWeave are trademarks of their respective owners. They are named only to say what CytoWeave works with, such as the files and workspaces it reads. CytoWeave is an independent open-source project, not affiliated with, endorsed by or sponsored by any of them.</p>
-      <p>The example experiments and every screenshot on this site are simulated data. Instrument names in them (such as "LSRFortessa-like") describe the configuration that was modelled, not data from that instrument.</p>
+      <p>The example experiments and every screenshot on this site are simulated data. Instrument names in them (such as "LSRFortessa-like") describe the configuration that was modeled, not data from that instrument.</p>
     </main>
 
     <aside class="toc" aria-label="On this page">

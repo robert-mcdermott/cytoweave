@@ -79,6 +79,7 @@
         </ul>
         <h4>Reference</h4>
         <ul>
+          <li><a href="accessibility.html">Accessibility</a></li>
           <li><a href="troubleshooting.html">Troubleshooting</a></li>
         </ul>
       </nav>
@@ -135,14 +136,14 @@
 
       <h2 id="index-sorting">Index sorting</h2>
       <figure>
-        <div class="shot"><img class="shot-dark" src="../assets/img/indexsort-dark.webp" width="2000" height="1250" loading="lazy" alt="An index-sorted 96-well plate below two plots: wells coloured by the deepest population (CD27+ IgD−, CD27− IgD+, CD19−), well C3 marked, its cell circled on the FSC/SSC and CD27/IgD plots, and its values listed" /><img class="shot-light" src="../assets/img/indexsort-light.webp" width="2000" height="1250" loading="lazy" alt="An index-sorted 96-well plate below two plots: wells coloured by the deepest population (CD27+ IgD−, CD27− IgD+, CD19−), well C3 marked, its cell circled on the FSC/SSC and CD27/IgD plots, and its values listed" /></div>
-        <figcaption>A 96-well index sort coloured by population, with well C3's cell marked on every plot.</figcaption>
+        <div class="shot"><img class="shot-dark" src="../assets/img/indexsort-dark.webp" width="2000" height="1250" loading="lazy" alt="An index-sorted 96-well plate below two plots: wells colored by the deepest population (CD27+ IgD−, CD27− IgD+, CD19−), well C3 marked, its cell circled on the FSC/SSC and CD27/IgD plots, and its values listed" /><img class="shot-light" src="../assets/img/indexsort-light.webp" width="2000" height="1250" loading="lazy" alt="An index-sorted 96-well plate below two plots: wells colored by the deepest population (CD27+ IgD−, CD27− IgD+, CD19−), well C3 marked, its cell circled on the FSC/SSC and CD27/IgD plots, and its values listed" /></div>
+        <figcaption>A 96-well index sort colored by population, with well C3's cell marked on every plot.</figcaption>
       </figure>
       <p>An index sort records the well each sorted cell went to, so every well's cell can be traced back to its phenotype. When a sample carries index-sort data, the Gate view shows its plate below the plots. Wells are read from BD FACSDiva's <code>INDEX SORTING LOCATIONS</code> keyword, or from event parameters such as "Index X" and "Index Y" or "Well Row" and "Well Column"; the plate size comes from the sorter's device type or from the positions.</p>
       <ul>
-        <li><strong>Colour wells by</strong> the deepest population each cell falls in, by one population, or by a channel's value. Selecting a population in the tree colours its wells and counts them.</li>
+        <li><strong>Color wells by</strong> the deepest population each cell falls in, by one population, or by a channel's value. Selecting a population in the tree colors its wells and counts them.</li>
         <li><strong>Point at a well</strong> to see its cell: the event, its population and its marker values.</li>
-        <li><strong>Click a well</strong> to mark its cell on every plot of the sample, circled and labelled; click again or <strong>Unmark</strong> to clear it.</li>
+        <li><strong>Click a well</strong> to mark its cell on every plot of the sample, circled and labeled; click again or <strong>Unmark</strong> to clear it.</li>
         <li><strong>Export wells (CSV)</strong> writes one row per sorted cell: its well, row, column, event, population and every channel's value.</li>
       </ul>
       <p>Gate the presort sample first: the gates apply to the sorted events too. Wells that received more than one event are marked and listed.</p>

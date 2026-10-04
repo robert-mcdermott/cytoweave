@@ -79,6 +79,7 @@
         </ul>
         <h4>Reference</h4>
         <ul>
+          <li><a href="accessibility.html">Accessibility</a></li>
           <li><a href="troubleshooting.html">Troubleshooting</a></li>
         </ul>
       </nav>
@@ -122,7 +123,7 @@
       <h2 id="refined">Refined and classic PeacoQC</h2>
       <p>As published, PeacoQC removes events from clean files and cuts the ends of files whose signal drifts slowly. CytoWeave's default, <strong>refined</strong>, adds three safeguards:</p>
       <ul>
-        <li>a bin's peak joins a trajectory only when it is nearer to it than to the neighbouring one;</li>
+        <li>a bin's peak joins a trajectory only when it is nearer to it than to the neighboring one;</li>
         <li>MAD flags are narrowed to the bins whose own value deviates, by more than the signal's noise and by at least 1.5% of the axis, instead of spreading a short clog over ±25 bins;</li>
         <li>the isolation tree only isolates bins that are contiguous in time.</li>
       </ul>
@@ -131,7 +132,7 @@
 
       <h2 id="instrument">Q, B and Levey–Jennings</h2>
       <figure>
-        <div class="shot"><img class="shot-dark" src="../assets/img/instrument-dark.webp" width="2000" height="1250" loading="lazy" alt="QC Instrument: Q and B with standard errors for 18 detectors on one bead run, flags for an ageing BV421 detector and a weaker violet laser, and BV421-A's peak variance against mean with the fitted quadratic and its three terms" /><img class="shot-light" src="../assets/img/instrument-light.webp" width="2000" height="1250" loading="lazy" alt="QC Instrument: Q and B with standard errors for 18 detectors on one bead run, flags for an ageing BV421 detector and a weaker violet laser, and BV421-A's peak variance against mean with the fitted quadratic and its three terms" /></div>
+        <div class="shot"><img class="shot-dark" src="../assets/img/instrument-dark.webp" width="2000" height="1250" loading="lazy" alt="QC Instrument: Q and B with standard errors for 18 detectors on one bead run, flags for an aging BV421 detector and a weaker violet laser, and BV421-A's peak variance against mean with the fitted quadratic and its three terms" /><img class="shot-light" src="../assets/img/instrument-light.webp" width="2000" height="1250" loading="lazy" alt="QC Instrument: Q and B with standard errors for 18 detectors on one bead run, flags for an aging BV421 detector and a weaker violet laser, and BV421-A's peak variance against mean with the fitted quadratic and its three terms" /></div>
         <figcaption>Every detector's Q and B on one run of 8-peak beads, and the fit behind them.</figcaption>
       </figure>
       <p>The <strong>Instrument</strong> tab characterizes the cytometer itself. How many photoelectrons a detector collects per unit of signal (its efficiency <strong>Q</strong>) and how much background light and electronic noise it adds (<strong>B</strong>, in photoelectrons) decide how dim a population it can resolve. Both come from beads of known uniformity: each intensity level's variance grows with its mean as c0 + c1·mean + c2·mean², so Q = 1/c1, B = c0/c1² and √c2 is the beads' own CV (Parks et al. 2017).</p>
@@ -142,10 +143,25 @@
       </ol>
       <figure>
         <div class="shot"><img class="shot-dark" src="../assets/img/levey-jennings-dark.webp" width="2000" height="1250" loading="lazy" alt="A Levey–Jennings chart of BV421-A's Q over 30 daily runs: in control for the 20 baseline runs, then falling run after run, with the runs that break a rejection rule in red" /><img class="shot-light" src="../assets/img/levey-jennings-light.webp" width="2000" height="1250" loading="lazy" alt="A Levey–Jennings chart of BV421-A's Q over 30 daily runs: in control for the 20 baseline runs, then falling run after run, with the runs that break a rejection rule in red" /></div>
-        <figcaption>The ageing BV421 detector: its Q leaves the control limits on the second run after it starts to fail.</figcaption>
+        <figcaption>The aging BV421 detector: its Q leaves the control limits on the second run after it starts to fail.</figcaption>
       </figure>
       <p><strong>Save to the instrument's record</strong> keeps the runs in the library, by cytometer and serial number, so later experiments add to the same history. <strong>Levey–Jennings</strong> charts follow Q, B, the beads' CV or one bead level of any detector across runs, against the mean and SD of the first runs (20 by default). A run is out of control when it breaks a Westgard rule: one value beyond 3 SD, two beyond 2 SD on one side, a swing of 4 SD between runs, four beyond 1 SD or ten on one side. One value beyond 2 SD only warns: among dozens of detectors, that happens by chance on most days. A falling Q points to a detector or its voltage, a rising B to stray light or a dirty flow cell, and a falling bead level with steady Q to a laser.</p>
       <p>Try it on the example <strong>Daily bead QC</strong>: 30 runs, a PMT that ages from run 21, a dirty flow cell on run 25 and a weaker violet laser from run 27.</p>
+
+      <h2 id="live">QC as files are acquired</h2>
+      <figure>
+        <div class="shot"><img class="shot-dark" src="../assets/img/qc-live-dark.webp" width="2000" height="1250" loading="lazy" alt="QC Live: watching the instrument's export folder, one file still being written, and four wells checked as they landed: A04 scored 49 with a signal drop at 12–13 s, A03 80 with drift, A02 79 with a possible clog, A01 100" /><img class="shot-light" src="../assets/img/qc-live-light.webp" width="2000" height="1250" loading="lazy" alt="QC Live: watching the instrument's export folder, one file still being written, and four wells checked as they landed: A04 scored 49 with a signal drop at 12–13 s, A03 80 with drift, A02 79 with a possible clog, A01 100" /></div>
+        <figcaption>Four wells checked as they landed, while the next one is still being written.</figcaption>
+      </figure>
+      <p>With the CytoWeave program, QC can run while you acquire. Point it at the folder your instrument exports to, and each FCS file is checked as soon as it is complete, so a clog or a failing detector shows up before the next tube instead of at the end of the day.</p>
+      <ol>
+        <li>Open <strong>QC → Live</strong>, type the folder's path and click <strong>Watch</strong>. Or start CytoWeave watching it: <code>cytoweave --watch &lt;folder&gt;</code>.</li>
+        <li>Each new FCS file in the folder (or its subfolders) is added to the workspace, in a group named after the folder, once the instrument has finished writing it. A file counts as finished when its size has not changed for one check (every second) and its FCS header says all its data are there, which also works on network shares.</li>
+        <li>Samples and controls get the acquisition QC of <strong>Clean</strong>, with its settings. Files named as beads ("Beads_2026-03-31", "CS&amp;T beads") get <strong>Q and B</strong> instead, with the bead settings of <strong>Instrument</strong>. The run is added to the instrument's record, and the Levey–Jennings rules check it against all earlier runs.</li>
+        <li>A file that scores below 70, or a bead run with a detector out of control, raises a notice. The Live table lists every file with its result, newest first; click one to open it in Clean or Instrument. The status bar shows the watch from any view.</li>
+      </ol>
+      <p>The folder is only read; nothing is ever written there. Files already in the folder when watching starts are counted but not opened, unless you click <strong>Check the files already there</strong>. Hidden files, names starting with ~ and other extensions (an exporter's temporary <code>.part</code> file, say) are ignored until they are renamed to <code>.fcs</code>.</p>
+      <p>Most acquisition software writes a file when a tube is finished, so this is QC per tube, not per event. Large files are checked faster because PeacoQC's per-channel work, which is almost all of its time, runs on up to four workers at once. They read the same events from shared memory and give exactly the serial result: at two million events in 20 channels, 3.4 s instead of 10.5 s.</p>
 
       <h2 id="next">Where to go next</h2>
       <div class="card-grid">

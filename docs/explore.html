@@ -79,6 +79,7 @@
         </ul>
         <h4>Reference</h4>
         <ul>
+          <li><a href="accessibility.html">Accessibility</a></li>
           <li><a href="troubleshooting.html">Troubleshooting</a></li>
         </ul>
       </nav>
@@ -90,7 +91,7 @@
 
       <h2 id="run">Running an analysis</h2>
       <figure>
-        <div class="shot"><img class="shot-dark" src="../assets/img/explore-dark.webp" width="2000" height="1250" loading="lazy" alt="The Explore view: settings on the left, a UMAP of 60,000 live cells from 12 samples coloured by 12 FlowSOM clusters in the middle, and the faithfulness panel with trustworthiness 0.99, continuity 0.99 and kNN kept 13.6% on the right" /><img class="shot-light" src="../assets/img/explore-light.webp" width="2000" height="1250" loading="lazy" alt="The Explore view: settings on the left, a UMAP of 60,000 live cells from 12 samples coloured by 12 FlowSOM clusters in the middle, and the faithfulness panel with trustworthiness 0.99, continuity 0.99 and kNN kept 13.6% on the right" /></div>
+        <div class="shot"><img class="shot-dark" src="../assets/img/explore-dark.webp" width="2000" height="1250" loading="lazy" alt="The Explore view: settings on the left, a UMAP of 60,000 live cells from 12 samples colored by 12 FlowSOM clusters in the middle, and the faithfulness panel with trustworthiness 0.99, continuity 0.99 and kNN kept 13.6% on the right" /><img class="shot-light" src="../assets/img/explore-light.webp" width="2000" height="1250" loading="lazy" alt="The Explore view: settings on the left, a UMAP of 60,000 live cells from 12 samples colored by 12 FlowSOM clusters in the middle, and the faithfulness panel with trustworthiness 0.99, continuity 0.99 and kNN kept 13.6% on the right" /></div>
         <figcaption>Live cells of 12 samples: FlowSOM clusters on a UMAP, with the map's faithfulness and a plain-language reading.</figcaption>
       </figure>
       <ol>
@@ -99,14 +100,14 @@
         <li><strong>Methods.</strong> Choose a clustering, an embedding, or both:
           <ul>
             <li><strong>FlowSOM:</strong> a self-organizing map of grid × grid nodes (10 × 10 by default), metaclustered by consensus clustering into the number of <strong>Metaclusters</strong> you choose.</li>
-            <li><strong>Leiden</strong> (as in PhenoGraph) or <strong>Louvain:</strong> community detection on a nearest-neighbour graph; <strong>Resolution</strong> sets how finely it splits.</li>
+            <li><strong>Leiden</strong> (as in PhenoGraph) or <strong>Louvain:</strong> community detection on a nearest-neighbor graph; <strong>Resolution</strong> sets how finely it splits.</li>
             <li><strong>k-means</strong> (k-means++ seeding, Hamerly's algorithm).</li>
-            <li><strong>UMAP</strong> (<strong>Neighbours</strong>, 15 by default, favours global structure as it grows; <strong>Minimum distance</strong>, 0.1, sets how tightly points pack), <strong>t-SNE</strong> (<strong>Perplexity</strong>, 30 by default, with opt-SNE's learning rate), or <strong>PCA</strong>.</li>
+            <li><strong>UMAP</strong> (<strong>Neighbors</strong>, 15 by default, favors global structure as it grows; <strong>Minimum distance</strong>, 0.1, sets how tightly points pack), <strong>t-SNE</strong> (<strong>Perplexity</strong>, 30 by default, with opt-SNE's learning rate), or <strong>PCA</strong>.</li>
           </ul>
         </li>
         <li>Click <strong>Run</strong>. Large analyses run in background workers; the same seed always gives the same result.</li>
       </ol>
-      <p>Colour the map by cluster, density, sample, any annotation or any marker, and click a legend entry to highlight it (<kbd>⌥</kbd>-click hides it). In the examples, <strong>Simulated truth</strong> colours by each event's true cell type.</p>
+      <p>Color the map by cluster, density, sample, any annotation or any marker, and click a legend entry to highlight it (<kbd>⌥</kbd>-click hides it). In the examples, <strong>Simulated truth</strong> colors by each event's true cell type.</p>
 
       <h2 id="faithful">How faithful is the map?</h2>
       <p>A UMAP or t-SNE map always looks convincing. The panel on the right measures what the picture cannot show:</p>
@@ -114,12 +115,12 @@
         <table>
           <thead><tr><th>Measure</th><th>Question</th></tr></thead>
           <tbody>
-            <tr><td><strong>Trustworthiness</strong></td><td>Are neighbours on the map true neighbours in marker space? (Venna and Kaski; 1 is perfect)</td></tr>
-            <tr><td><strong>Continuity</strong></td><td>Do true neighbours stay together on the map?</td></tr>
-            <tr><td><strong>kNN kept</strong></td><td>The share of each event's 15 nearest neighbours that stay among its nearest on the map. A strict test: t-SNE and UMAP usually keep a minority, because among similar cells the very nearest are largely noise.</td></tr>
+            <tr><td><strong>Trustworthiness</strong></td><td>Are neighbors on the map true neighbors in marker space? (Venna and Kaski; 1 is perfect)</td></tr>
+            <tr><td><strong>Continuity</strong></td><td>Do true neighbors stay together on the map?</td></tr>
+            <tr><td><strong>kNN kept</strong></td><td>The share of each event's 15 nearest neighbors that stay among its nearest on the map. A strict test: t-SNE and UMAP usually keep a minority, because among similar cells the very nearest are largely noise.</td></tr>
             <tr><td><strong>Sample mixing</strong> on the map and in the data</td><td>LISI (Korsunsky et al.), as a fraction of perfect mixing. If samples mix less on the map than in the data, the map is separating samples that the data do not.</td></tr>
-            <tr><td><strong>Compare with another seed</strong></td><td>The share of neighbours shared between two runs, and how much the arrangement changed (Procrustes)</td></tr>
-            <tr><td><strong>Shade unreliable regions</strong></td><td>Dims events whose map neighbours mostly come from elsewhere in the data</td></tr>
+            <tr><td><strong>Compare with another seed</strong></td><td>The share of neighbors shared between two runs, and how much the arrangement changed (Procrustes)</td></tr>
+            <tr><td><strong>Shade unreliable regions</strong></td><td>Dims events whose map neighbors mostly come from elsewhere in the data</td></tr>
           </tbody>
         </table>
       </div>
@@ -140,7 +141,7 @@
 
       <h2 id="place">Placing new samples on a map</h2>
       <figure>
-        <div class="shot"><img class="shot-dark" src="../assets/img/explore-placed-dark.webp" width="2000" height="1250" loading="lazy" alt="A UMAP made from D01_Unstim, with D01_Stim and D02_Stim placed on it, coloured by sample: the three samples overlap in every island" /><img class="shot-light" src="../assets/img/explore-placed-light.webp" width="2000" height="1250" loading="lazy" alt="A UMAP made from D01_Unstim, with D01_Stim and D02_Stim placed on it, coloured by sample: the three samples overlap in every island" /></div>
+        <div class="shot"><img class="shot-dark" src="../assets/img/explore-placed-dark.webp" width="2000" height="1250" loading="lazy" alt="A UMAP made from D01_Unstim, with D01_Stim and D02_Stim placed on it, colored by sample: the three samples overlap in every island" /><img class="shot-light" src="../assets/img/explore-placed-light.webp" width="2000" height="1250" loading="lazy" alt="A UMAP made from D01_Unstim, with D01_Stim and D02_Stim placed on it, colored by sample: the three samples overlap in every island" /></div>
         <figcaption>A map made from one sample, with two more placed on it afterwards.</figcaption>
       </figure>
       <p>A UMAP changes every time it is recomputed, which makes it hard to compare samples acquired later. <strong>Place samples on this map</strong> positions other samples' events on a finished UMAP without changing it (the UMAP transform). Choose the samples, click <strong>Place</strong>, and select <strong>With the placed samples</strong> to see them with the original ones. A placed sample whose cells land outside the islands holds cells the map was not built from.</p>

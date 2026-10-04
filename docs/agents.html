@@ -79,6 +79,7 @@
         </ul>
         <h4>Reference</h4>
         <ul>
+          <li><a href="accessibility.html">Accessibility</a></li>
           <li><a href="troubleshooting.html">Troubleshooting</a></li>
         </ul>
       </nav>
@@ -93,7 +94,7 @@
       <ul>
         <li>open FCS files, folders, workspaces and example experiments, and read the samples, channels, markers and gating tree;</li>
         <li>propose gates from coordinates, or find them from the data's density (the magic wand, singlets on area against height, or the valley between two modes);</li>
-        <li>rename, recolour or delete populations, and propose a compensation matrix computed from the controls;</li>
+        <li>rename, recolor or delete populations, and propose a compensation matrix computed from the controls;</li>
         <li>compute population statistics and tables across samples, and look at plots as images;</li>
         <li>review a gate across the cohort, compare groups of samples, write a methods paragraph and export Gating-ML.</li>
       </ul>
@@ -117,7 +118,7 @@ between stimulated and unstimulated samples.</code></pre></div>
     }
   }
 }</code></pre></div>
-      <p>Options go after <code>mcp</code>: <code>--port</code> (default 8770; the next free one is used), <code>--data-dir</code> (the workspace library) and <code>--window app|browser|none</code> (how the window opens when a tool needs it). Proposals and the <code>propose_compensation</code> and <code>proposals</code> tools need CytoWeave 0.2.0 or later, and <code>adapt_gate</code> 0.3.0.</p>
+      <p>Options go after <code>mcp</code>: <code>--port</code> (default 8770; the next free one is used), <code>--data-dir</code> (the workspace library) and <code>--window app|browser|none</code> (how the window opens when a tool needs it). Proposals and the <code>propose_compensation</code> and <code>proposals</code> tools need CytoWeave 0.2.0 or later, <code>adapt_gate</code> 0.3.0, and <code>check_robustness</code> 0.4.0.</p>
 
       <h2 id="proposals">Reviewing proposals</h2>
       <figure>
@@ -150,12 +151,13 @@ between stimulated and unstimulated samples.</code></pre></div>
             <tr><td><code>render_plot</code></td><td>A PNG of a plot with its gates</td></tr>
             <tr><td><code>create_gate</code></td><td>Proposes a rectangle, polygon, ellipse, range, quadrant or split gate from data coordinates</td></tr>
             <tr><td><code>auto_gate</code></td><td>Proposes a gate found from the data: a density basin around a point, singlets, or the valley between two modes</td></tr>
-            <tr><td><code>edit_gate</code></td><td>Renames, recolours or deletes a population (held for review unless the agent proposed it)</td></tr>
+            <tr><td><code>edit_gate</code></td><td>Renames, recolors or deletes a population (held for review unless the agent proposed it)</td></tr>
             <tr><td><code>propose_compensation</code></td><td>Computes a spillover matrix from the single-stain controls and proposes it for the samples</td></tr>
             <tr><td><code>proposals</code></td><td>The agent's open proposal and your recent decisions</td></tr>
             <tr><td><code>review_gate</code></td><td>A gate's frequency on every sample with a robust z-score and boundary robustness, outliers first</td></tr>
             <tr><td><code>adapt_gate</code></td><td>Adapts a gate to every sample with a confidence for each: confident adjustments are proposed, uncertain samples listed for you to check; <code>groupBy</code> keeps one gate per donor or subject</td></tr>
             <tr><td><code>compare</code></td><td>Tests a statistic between groups of samples defined by annotations, optionally paired</td></tr>
+            <tr><td><code>check_robustness</code></td><td>Repeats a two-group comparison under other reasonable analysis choices (gate boundaries, adapted gates, QC, compensation, test) and reports whether the conclusion holds, mostly holds or is fragile, and which choices change it</td></tr>
             <tr><td><code>methods</code></td><td>A methods paragraph with numbered references</td></tr>
             <tr><td><code>export_gating_ml</code></td><td>The gating strategy as Gating-ML 2.0</td></tr>
           </tbody>

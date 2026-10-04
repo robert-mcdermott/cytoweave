@@ -79,6 +79,7 @@
         </ul>
         <h4>Reference</h4>
         <ul>
+          <li><a href="accessibility.html">Accessibility</a></li>
           <li><a href="troubleshooting.html">Troubleshooting</a></li>
         </ul>
       </nav>
@@ -136,6 +137,31 @@
       </div>
       <p>Several groups are followed by Holm-adjusted comparisons of each group with the reference. The result shows each group's n, mean, SD, median and IQR; effect sizes with 95% confidence intervals (the difference and ratio of means, or their paired forms, Hedges' g and the Hodges–Lehmann shift); and a note on the assumptions. Decide on the test before looking at the results: the second test is there to show the conclusion does not hang on the choice.</p>
       <p>The plot shows every sample as a dot, with the mean and its 95% t confidence interval or the median and a 95% bootstrap interval, and lines joining paired samples; click a dot to see that sample's gating. Export it as SVG or PNG, copy the <strong>Methods text</strong>, or <strong>Save for report</strong> so the <a href="figures.html#methods">methods paragraph</a> cites the comparison.</p>
+
+      <h2 id="robustness">Robustness to analysis choices</h2>
+      <figure>
+        <div class="shot"><img class="shot-dark" src="../assets/img/compare-robustness-dark.webp" width="2000" height="1250" loading="lazy" alt="Robustness to analysis choices for monocytes, stimulated against unstimulated: the conclusion mostly holds, with no significant difference in 51 of 64 analyses; a specification curve of the 64 differences with their confidence intervals, the ones drawn with a wider monocyte gate below zero in red, and the choices each analysis changed marked underneath" /><img class="shot-light" src="../assets/img/compare-robustness-light.webp" width="2000" height="1250" loading="lazy" alt="Robustness to analysis choices for monocytes, stimulated against unstimulated: the conclusion mostly holds, with no significant difference in 51 of 64 analyses; a specification curve of the 64 differences with their confidence intervals, the ones drawn with a wider monocyte gate below zero in red, and the choices each analysis changed marked underneath" /></div>
+        <figcaption>Monocytes do not change with stimulation, unless the monocyte gate is drawn wider: activated T cells, larger after stimulation, then fall into it.</figcaption>
+      </figure>
+      <p>A comparison rests on choices made before any test: where each gate was drawn, whether gates were adjusted per sample, whether acquisition QC was applied, which compensation matrix was used. <strong>Robustness to analysis choices</strong>, below the result, asks whether the conclusion would change had the data been processed differently in ways another analyst might reasonably have chosen. Click <strong>Check</strong>, and the comparison is repeated:</p>
+      <ul>
+        <li>with each gate on the population's path moved 1% and 2% of the axis inward and outward;</li>
+        <li>with the gates adapted to each sample (as in <a href="gating.html#adapt">Adapt to each sample</a>, one gate per subject in a paired design), or without per-sample adjustments when there are any;</li>
+        <li>without the "QC pass" gate, and optionally with QC re-run with stricter and looser settings (MAD 4 and 8);</li>
+        <li>with the files' own compensation matrix and the workspace's other matrices;</li>
+        <li>with the rank test instead of the t-test, when it can reach significance with this many samples.</li>
+      </ul>
+      <p>Each alternative is tried alone, then in random combinations, 64 analyses in all. The result says whether the conclusion <strong>holds</strong> (the same in at least 90% of them), <strong>mostly holds</strong> (70%) or is <strong>fragile</strong>, names the single choices that change it, and, for a difference that was found, the ones that move its size outside its confidence interval. The specification curve shows every analysis's difference with its 95% confidence interval, sorted, with the declared one in purple and those that reach a different conclusion in red; the marks underneath show which choices each changed. A table lists every single change.</p>
+      <p>The declared analysis stays the result: this measures how much it depends on choices that could have been made otherwise, and is not a way to look for the analysis that gives the wanted answer (a specification-curve analysis, Simonsohn et al. 2020). <strong>Methods text</strong> and <strong>Save for report</strong> include a sentence on the check. Scales are not varied: a gate drawn by hand follows its population on any scale, and the boundary moves cover where it was drawn.</p>
+      <p>The validation suite checks it against comparisons whose answer is known, on the PBMC example:</p>
+      <ul>
+        <li>A real effect (CD25<sup>+</sup> T cells after stimulation) holds in all 64 analyses.</li>
+        <li>A detector gain in one batch makes a CD25<sup>+</sup> gate drawn close to the negative cells find a difference that is not there. The check calls it fragile and names the adapted gates, which remove it.</li>
+        <li>Clogs in one group: the check names QC as the choice the conclusion depends on.</li>
+        <li>One batch compensated with an under-compensating matrix shows false CD4<sup>+</sup>CD8<sup>+</sup> cells. The check names the compensation, with which the difference shrinks from 39 to 0.5 points.</li>
+        <li>With no effect, 6% of comparisons are significant by chance, and only half of those hold in at least 90% of the analyses.</li>
+      </ul>
+      <p>On an intracellular cytokine study (four donors), every PMA comparison holds in all analyses. One small peptide response (IL-4, 0.27 points) is fragile: it depends on the expert's per-donor gate adjustments and on 2% of a scatter gate.</p>
 
       <h2 id="screens">Screening every population or cluster</h2>
       <p><strong>Screen populations</strong> tests one statistic for every population at once, and <strong>Screen clusters</strong> tests the abundance of every cluster of a clustering channel. Results are corrected for multiple testing (<strong>Benjamini–Hochberg</strong>, <strong>Benjamini–Yekutieli</strong>, <strong>Holm</strong> or <strong>Bonferroni</strong>) and shown on a volcano plot of effect against significance; click a point to compare that one in detail.</p>

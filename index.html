@@ -48,12 +48,12 @@
   <main id="main">
     <section class="hero">
       <div class="container hero-grid">
-        <a class="eyebrow" href="https://github.com/robert-mcdermott/cytoweave/releases/tag/v0.3.0"><span class="pill">v0.3.0</span> Gates adapted to each sample, Q and B of your cytometer, FlowJo export and figures that carry their analysis</a>
+        <a class="eyebrow" href="https://github.com/robert-mcdermott/cytoweave/releases/tag/v0.4.0"><span class="pill">v0.4.0</span> Panel design from your instrument's noise, QC as files are acquired, conclusions checked against other analysis choices, and accessibility</a>
         <h1>Flow cytometry analysis <span class="accent">you can check</span></h1>
-        <p class="lede">CytoWeave is an analysis workbench for conventional, spectral and mass cytometry. It runs on your own computer as one self-contained program, installed with a single command: no licence server, no account, no Python, R or plugins. Files are read and analyzed in your browser and never leave your machine.</p>
+        <p class="lede">CytoWeave is an analysis workbench for conventional, spectral and mass cytometry. It runs on your own computer as one self-contained program, installed with a single command: no license server, no account, no Python, R or plugins. Files are read and analyzed in your browser and never leave your machine.</p>
         <figure class="hero-shot">
-        <div class="shot shot-window" data-url="127.0.0.1:8770"><img class="shot-dark" src="assets/img/gate-dark.webp" width="2000" height="1250" fetchpriority="high" alt="The Gate view of CytoWeave: the gating path of T cells in a 14-colour PBMC experiment, with CD4 against CD8 and CD45RA against CCR7 plots, the population tree and the T-cell statistics" /><img class="shot-light" src="assets/img/gate-light.webp" width="2000" height="1250" fetchpriority="high" alt="The Gate view of CytoWeave: the gating path of T cells in a 14-colour PBMC experiment, with CD4 against CD8 and CD45RA against CCR7 plots, the population tree and the T-cell statistics" /></div>
-        <figcaption>The gating path of T cells in the bundled 14-colour PBMC experiment, one of ten example experiments.</figcaption>
+        <div class="shot shot-window" data-url="127.0.0.1:8770"><img class="shot-dark" src="assets/img/gate-dark.webp" width="2000" height="1250" fetchpriority="high" alt="The Gate view of CytoWeave: the gating path of T cells in a 14-color PBMC experiment, with CD4 against CD8 and CD45RA against CCR7 plots, the population tree and the T-cell statistics" /><img class="shot-light" src="assets/img/gate-light.webp" width="2000" height="1250" fetchpriority="high" alt="The Gate view of CytoWeave: the gating path of T cells in a 14-color PBMC experiment, with CD4 against CD8 and CD45RA against CCR7 plots, the population tree and the T-cell statistics" /></div>
+        <figcaption>The gating path of T cells in the bundled 14-color PBMC experiment, one of ten example experiments.</figcaption>
       </figure>
         <div class="btn-row">
           <a class="btn btn-primary" href="install.html">
@@ -91,7 +91,7 @@
           </div>
           <div class="pillar">
             <h3><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 8 12 3 3 8v8l9 5 9-5Z"/><path d="m3 8 9 5 9-5M12 13v8"/></svg>Self-contained</h3>
-            <p>One program for macOS, Linux and Windows, installed with one command. No licence server, account, Python, R or plugins, and no administrator rights.</p>
+            <p>One program for macOS, Linux and Windows, installed with one command. No license server, account, Python, R or plugins, and no administrator rights.</p>
           </div>
           <div class="pillar">
             <h3><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 12l2 2 4-4"/><path d="M12 3l7 3v6c0 4.5-3 8-7 9-4-1-7-4.5-7-9V6Z"/></svg>Checked at every step</h3>
@@ -163,7 +163,7 @@
           </div>
           <figure>
         <div class="shot"><img class="shot-dark" src="assets/img/spectral-dark.webp" width="2000" height="1250" loading="lazy" alt="The Spectral view: 25 reference spectra across 64 detectors with autofluorescence signatures from the unstained control" /><img class="shot-light" src="assets/img/spectral-light.webp" width="2000" height="1250" loading="lazy" alt="The Spectral view: 25 reference spectra across 64 detectors with autofluorescence signatures from the unstained control" /></div>
-        <figcaption>A 25-colour panel on 64 detectors: references from the controls, autofluorescence from the unstained sample.</figcaption>
+        <figcaption>A 25-color panel on 64 detectors: references from the controls, autofluorescence from the unstained sample.</figcaption>
       </figure>
         </article>
 
@@ -199,7 +199,7 @@
           </div>
           <figure>
         <div class="shot"><img class="shot-dark" src="assets/img/levey-jennings-dark.webp" width="2000" height="1250" loading="lazy" alt="A Levey–Jennings chart of one detector's Q over 30 daily bead runs: in control for 20 baseline runs, then falling out of control" /><img class="shot-light" src="assets/img/levey-jennings-light.webp" width="2000" height="1250" loading="lazy" alt="A Levey–Jennings chart of one detector's Q over 30 daily bead runs: in control for 20 baseline runs, then falling out of control" /></div>
-        <figcaption>An ageing violet detector: its Q leaves the control limits the second day it fails.</figcaption>
+        <figcaption>An aging violet detector: its Q leaves the control limits the second day it fails.</figcaption>
       </figure>
         </article>
 
@@ -207,7 +207,7 @@
           <div class="feature-text">
             <span class="kicker">Clustering and maps</span>
             <h3>Maps that say how far to trust them</h3>
-            <p>FlowSOM, Leiden, Louvain or k-means clustering, and UMAP, t-SNE or PCA across samples. Clusters are named from their marker enrichment and become gateable populations. Every map reports its trustworthiness, continuity, neighbour preservation, sample mixing and seed stability.</p>
+            <p>FlowSOM, Leiden, Louvain or k-means clustering, and UMAP, t-SNE or PCA across samples. Clusters are named from their marker enrichment and become gateable populations. Every map reports its trustworthiness, continuity, neighbor preservation, sample mixing and seed stability.</p>
             <ul class="checklist">
               <li>Shading of unreliable regions on the map</li>
               <li>Later samples placed on a finished UMAP</li>
@@ -277,6 +277,24 @@
 
         <article class="feature reverse">
           <div class="feature-text">
+            <span class="kicker">Robustness</span>
+            <h3>Would another analyst reach the same conclusion?</h3>
+            <p>A comparison rests on choices made before any test: where each gate was drawn, whether it was adjusted per sample, whether QC was applied, which compensation matrix was used. CytoWeave repeats the comparison 64 times with those choices made differently, alone and in combination, says whether the conclusion holds, mostly holds or is fragile, and names the choices it depends on.</p>
+            <ul class="checklist">
+              <li>A specification curve of every analysis, with its confidence interval</li>
+              <li>Gain shifts, clogs and a stale matrix traced to the choice behind them</li>
+              <li>A sentence on the check in the methods text</li>
+            </ul>
+            <a class="more-link" href="docs/statistics.html#robustness">Robustness to analysis choices</a>
+          </div>
+          <figure>
+        <div class="shot"><img class="shot-dark" src="assets/img/compare-robustness-dark.webp" width="2000" height="1250" loading="lazy" alt="Robustness to analysis choices for monocytes, stimulated against unstimulated: the conclusion mostly holds, with a specification curve of 64 analyses, those drawn with a wider monocyte gate in red" /><img class="shot-light" src="assets/img/compare-robustness-light.webp" width="2000" height="1250" loading="lazy" alt="Robustness to analysis choices for monocytes, stimulated against unstimulated: the conclusion mostly holds, with a specification curve of 64 analyses, those drawn with a wider monocyte gate in red" /></div>
+        <figcaption>Monocytes do not change with stimulation, unless the monocyte gate is drawn wider: activated T cells then fall into it.</figcaption>
+      </figure>
+        </article>
+
+        <article class="feature">
+          <div class="feature-text">
             <span class="kicker">AI agents</span>
             <h3>Let an agent gate while you watch, then decide</h3>
             <p>CytoWeave is an MCP server, so Claude Code and other agents can open data, gate, compute statistics, review gates, compare groups and write the methods, in the window you are watching. Their changes arrive as proposals: new gates appear marked as proposed with real counts, and renames, deletions and compensation matrices wait for you.</p>
@@ -293,14 +311,14 @@
       </figure>
         </article>
 
-        <article class="feature">
+        <article class="feature reverse">
           <div class="feature-text">
             <span class="kicker">Moving from FlowJo</span>
             <h3>Bring your FlowJo workspaces, and see that they match</h3>
             <p>FlowJo 10 workspaces import with their samples, gates, compensation and scales. The import lists every population as exact, approximated or unsupported, and the migration report compares every population count with FlowJo's, with the likely cause of any difference.</p>
             <ul class="checklist">
               <li>FlowJo's biexponential reproduced from its own algorithm</li>
-              <li>Workspaces exported back to FlowJo, one gating tree per sample</li>
+              <li>Workspaces exported back to FlowJo, one gating tree per sample, tested in FlowJo 11</li>
               <li>De-identified FCS files for sharing, with the events untouched</li>
               <li>Gating-ML 2.0 in and out: all 190 compliance gates exact</li>
               <li>Archival Cytometry Standard containers and CLR</li>
@@ -313,7 +331,7 @@
       </figure>
         </article>
 
-        <article class="feature reverse">
+        <article class="feature">
           <div class="feature-text">
             <span class="kicker">Reproducible</span>
             <h3>Figures, methods and checkpoints</h3>
@@ -371,6 +389,21 @@
             <h3>Ten example experiments</h3>
             <p>Simulated with the truth of every event: a planted compensation error, a FlowJo workspace, a spectral panel, a barcoded plate, a month of bead QC and more.</p>
           </a>
+          <a class="card" href="docs/spectral.html#design">
+            <span class="icon-badge gold"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M3 15h18M9 3v18M15 3v18"/></svg></span>
+            <h3>Panel design</h3>
+            <p>A panel's spreading matrix predicted from the instrument's own noise: leave a dye out or add one from the library and see the spread before you run it.</p>
+          </a>
+          <a class="card" href="docs/qc.html#live">
+            <span class="icon-badge mint"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12h4l3-8 4 16 3-8h4"/></svg></span>
+            <h3>QC while you acquire</h3>
+            <p>Watch the instrument's export folder: each file is checked as soon as it is written, so a clog or a failing detector shows before the next tube.</p>
+          </a>
+          <a class="card" href="docs/accessibility.html">
+            <span class="icon-badge"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg></span>
+            <h3>Accessible</h3>
+            <p>Color-vision-friendly colors as a setting, WCAG AA contrast in both themes, keyboard operation and plots described for screen readers.</p>
+          </a>
         </div>
       </div>
     </section>
@@ -392,8 +425,10 @@
               <tr><td><strong>Spectral</strong></td><td>True abundances of 25 fluorochromes</td><td class="agree">median r = 0.988</td></tr>
               <tr><td><strong>Gating-ML</strong></td><td>ISAC's compliance suite</td><td class="agree">190 of 190 gates exact</td></tr>
               <tr><td><strong>FlowJo</strong></td><td>FlowJo's saved counts in 14 workspaces</td><td class="agree">as close as FlowKit or closer</td></tr>
+              <tr><td><strong>FlowJo export</strong></td><td>FlowJo 11.2.0 opening three exports</td><td class="agree">every population within 0.6 points</td></tr>
               <tr><td><strong>Autogating</strong></td><td>An expert's per-donor gates in a real cytokine study</td><td class="agree">no adjustment moved away from the expert</td></tr>
               <tr><td><strong>Q and B</strong></td><td>flowQB on its own LSR II data</td><td class="agree">equal within 6e-9</td></tr>
+              <tr><td><strong>Predicted spread</strong></td><td>A BD LSRFortessa's 15 bead controls</td><td class="agree">79% of pairs within 2×</td></tr>
               <tr><td><strong>R packages</strong></td><td>flowCore, PeacoQC, FlowSOM and CytoNorm</td><td class="agree">within 1e-7 to 1e-5</td></tr>
             </tbody>
           </table>

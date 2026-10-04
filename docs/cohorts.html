@@ -79,6 +79,7 @@
         </ul>
         <h4>Reference</h4>
         <ul>
+          <li><a href="accessibility.html">Accessibility</a></li>
           <li><a href="troubleshooting.html">Troubleshooting</a></li>
         </ul>
       </nav>
@@ -92,7 +93,7 @@
 
       <h2 id="normalize">Batch normalization with CytoNorm</h2>
       <figure>
-        <div class="shot"><img class="shot-dark" src="../assets/img/normalize-dark.webp" width="2000" height="1250" loading="lazy" alt="The Normalize result for a two-batch mass cytometry cohort: the distance of each batch to the pooled distribution before (grey) and after (colored) for 33 channels, with the change in percent" /><img class="shot-light" src="../assets/img/normalize-light.webp" width="2000" height="1250" loading="lazy" alt="The Normalize result for a two-batch mass cytometry cohort: the distance of each batch to the pooled distribution before (grey) and after (colored) for 33 channels, with the change in percent" /></div>
+        <div class="shot"><img class="shot-dark" src="../assets/img/normalize-dark.webp" width="2000" height="1250" loading="lazy" alt="The Normalize result for a two-batch mass cytometry cohort: the distance of each batch to the pooled distribution before (gray) and after (colored) for 33 channels, with the change in percent" /><img class="shot-light" src="../assets/img/normalize-light.webp" width="2000" height="1250" loading="lazy" alt="The Normalize result for a two-batch mass cytometry cohort: the distance of each batch to the pooled distribution before (gray) and after (colored) for 33 channels, with the change in percent" /></div>
         <figcaption>A two-batch mass cytometry cohort after CytoNorm: each channel's distance of each batch to the pooled data, before and after.</figcaption>
       </figure>
       <p>CytoNorm (Van Gassen et al. 2020) learns, for each batch and channel, a monotone spline that maps the batch's quantiles onto a shared target, from a reference sample acquired in every batch (the same control, such as an aliquot of one donor's cells). The splines are then applied to every sample of that batch.</p>
@@ -105,7 +106,7 @@
         <li>Click <strong>Train and normalize</strong>.</li>
       </ol>
       <div class="callout warn"><p><strong>Confounding check.</strong> Before training, CytoWeave checks the batch design. If batch and condition are confounded (all cases in one batch, all controls in the other), normalization would remove the biology along with the batch effect, so it stops and says so. You can still go ahead with <strong>I understand; normalize anyway</strong>.</p></div>
-      <p>The <strong>Result</strong> shows, for every channel, the earth mover's distance of each batch to all batches pooled, before (grey) and after (coloured), and <strong>Reference samples before and after</strong> overlays the references, which should overlap once normalized. In the validation suite, CytoNorm agrees with the R package to 1e-5 and reduces the distance between same-donor anchors 25-fold.</p>
+      <p>The <strong>Result</strong> shows, for every channel, the earth mover's distance of each batch to all batches pooled, before (gray) and after (colored), and <strong>Reference samples before and after</strong> overlays the references, which should overlap once normalized. In the validation suite, CytoNorm agrees with the R package to 1e-5 and reduces the distance between same-donor anchors 25-fold.</p>
 
       <h3 id="beads">Bead normalization (mass cytometry)</h3>
       <p>Mass cytometers lose sensitivity during a run. EQ beads (Ce140, Eu151, Eu153, Ho165, Lu175) spiked into the sample trace that drift. <strong>Bead normalization…</strong> (Finck et al. 2013) takes a running median of the bead channels over time and scales each moment's signal back to a baseline: the mean bead medians of all the files (a shared baseline, which also puts the files on one scale) or each file's own (which removes only the drift within each file). The result reports the range of the correction over the run.</p>
@@ -126,7 +127,7 @@
       </ol>
       <p>Then use the result in one of three ways:</p>
       <ul>
-        <li><strong>Save the "Barcode" channel</strong>, to gate or colour by.</li>
+        <li><strong>Save the "Barcode" channel</strong>, to gate or color by.</li>
         <li><strong>Add a gate per code</strong>: one category gate per code at the top of the gating tree.</li>
         <li><strong>Split into samples</strong>: one new sample per code, named after it (or after the sample the key gives it), which you can then <a href="opening-data.html#annotate">annotate with Suggest from file names</a> and compare like any other samples.</li>
       </ul>
