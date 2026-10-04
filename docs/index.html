@@ -58,6 +58,7 @@
         <h4>Analysis</h4>
         <ul>
           <li><a href="gating.html">Gating</a></li>
+          <li><a href="templates.html">Templates and cell types</a></li>
           <li><a href="compensation.html">Compensation</a></li>
           <li><a href="spectral.html">Spectral unmixing</a></li>
           <li><a href="qc.html">Acquisition QC</a></li>
@@ -107,11 +108,14 @@
             <tr><td>Gate the same way on every sample, and fix the gate on one</td><td><a href="gating.html#one-sample">Gating</a></td></tr>
             <tr><td>Find the samples where a gate does not fit</td><td><a href="gating.html#review">Review across samples</a></td></tr>
             <tr><td>Move a shared gate where the data have shifted, sample by sample</td><td><a href="gating.html#adapt">Adapting a gate to each sample</a></td></tr>
+            <tr><td>Apply last month's analysis to a new experiment, or start from a published strategy</td><td><a href="templates.html">Templates and cell types</a></td></tr>
+            <tr><td>Name populations with Cell Ontology terms</td><td><a href="templates.html#cell-types">Cell types</a></td></tr>
             <tr><td>Measure a detector's Q and B from beads and follow the instrument over time</td><td><a href="qc.html#instrument">Q, B and Levey–Jennings</a></td></tr>
             <tr><td>Keep reference spectra across experiments, or catch a degraded tandem</td><td><a href="spectral.html#library">The spectral library</a></td></tr>
             <tr><td>Compute a spillover matrix from single-stain controls</td><td><a href="compensation.html#compute">Compensation</a></td></tr>
             <tr><td>Check whether a matrix from the cytometer is right</td><td><a href="compensation.html#check">Check against the controls</a></td></tr>
             <tr><td>Unmix a spectral experiment and choose the unmixing model</td><td><a href="spectral.html">Spectral unmixing</a></td></tr>
+            <tr><td>Find the amount of antibody to use, or a detector's voltage</td><td><a href="qc.html#titration">Titration and voltage walks</a></td></tr>
             <tr><td>Remove clogs and bubbles before gating</td><td><a href="qc.html">Acquisition QC</a></td></tr>
             <tr><td>Remove a batch effect, or debarcode a pooled plate</td><td><a href="cohorts.html">Normalization and debarcoding</a></td></tr>
             <tr><td>Cluster, make a UMAP and know whether to trust it</td><td><a href="explore.html">Clustering and maps</a></td></tr>
@@ -132,13 +136,14 @@
 
       <h2 id="start">Start</h2>
       <div class="card-grid">
-        <a class="card" href="getting-started.html"><h3>Getting started</h3><p>Start CytoWeave, the window, the ten example experiments, and the workflow with your own data.</p></a>
+        <a class="card" href="getting-started.html"><h3>Getting started</h3><p>Start CytoWeave, the window, the eleven example experiments, and the workflow with your own data.</p></a>
         <a class="card" href="opening-data.html"><h3>Opening data</h3><p>FCS files and folders, groups, annotations, controls, and the repairs CytoWeave makes to unusual files.</p></a>
       </div>
 
       <h2 id="analysis">Analysis</h2>
       <div class="card-grid">
         <a class="card" href="gating.html"><h3>Gating</h3><p>Plots, gate tools, the magic wand, scales, per-sample adjustments, Boolean populations, review and robustness.</p></a>
+        <a class="card" href="templates.html"><h3>Templates and cell types</h3><p>Reuse an analysis by marker, the OMIP-101 and OMIP-090 strategies on your data, and Cell Ontology terms.</p></a>
         <a class="card" href="compensation.html"><h3>Compensation</h3><p>Spillover from controls, editing a matrix, checking it against the controls, spreading and pair plots.</p></a>
         <a class="card" href="spectral.html"><h3>Spectral unmixing</h3><p>Reference spectra, autofluorescence, panel quality, unmixing methods and the comparison of models.</p></a>
         <a class="card" href="qc.html"><h3>Acquisition QC</h3><p>PeacoQC, flow rate, margin events and drift, scores, and the "QC pass" gate.</p></a>

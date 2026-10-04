@@ -58,6 +58,7 @@
         <h4>Analysis</h4>
         <ul>
           <li><a href="gating.html">Gating</a></li>
+          <li><a href="templates.html">Templates and cell types</a></li>
           <li><a href="compensation.html">Compensation</a></li>
           <li><a href="spectral.html">Spectral unmixing</a></li>
           <li><a href="qc.html">Acquisition QC</a></li>
@@ -92,11 +93,16 @@
       <h2 id="what">What an agent can do</h2>
       <p><code>cytoweave mcp</code> is a <a href="https://modelcontextprotocol.io">Model Context Protocol</a> server. Through it, an agent such as Claude Code can:</p>
       <ul>
-        <li>open FCS files, folders, workspaces and example experiments, and read the samples, channels, markers and gating tree;</li>
+        <li>open FCS files, folders, workspaces and example experiments, read the samples, channels, markers and gating tree, and annotate the samples;</li>
         <li>propose gates from coordinates, or find them from the data's density (the magic wand, singlets on area against height, or the valley between two modes);</li>
         <li>rename, recolor or delete populations, and propose a compensation matrix computed from the controls;</li>
+        <li>run acquisition QC, unmix spectral files, and cluster and map cells across samples;</li>
+        <li>analyze an antibody titration or a detector voltage walk;</li>
+        <li>save and apply <a href="templates.html">analysis templates</a> and the published OMIP-101 and OMIP-090 strategies, and name populations with Cell Ontology terms;</li>
         <li>compute population statistics and tables across samples, and look at plots as images;</li>
-        <li>review a gate across the cohort, compare groups of samples, write a methods paragraph and export Gating-ML.</li>
+        <li>review a gate across the cohort, compare groups of samples, check a comparison against other analysis choices, build figures and write a methods paragraph;</li>
+        <li>watch an instrument's export folder, checking each file as it lands;</li>
+        <li>export FlowJo workspaces, de-identified FCS files, figures and tables to files, and Gating-ML.</li>
       </ul>
       <p>The agent works through the same actions as you do, in the window you see. You can watch every step, take over at any time, and undo anything.</p>
 
@@ -118,7 +124,7 @@ between stimulated and unstimulated samples.</code></pre></div>
     }
   }
 }</code></pre></div>
-      <p>Options go after <code>mcp</code>: <code>--port</code> (default 8770; the next free one is used), <code>--data-dir</code> (the workspace library) and <code>--window app|browser|none</code> (how the window opens when a tool needs it). Proposals and the <code>propose_compensation</code> and <code>proposals</code> tools need CytoWeave 0.2.0 or later, <code>adapt_gate</code> 0.3.0, and <code>check_robustness</code> 0.4.0.</p>
+      <p>Options go after <code>mcp</code>: <code>--port</code> (default 8770; the next free one is used), <code>--data-dir</code> (the workspace library) and <code>--window app|browser|none</code> (how the window opens when a tool needs it). Proposals and the <code>propose_compensation</code> and <code>proposals</code> tools need CytoWeave 0.2.0 or later, <code>adapt_gate</code> 0.3.0, <code>check_robustness</code> 0.4.0, and the QC, unmixing, clustering, annotation, figure, folder-watching, export, template, cell-type and titration tools 0.5.0.</p>
 
       <h2 id="proposals">Reviewing proposals</h2>
       <figure>
@@ -127,13 +133,14 @@ between stimulated and unstimulated samples.</code></pre></div>
       </figure>
       <ul>
         <li><strong>New gates</strong> appear at once, marked <em>proposed</em>: dotted on the plots and in italics in the population tree. Their counts are real, so you can judge them, and the agent can gate on them.</li>
-        <li><strong>Renaming or deleting</strong> gates you have accepted, and <strong>compensation matrices</strong>, are held. The tree shows a held rename next to the name (→ new name) and strikes through a population the agent proposes to delete.</li>
+        <li><strong>Computed results</strong> (acquisition QC, unmixed channels, clusters and maps) and <strong>figures</strong> also appear at once, marked proposed, so their channels can be gated and plotted. Results for samples you have already checked or unmixed stay yours; QC of other samples joins your result when you accept.</li>
+        <li><strong>Renaming or deleting</strong> gates you have accepted, <strong>compensation matrices</strong>, <strong>sample annotations</strong> and a <strong>"QC pass" gate at the top of the tree</strong> are held. The tree shows a held rename next to the name (→ new name) and strikes through a population the agent proposes to delete.</li>
       </ul>
       <figure>
         <div class="shot"><img class="shot-dark" src="../assets/img/agents-review-dark.webp" width="2000" height="1250" loading="lazy" alt="The Review the proposal dialog: Claude Code proposes Single cells (89.7% of parent), Live (92.9%), Viability+ (7.07%) and a compensation matrix for 12 samples, with Reject all, Close and Accept all" /><img class="shot-light" src="../assets/img/agents-review-light.webp" width="2000" height="1250" loading="lazy" alt="The Review the proposal dialog: Claude Code proposes Single cells (89.7% of parent), Live (92.9%), Viability+ (7.07%) and a compensation matrix for 12 samples, with Reject all, Close and Accept all" /></div>
         <figcaption>Review lists every change, with each new population's frequency.</figcaption>
       </figure>
-      <p>A strip above the population tree says who proposes how many changes. Click <strong>Review</strong> for the list, with each new population's frequency and a <strong>Show</strong> button, then <strong>Accept all</strong> or <strong>Reject all</strong>. Rejecting removes the proposed gates together with anything drawn under them since; CytoWeave asks first in that case.</p>
+      <p>A strip above the population tree says who proposes how many changes. Click <strong>Review</strong> for the list, with each new population's frequency and a <strong>Show</strong> button, then <strong>Accept all</strong> or <strong>Reject all</strong>. Rejecting removes the proposed gates, results and figures together with anything drawn under or on them since; CytoWeave asks first in that case.</p>
       <p>The change log records each decision: what was proposed, by which agent (the name its MCP client gives, such as Claude Code), and whether you accepted or rejected it. Accepted gates keep that origin, and the inspector and the methods paragraph show it. The agent can ask for the outcome with the <code>proposals</code> tool.</p>
 
       <h2 id="tools">Tools</h2>
@@ -158,6 +165,17 @@ between stimulated and unstimulated samples.</code></pre></div>
             <tr><td><code>adapt_gate</code></td><td>Adapts a gate to every sample with a confidence for each: confident adjustments are proposed, uncertain samples listed for you to check; <code>groupBy</code> keeps one gate per donor or subject</td></tr>
             <tr><td><code>compare</code></td><td>Tests a statistic between groups of samples defined by annotations, optionally paired</td></tr>
             <tr><td><code>check_robustness</code></td><td>Repeats a two-group comparison under other reasonable analysis choices (gate boundaries, adapted gates, QC, compensation, test) and reports whether the conclusion holds, mostly holds or is fragile, and which choices change it</td></tr>
+            <tr><td><code>annotate_samples</code></td><td>Sets samples' metadata fields, roles and stained channels (held for review)</td></tr>
+            <tr><td><code>run_qc</code></td><td>Acquisition QC: each sample's score, events removed and findings; the "QC pass" channel is proposed, and with <code>addGate</code> a "QC pass" gate at the top of the tree</td></tr>
+            <tr><td><code>unmix</code></td><td>Spectral unmixing with reference spectra from the controls and autofluorescence from the unstained control; a reference library is computed and proposed when there is none</td></tr>
+            <tr><td><code>explore</code></td><td>Clustering (FlowSOM, Leiden, Louvain, k-means) and a map (UMAP, t-SNE, PCA) across samples, with cluster names, abundances and the map's faithfulness; <code>populations</code> proposes the clusters as populations</td></tr>
+            <tr><td><code>build_figure</code></td><td>Proposes a figure: the gating strategy of a population, or the same plots across samples</td></tr>
+            <tr><td><code>watch_folder</code></td><td>Watches an instrument's export folder and checks each file as it lands</td></tr>
+            <tr><td><code>save_template</code>, <code>list_templates</code></td><td>Save the analysis (or a population and those under it) as a template in the library; list the templates and the published strategies</td></tr>
+            <tr><td><code>apply_template</code></td><td>Applies a template or a strategy (<code>omip-101</code>, <code>omip-090</code>) with channels matched by marker, saying how each matched and what was left out; a strategy's gates are placed on one sample's events. The gates and figures are proposed</td></tr>
+            <tr><td><code>suggest_cell_types</code></td><td>A Cell Ontology term for each population from its phenotype, never its name, with a confidence and the markers it rests on; <code>propose</code> proposes the top terms for you to confirm</td></tr>
+            <tr><td><code>titration</code></td><td>Analyzes an antibody titration (amounts from the file names) or a detector voltage walk (voltages from <code>$PnV</code>): each step's stain and separation index, and the recommended amount or voltage range; <code>save</code> proposes the result</td></tr>
+            <tr><td><code>export_flowjo</code>, <code>export_fcs</code>, <code>export_figure</code>, <code>export_table</code></td><td>Write a FlowJo workspace, de-identified FCS files, a figure (SVG, PNG, PDF) or a statistics table to an absolute path; never replace a file unless told to</td></tr>
             <tr><td><code>methods</code></td><td>A methods paragraph with numbered references</td></tr>
             <tr><td><code>export_gating_ml</code></td><td>The gating strategy as Gating-ML 2.0</td></tr>
           </tbody>
@@ -166,7 +184,7 @@ between stimulated and unstimulated samples.</code></pre></div>
       <p>Populations are named by name (when unique), by path (<code>Cells/Single cells/CD3+</code>) or by id; channels by detector (<code>FITC-A</code>) or marker (<code>CD3</code>). Gate coordinates are data values, as on the plot axes, on each channel's scale: a range gate on CD3 above 1,000 is <code>{"min": 1000}</code>.</p>
 
       <h2 id="privacy">Privacy and how it works</h2>
-      <p><code>cytoweave mcp</code> starts CytoWeave with remote control on and speaks JSON-RPC on standard input and output. A tool call becomes an action that the server forwards to the open window, which performs it with the same code as the user interface and posts the result back, one action at a time. Everything stays on your computer: the server accepts requests only from this computer, and opening files by path is limited to the agent connected over MCP or to scripts holding the token CytoWeave prints at startup. What the agent's model sees of your data is what the tools return: counts, statistics, gating trees and plot images.</p>
+      <p><code>cytoweave mcp</code> starts CytoWeave with remote control on and speaks JSON-RPC on standard input and output. A tool call becomes an action that the server forwards to the open window, which performs it with the same code as the user interface and posts the result back, one action at a time. Everything stays on your computer: the server accepts requests only from this computer, and opening and writing files by path is limited to the agent connected over MCP or to scripts holding the token CytoWeave prints at startup. What the agent's model sees of your data is what the tools return: counts, statistics, gating trees and plot images.</p>
       <p>The full reference, including coordinates for every gate type, is <a href="https://github.com/robert-mcdermott/cytoweave/blob/main/docs/MCP.md">docs/MCP.md</a> in the repository.</p>
 
       <h2 id="next">Where to go next</h2>

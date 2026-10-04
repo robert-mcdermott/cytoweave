@@ -48,12 +48,12 @@
   <main id="main">
     <section class="hero">
       <div class="container hero-grid">
-        <a class="eyebrow" href="https://github.com/robert-mcdermott/cytoweave/releases/tag/v0.4.0"><span class="pill">v0.4.0</span> Panel design from your instrument's noise, QC as files are acquired, conclusions checked against other analysis choices, and accessibility</a>
+        <a class="eyebrow" href="https://github.com/robert-mcdermott/cytoweave/releases/tag/v0.5.0"><span class="pill">v0.5.0</span> Templates and OMIP strategies placed on your data, Cell Ontology terms, titration and voltage walks, and agents for the whole pipeline</a>
         <h1>Flow cytometry analysis <span class="accent">you can check</span></h1>
         <p class="lede">CytoWeave is an analysis workbench for conventional, spectral and mass cytometry. It runs on your own computer as one self-contained program, installed with a single command: no license server, no account, no Python, R or plugins. Files are read and analyzed in your browser and never leave your machine.</p>
         <figure class="hero-shot">
         <div class="shot shot-window" data-url="127.0.0.1:8770"><img class="shot-dark" src="assets/img/gate-dark.webp" width="2000" height="1250" fetchpriority="high" alt="The Gate view of CytoWeave: the gating path of T cells in a 14-color PBMC experiment, with CD4 against CD8 and CD45RA against CCR7 plots, the population tree and the T-cell statistics" /><img class="shot-light" src="assets/img/gate-light.webp" width="2000" height="1250" fetchpriority="high" alt="The Gate view of CytoWeave: the gating path of T cells in a 14-color PBMC experiment, with CD4 against CD8 and CD45RA against CCR7 plots, the population tree and the T-cell statistics" /></div>
-        <figcaption>The gating path of T cells in the bundled 14-color PBMC experiment, one of ten example experiments.</figcaption>
+        <figcaption>The gating path of T cells in the bundled 14-color PBMC experiment, one of eleven example experiments.</figcaption>
       </figure>
         <div class="btn-row">
           <a class="btn btn-primary" href="install.html">
@@ -133,6 +133,24 @@
 
         <article class="feature reverse">
           <div class="feature-text">
+            <span class="kicker">Templates</span>
+            <h3>Last month's analysis, or a published strategy, on today's data</h3>
+            <p>Save an analysis as a template and apply it to the next experiment: its channels are matched by marker, not detector, so the panel can sit on other lasers, with a report of what matched and what could not be applied. The OMIP-101 and OMIP-090 gating strategies come built in, their gates placed on your own events and each explaining where it went and why.</p>
+            <ul class="checklist">
+              <li>Gates, scales, plots, tables and figures in one template</li>
+              <li>A Cell Ontology term suggested for every population, from its markers, never its name</li>
+              <li>Confirmed terms in FlowJo and Gating-ML exports, tables and the methods</li>
+            </ul>
+            <a class="more-link" href="docs/templates.html">Templates and cell types</a>
+          </div>
+          <figure>
+        <div class="shot"><img class="shot-dark" src="assets/img/strategy-dark.webp" width="2000" height="1250" loading="lazy" alt="Applying OMIP-101 to the PBMC example: its citation, the differences from the article, every channel matched by marker, and 25 populations to be added" /><img class="shot-light" src="assets/img/strategy-light.webp" width="2000" height="1250" loading="lazy" alt="Applying OMIP-101 to the PBMC example: its citation, the differences from the article, every channel matched by marker, and 25 populations to be added" /></div>
+        <figcaption>OMIP-101 applied to the PBMC example: every channel matched by marker, 25 gates to be placed on D01_Unstim's events.</figcaption>
+      </figure>
+        </article>
+
+        <article class="feature">
+          <div class="feature-text">
             <span class="kicker">Compensation</span>
             <h3>A spillover matrix checked against its controls</h3>
             <p>Compute spillover from single-stain controls by median difference or robust regression, or bring the file's matrix. Then check it: each control is compensated and what its positives still leave in other detectors is measured. A residual means the value is off by about that much, and CytoWeave suggests the correction.</p>
@@ -149,7 +167,7 @@
       </figure>
         </article>
 
-        <article class="feature">
+        <article class="feature reverse">
           <div class="feature-text">
             <span class="kicker">Spectral</span>
             <h3>Unmixing, and the evidence to choose a model</h3>
@@ -167,7 +185,7 @@
       </figure>
         </article>
 
-        <article class="feature reverse">
+        <article class="feature">
           <div class="feature-text">
             <span class="kicker">Acquisition QC</span>
             <h3>Find clogs and bubbles, leave clean data alone</h3>
@@ -185,7 +203,7 @@
       </figure>
         </article>
 
-        <article class="feature">
+        <article class="feature reverse">
           <div class="feature-text">
             <span class="kicker">Instrument</span>
             <h3>Know your cytometer: Q, B and every run since</h3>
@@ -200,6 +218,24 @@
           <figure>
         <div class="shot"><img class="shot-dark" src="assets/img/levey-jennings-dark.webp" width="2000" height="1250" loading="lazy" alt="A Levey–Jennings chart of one detector's Q over 30 daily bead runs: in control for 20 baseline runs, then falling out of control" /><img class="shot-light" src="assets/img/levey-jennings-light.webp" width="2000" height="1250" loading="lazy" alt="A Levey–Jennings chart of one detector's Q over 30 daily bead runs: in control for 20 baseline runs, then falling out of control" /></div>
         <figcaption>An aging violet detector: its Q leaves the control limits the second day it fails.</figcaption>
+      </figure>
+        </article>
+
+        <article class="feature">
+          <div class="feature-text">
+            <span class="kicker">Panel setup</span>
+            <h3>How much antibody, and which voltage</h3>
+            <p>Name the files of a titration with their amounts, or let the files' own voltages describe a voltage walk. CytoWeave finds the positive and negative cells of every step and gives the stain and separation index, the amount to use (twice the amount that gives 90% of saturating staining) and the voltage range that lifts the negative cells above the detector's noise while keeping the bright ones in its linear range.</p>
+            <ul class="checklist">
+              <li>The reason for every recommendation, with its reference</li>
+              <li>A figure and a CSV for the panel's record</li>
+              <li>Checked against a simulated titration with known binding, noise and gain</li>
+            </ul>
+            <a class="more-link" href="docs/qc.html#titration">Titration and voltage walks</a>
+          </div>
+          <figure>
+        <div class="shot"><img class="shot-dark" src="assets/img/titration-dark.webp" width="2000" height="1250" loading="lazy" alt="A CD4-PE titration: the stain index against the amount with the fitted saturation curve and 125 ng recommended, and a histogram of every step" /><img class="shot-light" src="assets/img/titration-light.webp" width="2000" height="1250" loading="lazy" alt="A CD4-PE titration: the stain index against the amount with the fitted saturation curve and 125 ng recommended, and a histogram of every step" /></div>
+        <figcaption>CD4-PE titrated in ten steps: 125 ng recommended, twice the amount that gives 90% of saturating staining.</figcaption>
       </figure>
         </article>
 
@@ -296,8 +332,8 @@
         <article class="feature">
           <div class="feature-text">
             <span class="kicker">AI agents</span>
-            <h3>Let an agent gate while you watch, then decide</h3>
-            <p>CytoWeave is an MCP server, so Claude Code and other agents can open data, gate, compute statistics, review gates, compare groups and write the methods, in the window you are watching. Their changes arrive as proposals: new gates appear marked as proposed with real counts, and renames, deletions and compensation matrices wait for you.</p>
+            <h3>Let an agent run the analysis while you watch, then decide</h3>
+            <p>CytoWeave is an MCP server, so Claude Code and other agents can run the whole analysis in the window you are watching: annotate samples, gate, run QC, unmix, cluster and map, compare groups, apply templates and published strategies, analyze titrations, build figures, write the methods and export FlowJo workspaces. Their changes arrive as proposals: new gates, results and figures appear marked as proposed with real counts, and renames, deletions, annotations and compensation matrices wait for you.</p>
             <ul class="checklist">
               <li>Accept or reject the whole proposal from one strip</li>
               <li>The change log records which agent proposed what</li>
@@ -442,7 +478,7 @@
         <div class="cta">
           <div>
             <h2 id="get-title">Get started in a minute</h2>
-            <p>Install with one command, then run <code>cytoweave</code>. It opens its own window, with ten example experiments ready to explore.</p>
+            <p>Install with one command, then run <code>cytoweave</code>. It opens its own window, with eleven example experiments ready to explore.</p>
             <div class="btn-row">
               <a class="btn btn-primary" href="docs/getting-started.html">Getting started</a>
               <a class="btn" href="https://github.com/robert-mcdermott/cytoweave/releases/latest">All downloads</a>

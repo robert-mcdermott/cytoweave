@@ -58,6 +58,7 @@
         <h4>Analysis</h4>
         <ul>
           <li><a href="gating.html">Gating</a></li>
+          <li><a href="templates.html">Templates and cell types</a></li>
           <li><a href="compensation.html">Compensation</a></li>
           <li><a href="spectral.html">Spectral unmixing</a></li>
           <li><a href="qc.html">Acquisition QC</a></li>
@@ -106,11 +107,12 @@
           <tbody>
             <tr><td>Counts and frequencies</td><td>Count; % of parent, grandparent, total or any ancestor; concentration per µL (from <code>$VOL</code>)</td></tr>
             <tr><td>Location</td><td>Median, mean, geometric mean, mode</td></tr>
-            <tr><td>Spread</td><td>SD, robust SD, CV, robust CV, median absolute deviation</td></tr>
+            <tr><td>Spread</td><td>SD, robust SD, CV, robust CV, median absolute deviation (MAD)</td></tr>
             <tr><td>Distribution</td><td>Minimum, maximum, any percentile, % above a threshold</td></tr>
           </tbody>
         </table>
       </div>
+      <p>The <strong>robust SD</strong> is BD FACSDiva's: half the range around the median that holds 68.26% of the events, (P84.13 − P15.87) / 2, and the robust CV is 100 × that over the median. FlowJo 11's Robust SD is 1.4826 × the median absolute deviation instead; for a symmetric population the two agree, for a skewed or two-peaked one they do not. To reproduce FlowJo's, multiply the <strong>median absolute deviation</strong> by 1.4826. Medians match FlowJo's exactly.</p>
       <p>Show a table as a <strong>Heat map</strong>, <strong>Copy</strong> it as TSV to paste into a spreadsheet, or save it as <strong>CSV</strong>. A column's menu renames, moves or removes it, or sends it to <strong>Compare between groups</strong>. Frequencies in the inspector carry a 95% binomial confidence interval.</p>
 
       <h2 id="compare">Comparing groups</h2>

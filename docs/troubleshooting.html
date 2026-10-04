@@ -58,6 +58,7 @@
         <h4>Analysis</h4>
         <ul>
           <li><a href="gating.html">Gating</a></li>
+          <li><a href="templates.html">Templates and cell types</a></li>
           <li><a href="compensation.html">Compensation</a></li>
           <li><a href="spectral.html">Spectral unmixing</a></li>
           <li><a href="qc.html">Acquisition QC</a></li>
@@ -138,9 +139,10 @@
       <h2 id="agents">AI agents</h2>
       <ul>
         <li><strong>The agent cannot start CytoWeave.</strong> Give the full path to the program in the MCP configuration (<code>~/.local/bin/cytoweave</code>, or <code>%LOCALAPPDATA%\Programs\CytoWeave\cytoweave.exe</code>): agents often start programs without your shell's <code>PATH</code>.</li>
-        <li><strong>Proposals or <code>propose_compensation</code> are missing.</strong> They need CytoWeave 0.2.0 or later (<code>adapt_gate</code> 0.3.0, <code>check_robustness</code> 0.4.0): check <code>cytoweave --version</code>.</li>
+        <li><strong>Proposals or <code>propose_compensation</code> are missing.</strong> They need CytoWeave 0.2.0 or later (<code>adapt_gate</code> 0.3.0, <code>check_robustness</code> 0.4.0, the QC, unmixing, clustering, figure, folder, export, template, cell-type and titration tools 0.5.0): check <code>cytoweave --version</code>.</li>
         <li><strong>"The CytoWeave page did not answer in time."</strong> Actions run in the window: make sure it is open and not waiting in a dialog.</li>
         <li><strong>A script gets "Opening files needs the X-CytoWeave-Token header".</strong> <code>open_files</code> reads from disk, so scripts need the token CytoWeave printed at startup; see <a href="scripting.html#token">Opening files by path</a>.</li>
+        <li><strong>An export says the file exists, or the folder does not.</strong> The export tools write only into a folder that exists and never replace a file unless the call passes <code>overwrite: true</code>; scripts also need the token, as for opening files.</li>
       </ul>
 
       <h2 id="help">Getting help</h2>

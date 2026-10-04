@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Templates and cell types · CytoWeave</title>
+  <meta name="description" content="Save a flow cytometry analysis as a template and apply it to another experiment by marker, apply the OMIP-101 and OMIP-090 gating strategies to your own data, and name populations with Cell Ontology terms." />
+  <link rel="canonical" href="https://robert-mcdermott.github.io/cytoweave/docs/templates.html" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Templates and cell types" />
+  <meta property="og:description" content="Save a flow cytometry analysis as a template and apply it to another experiment by marker, apply the OMIP-101 and OMIP-090 gating strategies to your own data, and name populations with Cell Ontology terms." />
+  <meta property="og:url" content="https://robert-mcdermott.github.io/cytoweave/docs/templates.html" />
+  <meta property="og:image" content="https://robert-mcdermott.github.io/cytoweave/assets/img/og-image.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="theme-color" content="#07090e" />
+  <link rel="icon" href="../assets/img/logo.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="../assets/css/site.css" />
+  <script>try { const t = localStorage.getItem('cytoweave-theme'); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
+  <script src="../assets/js/site.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="../"><img src="../assets/img/logo.svg" alt="" width="30" height="30" /><span>Cyto<b>Weave</b></span></a>
+      <nav class="site-nav" id="site-nav" aria-label="Main">
+        <a href="../#features">Features</a>
+        <a href="../docs/" aria-current="page">Documentation</a>
+        <a href="../install.html">Install</a>
+        <a href="../science.html">Science</a>
+      </nav>
+      <div class="header-actions">
+        <a class="icon-button" href="https://github.com/robert-mcdermott/cytoweave" aria-label="CytoWeave on GitHub">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5a11.5 11.5 0 0 0-3.64 22.41c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.37-3.88-1.37-.53-1.34-1.29-1.7-1.29-1.7-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.71 1.26 3.37.96.1-.75.4-1.26.73-1.55-2.56-.29-5.25-1.28-5.25-5.69 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.84 1.19 3.1 0 4.42-2.7 5.4-5.26 5.68.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .5Z"/></svg>
+        </a>
+        <button class="icon-button theme-toggle" type="button" aria-label="Switch between light and dark">
+          <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/></svg>
+          <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+        </button>
+        <button class="icon-button nav-toggle" type="button" aria-label="Menu" aria-controls="site-nav" aria-expanded="false">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div class="docs-layout">
+    <aside class="docs-sidebar" aria-label="Documentation">
+      <button class="btn docs-menu-toggle" type="button" aria-expanded="false">Documentation menu <span aria-hidden="true">▾</span></button>
+      <nav>
+        <h4>Start</h4>
+        <ul>
+          <li><a href="./">Overview</a></li>
+          <li><a href="getting-started.html">Getting started</a></li>
+          <li><a href="opening-data.html">Opening data</a></li>
+        </ul>
+        <h4>Analysis</h4>
+        <ul>
+          <li><a href="gating.html">Gating</a></li>
+          <li><a href="templates.html" aria-current="page">Templates and cell types</a></li>
+          <li><a href="compensation.html">Compensation</a></li>
+          <li><a href="spectral.html">Spectral unmixing</a></li>
+          <li><a href="qc.html">Acquisition QC</a></li>
+          <li><a href="cohorts.html">Normalization and debarcoding</a></li>
+          <li><a href="explore.html">Clustering and maps</a></li>
+        </ul>
+        <h4>Results</h4>
+        <ul>
+          <li><a href="statistics.html">Tables and comparisons</a></li>
+          <li><a href="assays.html">Cell cycle, proliferation and index sorting</a></li>
+          <li><a href="figures.html">Figures, methods and checkpoints</a></li>
+        </ul>
+        <h4>Share and automate</h4>
+        <ul>
+          <li><a href="workspaces.html">Workspaces and large files</a></li>
+          <li><a href="flowjo.html">FlowJo and Gating-ML</a></li>
+          <li><a href="agents.html">AI agents (MCP)</a></li>
+          <li><a href="scripting.html">Scripting and command line</a></li>
+        </ul>
+        <h4>Reference</h4>
+        <ul>
+          <li><a href="accessibility.html">Accessibility</a></li>
+          <li><a href="troubleshooting.html">Troubleshooting</a></li>
+        </ul>
+      </nav>
+    </aside>
+
+    <main id="main" class="doc">
+      <h1>Templates and cell types</h1>
+      <p class="doc-lede">Reuse an analysis on the next experiment, start from a published gating strategy, and say which cell type each population is, in terms other tools understand.</p>
+
+      <h2 id="templates">Analysis templates</h2>
+      <p>A template keeps an analysis so that it can be applied to another experiment, even one acquired on another instrument with the markers on other detectors.</p>
+      <h3 id="save">Saving a template</h3>
+      <p><strong>Workspace → Save as a template</strong> keeps the whole gating tree, or the selected population and those under it, with:</p>
+      <ul>
+        <li>the gates, each in its own channels' scale;</li>
+        <li>the channels' scales and labels;</li>
+        <li>the plots, tables and figure layouts that use those populations;</li>
+        <li>which compensation the samples used (the files' matrix or a computed one).</li>
+      </ul>
+      <p>Save it to the library, where every workspace can use it, or download it as a <code>.cwt</code> file to send to a colleague. Gates on computed channels (clusters, unmixed channels) and per-sample adjustments are not kept, and the dialog says so. A "QC pass" gate is left out, and the populations under it move up to its parent: run QC on the new experiment and gate on its own result.</p>
+      <h3 id="apply">Applying a template</h3>
+      <p><strong>Workspace → Apply a template</strong> lists the templates in the library and the published strategies; a <code>.cwt</code> file can also be opened or dropped on the window. Each of the template's channels is matched to one of yours:</p>
+      <ul>
+        <li>a fluorescence channel by its <strong>marker</strong> (CD3 is CD3 on FITC or on BV605), preferring the same area, height or width;</li>
+        <li>scatter and time channels by name;</li>
+        <li>a marker written only in a channel's label (<code>CD3 APC-H7</code>) is found too, and spellings are compared loosely (HLA-DR and HLADR).</li>
+      </ul>
+      <p>The preview shows how each channel matched and lets you choose another. It says how many populations will be added and which will be left out and why: a population on a marker your panel does not have is left out with the populations under it, and the rest are added. You can put the gates under any population (say, under your own singlet gate), keep your scales or use the template's, and choose whether its plots, tables and figures come too.</p>
+      <p>Gates keep their position in data values. On another instrument or with other voltages a gate may need moving: <a href="gating.html#review">review it across samples</a>, or <a href="gating.html#adapt">adapt it to each sample</a>.</p>
+
+      <h2 id="strategies">Published gating strategies</h2>
+      <figure>
+        <div class="shot"><img class="shot-dark" src="../assets/img/strategy-dark.webp" width="2000" height="1250" loading="lazy" alt="Applying OMIP-101 to the PBMC example: its citation, the differences from the article, every channel matched by marker, and 25 populations to be added" /><img class="shot-light" src="../assets/img/strategy-light.webp" width="2000" height="1250" loading="lazy" alt="Applying OMIP-101 to the PBMC example: its citation, the differences from the article, every channel matched by marker, and 25 populations to be added" /></div>
+        <figcaption>OMIP-101 applied to the PBMC example: the article, its differences, and every channel matched by marker.</figcaption>
+      </figure>
+      <p>Two published gating strategies come with CytoWeave, in the same dialog:</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Strategy</th><th>Populations</th></tr></thead>
+          <tbody>
+            <tr><td><strong>OMIP-101</strong>: major leukocyte populations (Imbratta et al., <em>Cytometry A</em> 2024)</td><td>Single, live cells and leukocytes; lymphocytes and myeloid cells; T cells, CD4 and CD8 T cells and their naive, central memory, effector memory and TEMRA subsets; B cells; NK cells; classical, intermediate and non-classical monocytes (25 gates)</td></tr>
+            <tr><td><strong>OMIP-090</strong>: regulatory T cells (Stroukov et al., <em>Cytometry A</em> 2023)</td><td>Lymphocytes, single and live cells, CD3+ CD4+ T cells, and Tregs as CD25-high CD127-low (5 gates)</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>Each is written for CytoWeave from the article's gating hierarchy and lists where it departs from the article: for example, OMIP-101 separates lymphocytes and myeloid cells on scatter where the article uses CD33, and adds a viability gate. Both articles are open access (CC BY 4.0). The dialog shows the citation, with a link.</p>
+      <p>A strategy's gates are not fixed outlines: each is placed on the events of the current sample, in its parent population, as an analyst would place it:</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Gate</th><th>Placed</th></tr></thead>
+          <tbody>
+            <tr><td>Lymphocytes, myeloid cells</td><td>At the lymphocytes' and monocytes' density peaks on forward against side scatter (debris against the left edge left out)</td></tr>
+            <tr><td>Single cells</td><td>On forward-scatter area against height</td></tr>
+            <tr><td>Positive cells (CD45+, CD3+, HLA-DR+…)</td><td>Above the negative population as all events show it, the way a fluorescence-minus-one control would show it, so that a parent whose cells are all positive (monocytes and dendritic cells on HLA-DR) is not cut between them</td></tr>
+            <tr><td>Negative cells (live, CD3−…)</td><td>Below the valley under the brightest population, so that dim autofluorescent cells (monocytes on a viability dye) stay</td></tr>
+            <tr><td>Quadrants (CD4 and CD8, CD45RA and CCR7)</td><td>On one divider per axis shared by the four populations, at the valley between the two main populations</td></tr>
+            <tr><td>Tregs</td><td>CD127-low first, then CD25-high among the CD127-low cells, where the Tregs form a population of their own</td></tr>
+            <tr><td>Intermediate monocytes</td><td>CD14+ cells above the upper edge of the CD16-negative classical monocytes</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>Each placed gate says in the inspector where it was put and why, and is then an ordinary gate: shared by every sample, editable, and adaptable to each sample where the data shift. Each population comes with the Cell Ontology term the article's phenotype denotes, as a suggestion to confirm (below).</p>
+      <p>On the PBMC example, placed on one sample and shared by all twelve, the strategies' populations match the simulator's true cell types with a median F1 of 0.96–0.99 for the lineages, 0.88–0.96 for the memory subsets, NK cells and classical and non-classical monocytes, and 0.91 for Tregs (0.82–0.85 in the stimulated samples, where conventional T cells raise CD25). Intermediate monocytes, which lie between the classical and non-classical ones on CD16, reach 0.76. See <a href="../science.html#validation">Validation</a>.</p>
+
+      <h2 id="cell-types">Cell types (Cell Ontology)</h2>
+      <figure>
+        <div class="shot"><img class="shot-dark" src="../assets/img/cell-types-dark.webp" width="2000" height="1250" loading="lazy" alt="The inspector of NK cells placed by OMIP-101: the gate's explanation, and the Cell Ontology term natural killer cell (CL:0000623) suggested by OMIP-101 and agreed by the phenotype CD3− CD19− CD56+, with its definition and Confirm and Other terms buttons" /><img class="shot-light" src="../assets/img/cell-types-light.webp" width="2000" height="1250" loading="lazy" alt="The inspector of NK cells placed by OMIP-101: the gate's explanation, and the Cell Ontology term natural killer cell (CL:0000623) suggested by OMIP-101 and agreed by the phenotype CD3− CD19− CD56+, with its definition and Confirm and Other terms buttons" /></div>
+        <figcaption>NK cells placed by OMIP-101: the term the strategy suggests, agreed by the phenotype, to confirm.</figcaption>
+      </figure>
+      <p>The <a href="https://obofoundry.org/ontology/cl.html">Cell Ontology</a> gives cell types identifiers that databases, repositories and other tools share: "CD4-positive, alpha-beta T cell" is CL:0000624 whatever the gate is called. Select a population, and the inspector's <strong>Cell type</strong> section suggests a term from the population's phenotype:</p>
+      <ul>
+        <li>which side of each gate's markers the population lies on along its path (CD3+, CD4+, CD8−), read from the gates and the data;</li>
+        <li>for scatter gates, where the population sits: lymphoid, monocytic or granulocytic.</li>
+      </ul>
+      <p>The population's name is never used, so "Q3" and "CD4 T cells" get the same suggestion. A suggestion is <strong>exact</strong> when every marker the term requires is gated, and <strong>likely</strong> when only some of its negative markers are not (CD4 T cells without a CD8 gate). The inspector shows the markers it rests on and the term's definition, with a link to the term in the EBI Ontology Lookup Service. <strong>Confirm</strong> it, or choose another under <strong>Other terms</strong>.</p>
+      <p>CytoWeave knows 89 terms for the populations gated in blood, PBMC and lymphoid tissue, each with the phenotype that defines it: the conventional phenotypes of Maecker, McCoy and Nussenblatt (2012) and the OMIPs where they exist, otherwise the Cell Ontology's own marker definitions. A more specific term that fits on evidence its parent lacks comes first (CD3+ cells are T cells before leukocytes), and a term is not suggested when the phenotype contradicts one of its parents' (CD8+ cells are not CD4-positive memory T cells).</p>
+      <p>Confirmed terms go into:</p>
+      <ul>
+        <li>FlowJo workspace exports, as each population's annotation;</li>
+        <li>Gating-ML exports, and back again on import;</li>
+        <li>the Tables view, under each population's columns (CSV files keep one header row);</li>
+        <li>the methods text, with the Cell Ontology reference.</li>
+      </ul>
+      <p>CLR files keep populations' names only: the CLR format has no field for a term. Templates and strategies carry their terms as suggestions, to be confirmed on the new data.</p>
+      <p>The terms' labels, synonyms and definitions are from the Cell Ontology, release 2026-06-08, under the Creative Commons Attribution 4.0 license (Tan SZK et al., <em>Sci Data</em> 13, 946, 2026). On 40 populations that experts named in three public workspaces, every top suggestion was a term the name denotes, and none changed when the gates were renamed.</p>
+
+      <h2 id="agents">With an AI agent</h2>
+      <p><a href="agents.html">Agents</a> have <code>save_template</code>, <code>list_templates</code> and <code>apply_template</code> (which takes a strategy too: <code>omip-101</code>), and <code>suggest_cell_types</code>, which lists each population's suggestions and can propose the top terms for you to confirm. As always, the agent's gates and terms are proposals you accept or reject.</p>
+
+      <h2 id="next">Where to go next</h2>
+      <div class="card-grid">
+        <a class="card" href="gating.html#adapt"><h3>Adapt to each sample</h3><p>Move a template's or strategy's gates where the data have shifted.</p></a>
+        <a class="card" href="flowjo.html#export"><h3>Exporting to FlowJo</h3><p>Where the confirmed cell types go.</p></a>
+        <a class="card" href="figures.html"><h3>Figures and methods</h3><p>The gating strategy as a figure, and the methods that cite it.</p></a>
+      </div>
+
+      <nav class="doc-pager" aria-label="Pages">
+        <a class="prev" href="gating.html"><span>Previous</span>Gating</a>
+        <a class="next" href="compensation.html"><span>Next</span>Compensation</a>
+      </nav>
+    </main>
+
+    <aside class="toc" aria-label="On this page">
+      <h4>On this page</h4>
+      <ul></ul>
+    </aside>
+  </div>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-about">
+          <a class="brand" href="../"><img src="../assets/img/logo.svg" alt="" width="30" height="30" /><span>Cyto<b>Weave</b></span></a>
+          <p>A flow cytometry analysis workbench for conventional, spectral and mass cytometry. Free and open source under the Apache License 2.0.</p>
+        </div>
+        <div>
+          <h4>Product</h4>
+          <ul>
+            <li><a href="../#features">Features</a></li>
+            <li><a href="../install.html">Install</a></li>
+            <li><a href="../science.html">Science</a></li>
+            <li><a href="https://github.com/robert-mcdermott/cytoweave/blob/main/CHANGELOG.md">Changelog</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Documentation</h4>
+          <ul>
+            <li><a href="../docs/getting-started.html">Getting started</a></li>
+            <li><a href="../docs/gating.html">Gating</a></li>
+            <li><a href="../docs/agents.html">AI agents</a></li>
+            <li><a href="../docs/scripting.html">Scripting</a></li>
+            <li><a href="../docs/troubleshooting.html">Troubleshooting</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Project</h4>
+          <ul>
+            <li><a href="https://github.com/robert-mcdermott/cytoweave">GitHub</a></li>
+            <li><a href="https://github.com/robert-mcdermott/cytoweave/releases">Releases</a></li>
+            <li><a href="https://github.com/robert-mcdermott/cytoweave/issues">Issues</a></li>
+            <li><a href="../science.html#cite">Cite CytoWeave</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">CytoWeave is licensed under the Apache License 2.0. It is research software, not a medical device. The example experiments are simulated; see <a href="../science.html#credits">credits and trademarks</a>.</div>
+    </div>
+  </footer>
+</body>
+</html>
