@@ -48,9 +48,9 @@
   <main id="main">
     <section class="hero">
       <div class="container hero-grid">
-        <a class="eyebrow" href="https://github.com/robert-mcdermott/cytoweave/releases/tag/v0.5.0"><span class="pill">v0.5.0</span> Templates and OMIP strategies placed on your data, Cell Ontology terms, titration and voltage walks, and agents for the whole pipeline</a>
+        <a class="eyebrow" href="https://github.com/robert-mcdermott/cytoweave/releases/tag/v0.6.0"><span class="pill">v0.6.0</span> Differential state equal to diffcyt, batch reports to PDF and PowerPoint, Excel and Prism, AnnData, calibrated units, and R and Python clients</a>
         <h1>Flow cytometry analysis <span class="accent">you can check</span></h1>
-        <p class="lede">CytoWeave is an analysis workbench for conventional, spectral and mass cytometry. It runs on your own computer as one self-contained program, installed with a single command: no license server, no account, no Python, R or plugins. Files are read and analyzed in your browser and never leave your machine.</p>
+        <p class="lede">CytoWeave is an analysis workbench for conventional, spectral and mass cytometry, validated against known answers and the reference tools, that shows where every number comes from. It runs on your own computer as one self-contained program, installed with a single command: no license server, no account, no Python, R or plugins. Files are read and analyzed in your browser and never leave your machine.</p>
         <figure class="hero-shot">
         <div class="shot shot-window" data-url="127.0.0.1:8770"><img class="shot-dark" src="assets/img/gate-dark.webp" width="2000" height="1250" fetchpriority="high" alt="The Gate view of CytoWeave: the gating path of T cells in a 14-color PBMC experiment, with CD4 against CD8 and CD45RA against CCR7 plots, the population tree and the T-cell statistics" /><img class="shot-light" src="assets/img/gate-light.webp" width="2000" height="1250" fetchpriority="high" alt="The Gate view of CytoWeave: the gating path of T cells in a 14-color PBMC experiment, with CD4 against CD8 and CD45RA against CCR7 plots, the population tree and the T-cell statistics" /></div>
         <figcaption>The gating path of T cells in the bundled 14-color PBMC experiment, one of eleven example experiments.</figcaption>
@@ -300,7 +300,8 @@
             <p>Statistics tables of every population across samples, and group comparisons that pick the test from the design: Welch's t-test, paired t-test, Welch's ANOVA or repeated-measures ANOVA, each with its nonparametric counterpart, effect sizes and bootstrap confidence intervals.</p>
             <ul class="checklist">
               <li>Paired designs detected from a subject field</li>
-              <li>Screens of every population or cluster with a volcano plot</li>
+              <li>% positive against a control: SED, Overton and probability binning, equal to flowStats</li>
+              <li>Exact intervals and detection limits for rare populations</li>
               <li>Benjamini–Hochberg, Benjamini–Yekutieli, Holm or Bonferroni</li>
             </ul>
             <a class="more-link" href="docs/statistics.html">Tables and comparisons</a>
@@ -331,9 +332,27 @@
 
         <article class="feature">
           <div class="feature-text">
+            <span class="kicker">Differential state</span>
+            <h3>Which markers change, in which cells</h3>
+            <p>A cell type can keep its frequency while its cells change. Screen every cluster or population for markers whose level differs between conditions with diffcyt-DS-limma: each sample's median per cluster and marker, a model of the design with pairing and covariates, and limma's moderated t-statistics. CytoWeave computes them itself, and gives the same numbers as diffcyt and limma in R.</p>
+            <ul class="checklist">
+              <li>Differential abundance of every cluster beside it</li>
+              <li>The markers the clusters were made from left out by default</li>
+              <li>Every test equal to R's within 3e-11 on the mass cytometry examples</li>
+            </ul>
+            <a class="more-link" href="docs/statistics.html#states">Differential state</a>
+          </div>
+          <figure>
+        <div class="shot"><img class="shot-dark" src="assets/img/compare-states-dark.webp" width="2000" height="1250" loading="lazy" alt="Screen marker states: FlowSOM clusters from lineage markers, activation markers tested between stimulated and unstimulated samples paired by donor; CD25 and HLA-DR up and CD127 down in the T-cell clusters" /><img class="shot-light" src="assets/img/compare-states-light.webp" width="2000" height="1250" loading="lazy" alt="Screen marker states: FlowSOM clusters from lineage markers, activation markers tested between stimulated and unstimulated samples paired by donor; CD25 and HLA-DR up and CD127 down in the T-cell clusters" /></div>
+        <figcaption>Activation markers in clusters of lineage markers: stimulation raises CD25 and HLA-DR and lowers CD127 in the T-cell clusters.</figcaption>
+      </figure>
+        </article>
+
+        <article class="feature reverse">
+          <div class="feature-text">
             <span class="kicker">AI agents</span>
             <h3>Let an agent run the analysis while you watch, then decide</h3>
-            <p>CytoWeave is an MCP server, so Claude Code and other agents can run the whole analysis in the window you are watching: annotate samples, gate, run QC, unmix, cluster and map, compare groups, apply templates and published strategies, analyze titrations, build figures, write the methods and export FlowJo workspaces. Their changes arrive as proposals: new gates, results and figures appear marked as proposed with real counts, and renames, deletions, annotations and compensation matrices wait for you.</p>
+            <p>CytoWeave is an MCP server, so Claude Code and other agents can run the whole analysis in the window you are watching: annotate samples, gate, run QC, unmix, cluster and map, compare groups and test differential state, apply templates and published strategies, analyze titrations, build figures and batch reports, write the methods and export FlowJo workspaces, tables and events. Their changes arrive as proposals: new gates, results and figures appear marked as proposed with real counts, and renames, deletions, annotations and compensation matrices wait for you.</p>
             <ul class="checklist">
               <li>Accept or reject the whole proposal from one strip</li>
               <li>The change log records which agent proposed what</li>
@@ -344,6 +363,24 @@
           <figure>
         <div class="shot"><img class="shot-dark" src="assets/img/agents-review-dark.webp" width="2000" height="1250" loading="lazy" alt="Review the proposal: Claude Code proposes three gates with their frequencies and a compensation matrix for 12 samples, with Reject all and Accept all buttons" /><img class="shot-light" src="assets/img/agents-review-light.webp" width="2000" height="1250" loading="lazy" alt="Review the proposal: Claude Code proposes three gates with their frequencies and a compensation matrix for 12 samples, with Reject all and Accept all buttons" /></div>
         <figcaption>Claude Code proposes single cells, live cells and a compensation matrix; nothing is final until you accept.</figcaption>
+      </figure>
+        </article>
+
+        <article class="feature">
+          <div class="feature-text">
+            <span class="kicker">R and Python</span>
+            <h3>Your analysis, from R, Python and scanpy</h3>
+            <p>Every action an agent has is a function in CytoWeave's R and Python clients, which find the running program themselves, so a script can open a plate, apply the gating and pull the statistics into a data frame while you watch it work in the window. Events go out as one concatenated FCS file, downsampled with a seed, or as AnnData for scanpy, with every population, cluster and annotation; CSV files of events come in with every column checked.</p>
+            <ul class="checklist">
+              <li>Results as data frames; plots saved as PNG</li>
+              <li>AnnData read exactly by anndata, h5py and pyfive</li>
+              <li>Each event of a concatenated file traceable to its sample and index</li>
+            </ul>
+            <a class="more-link" href="docs/scripting.html#clients">R and Python clients</a>
+          </div>
+          <figure>
+        <div class="shot"><img class="shot-dark" src="assets/img/export-events-dark.webp" width="2000" height="1250" loading="lazy" alt="Export events: the lymphocytes of 12 samples, up to 5,000 per sample with a seed, as an AnnData file with arcsinh-transformed marker channels in X" /><img class="shot-light" src="assets/img/export-events-light.webp" width="2000" height="1250" loading="lazy" alt="Export events: the lymphocytes of 12 samples, up to 5,000 per sample with a seed, as an AnnData file with arcsinh-transformed marker channels in X" /></div>
+        <figcaption>The lymphocytes of every sample, 5,000 each with a seed, as AnnData for scanpy.</figcaption>
       </figure>
         </article>
 
@@ -371,7 +408,7 @@
           <div class="feature-text">
             <span class="kicker">Reproducible</span>
             <h3>Figures, methods and checkpoints</h3>
-            <p>Build the gating strategy of a population in one click, or lay out plots across samples; they stay live until you export SVG, PNG or a 300 dpi PDF. The Report view writes a methods paragraph with numbered references from what the workspace actually did, and checkpoints compare two versions of an analysis in plain language.</p>
+            <p>Build the gating strategy of a population in one click, or lay out plots across samples; they stay live until you export SVG, PNG or vector PDF, and a batch report repeats a figure for every sample or subject as a PDF or a PowerPoint deck. Tables go to Excel, with sheets that say where each number comes from, and to Prism. The Report view writes a methods paragraph with numbered references from what the workspace actually did, and checkpoints compare two versions of an analysis in plain language.</p>
             <ul class="checklist">
               <li>Exported figures carry the analysis that made them; open one to see what changed</li>
               <li>Every algorithm with its parameters and seed</li>
@@ -383,6 +420,24 @@
           <figure>
         <div class="shot"><img class="shot-dark" src="assets/img/figures-dark.webp" width="2000" height="1250" loading="lazy" alt="The Figures view: the gating strategy of T cells laid out on a page with one plot per step" /><img class="shot-light" src="assets/img/figures-light.webp" width="2000" height="1250" loading="lazy" alt="The Figures view: the gating strategy of T cells laid out on a page with one plot per step" /></div>
         <figcaption>The gating strategy of T cells, laid out in one click and still live.</figcaption>
+      </figure>
+        </article>
+
+        <article class="feature reverse">
+          <div class="feature-text">
+            <span class="kicker">Batch reports</span>
+            <h3>One figure, every sample, every number traced</h3>
+            <p>Repeat a figure for each sample or each subject as a multi-page PDF or a PowerPoint deck: each plot redrawn on the page's sample, a control kept on every page, text such as {sample} filled in, and statistics as native tables. Every number printed is recorded with the table column or gate it comes from, and the record travels in the file.</p>
+            <ul class="checklist">
+              <li>Vector PDF with searchable text</li>
+              <li>Excel workbooks that say where each number comes from, and Prism projects</li>
+              <li>Missing tubes and ambiguous replicates reported before anything is written</li>
+            </ul>
+            <a class="more-link" href="docs/figures.html#batch">Batch reports</a>
+          </div>
+          <figure>
+        <div class="shot"><img class="shot-dark" src="assets/img/batch-report-dark.webp" width="2000" height="1250" loading="lazy" alt="The batch report dialog: the gating strategy of T cells repeated for each of six subjects as a PDF, with the analysis and the record of every number embedded" /><img class="shot-light" src="assets/img/batch-report-light.webp" width="2000" height="1250" loading="lazy" alt="The batch report dialog: the gating strategy of T cells repeated for each of six subjects as a PDF, with the analysis and the record of every number embedded" /></div>
+        <figcaption>The gating strategy of T cells, a page for each of six donors.</figcaption>
       </figure>
         </article>
       </div>
@@ -435,6 +490,21 @@
             <h3>QC while you acquire</h3>
             <p>Watch the instrument's export folder: each file is checked as soon as it is written, so a clog or a failing detector shows before the next tube.</p>
           </a>
+          <a class="card" href="docs/qc.html#calibration">
+            <span class="icon-badge pink"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h16"/><path d="M6 16l4-6 4 3 4-7"/><circle cx="18" cy="6" r="1.5"/></svg></span>
+            <h3>MEF units from beads</h3>
+            <p>A standard curve fitted to multi-level beads, as FlowCal does, and every channel of the samples acquired with them in MEFL or ERF.</p>
+          </a>
+          <a class="card" href="docs/statistics.html#absolute-counts">
+            <span class="icon-badge gold"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="7" cy="8" r="2"/><circle cx="15" cy="7" r="2"/><circle cx="10" cy="15" r="2"/><circle cx="17" cy="15" r="2"/><path d="M3 21h18"/></svg></span>
+            <h3>Absolute counts</h3>
+            <p>Cells per µL from counting beads or the file's volume, with a dilution that can come from each sample's annotations.</p>
+          </a>
+          <a class="card" href="docs/gating.html#formulas">
+            <span class="icon-badge mint"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6h7M7.5 2.5v7M13 18h7M5 19l5-5M5 14l5 5M14 5l6 6"/></svg></span>
+            <h3>Formula channels</h3>
+            <p>A ratio or any formula of other channels, by marker or detector, to plot, gate and tabulate like any channel, and into Gating-ML as fratio.</p>
+          </a>
           <a class="card" href="docs/accessibility.html">
             <span class="icon-badge"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg></span>
             <h3>Accessible</h3>
@@ -466,6 +536,10 @@
               <tr><td><strong>Q and B</strong></td><td>flowQB on its own LSR II data</td><td class="agree">equal within 6e-9</td></tr>
               <tr><td><strong>Predicted spread</strong></td><td>A BD LSRFortessa's 15 bead controls</td><td class="agree">79% of pairs within 2×</td></tr>
               <tr><td><strong>R packages</strong></td><td>flowCore, PeacoQC, FlowSOM and CytoNorm</td><td class="agree">within 1e-7 to 1e-5</td></tr>
+              <tr><td><strong>Differential state</strong></td><td>diffcyt and limma in R on the mass cytometry examples</td><td class="agree">every test within 3e-11</td></tr>
+              <tr><td><strong>Probability binning</strong></td><td>flowStats on tubes with known positive fractions</td><td class="agree">identical bins; within 9e-15</td></tr>
+              <tr><td><strong>MEF units</strong></td><td>FlowCal on its own bead and cell files</td><td class="agree">cells within 1.6%</td></tr>
+              <tr><td><strong>AnnData</strong></td><td>anndata 0.10 and 0.13, h5py and pyfive</td><td class="agree">every value read exactly</td></tr>
             </tbody>
           </table>
         </div>

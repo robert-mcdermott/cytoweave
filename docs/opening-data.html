@@ -4,11 +4,11 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Opening data · CytoWeave</title>
-  <meta name="description" content="Open FCS files and folders in CytoWeave, organize samples into groups, annotate them by condition, subject and batch, and mark compensation and spectral controls." />
+  <meta name="description" content="Open FCS files, folders and CSV files of events in CytoWeave, organize samples into groups, annotate them by condition, subject and batch, and mark compensation and spectral controls." />
   <link rel="canonical" href="https://robert-mcdermott.github.io/cytoweave/docs/opening-data.html" />
   <meta property="og:type" content="website" />
   <meta property="og:title" content="Opening data" />
-  <meta property="og:description" content="Open FCS files and folders in CytoWeave, organize samples into groups, annotate them by condition, subject and batch, and mark compensation and spectral controls." />
+  <meta property="og:description" content="Open FCS files, folders and CSV files of events in CytoWeave, organize samples into groups, annotate them by condition, subject and batch, and mark compensation and spectral controls." />
   <meta property="og:url" content="https://robert-mcdermott.github.io/cytoweave/docs/opening-data.html" />
   <meta property="og:image" content="https://robert-mcdermott.github.io/cytoweave/assets/img/og-image.jpg" />
   <meta name="twitter:card" content="summary_large_image" />
@@ -101,13 +101,27 @@
             <tr><td><code>.acs</code>, <code>.zip</code></td><td>An Archival Cytometry Standard container: a workspace with its FCS files</td></tr>
             <tr><td><code>.wsp</code></td><td>A FlowJo 10 workspace; see <a href="flowjo.html">FlowJo and Gating-ML</a></td></tr>
             <tr><td><code>.xml</code></td><td>Gating-ML 2.0 gates and compensation</td></tr>
-            <tr><td><code>.csv</code>, <code>.tsv</code></td><td>Sample annotations: the first column names the sample or file, the other columns become fields</td></tr>
+            <tr><td><code>.csv</code>, <code>.tsv</code>, <code>.txt</code></td><td>Events, a row per event and a column per channel (<a href="#csv">below</a>); or, when the first column names samples, sample annotations: the other columns become fields</td></tr>
             <tr><td><code>.svg</code>, <code>.png</code>, <code>.pdf</code></td><td>A figure CytoWeave exported: where it came from, what changed since, and a rebuild; see <a href="figures.html#open-figure">Opening an exported figure</a></td></tr>
           </tbody>
         </table>
       </div>
-      <p>Drag files onto the window, use the <strong>+</strong> button of the sample list (<strong>Add FCS files…</strong>, <strong>Add a folder of FCS files…</strong>), press <kbd>⌘O</kbd>, or name them on the command line. Event data in CSV are not imported, only annotations.</p>
+      <p>Drag files onto the window, use the <strong>+</strong> button of the sample list (<strong>Add FCS files…</strong>, <strong>Add a folder of FCS files…</strong>), press <kbd>⌘O</kbd>, or name them on the command line.</p>
       <p>The program keeps one copy of each FCS file in your library, under its SHA-256 checksum, so the workspace keeps working when the originals are moved or renamed. See <a href="workspaces.html">Workspaces</a>.</p>
+
+      <h2 id="csv">Events in CSV files</h2>
+      <figure>
+        <div class="shot"><img class="shot-dark" src="../assets/img/csv-import-dark.webp" width="2000" height="1250" loading="lazy" alt="The Import events dialog for a CSV exported from FlowJo: 3,000 events in 22 columns, each column with a box to import it, its marker, kind and scale, its range of values and a check; the event number column is left out" /><img class="shot-light" src="../assets/img/csv-import-light.webp" width="2000" height="1250" loading="lazy" alt="The Import events dialog for a CSV exported from FlowJo: 3,000 events in 22 columns, each column with a box to import it, its marker, kind and scale, its range of values and a check; the event number column is left out" /></div>
+        <figcaption>A CSV exported from FlowJo, its columns checked before import.</figcaption>
+      </figure>
+      <p>A CSV of events (a row per event, a column per channel, numbers in every column including the first), as FlowJo's <em>Export CSV</em>, FCS Express, R, Python and some instruments write it, opens in a dialog that checks every column before anything is imported:</p>
+      <ul>
+        <li>The file's format: comma, semicolon or tab separated, with decimal points or commas, with or without a header row. FlowJo's headers (<code>Comp-PE-A :: CD25</code>) give the channel and its marker.</li>
+        <li>Each column's values: their range, cells that are not numbers (with the row of the first), empty cells, rows of the wrong length, the same value in every row.</li>
+        <li>An event number column (1, 2, 3 …) is left out. A column of a few whole numbers is recognized as labels, such as clusters or sample numbers, and can split the file into one sample per value (a file that concatenated several samples, for example).</li>
+        <li>Each column's kind (scatter, fluorescence or mass, time, other) and scale are guessed: logicle for intensities, arcsinh with cofactor 5 for mass cytometry counts, linear for scatter and time, and linear over their range for values that are already transformed (small, often negative values, as arcsinh or log values are). Change any of them before importing; a channel the workspace already has keeps its scale.</li>
+      </ul>
+      <p>Each file becomes a sample, stored in the library as an FCS file of 32-bit floats (as FCS files hold values; about seven significant digits), so it is checksummed, saved and analyzed like any other. Rows with an empty or non-numeric value in an imported column are left out and counted. Several files with the same columns are imported together. The validation suite reads CytoWeave's own CSV export and FlowJo's format back exactly, and a damaged file's faults are each reported.</p>
 
       <h2 id="repairs">Files that bend the standard</h2>
       <p>FCS files from real instruments often bend the standard, and CytoWeave reads them anyway. Every repair is listed in the <strong>Sample</strong> section of the inspector, so nothing is silently changed:</p>

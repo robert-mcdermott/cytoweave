@@ -99,7 +99,8 @@
         <li>run acquisition QC, unmix spectral files, and cluster and map cells across samples;</li>
         <li>analyze an antibody titration or a detector voltage walk;</li>
         <li>save and apply <a href="templates.html">analysis templates</a> and the published OMIP-101 and OMIP-090 strategies, and name populations with Cell Ontology terms;</li>
-        <li>compute population statistics and tables across samples, and look at plots as images;</li>
+        <li>add formula channels (a ratio of two markers) and calibrate fluorescence in MEF units with beads;</li>
+        <li>compute population statistics and tables across samples (absolute counts with counting beads among them), compare samples with a control (% positive, probability binning), and report rare populations with exact intervals and detection limits, and look at plots as images;</li>
         <li>review a gate across the cohort, compare groups of samples, check a comparison against other analysis choices, build figures and write a methods paragraph;</li>
         <li>watch an instrument's export folder, checking each file as it lands;</li>
         <li>export FlowJo workspaces, de-identified FCS files, figures and tables to files, and Gating-ML.</li>
@@ -124,7 +125,7 @@ between stimulated and unstimulated samples.</code></pre></div>
     }
   }
 }</code></pre></div>
-      <p>Options go after <code>mcp</code>: <code>--port</code> (default 8770; the next free one is used), <code>--data-dir</code> (the workspace library) and <code>--window app|browser|none</code> (how the window opens when a tool needs it). Proposals and the <code>propose_compensation</code> and <code>proposals</code> tools need CytoWeave 0.2.0 or later, <code>adapt_gate</code> 0.3.0, <code>check_robustness</code> 0.4.0, and the QC, unmixing, clustering, annotation, figure, folder-watching, export, template, cell-type and titration tools 0.5.0.</p>
+      <p>Options go after <code>mcp</code>: <code>--port</code> (default 8770; the next free one is used), <code>--data-dir</code> (the workspace library) and <code>--window app|browser|none</code> (how the window opens when a tool needs it). Proposals and the <code>propose_compensation</code> and <code>proposals</code> tools need CytoWeave 0.2.0 or later, <code>adapt_gate</code> 0.3.0, <code>check_robustness</code> 0.4.0, and the QC, unmixing, clustering, annotation, figure, folder-watching, export, template, cell-type and titration tools 0.5.0, and <code>compare_distributions</code>, <code>rare_events</code>, <code>add_formula_channel</code>, <code>calibrate_beads</code>, <code>export_report</code>, <code>export_events</code> and <code>differential_analysis</code> 0.6.0 (as do Excel and Prism files from <code>export_table</code> and CSV files of events in <code>open_files</code>).</p>
 
       <h2 id="proposals">Reviewing proposals</h2>
       <figure>
@@ -149,7 +150,7 @@ between stimulated and unstimulated samples.</code></pre></div>
           <thead><tr><th>Tool</th><th>What it does</th></tr></thead>
           <tbody>
             <tr><td><code>workspace_summary</code></td><td>Samples (events, role, metadata, channels and markers), groups, the gating tree of the current sample with counts, compensation, derived results, and what the window shows</td></tr>
-            <tr><td><code>open_files</code></td><td>Opens FCS files, folders, CytoWeave or FlowJo workspaces, or Gating-ML, by absolute path</td></tr>
+            <tr><td><code>open_files</code></td><td>Opens FCS files, folders, CytoWeave or FlowJo workspaces, Gating-ML, or CSV files of events (each a sample, its columns checked), by absolute path</td></tr>
             <tr><td><code>open_example</code></td><td>Generates and opens a simulated example experiment</td></tr>
             <tr><td><code>select</code></td><td>Shows a sample, population or view in the window</td></tr>
             <tr><td><code>list_populations</code></td><td>Every population's path, gate, count, % of parent and % of total for a sample</td></tr>
@@ -164,6 +165,7 @@ between stimulated and unstimulated samples.</code></pre></div>
             <tr><td><code>review_gate</code></td><td>A gate's frequency on every sample with a robust z-score and boundary robustness, outliers first</td></tr>
             <tr><td><code>adapt_gate</code></td><td>Adapts a gate to every sample with a confidence for each: confident adjustments are proposed, uncertain samples listed for you to check; <code>groupBy</code> keeps one gate per donor or subject</td></tr>
             <tr><td><code>compare</code></td><td>Tests a statistic between groups of samples defined by annotations, optionally paired</td></tr>
+            <tr><td><code>differential_analysis</code></td><td>Tests every cluster (or chosen populations) between groups of samples: differential state, each marker's median by diffcyt-DS-limma, or differential abundance, each cluster's share of the parent; with pairing and covariates in the model</td></tr>
             <tr><td><code>check_robustness</code></td><td>Repeats a two-group comparison under other reasonable analysis choices (gate boundaries, adapted gates, QC, compensation, test) and reports whether the conclusion holds, mostly holds or is fragile, and which choices change it</td></tr>
             <tr><td><code>annotate_samples</code></td><td>Sets samples' metadata fields, roles and stained channels (held for review)</td></tr>
             <tr><td><code>run_qc</code></td><td>Acquisition QC: each sample's score, events removed and findings; the "QC pass" channel is proposed, and with <code>addGate</code> a "QC pass" gate at the top of the tree</td></tr>
@@ -175,7 +177,11 @@ between stimulated and unstimulated samples.</code></pre></div>
             <tr><td><code>apply_template</code></td><td>Applies a template or a strategy (<code>omip-101</code>, <code>omip-090</code>) with channels matched by marker, saying how each matched and what was left out; a strategy's gates are placed on one sample's events. The gates and figures are proposed</td></tr>
             <tr><td><code>suggest_cell_types</code></td><td>A Cell Ontology term for each population from its phenotype, never its name, with a confidence and the markers it rests on; <code>propose</code> proposes the top terms for you to confirm</td></tr>
             <tr><td><code>titration</code></td><td>Analyzes an antibody titration (amounts from the file names) or a detector voltage walk (voltages from <code>$PnV</code>): each step's stain and separation index, and the recommended amount or voltage range; <code>save</code> proposes the result</td></tr>
-            <tr><td><code>export_flowjo</code>, <code>export_fcs</code>, <code>export_figure</code>, <code>export_table</code></td><td>Write a FlowJo workspace, de-identified FCS files, a figure (SVG, PNG, PDF) or a statistics table to an absolute path; never replace a file unless told to</td></tr>
+            <tr><td><code>add_formula_channel</code></td><td>Proposes a channel computed from others ([CD4] / [CD8], log([CD25])), usable at once in gates, plots and statistics</td></tr>
+            <tr><td><code>calibrate_beads</code></td><td>Calibrates channels in MEF units from a multi-level bead sample, as FlowCal does, and proposes the calibrated channels for the samples acquired with the beads' settings</td></tr>
+            <tr><td><code>compare_distributions</code></td><td>Each sample's population against a control sample's on a channel: % positive by SED and Overton, probability binning's T(χ), the K-S D; several channels for multivariate probability binning</td></tr>
+            <tr><td><code>rare_events</code></td><td>Exact intervals of a rare population's count and frequency, the events needed for a target CV, and limits of blank, detection and quantification from blank and low-level samples</td></tr>
+            <tr><td><code>export_flowjo</code>, <code>export_fcs</code>, <code>export_figure</code>, <code>export_report</code>, <code>export_events</code>, <code>export_table</code></td><td>Write a FlowJo workspace, de-identified FCS files, a population's events in several samples (concatenated into one FCS file with SampleID and SourceEvent channels, one FCS file per sample, or AnnData .h5ad; optionally downsampled with a seed), a figure (SVG, PNG, PDF), a batch report (a figure repeated for each sample or each value of an annotation, as PDF or PowerPoint, with the pages and any notes) or statistics (CSV, TSV, an Excel workbook with its provenance sheets, a Prism project grouped by an annotation) to an absolute path; never replace a file unless told to</td></tr>
             <tr><td><code>methods</code></td><td>A methods paragraph with numbered references</td></tr>
             <tr><td><code>export_gating_ml</code></td><td>The gating strategy as Gating-ML 2.0</td></tr>
           </tbody>

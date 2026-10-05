@@ -74,8 +74,16 @@
             <tr><td><strong>Spectral library</strong></td><td>A second experiment's controls, and a tandem that lost 5% of its emission</td><td>Independent controls all match (largest difference 0.01); the degraded PE-Cy7 flagged and nothing else; a library spectrum unmixes as well as the dye's own control</td></tr>
             <tr><td><strong>Figure provenance</strong></td><td>A 60-plot figure of 12 samples</td><td>Read back intact from SVG, PNG and PDF; rebuilt with every plot drawn from the same events</td></tr>
             <tr><td><strong>Predicted spread</strong></td><td>Simulated controls with known photon noise and laser fluctuations</td><td>Photon noise within 1% of the truth; each control's spread predicted from the other 24 within 2× for 98% of pairs; a 15-dye panel predicted from the 25-dye fit within 2× for every pair</td></tr>
+            <tr><td><strong>Comparisons with a control</strong></td><td>flowStats and R on tubes with known positive fractions; Bagwell's simulation</td><td>Probability binning identical to flowStats (36 cases, to 9e-15); SED within 2 points of the true fraction, Overton up to 8 points under where populations overlap; T(χ) above 4 in 0.5% of samples of the same cells</td></tr>
+            <tr><td><strong>Formula channels</strong></td><td>R evaluating the same 7 formulas on 10 tubes; Gating-ML and a template</td><td>Medians within 5e-8, single events within 2e-14; a ratio gate the same through Gating-ML (fratio) and on renamed detectors</td></tr>
+            <tr><td><strong>Calibrated units (MEF)</strong></td><td>FlowCal 1.3.1 on its own bead and cell files; simulated beads of known response</td><td>The same levels left out, medians within one step of the log channel, cells' MEFL within 1.6% of FlowCal's; a known slope within 0.001</td></tr>
+            <tr><td><strong>Absolute counts</strong></td><td>40 simulated tubes of known concentration with counting beads</td><td>Within 1% on average, scattered as Poisson counting predicts</td></tr>
+            <tr><td><strong>Differential state</strong></td><td>diffcyt 1.32 and limma 3.68 in R on the mass cytometry examples (8 samples with a batch, 20 paired wells); limma on 11 synthetic cases; activation known in advance</td><td>Every count and median identical, every moderated t, p and adjusted p within 3e-11; the known activation changes found (15 of 15 strong ones) with 3 of 53 calls false; no call where no marker differs</td></tr>
+            <tr><td><strong>Events in and out</strong></td><td>Concatenated, downsampled and per-sample FCS files against their sources; CSV files from CytoWeave, FlowJo and European locales, and a damaged one; AnnData files read by anndata 0.10 and 0.13, h5py, pyfive, fcsparser and FlowIO</td><td>Every event its source's, every population counted alike per SampleID; seeded downsampling exact and uniform; CSV values back exactly, every fault reported; X, obs and maps read exactly by every reader</td></tr>
+            <tr><td><strong>Batch reports and spreadsheets</strong></td><td>A figure repeated by sample and by subject, every number recomputed; the PDF, PowerPoint, Excel and Prism files read by openpyxl, python-pptx, pypdf and R's pzfx</td><td>Every plot where the rules put it; all 171 numbers equal to their table column or gate; no untraced number in the PDF; workbook, deck and Prism values exact in every reader</td></tr>
+            <tr><td><strong>Rare events</strong></td><td>R's exact intervals; simulated blanks and low-level samples</td><td>Intervals equal to poisson.test and binom.test, covering ≥ 95%; EP17 limits flagging 4% of new blanks and detecting 98% at the limit of detection</td></tr>
             <tr><td><strong>Robustness to analysis choices</strong></td><td>Comparisons with known answers: a real effect, a gain shift, clogs and a stale matrix in one group, and no effect</td><td>The real effect holds in 64 of 64 analyses; each artifact called fragile or traced to the choice behind it; under no effect, half of the chance findings are flagged</td></tr>
-            <tr><td><strong>Accessibility</strong></td><td>Every text color on every surface, the palettes in simulated color-vision deficiencies, and axe-core in 72 pages</td><td>Contrast ≥ 4.5:1 everywhere in both themes; friendly palette ≥ 11 apart (CIEDE2000) in every kind of vision; no axe-core violations</td></tr>
+            <tr><td><strong>Accessibility</strong></td><td>Every text color on every surface, the palettes in simulated color-vision deficiencies, and axe-core in 86 pages</td><td>Contrast ≥ 4.5:1 everywhere in both themes; friendly palette ≥ 11 apart (CIEDE2000) in every kind of vision; no axe-core violations</td></tr>
             <tr><td><strong>Titration and voltage walks</strong></td><td>A simulated CD4-PE titration and PE voltage walk with known binding, noise and gain</td><td>Stain index within 4.4% of the true cells' at every step; the recommended amount the binding's; the voltage range within 1 V of the truth; medians equal to FlowJo 11's on the same files</td></tr>
             <tr><td><strong>Templates</strong></td><td>A 19-population analysis applied to the same events with every detector renamed and reordered</td><td>Every population holds the same events in all 12 samples; with two markers unnamed, only the gate on them left out</td></tr>
             <tr><td><strong>Published strategies</strong></td><td>OMIP-101 and OMIP-090 placed on one sample of the PBMC example, against the true cell types</td><td>Median F1 0.96–0.99 for lineages, 0.88–0.96 for memory subsets, NK cells and classical and non-classical monocytes; Tregs 0.91; intermediate monocytes 0.76</td></tr>
@@ -132,6 +140,10 @@
         <li>Trustworthiness and continuity: Venna and Kaski; LISI: Korsunsky et al.</li>
         <li>MIFlowCyt, FCS and Gating-ML: the International Society for Advancement of Cytometry (ISAC)</li>
         <li>Stain index: Maecker et al.; separation index: Bigos; titration: Bonilla et al.; voltage setup: Meinelt et al. (BD)</li>
+        <li>Probability binning: Roederer et al.; Baggerly; histogram subtraction: Overton; enhanced normalized subtraction (SED): Bagwell</li>
+        <li>Exact intervals: Garwood; Clopper and Pearson; detection limits: CLSI EP17, Armbruster and Pry; events needed: Roederer</li>
+        <li>Calibrated units from beads: FlowCal, Castillo-Hair et al.; absolute counts: Brando et al.</li>
+        <li>Differential state: diffcyt, Weber et al.; moderated t-statistics: limma, Smyth; Ritchie et al.; Chen et al.</li>
         <li>The OMIP-101 and OMIP-090 gating strategies: Imbratta et al.; Stroukov et al.; immunophenotypes: Maecker, McCoy and Nussenblatt</li>
       </ul>
       <p>The <strong>Report</strong> view lists the references for the analyses you actually used, with DOIs and a BibTeX file; see <a href="docs/figures.html#methods">the methods paragraph</a>.</p>
@@ -141,7 +153,7 @@
       <div class="code"><span class="code-label">bibtex</span><pre><code>@software{cytoweave,
   author  = {McDermott, Robert},
   title   = {CytoWeave: a flow cytometry analysis workbench},
-  version = {0.5.0},
+  version = {0.6.0},
   url     = {https://github.com/robert-mcdermott/cytoweave},
   license = {Apache-2.0},
   year    = {2026}
@@ -151,7 +163,7 @@
       <ul>
         <li>Files are parsed and analyzed in the browser. Nothing is uploaded, and CytoWeave makes no network requests of its own.</li>
         <li>By default the server listens only on the loopback interface, rejects requests whose <code>Host</code> header is not a local address (which blocks DNS rebinding), accepts API calls only from its own pages, and serves a strict Content Security Policy.</li>
-        <li>Remote control is off unless <code>--remote-control</code> is given (<code>cytoweave mcp</code> turns it on for its own session). Actions that read files from disk need a per-session token.</li>
+        <li>Remote control is off unless <code>--remote-control</code> is given (<code>cytoweave mcp</code> turns it on for its own session). Actions that read or write files need a per-session token, which CytoWeave also writes to a file in its data folder that only you can read, for the R and Python clients.</li>
       </ul>
       <div class="callout warn"><p><strong>Research software.</strong> CytoWeave is not a medical device and must not be used for diagnosis.</p></div>
 
@@ -159,10 +171,13 @@
       <p>CytoWeave is written by Robert McDermott and licensed under the <a href="https://github.com/robert-mcdermott/cytoweave/blob/main/LICENSE">Apache License 2.0</a>. Ported code:</p>
       <ul>
         <li>The FlowJo biexponential algorithm is ported from <a href="https://github.com/whitews/FlowKit">FlowKit</a> (BSD-3-Clause, Scott White), which ported it from cytolib.</li>
+        <li>The moderated t-statistics follow the R and C sources of <a href="https://bioconductor.org/packages/limma/">limma</a> 3.68.5 (GPL ≥ 2, Gordon Smyth and co-authors) and statmod 1.5 (Gordon Smyth), so that results equal R's.</li>
         <li>The validation suite includes excerpts of BD's FlowJo transformation lookup tables (MIT license, © 2020 Becton, Dickinson and Company).</li>
       </ul>
       <p>Cell types are named with terms of the <a href="https://obofoundry.org/ontology/cl.html">Cell Ontology</a> (release 2026-06-08). CytoWeave contains the labels, synonyms and definitions of 89 of its terms, under the <a href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0</a> license: Tan SZK et al. The Cell Ontology in the age of single-cell omics. <em>Sci Data</em> 13, 946 (2026), <a href="https://doi.org/10.1038/s41597-026-07173-8">doi:10.1038/s41597-026-07173-8</a>.</p>
-      <p>FlowJo, FACSDiva, FACSDiscover, BD, Cytek, Aurora, Northern Lights, Sony, ID7000, Amnis, CellView, CellTrace and the other product and company names on this site and in CytoWeave are trademarks of their respective owners. They are named only to say what CytoWeave works with, such as the files and workspaces it reads. CytoWeave is an independent open-source project, not affiliated with, endorsed by or sponsored by any of them.</p>
+      <p>AnnData files follow the anndata project's on-disk format specification (scverse); their HDF5 is written by CytoWeave from the HDF5 file format specification (The HDF Group).</p>
+      <p>PDF text is set in Helvetica with Adobe's metrics for the standard PDF fonts, as reportlab lists them. Prism projects follow the layout of GraphPad's own files, as the R package pzfx (Yue Jiang) reads and writes them.</p>
+      <p>FlowJo, FACSDiva, FACSDiscover, BD, Cytek, Aurora, Northern Lights, Sony, ID7000, Amnis, CellView, CellTrace, GraphPad Prism, Microsoft Excel and PowerPoint and the other product and company names on this site and in CytoWeave are trademarks of their respective owners. They are named only to say what CytoWeave works with, such as the files and workspaces it reads. CytoWeave is an independent open-source project, not affiliated with, endorsed by or sponsored by any of them.</p>
       <p>The example experiments and every screenshot on this site are simulated data. Instrument names in them (such as "LSRFortessa-like") describe the configuration that was modeled, not data from that instrument.</p>
     </main>
 

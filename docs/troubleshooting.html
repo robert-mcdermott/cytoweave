@@ -124,6 +124,9 @@
       <h3 id="saving">The workspace is not saved</h3>
       <p>The dot beside the workspace name turns red when saving fails; point at it for the reason. The library must be a folder you can write to, with free space: see <a href="workspaces.html#library">the library</a>, or start CytoWeave with <code>--data-dir</code> pointing elsewhere.</p>
 
+      <h3 id="pdf-characters">A character in a PDF shows as "?" or plain letters</h3>
+      <p>PDF figures and reports set their text in Helvetica, which every PDF reader has without embedding a font. Its character set covers English and Western European text, µ, ×, ±, °, superscript digits and typographic quotes and dashes. Other characters are written as their nearest ASCII (−, ≥ and χ as -, &gt;= and chi) or, without one, as "?". Rename the sample or population, or export the figure as SVG or PNG, which keep every character.</p>
+
       <h3 id="watch">A watched folder does not pick up a file</h3>
       <p>QC → Live lists files that are still being written under <strong>Being written</strong>. A file is picked up once its size has stopped changing and its FCS header says all its data are there, so a file whose export was interrupted stays there: export it again. Files that were in the folder before watching began are opened only when you click <strong>Check the files already there</strong>. Hidden files, names starting with ~ and other extensions (<code>.part</code>, <code>.tmp</code>) are ignored until they are renamed to <code>.fcs</code>. Watching needs the CytoWeave program; it does not work when CytoWeave is served as a plain web site.</p>
 
@@ -139,9 +142,10 @@
       <h2 id="agents">AI agents</h2>
       <ul>
         <li><strong>The agent cannot start CytoWeave.</strong> Give the full path to the program in the MCP configuration (<code>~/.local/bin/cytoweave</code>, or <code>%LOCALAPPDATA%\Programs\CytoWeave\cytoweave.exe</code>): agents often start programs without your shell's <code>PATH</code>.</li>
-        <li><strong>Proposals or <code>propose_compensation</code> are missing.</strong> They need CytoWeave 0.2.0 or later (<code>adapt_gate</code> 0.3.0, <code>check_robustness</code> 0.4.0, the QC, unmixing, clustering, figure, folder, export, template, cell-type and titration tools 0.5.0): check <code>cytoweave --version</code>.</li>
+        <li><strong>Proposals or <code>propose_compensation</code> are missing.</strong> They need CytoWeave 0.2.0 or later (<code>adapt_gate</code> 0.3.0, <code>check_robustness</code> 0.4.0, the QC, unmixing, clustering, figure, folder, export, template, cell-type and titration tools 0.5.0, <code>compare_distributions</code>, <code>rare_events</code>, <code>add_formula_channel</code>, <code>calibrate_beads</code>, <code>export_report</code>, <code>export_events</code> and <code>differential_analysis</code> 0.6.0): check <code>cytoweave --version</code>.</li>
         <li><strong>"The CytoWeave page did not answer in time."</strong> Actions run in the window: make sure it is open and not waiting in a dialog.</li>
         <li><strong>A script gets "Opening files needs the X-CytoWeave-Token header".</strong> <code>open_files</code> reads from disk, so scripts need the token CytoWeave printed at startup; see <a href="scripting.html#token">Opening files by path</a>.</li>
+        <li><strong>The R or Python client cannot find CytoWeave.</strong> Start CytoWeave with <code>--remote-control</code>: it then writes <code>remote.json</code> to its data folder, where <code>cw_connect()</code> and <code>cytoweave.connect()</code> look. If CytoWeave runs with <code>--data-dir</code>, set <code>CYTOWEAVE_DATA_DIR</code> to that folder, or pass the address and token CytoWeave printed; see <a href="scripting.html#clients">the clients</a>. Use the clients of the CytoWeave version you run (<code>cw_connect()</code> prints it).</li>
         <li><strong>An export says the file exists, or the folder does not.</strong> The export tools write only into a folder that exists and never replace a file unless the call passes <code>overwrite: true</code>; scripts also need the token, as for opening files.</li>
       </ul>
 

@@ -4,11 +4,11 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Figures, methods and checkpoints · CytoWeave</title>
-  <meta name="description" content="Build publication figures from live plots in CytoWeave, export SVG, PNG or 300 dpi PDF that carry the analysis behind them, copy a methods paragraph with numbered references and BibTeX, check the MIFlowCyt checklist, and compare versions of an analysis with checkpoints." />
+  <meta name="description" content="Build publication figures from live plots in CytoWeave, export SVG, PNG or vector PDF that carry the analysis behind them, repeat a figure for every sample or subject as a PDF or PowerPoint batch report, copy a methods paragraph with numbered references and BibTeX, check the MIFlowCyt checklist, and compare versions of an analysis with checkpoints." />
   <link rel="canonical" href="https://robert-mcdermott.github.io/cytoweave/docs/figures.html" />
   <meta property="og:type" content="website" />
   <meta property="og:title" content="Figures, methods and checkpoints" />
-  <meta property="og:description" content="Build publication figures from live plots in CytoWeave, export SVG, PNG or 300 dpi PDF that carry the analysis behind them, copy a methods paragraph with numbered references and BibTeX, check the MIFlowCyt checklist, and compare versions of an analysis with checkpoints." />
+  <meta property="og:description" content="Build publication figures from live plots in CytoWeave, export SVG, PNG or vector PDF that carry the analysis behind them, repeat a figure for every sample or subject as a PDF or PowerPoint batch report, copy a methods paragraph with numbered references and BibTeX, check the MIFlowCyt checklist, and compare versions of an analysis with checkpoints." />
   <meta property="og:url" content="https://robert-mcdermott.github.io/cytoweave/docs/figures.html" />
   <meta property="og:image" content="https://robert-mcdermott.github.io/cytoweave/assets/img/og-image.jpg" />
   <meta name="twitter:card" content="summary_large_image" />
@@ -99,10 +99,27 @@
       <ul>
         <li><strong>Gating strategy of the selected population:</strong> one plot per step of its gating path, joined by arrows. Select the population in the Gate view first.</li>
         <li><strong>The current plots across samples:</strong> the selected population's plots from the Gate view, one row per sample (the samples of the group shown in the sample list, up to 24).</li>
-        <li><strong>Blank page:</strong> add <strong>Text</strong>, a <strong>Plot of the current population</strong> and <strong>Arrows</strong> yourself.</li>
+        <li><strong>Blank page:</strong> add <strong>Text</strong>, a <strong>Plot of the current population</strong>, <strong>Arrows</strong> and <strong>Statistics</strong> yourself.</li>
       </ul>
+      <p>A <strong>Statistics</strong> item shows columns of a <a href="statistics.html">Tables</a> table: for the samples whose plots are on the page, or for all of the table's rows (as it does on a page without plots). Choose the table, its columns and the text size in the item's properties. Values are those Tables computes, with ND and &lt; LLOQ where a column has <a href="statistics.html#limits">detection limits</a>; the text shrinks to fit the box, and rows that still do not fit are counted below the table.</p>
+      <p>Text can hold placeholders, filled from the figure's samples and, in a <a href="#batch">batch report</a>, on every page: <code>{sample}</code>, <code>{page}</code>, <code>{pages}</code>, <code>{group}</code>, <code>{date}</code>, <code>{workspace}</code>, and any annotation, such as <code>{subject}</code> or <code>{condition}</code>.</p>
       <p>Any plot's <strong>⋯</strong> menu in the Gate view also has <strong>Add to figure</strong>. Click an item to edit it, drag it to move it (it snaps to 5 px), drag its corner to resize it, and press <kbd>Delete</kbd> to remove it. Pages come in slide (16:9), Letter and A4 portrait, Letter landscape and square sizes, or any width and height.</p>
-      <p>Plots in a figure stay <strong>live</strong>: they follow gate edits and compensation changes until you export. Export the page as <strong>SVG</strong> (to edit in Illustrator or Inkscape), <strong>PNG</strong> or <strong>PDF (300 dpi)</strong>.</p>
+      <p>Plots in a figure stay <strong>live</strong>: they follow gate edits and compensation changes until you export. Export the page as <strong>SVG</strong> (to edit in Illustrator or Inkscape), <strong>PNG</strong> or <strong>PDF</strong>. PDFs are vector: text, axes, gates and labels are PDF text and lines, sharp at any zoom and searchable, and only the events are images. They use Helvetica, which every PDF reader has; a character outside its character set is written as its nearest ASCII (− as -, ≥ as &gt;=).</p>
+
+      <h2 id="batch">Batch reports</h2>
+      <figure>
+        <div class="shot"><img class="shot-dark" src="../assets/img/batch-report-dark.webp" width="2000" height="1250" loading="lazy" alt="The batch report dialog over the Figures view: the T-cell gating strategy repeated for each subject, from the samples (not controls), as a PDF, with its six pages listed, subject D01 to D06" /><img class="shot-light" src="../assets/img/batch-report-light.webp" width="2000" height="1250" loading="lazy" alt="The batch report dialog over the Figures view: the T-cell gating strategy repeated for each subject, from the samples (not controls), as a PDF, with its six pages listed, subject D01 to D06" /></div>
+        <figcaption>The T-cell gating strategy repeated for each subject: the pages are listed before anything is written.</figcaption>
+      </figure>
+      <p>A batch report repeats a figure page after page, the layout FlowJo users know from batch processing in the layout editor. Click <strong>Batch report…</strong> at the top of the Figures view and choose:</p>
+      <ul>
+        <li><strong>Repeat for each sample.</strong> The plots of the figure's main sample (the one most of its plots are on, or the one you choose) are redrawn on each sample in turn. Plots of other samples stay on every page, so an FMO or an unstained control can sit beside each sample.</li>
+        <li><strong>Repeat for each value of an annotation</strong>, such as each subject or timepoint. A plot of a sample with that annotation is redrawn on the page's sample that matches it on the annotations that tell the figure's samples apart. Lay out subject 1's unstimulated and stimulated tubes, and each page shows that subject's unstimulated and stimulated tubes. When several samples could take a plot's place, the one sharing most of its annotations is drawn.</li>
+        <li><strong>From</strong> the experiment's samples (not controls) or a group's.</li>
+        <li><strong>PDF</strong> or <strong>PowerPoint</strong>. In PowerPoint, plots are pictures and statistics items are native tables, editable in PowerPoint, Keynote and LibreOffice.</li>
+      </ul>
+      <p>The dialog lists the pages before anything is written, with a note for each gap: a subject without a stimulated tube (its plot is left empty, saying why), or two samples the annotations do not tell apart (the first is drawn; annotate what differs to choose). The choices are kept with the figure and travel with it in <a href="templates.html">templates</a>.</p>
+      <p>Every number a report prints is recorded with where it comes from: each statistics cell with its table and column, each gate label on a plot with its gate. The record goes into the file (a PDF attachment named <code>cytoweave-report.json</code>, or a part of the PowerPoint package) beside the analysis behind the plots. The validation suite recomputes every recorded number and reads the files back with openpyxl, python-pptx, pypdf and R's pzfx (see <a href="../science.html#validation">Science</a>).</p>
 
       <h2 id="provenance">Figures that carry their analysis</h2>
       <p>A figure in a paper or a slide is usually cut off from the analysis that made it. CytoWeave's exports are not: every figure and plot exported as SVG, PNG or PDF carries a record of what it shows.</p>
@@ -112,7 +129,7 @@
         <li>The scales of the channels and the compensation each sample was drawn with.</li>
         <li>Each plot's population, axes and event count, and the page layout.</li>
       </ul>
-      <p>The record goes in the SVG's metadata, a PNG text chunk, or a PDF attachment named <code>cytoweave-provenance.json</code>, which PDF readers list among the document's attachments. It holds no keywords and no event data. Untick <strong>Embed the analysis</strong> at the top of the Figures view to leave it out.</p>
+      <p>The record goes in the SVG's metadata, a PNG text chunk, or a PDF attachment named <code>cytoweave-provenance.json</code>, which PDF readers list among the document's attachments; batch reports carry it for every page's plots. It holds no keywords and no event data. Untick <strong>Embed the analysis</strong> at the top of the Figures view to leave it out.</p>
       <h3 id="open-figure">Opening an exported figure</h3>
       <figure>
         <div class="shot"><img class="shot-dark" src="../assets/img/figure-provenance-dark.webp" width="2000" height="1250" loading="lazy" alt="An exported T-cell gating strategy opened again: exported by CytoWeave from this workspace, four of its five plots unchanged and the lymphocyte plot changed because the T cells gate moved, with buttons to add it to this workspace or rebuild it in a new one" /><img class="shot-light" src="../assets/img/figure-provenance-light.webp" width="2000" height="1250" loading="lazy" alt="An exported T-cell gating strategy opened again: exported by CytoWeave from this workspace, four of its five plots unchanged and the lymphocyte plot changed because the T cells gate moved, with buttons to add it to this workspace or rebuild it in a new one" /></div>

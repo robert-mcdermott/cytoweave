@@ -113,6 +113,20 @@
       <h3 id="scales">Axis scales</h3>
       <p><strong>Edit axis scales…</strong> sets a channel's scale for every plot of the workspace, with a live histogram preview: logicle (the Moore and Parks reference implementation), arcsinh, log, linear, or FlowJo's biexponential, reproduced exactly from FlowJo's own algorithm. <strong>Estimate from data</strong> sets the parameters from the channel's values, such as the logicle width its negative events need. A gate stores the scale it was drawn on with its coordinates, as Gating-ML does, so it keeps its meaning when a plot's axes or scales change.</p>
 
+      <h3 id="formulas">Formula channels</h3>
+      <figure>
+        <div class="shot"><img class="shot-dark" src="../assets/img/formula-dark.webp" width="2000" height="1250" loading="lazy" alt="The New formula channel dialog: the name CD4/CD8, the expression [CD4] / [CD8], buttons to insert each channel, and below them what it computes and its median on the current sample" /><img class="shot-light" src="../assets/img/formula-light.webp" width="2000" height="1250" loading="lazy" alt="The New formula channel dialog: the name CD4/CD8, the expression [CD4] / [CD8], buttons to insert each channel, and below them what it computes and its median on the current sample" /></div>
+        <figcaption>A CD4/CD8 ratio as a channel of its own.</figcaption>
+      </figure>
+      <p>A channel computed from others, for every event of every sample: a ratio, a sum, a logarithm, an index. Choose <strong>New formula channel…</strong> at the bottom of an axis's channel menu, or <strong>Workspace → New formula channel…</strong>, give it a name and write the expression:</p>
+      <ul>
+        <li>channels in square brackets, by marker or by detector: <code>[CD4] / [CD8]</code>, <code>[FITC-A] + [PE-A]</code> (click a channel below the expression to insert it);</li>
+        <li>numbers, <code>+ - * / ^</code> and parentheses: <code>2 * ([CD25] - 100) / ([CD69] + 50)</code>;</li>
+        <li>the functions <code>log</code> (base 10), <code>ln</code>, <code>exp</code>, <code>sqrt</code>, <code>abs</code>, <code>asinh</code>, <code>min</code> and <code>max</code>: <code>log([CD4] / [CD8])</code>, <code>asinh([CD3] / 150)</code>.</li>
+      </ul>
+      <p>The dialog shows what the expression computes and its median on the current sample as you type, or where it is wrong. The values are computed from the compensated channels; a division by zero or the logarithm of a value at or below zero gives no value, and such events fall in no gate (the dialog says how many). A formula channel is then a channel like any other: plot it, gate on it, set its scale, put its statistics in tables. <strong>Workspace → Computed channels…</strong> lists the formula channels, with what uses them, to edit or remove.</p>
+      <p>Formula channels travel with <a href="templates.html">templates</a>, rebuilt from the channels their markers match on the new panel. A ratio, A × (x − B) / (y − C), goes into Gating-ML exports as an <code>fratio</code> transformation, which other Gating-ML readers compute; other formulas are noted in the export. FlowJo workspace exports do not carry formula channels, and say which gates are left out because of them.</p>
+
       <h2 id="draw">Drawing gates</h2>
       <div class="table-wrap">
         <table>

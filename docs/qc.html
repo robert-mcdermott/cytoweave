@@ -170,6 +170,22 @@
       <p>A plot shows the stain index against the amount with the fitted curve (or the negative cells' rSD against the voltage with the noise and the range), and stacked histograms show every step with the ticks where its cells were divided. <strong>Figure</strong> exports both as SVG or PNG for the panel's record, <strong>CSV</strong> the table, and <strong>Save in the workspace</strong> keeps the result, which the methods then describe with their references.</p>
       <p>Try it on the example <strong>Antibody titration and a voltage walk</strong> (add its suggested gates and analyze within Lymphocytes): CD4-PE in ten two-fold steps, and the PE detector from 300 V to 750 V. Its CD4 is 90% bound at 45 ng, so 125 ng is the right answer; the detector's electronic noise rSD is 25.</p>
 
+      <h2 id="calibration">Calibrated units from beads</h2>
+      <figure>
+        <div class="shot"><img class="shot-dark" src="../assets/img/calibration-dark.webp" width="2000" height="1250" loading="lazy" alt="QC Calibration: an 8-level bead sample calibrated on FITC-A in MEFL, the standard curve through the levels on log axes with the beads' model dashed, the brightest level left out because it saturates, and a table of each level's events, median and MEFL value" /><img class="shot-light" src="../assets/img/calibration-light.webp" width="2000" height="1250" loading="lazy" alt="QC Calibration: an 8-level bead sample calibrated on FITC-A in MEFL, the standard curve through the levels on log axes with the beads' model dashed, the brightest level left out because it saturates, and a table of each level's events, median and MEFL value" /></div>
+        <figcaption>Eight bead levels on FITC-A: the brightest saturates and is left out; the other seven give the standard curve.</figcaption>
+      </figure>
+      <p>The <strong>Calibration</strong> tab converts a channel's arbitrary units into calibrated ones: MEF (molecules of equivalent fluorochrome, such as MEFL for fluorescein or MEPE for phycoerythrin) or ERF (equivalent reference fluorophores). Results in MEF compare across instruments, voltages and days. You need a sample of multi-level calibration beads (Spherotech Rainbow or Ultra Rainbow, for example) acquired with the same settings as your samples, and each level's value from the beads' datasheet for that lot.</p>
+      <ol>
+        <li>Choose the <strong>Bead sample</strong> and the number of <strong>Levels</strong> (8 for most rainbow beads). The single beads are found on forward and side scatter, or choose a gate you drew on them.</li>
+        <li>For each channel to calibrate, type the levels' values, dimmest first (<code>0, 792, 2079, 6588, …</code>), with <code>-</code> for a level the datasheet gives no value for, and choose the unit.</li>
+        <li>Optionally tick <strong>Find levels</strong> on a bright channel or two: the levels are found on the ticked channels together, which separates the dim levels better than one channel.</li>
+        <li>Click <strong>Calibrate</strong>.</li>
+      </ol>
+      <p>CytoWeave follows FlowCal (Castillo-Hair et al. 2016). It finds the levels by clustering, takes each level's median and leaves out the levels too close to either end of the channel's range (on the logicle scale, a level's mean ± 2.5 SD must stay within 1.5–98.5% of the range: the brightest level often saturates). It then fits the bead model m·ln(x) + b = ln(MEF + MEF<sub>beads</sub>) in log space, where MEF<sub>beads</sub> is the beads' own fluorescence. The standard curve, MEF = e<sup>b</sup> × x<sup>m</sup>, converts any value without the beads' fluorescence (cells have their own). The slope m is close to 1 for a linear detector; CytoWeave warns when it is not.</p>
+      <p><strong>Apply to</strong> lists the samples acquired with the same settings as the beads (the same cytometer and, where the files record them, the same voltages), all ticked; <strong>Add the calibrated channels</strong> gives each of them a new channel, <strong>FITC-A MEFL</strong> beside FITC-A, that you plot, gate and put in tables like any other. Calibrating again with other beads (another day, another voltage) gives those samples their own curve under the same channel name. The methods describe each calibration.</p>
+      <p>On FlowCal's own example (8-level beads on a Cytek xP3+, two days and two gains), CytoWeave leaves out the same levels, finds each level's median within one step of the 1024-step log channel, and gives the cell samples the same MEFL as FlowCal within 1.6%. See <a href="../science.html#validation">Validation</a>.</p>
+
       <h2 id="live">QC as files are acquired</h2>
       <figure>
         <div class="shot"><img class="shot-dark" src="../assets/img/qc-live-dark.webp" width="2000" height="1250" loading="lazy" alt="QC Live: watching the instrument's export folder, one file still being written, and four wells checked as they landed: A04 scored 49 with a signal drop at 12–13 s, A03 80 with drift, A02 79 with a possible clog, A01 100" /><img class="shot-light" src="../assets/img/qc-live-light.webp" width="2000" height="1250" loading="lazy" alt="QC Live: watching the instrument's export folder, one file still being written, and four wells checked as they landed: A04 scored 49 with a signal drop at 12–13 s, A03 80 with drift, A02 79 with a possible clog, A01 100" /></div>
@@ -188,6 +204,7 @@
       <h2 id="next">Where to go next</h2>
       <div class="card-grid">
         <a class="card" href="cohorts.html"><h3>Normalization and debarcoding</h3><p>The other tabs of the QC view.</p></a>
+        <a class="card" href="statistics.html#absolute-counts"><h3>Absolute counts</h3><p>Cells per µL with counting beads.</p></a>
         <a class="card" href="gating.html"><h3>Gating</h3><p>Gate under the QC pass gate.</p></a>
         <a class="card" href="workspaces.html#large-files"><h3>Large files</h3><p>QC of ten million events.</p></a>
       </div>

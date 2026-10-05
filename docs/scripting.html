@@ -4,11 +4,11 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Scripting and command line · CytoWeave</title>
-  <meta name="description" content="CytoWeave's command-line options, and remote control from Python, Jupyter or shell scripts: open files, gate, compute statistics tables and write methods from a program, with the changes shown as proposals in the window." />
+  <meta name="description" content="CytoWeave's command-line options, and remote control from R, Python, Jupyter or shell scripts with the R and Python clients or plain HTTP: open files, gate, compute statistics tables, test groups and write methods from a program, with the changes shown as proposals in the window." />
   <link rel="canonical" href="https://robert-mcdermott.github.io/cytoweave/docs/scripting.html" />
   <meta property="og:type" content="website" />
   <meta property="og:title" content="Scripting and command line" />
-  <meta property="og:description" content="CytoWeave's command-line options, and remote control from Python, Jupyter or shell scripts: open files, gate, compute statistics tables and write methods from a program, with the changes shown as proposals in the window." />
+  <meta property="og:description" content="CytoWeave's command-line options, and remote control from R, Python, Jupyter or shell scripts with the R and Python clients or plain HTTP: open files, gate, compute statistics tables, test groups and write methods from a program, with the changes shown as proposals in the window." />
   <meta property="og:url" content="https://robert-mcdermott.github.io/cytoweave/docs/scripting.html" />
   <meta property="og:image" content="https://robert-mcdermott.github.io/cytoweave/assets/img/og-image.jpg" />
   <meta name="twitter:card" content="summary_large_image" />
@@ -88,7 +88,7 @@
 
     <main id="main" class="doc">
       <h1>Scripting and command line</h1>
-      <p class="doc-lede">Start CytoWeave the way a pipeline needs, and drive it from Python, Jupyter or a shell script with the same actions an AI agent uses.</p>
+      <p class="doc-lede">Start CytoWeave the way a pipeline needs, and drive it from R, Python, Jupyter or a shell script with the same actions an AI agent uses.</p>
 
       <h2 id="command-line">Command line</h2>
       <div class="code" data-no-copy><span class="code-label">usage</span><pre><code>cytoweave [flags] [FCS files, folders, workspaces (.cwz), Gating-ML or FlowJo .wsp files...]
@@ -113,8 +113,34 @@ cytoweave mcp [flags]</code></pre></div>
       <p>CytoWeave prints the address it serves, for example <code>http://127.0.0.1:8770</code>. With <code>--window none</code>, open that address in any browser yourself. Files named when CytoWeave is already running are handed to the open window.</p>
 
       <h2 id="remote">Remote control from your programs</h2>
-      <p><code>cytoweave --remote-control</code> accepts the actions of the <a href="agents.html#tools">MCP tools</a> from programs on this computer, as JSON posted to <code>/api/remote/action</code>. The window must be open: it performs each action with the same code as the user interface, so you watch the script work.</p>
+      <p><code>cytoweave --remote-control</code> accepts the actions of the <a href="agents.html#tools">MCP tools</a> from programs on this computer. The window must be open: it performs each action with the same code as the user interface, so you watch the script work. A script's changes are proposals too, shown in the window under the script's name, for you to accept or reject. Actions reach the window one at a time.</p>
       <div class="code"><pre><code><span class="prompt">$ </span>cytoweave --remote-control</code></pre></div>
+
+      <h3 id="clients">The R and Python clients</h3>
+      <p>The clients in <a href="https://github.com/robert-mcdermott/cytoweave/tree/main/clients">clients/</a> make every action a function, with its arguments and help, and find the running CytoWeave themselves. They are installed from the repository (they are not on CRAN or PyPI):</p>
+      <div class="code"><span class="code-label">R</span><pre><code>remotes::install_github("robert-mcdermott/cytoweave", subdir = "clients/r")</code></pre></div>
+      <div class="code"><span class="code-label">shell</span><pre><code><span class="prompt">$ </span>pip install "git+https://github.com/robert-mcdermott/cytoweave#subdirectory=clients/python"</code></pre></div>
+      <div class="code"><span class="code-label">R</span><pre><code>library(cytoweave)
+cw_connect()                                  # finds the running CytoWeave
+cw_open_files(c("/data/2026-09-30_panel1/"))  # each folder becomes a group
+cw_auto_gate(method = "singlets", x = "FSC-A", y = "FSC-H", name = "Single cells")
+frequencies &lt;- as.data.frame(cw_statistics_table(statistic = "freqParent"))
+states &lt;- cw_differential_analysis("condition", groups = c("Unstimulated", "Stimulated"),
+                                   pair_by = "subject", clusters = "FlowSOM cluster")
+as.data.frame(states)                         # marker by cluster, lowest p first</code></pre></div>
+      <div class="code"><span class="code-label">python</span><pre><code>import cytoweave
+
+cw = cytoweave.connect()                      # finds the running CytoWeave
+cw.open_example(id="pbmc-immunophenotyping")
+print(cw.list_populations().message)
+table = cw.statistics_table(statistic="freqParent").frame()   # a pandas DataFrame
+cw.render_plot("CD3", population="T cells", file="t-cells.png")
+cw.export_table("/tmp/frequencies.xlsx", statistic="freqParent")</code></pre></div>
+      <p>Arguments are those of the MCP tools in snake case (<code>group_by</code>, <code>pair_by</code>); each function's help (<code>?cw_differential_analysis</code>, <code>help(cw.differential_analysis)</code>) lists them. Every result has the action's <code>message</code> and its <code>data</code>; <code>as.data.frame()</code> in R and <code>.frame()</code> in Python (with pandas) turn the table in it into a data frame. An action CytoWeave refuses is an error with its reason. <code>cw_call()</code> and <code>cw.call()</code> send any action by its name, and <code>cw_tools()</code> and <code>cw.tools()</code> list them.</p>
+      <p>Without arguments, the clients connect through the <code>remote.json</code> file CytoWeave writes to its data folder when remote control is on: its address and token, readable by you only, removed when CytoWeave stops. Give the address and token yourself, or set <code>CYTOWEAVE_URL</code> and <code>CYTOWEAVE_TOKEN</code>, or <code>CYTOWEAVE_DATA_DIR</code> when CytoWeave runs with <code>--data-dir</code>. The clients' version is CytoWeave's, and each release's clients are tested against that release.</p>
+
+      <h3 id="http">Any language: JSON over HTTP</h3>
+      <p>Each action is JSON posted to <code>/api/remote/action</code>, as <code>{"action": …, "args": {…}, "client": …}</code>; every reply has <code>ok</code>, a plain-language <code>message</code> and the <code>data</code>. <code>GET /api/remote/tools</code> lists the actions with their arguments.</p>
       <div class="code"><span class="code-label">python</span><pre><code>import requests
 
 URL = "http://127.0.0.1:8770/api/remote/action"
@@ -130,25 +156,24 @@ act("auto_gate", method="singlets", x="FSC-A", y="FSC-H", name="Single cells")
 print(act("list_populations")["message"])
 for row in act("statistics_table", statistic="freqParent")["data"]["rows"]:
     print(row["sample"], row["meta"].get("condition"), row["values"])</code></pre></div>
-      <p>Every reply has <code>ok</code>, a plain-language <code>message</code> and the <code>data</code>. Each request is <code>{"action": …, "args": {…}, "client": …}</code>. A script's changes are proposals too, shown in the window under the name it gives in <code>client</code>, for you to accept or reject. Actions reach the window one at a time.</p>
 
-      <h3 id="token">Opening files by path</h3>
-      <p><code>open_files</code> makes the program read files from disk, so it also needs the <code>X-CytoWeave-Token</code> header with the token CytoWeave prints when it starts:</p>
-      <div class="code"><span class="code-label">python</span><pre><code>TOKEN = "…"  # printed by cytoweave --remote-control
+      <h3 id="token">Opening and writing files</h3>
+      <p><code>open_files</code> and the export actions make the program read or write files, so they also need the <code>X-CytoWeave-Token</code> header with the token CytoWeave prints when it starts (the clients send it):</p>
+      <div class="code"><span class="code-label">python</span><pre><code>TOKEN = "…"  # printed by cytoweave --remote-control, and in remote.json
 requests.post(URL, headers={"X-CytoWeave-Token": TOKEN},
               json={"action": "open_files", "args": {"paths": ["/data/2026-09-30_panel1/"]}})</code></pre></div>
-      <p>Paths must be absolute. Each folder becomes a sample group.</p>
+      <p>Paths must be absolute. Each folder becomes a sample group. Exports go only to the path given, in a folder that exists, and never replace a file unless <code>overwrite</code> is given.</p>
 
       <h3 id="examples">What scripts are good for</h3>
       <ul>
         <li><strong>Batch runs:</strong> open each day's plate, apply the lab's gating strategy, review the gates across samples, and write the statistics table to a file.</li>
-        <li><strong>Notebooks:</strong> pull <code>statistics_table</code> results into pandas, next to the plots CytoWeave renders with <code>render_plot</code>.</li>
+        <li><strong>Notebooks:</strong> pull <code>statistics_table</code> and <code>differential_analysis</code> results into R or pandas, next to the plots CytoWeave renders with <code>render_plot</code>.</li>
         <li><strong>Pipelines:</strong> keep the analysis visible and reviewable in the window while a program does the repetitive part.</li>
       </ul>
       <p>The arguments of every action are those of the MCP tools; <a href="https://github.com/robert-mcdermott/cytoweave/blob/main/docs/MCP.md">docs/MCP.md</a> lists them, with the coordinate conventions for each gate type.</p>
 
       <h2 id="security">Security</h2>
-      <p>Remote control is off unless you start CytoWeave with <code>--remote-control</code> (<code>cytoweave mcp</code> turns it on for its own session). The server accepts actions only from this computer, and actions that read files from disk need the per-session token. Leave <code>--host</code> at its default while remote control is on.</p>
+      <p>Remote control is off unless you start CytoWeave with <code>--remote-control</code> (<code>cytoweave mcp</code> turns it on for its own session). The server accepts actions only from this computer, and actions that read or write files need the per-session token, which only you can read in <code>remote.json</code>. Leave <code>--host</code> at its default while remote control is on.</p>
 
       <h2 id="next">Where to go next</h2>
       <div class="card-grid">

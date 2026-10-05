@@ -120,16 +120,26 @@
             <tr><td>Remove a batch effect, or debarcode a pooled plate</td><td><a href="cohorts.html">Normalization and debarcoding</a></td></tr>
             <tr><td>Cluster, make a UMAP and know whether to trust it</td><td><a href="explore.html">Clustering and maps</a></td></tr>
             <tr><td>Get a frequency table of every population for every sample</td><td><a href="statistics.html#tables">Tables</a></td></tr>
+            <tr><td>Make a ratio of two markers, or another formula, into a channel</td><td><a href="gating.html#formulas">Formula channels</a></td></tr>
+            <tr><td>Report fluorescence in MEF units with calibration beads</td><td><a href="qc.html#calibration">Calibrated units</a></td></tr>
+            <tr><td>Count cells per µL with counting beads</td><td><a href="statistics.html#absolute-counts">Absolute counts</a></td></tr>
+            <tr><td>Find the share of cells above an FMO when the populations overlap</td><td><a href="statistics.html#control">Comparing with a control</a></td></tr>
+            <tr><td>Report a rare population with its limits of detection and quantification</td><td><a href="statistics.html#rare-events">Rare events</a></td></tr>
             <tr><td>Test a difference between stimulated and unstimulated samples</td><td><a href="statistics.html#compare">Comparisons</a></td></tr>
+            <tr><td>Find which markers change in which clusters between conditions</td><td><a href="statistics.html#states">Differential state</a></td></tr>
             <tr><td>Fit the cell cycle or proliferation, or read an index-sorted plate</td><td><a href="assays.html">Cell cycle, proliferation and index sorting</a></td></tr>
             <tr><td>Make a gating-strategy figure and write the methods</td><td><a href="figures.html">Figures, methods and checkpoints</a></td></tr>
             <tr><td>Find out where a figure came from, or redraw it</td><td><a href="figures.html#open-figure">Opening an exported figure</a></td></tr>
+            <tr><td>Make the same figure for every sample or subject, as PDF or PowerPoint</td><td><a href="figures.html#batch">Batch reports</a></td></tr>
+            <tr><td>Take the statistics to Excel or Prism</td><td><a href="statistics.html#excel-prism">Excel and Prism</a></td></tr>
+            <tr><td>Open events from a CSV file</td><td><a href="opening-data.html#csv">Events in CSV files</a></td></tr>
+            <tr><td>Concatenate or downsample samples, or take events to scanpy (AnnData)</td><td><a href="workspaces.html#events">Events for other tools</a></td></tr>
             <tr><td>Move an analysis over from FlowJo</td><td><a href="flowjo.html">FlowJo and Gating-ML</a></td></tr>
             <tr><td>Send an analysis to a colleague with its FCS files</td><td><a href="workspaces.html#export">Workspaces</a></td></tr>
             <tr><td>Give an analysis to someone who uses FlowJo</td><td><a href="flowjo.html#export">Exporting to FlowJo</a></td></tr>
             <tr><td>Share FCS files without identifying information</td><td><a href="workspaces.html#deidentify">De-identified files</a></td></tr>
             <tr><td>Let Claude Code or another agent do the gating</td><td><a href="agents.html">AI agents (MCP)</a></td></tr>
-            <tr><td>Run CytoWeave from a Python script or a pipeline</td><td><a href="scripting.html">Scripting and command line</a></td></tr>
+            <tr><td>Run CytoWeave from R, Python, a script or a pipeline</td><td><a href="scripting.html#clients">R and Python clients</a></td></tr>
           </tbody>
         </table>
       </div>
@@ -153,9 +163,9 @@
 
       <h2 id="results">Results</h2>
       <div class="card-grid">
-        <a class="card" href="statistics.html"><h3>Tables and comparisons</h3><p>Statistics across samples, group comparisons with the right test, and screens of every population.</p></a>
+        <a class="card" href="statistics.html"><h3>Tables and comparisons</h3><p>Statistics across samples, comparisons with a control, rare events and detection limits, group comparisons with the right test, and screens of every population and cluster, including differential state.</p></a>
         <a class="card" href="assays.html"><h3>Cell cycle, proliferation and index sorting</h3><p>DNA content models, dye dilution generations, and the plate of an index sort.</p></a>
-        <a class="card" href="figures.html"><h3>Figures, methods and checkpoints</h3><p>Publication pages, the methods paragraph, MIFlowCyt, checkpoints and the change log.</p></a>
+        <a class="card" href="figures.html"><h3>Figures, methods and checkpoints</h3><p>Publication pages, batch reports, the methods paragraph, MIFlowCyt, checkpoints and the change log.</p></a>
       </div>
 
       <h2 id="share">Share and automate</h2>
@@ -163,7 +173,7 @@
         <a class="card" href="workspaces.html"><h3>Workspaces and large files</h3><p>The library, undo, exports, archives, and samples of ten million events.</p></a>
         <a class="card" href="flowjo.html"><h3>FlowJo and Gating-ML</h3><p>Importing FlowJo workspaces, the migration report, Gating-ML 2.0 and CLR.</p></a>
         <a class="card" href="agents.html"><h3>AI agents (MCP)</h3><p>Let Claude Code or another agent gate and analyze in your window, with proposals you accept or reject.</p></a>
-        <a class="card" href="scripting.html"><h3>Scripting and command line</h3><p>Command-line options and remote control from Python, Jupyter or shell scripts.</p></a>
+        <a class="card" href="scripting.html"><h3>Scripting and command line</h3><p>Command-line options, and remote control from R, Python, Jupyter or shell scripts with the R and Python clients.</p></a>
       </div>
 
       <h2 id="reference">Reference</h2>

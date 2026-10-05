@@ -4,11 +4,11 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Tables and comparisons · CytoWeave</title>
-  <meta name="description" content="Build statistics tables across samples in CytoWeave and compare groups with the test the design calls for: Welch's t-test, paired t-test, ANOVA or repeated measures with nonparametric counterparts, effect sizes, bootstrap confidence intervals, and screens of every population or cluster with multiple-testing correction." />
+  <meta name="description" content="Build statistics tables across samples in CytoWeave, with absolute counts from counting beads, compare each sample with a control by SED, Overton and probability binning, report rare populations with exact intervals and detection limits, and compare groups with the test the design calls for, with effect sizes and screens of every population or cluster, including differential abundance and differential state (diffcyt-DS-limma)." />
   <link rel="canonical" href="https://robert-mcdermott.github.io/cytoweave/docs/statistics.html" />
   <meta property="og:type" content="website" />
   <meta property="og:title" content="Tables and comparisons" />
-  <meta property="og:description" content="Build statistics tables across samples in CytoWeave and compare groups with the test the design calls for: Welch's t-test, paired t-test, ANOVA or repeated measures with nonparametric counterparts, effect sizes, bootstrap confidence intervals, and screens of every population or cluster with multiple-testing correction." />
+  <meta property="og:description" content="Build statistics tables across samples in CytoWeave, with absolute counts from counting beads, compare each sample with a control by SED, Overton and probability binning, report rare populations with exact intervals and detection limits, and compare groups with the test the design calls for, with effect sizes and screens of every population or cluster, including differential abundance and differential state (diffcyt-DS-limma)." />
   <meta property="og:url" content="https://robert-mcdermott.github.io/cytoweave/docs/statistics.html" />
   <meta property="og:image" content="https://robert-mcdermott.github.io/cytoweave/assets/img/og-image.jpg" />
   <meta name="twitter:card" content="summary_large_image" />
@@ -105,15 +105,73 @@
         <table>
           <thead><tr><th>Kind</th><th>Statistics</th></tr></thead>
           <tbody>
-            <tr><td>Counts and frequencies</td><td>Count; % of parent, grandparent, total or any ancestor; concentration per µL (from <code>$VOL</code>)</td></tr>
+            <tr><td>Counts and frequencies</td><td>Count; % of parent, grandparent, total or any ancestor; concentration per µL (from <code>$VOL</code>); absolute count per µL from counting beads (<a href="#absolute-counts">below</a>)</td></tr>
             <tr><td>Location</td><td>Median, mean, geometric mean, mode</td></tr>
             <tr><td>Spread</td><td>SD, robust SD, CV, robust CV, median absolute deviation (MAD)</td></tr>
             <tr><td>Distribution</td><td>Minimum, maximum, any percentile, % above a threshold</td></tr>
+            <tr><td>Rare events</td><td>Lower and upper 95% limits of the count (exact Poisson) and of the % of parent (exact binomial); counting CV</td></tr>
+            <tr><td>Against a control sample</td><td>% positive by SED and by Overton subtraction; probability binning's T(χ) and % positive; the Kolmogorov–Smirnov D (<a href="#control">below</a>)</td></tr>
           </tbody>
         </table>
       </div>
       <p>The <strong>robust SD</strong> is BD FACSDiva's: half the range around the median that holds 68.26% of the events, (P84.13 − P15.87) / 2, and the robust CV is 100 × that over the median. FlowJo 11's Robust SD is 1.4826 × the median absolute deviation instead; for a symmetric population the two agree, for a skewed or two-peaked one they do not. To reproduce FlowJo's, multiply the <strong>median absolute deviation</strong> by 1.4826. Medians match FlowJo's exactly.</p>
-      <p>Show a table as a <strong>Heat map</strong>, <strong>Copy</strong> it as TSV to paste into a spreadsheet, or save it as <strong>CSV</strong>. A column's menu renames, moves or removes it, or sends it to <strong>Compare between groups</strong>. Frequencies in the inspector carry a 95% binomial confidence interval.</p>
+      <p>Show a table as a <strong>Heat map</strong>, <strong>Copy</strong> it as TSV to paste into a spreadsheet, or save it as <strong>CSV</strong>. A column's menu renames, moves or removes it, sends it to <strong>Compare between groups</strong>, or adds <a href="#limits">detection limits</a>. Frequencies in the inspector carry an exact 95% binomial confidence interval.</p>
+
+      <h3 id="excel-prism">Excel and Prism</h3>
+      <ul>
+        <li><strong>Excel</strong> writes every table to one workbook (<code>.xlsx</code>), a sheet per table, each value in full precision (Tables shows them rounded) and, for a column with detection limits, each value's status. Four more sheets say where the numbers come from: <strong>Columns</strong> (each column's population path, statistic, channel, control sample, counting beads, dilution, and the limits found), <strong>Samples</strong> (file names, SHA-256 checksums, event counts, compensation, instrument and acquisition date), <strong>Populations</strong> (the gating hierarchy) and <strong>About</strong> (the workspace, the export and the <a href="figures.html#methods">methods paragraph</a> with its references). The workbook is also in the Workspace menu's exports and the command palette.</li>
+        <li><strong>Prism…</strong> writes the table as a GraphPad Prism project (<code>.pzfx</code>): one data table with a row per sample and a column per statistic. Choose an annotation to <strong>group the samples by</strong>, such as condition, and each statistic also gets a column table with a column per group and its samples down it, the layout Prism's t tests and one-way ANOVA take. Samples without the annotation are left out of the grouped tables, and the export says how many.</li>
+      </ul>
+      <p>Both load the samples a table needs first. To put statistics on slides beside plots, add a <a href="figures.html">Statistics item</a> to a figure.</p>
+
+      <h3 id="absolute-counts">Absolute counts</h3>
+      <p>Cells per µL of the sample, from counting beads (BD TruCount, CountBright and the like) added to each tube. Gate the beads (they are small on forward scatter and bright in every fluorescence channel), then add a column with the statistic <strong>Absolute count (/µL, counting beads)</strong>, which asks for:</p>
+      <ul>
+        <li>the <strong>counting beads</strong> population;</li>
+        <li>the <strong>beads in the tube</strong>: the number on the lot (TruCount tubes), or the beads per µL times the volume of beads added (CountBright);</li>
+        <li>the µL of <strong>sample in the tube</strong>;</li>
+        <li>the <strong>dilution factor</strong>, the same for every sample or read from a sample annotation (<code>4</code> or <code>1:4</code>).</li>
+      </ul>
+      <p>Cells per µL = cell events ÷ bead events × beads in the tube ÷ µL of sample × dilution (Brando et al. 2000). Its precision is set by both counts: the CV is about √(1/cell events + 1/bead events), so 1,000 beads already limit it to 3%. Instruments that record the volume they acquired (<code>$VOL</code>) give <strong>Concentration (/µL)</strong> without beads, which takes the same dilution factor.</p>
+
+      <h2 id="control">Comparing with a control sample</h2>
+      <figure>
+        <div class="shot"><img class="shot-dark" src="../assets/img/compare-control-dark.webp" width="2000" height="1250" loading="lazy" alt="A histogram of CD25 on T cells in a stimulated sample with the unstimulated sample of the same donor overlaid; below it, the stimulated sample against the unstimulated one: 31.0% positive by SED, 27.4% by Overton subtraction, probability binning T(χ) 577" /><img class="shot-light" src="../assets/img/compare-control-light.webp" width="2000" height="1250" loading="lazy" alt="A histogram of CD25 on T cells in a stimulated sample with the unstimulated sample of the same donor overlaid; below it, the stimulated sample against the unstimulated one: 31.0% positive by SED, 27.4% by Overton subtraction, probability binning T(χ) 577" /></div>
+        <figcaption>CD25 on T cells, stimulated, with the same donor's unstimulated sample overlaid: the comparison appears under the histogram.</figcaption>
+      </figure>
+      <p>How much of a stained sample lies above its FMO, or of a stimulated sample above its unstimulated control, when the two overlap too much for a gate? Choose one of the statistics <strong>against a control sample</strong>: the column then asks for the <strong>Control sample</strong> and, if it is not the same population, the <strong>Control population</strong>. Each sample's population is compared with the control's on the column's channel.</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Statistic</th><th>What it measures</th></tr></thead>
+          <tbody>
+            <tr><td>% positive (SED)</td><td>The share of the sample's events that are positive, by Bagwell's enhanced normalized subtraction, which FlowJo calls SED. It estimates the part of the positive population that overlaps the negative one, so it stays close to the true share when the two overlap.</td></tr>
+            <tr><td>% positive (Overton)</td><td>Overton's cumulative subtraction: the largest gap between the control's and the sample's cumulative distributions, which is the Kolmogorov–Smirnov D in one direction. Exact for well-separated populations, it underestimates where they overlap.</td></tr>
+            <tr><td>T(χ) (probability binning)</td><td>Roederer's metric: the control's events split into bins of equal counts and the sample's counted in them. Above 4, the distributions differ (p &lt; 0.01); about 0 for two samples of the same cells.</td></tr>
+            <tr><td>% positive (probability binning)</td><td>The share of the sample's events in excess of the control's in those bins.</td></tr>
+            <tr><td>K-S D</td><td>The largest difference between the two cumulative distributions, in either direction. With tens of thousands of events any difference is significant, so its p-value says little; D itself is a fair size of the difference.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>All five come from the events' order, so they do not change with the axis scale. They assume the sample holds the control's population plus, perhaps, a positive one: a whole population shifted brighter (a voltage change, a different autofluorescence) reads as positive cells. Put such columns in <strong>Compare</strong> like any other, or choose the statistic there directly with its control.</p>
+      <p>On a histogram, overlay the control (<strong>More → Overlay other samples</strong>): the plot's sample is compared with each overlaid one and the result shown under the plot.</p>
+      <p>On simulated tubes with known shares, SED came within 2 points of the truth from 5% to 40% positive, while Overton fell 2–8 points short where the populations overlapped; CytoWeave's probability binning gives the same bins and statistic as the R package flowStats. See <a href="../science.html#validation">Validation</a>.</p>
+
+      <h2 id="rare-events">Rare events</h2>
+      <p>A rare population's frequency is only as precise as the number of its events: 100 events give a 10% CV, 25 events a 20% CV (Poisson counting). For a population of fewer than 10,000 events the inspector shows its counting CV, the exact 95% interval of the count and, below a 10% CV, how many events of the parent a 10% CV would take. In Tables, the lower and upper 95% limits of the count and of the % of parent are statistics of their own.</p>
+      <h3 id="limits">Detection limits</h3>
+      <p>Whether a small value is real depends on what samples without the population show. A count or frequency column's menu → <strong>Add detection limits</strong> asks for:</p>
+      <ul>
+        <li><strong>Blank samples</strong>, with none of the population: healthy donors for a disease marker, FMO controls, unstimulated samples for a response.</li>
+        <li><strong>Low-level samples</strong> (optional), with a little of it, for example a dilution of a positive sample; replicates of one level can share an annotation.</li>
+        <li>The <strong>target CV</strong> for quantification (20% by default).</li>
+      </ul>
+      <p>The dialog computes, as CLSI EP17 and Armbruster &amp; Pry (2008) describe:</p>
+      <ul>
+        <li>the <strong>limit of blank</strong>: the blanks' mean + 1.645 SD, or their 95th percentile;</li>
+        <li>the <strong>limit of detection</strong>: the limit of blank + 1.645 × the pooled SD of the low-level samples;</li>
+        <li>the <strong>lower limit of quantification</strong>: the lowest low-level mean measured with the target CV, and in each sample never below the events that give that CV by counting alone (25 events for 20%).</li>
+      </ul>
+      <p>Values at or below the limit of blank are marked <strong>ND</strong> (not detected), and values above it but below their sample's limit of quantification <strong>&lt; LLOQ</strong>; a CSV adds a status column. EP17 asks for 20 blank and 20 low-level results to verify limits and 60 to establish them; the dialog says when there are fewer. The limits go into the methods text.</p>
 
       <h2 id="compare">Comparing groups</h2>
       <figure>
@@ -166,13 +224,29 @@
       <p>On an intracellular cytokine study (four donors), every PMA comparison holds in all analyses. One small peptide response (IL-4, 0.27 points) is fragile: it depends on the expert's per-donor gate adjustments and on 2% of a scatter gate.</p>
 
       <h2 id="screens">Screening every population or cluster</h2>
-      <p><strong>Screen populations</strong> tests one statistic for every population at once, and <strong>Screen clusters</strong> tests the abundance of every cluster of a clustering channel. Results are corrected for multiple testing (<strong>Benjamini–Hochberg</strong>, <strong>Benjamini–Yekutieli</strong>, <strong>Holm</strong> or <strong>Bonferroni</strong>) and shown on a volcano plot of effect against significance; click a point to compare that one in detail.</p>
+      <p><strong>Screen populations</strong> tests one statistic for every population at once, <strong>Screen clusters</strong> tests the abundance of every cluster of a clustering channel, and <strong>Screen marker states</strong> tests the expression of every marker in every cluster or population. Results are corrected for multiple testing (<strong>Benjamini–Hochberg</strong>, <strong>Benjamini–Yekutieli</strong>, <strong>Holm</strong> or <strong>Bonferroni</strong>) and shown on a volcano plot of effect against significance; click a point to compare that one in detail.</p>
       <p>Cluster abundance (cells of the cluster ÷ cells of the parent population, per sample) is tested with a quasi-binomial GLM and a likelihood-ratio F test, in the manner of diffcyt, with optional covariates as fixed effects. Try it on the mass cytometry cohort example, where non-classical monocytes are doubled in the case group.</p>
+
+      <h3 id="states">Differential state</h3>
+      <p>A cell type can stay as frequent while its cells change: stimulated T cells raise CD25 and HLA-DR. <strong>Screen marker states</strong> asks, for each cluster (or population) and each marker, whether the marker's level differs between the groups, with <strong>diffcyt-DS-limma</strong> (Weber et al. 2019):</p>
+      <ul>
+        <li>Per sample, the median of arcsinh(x / cofactor) of each marker in each cluster, on compensated values. diffcyt's cofactors are the defaults: 5 for mass cytometry, 150 for fluorescence.</li>
+        <li>Clusters with at least 3 cells in at least half the samples are tested; the others are listed as left out.</li>
+        <li>A linear model per cluster and marker, with the design of the Design panel (the groups, pairing and covariates as fixed effects), each sample weighted by its cells in the cluster.</li>
+        <li>limma's moderated t-statistics: each model's variance shrunk toward a trend over the average level (empirical Bayes; Smyth 2004), and p-values adjusted across every cluster and marker tested.</li>
+      </ul>
+      <p>By default the markers the clustering was made from are left out (in diffcyt's terms, the "type" markers): their medians differ between clusters by construction, so only the others ("state" markers) are tested. The table gives each group's mean of the samples' medians, their difference (the effect, on the arcsinh scale), t, p and q.</p>
+      <figure>
+        <div class="shot"><img class="shot-dark" src="../assets/img/compare-states-dark.webp" width="2000" height="1250" loading="lazy" alt="Screen marker states: FlowSOM clusters of live cells from lineage markers, five activation markers tested between stimulated and unstimulated samples paired by donor; CD25 and HLA-DR up and CD127 down in the T-cell clusters" /><img class="shot-light" src="../assets/img/compare-states-light.webp" width="2000" height="1250" loading="lazy" alt="Screen marker states: FlowSOM clusters of live cells from lineage markers, five activation markers tested between stimulated and unstimulated samples paired by donor; CD25 and HLA-DR up and CD127 down in the T-cell clusters" /></div>
+        <figcaption>Differential state in the PBMC example: clusters made from lineage markers, the activation markers tested, stimulated against unstimulated with donors paired. CD25 and HLA-DR rise and CD127 falls in the T-cell clusters.</figcaption>
+      </figure>
+      <p>CytoWeave computes diffcyt's statistics itself, and the validation suite checks them against diffcyt 1.32 and limma 3.68 in R: on the mass cytometry examples every count and median is identical and every moderated t, p and adjusted p agrees within 3e-11. On ten donors' wells of the barcoded plate it finds the activation markers that change and calls few others; on the cohort, where no marker differs, it calls none. Agents and scripts run the same test with <code>differential_analysis</code>.</p>
 
       <h2 id="next">Where to go next</h2>
       <div class="card-grid">
         <a class="card" href="figures.html"><h3>Figures and methods</h3><p>Cite the comparison in the methods paragraph.</p></a>
         <a class="card" href="explore.html"><h3>Clustering</h3><p>Make the clusters to screen.</p></a>
+        <a class="card" href="scripting.html#clients"><h3>R and Python</h3><p>Run the screens from a script.</p></a>
         <a class="card" href="opening-data.html#annotate"><h3>Annotations</h3><p>Groups and pairing come from them.</p></a>
       </div>
 
