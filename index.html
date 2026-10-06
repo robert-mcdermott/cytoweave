@@ -48,12 +48,12 @@
   <main id="main">
     <section class="hero">
       <div class="container hero-grid">
-        <a class="eyebrow" href="https://github.com/robert-mcdermott/cytoweave/releases/tag/v0.6.1"><span class="pill">v0.6.1</span> Differential state equal to diffcyt, batch reports to PDF and PowerPoint, Excel and Prism, AnnData, calibrated units, and R and Python clients</a>
+        <a class="eyebrow" href="https://github.com/robert-mcdermott/cytoweave/releases/tag/v0.7.0"><span class="pill">v0.7.0</span> FlowJo 11 and FACSDiva migration, an unmixing doctor, plates, dose-response and bead assays, kinetics, and headless runs</a>
         <h1>Flow cytometry analysis <span class="accent">you can check</span></h1>
         <p class="lede">CytoWeave is an analysis workbench for conventional, spectral and mass cytometry, validated against known answers and the reference tools, that shows where every number comes from. It runs on your own computer as one self-contained program, installed with a single command: no license server, no account, no Python, R or plugins. Files are read and analyzed in your browser and never leave your machine.</p>
         <figure class="hero-shot">
         <div class="shot shot-window" data-url="127.0.0.1:8770"><img class="shot-dark" src="assets/img/gate-dark.webp" width="2000" height="1250" fetchpriority="high" alt="The Gate view of CytoWeave: the gating path of T cells in a 14-color PBMC experiment, with CD4 against CD8 and CD45RA against CCR7 plots, the population tree and the T-cell statistics" /><img class="shot-light" src="assets/img/gate-light.webp" width="2000" height="1250" fetchpriority="high" alt="The Gate view of CytoWeave: the gating path of T cells in a 14-color PBMC experiment, with CD4 against CD8 and CD45RA against CCR7 plots, the population tree and the T-cell statistics" /></div>
-        <figcaption>The gating path of T cells in the bundled 14-color PBMC experiment, one of eleven example experiments.</figcaption>
+        <figcaption>The gating path of T cells in the bundled 14-color PBMC experiment, one of fourteen example experiments.</figcaption>
       </figure>
         <div class="btn-row">
           <a class="btn btn-primary" href="install.html">
@@ -187,6 +187,24 @@
 
         <article class="feature">
           <div class="feature-text">
+            <span class="kicker">Unmixing doctor</span>
+            <h3>Why an unmixing looks wrong, and the fix, tried on your sample</h3>
+            <p>When unmixed populations spread or lean, the doctor names the likely cause from the residuals, the controls and the spectral library: a dye without a reference, a control that holds another dye or behaves differently on beads, a tandem degraded in the sample or its control, or autofluorescence the unstained control does not have. Each fix is tried on the same events and its effect shown before you apply it.</p>
+            <ul class="checklist">
+              <li>Each planted fault named first on simulated experiments, nothing on clean ones</li>
+              <li>Autofluorescent cell controls and a fixed tissue found on real controls</li>
+              <li>A fix applied to the reference library in one undoable step</li>
+            </ul>
+            <a class="more-link" href="docs/spectral.html#doctor">Diagnosing a poor unmixing</a>
+          </div>
+          <figure>
+        <div class="shot"><img class="shot-dark" src="assets/img/doctor-dark.webp" width="2000" height="1250" loading="lazy" alt="The unmixing doctor: PE-Cy7 in the sample has degraded more than its control, with the evidence, the sample's PE-Cy7 spectrum against the reference, and the fix tried on the same events" /><img class="shot-light" src="assets/img/doctor-light.webp" width="2000" height="1250" loading="lazy" alt="The unmixing doctor: PE-Cy7 in the sample has degraded more than its control, with the evidence, the sample's PE-Cy7 spectrum against the reference, and the fix tried on the same events" /></div>
+        <figcaption>A tandem degraded in the sample: PE-Cy7 emits 11.5% more as PE than its control did.</figcaption>
+      </figure>
+        </article>
+
+        <article class="feature reverse">
+          <div class="feature-text">
             <span class="kicker">Acquisition QC</span>
             <h3>Find clogs and bubbles, leave clean data alone</h3>
             <p>PeacoQC, a flow-rate check, margin events and per-channel drift, with a 0–100 score per sample and plain-language findings. CytoWeave's refined PeacoQC stops the published algorithm removing events from clean or slowly drifting files; the classic port is one click away.</p>
@@ -203,7 +221,7 @@
       </figure>
         </article>
 
-        <article class="feature reverse">
+        <article class="feature">
           <div class="feature-text">
             <span class="kicker">Instrument</span>
             <h3>Know your cytometer: Q, B and every run since</h3>
@@ -221,7 +239,7 @@
       </figure>
         </article>
 
-        <article class="feature">
+        <article class="feature reverse">
           <div class="feature-text">
             <span class="kicker">Panel setup</span>
             <h3>How much antibody, and which voltage</h3>
@@ -239,7 +257,7 @@
       </figure>
         </article>
 
-        <article class="feature reverse">
+        <article class="feature">
           <div class="feature-text">
             <span class="kicker">Clustering and maps</span>
             <h3>Maps that say how far to trust them</h3>
@@ -257,7 +275,7 @@
       </figure>
         </article>
 
-        <article class="feature">
+        <article class="feature reverse">
           <div class="feature-text">
             <span class="kicker">Review</span>
             <h3>Every sample's result for a gate, outliers first</h3>
@@ -275,7 +293,7 @@
       </figure>
         </article>
 
-        <article class="feature reverse">
+        <article class="feature">
           <div class="feature-text">
             <span class="kicker">Autogating</span>
             <h3>Gates that follow drifting samples, and say when they can't</h3>
@@ -293,7 +311,7 @@
       </figure>
         </article>
 
-        <article class="feature">
+        <article class="feature reverse">
           <div class="feature-text">
             <span class="kicker">Statistics</span>
             <h3>The right test for the design</h3>
@@ -312,7 +330,7 @@
       </figure>
         </article>
 
-        <article class="feature reverse">
+        <article class="feature">
           <div class="feature-text">
             <span class="kicker">Robustness</span>
             <h3>Would another analyst reach the same conclusion?</h3>
@@ -330,7 +348,7 @@
       </figure>
         </article>
 
-        <article class="feature">
+        <article class="feature reverse">
           <div class="feature-text">
             <span class="kicker">Differential state</span>
             <h3>Which markers change, in which cells</h3>
@@ -348,7 +366,7 @@
       </figure>
         </article>
 
-        <article class="feature reverse">
+        <article class="feature">
           <div class="feature-text">
             <span class="kicker">AI agents</span>
             <h3>Let an agent run the analysis while you watch, then decide</h3>
@@ -366,7 +384,7 @@
       </figure>
         </article>
 
-        <article class="feature">
+        <article class="feature reverse">
           <div class="feature-text">
             <span class="kicker">R and Python</span>
             <h3>Your analysis, from R, Python and scanpy</h3>
@@ -384,19 +402,38 @@
       </figure>
         </article>
 
+        <article class="feature">
+          <div class="feature-text">
+            <span class="kicker">Plates</span>
+            <h3>A plate at a glance: heat maps, Z′, dose-response and bead assays</h3>
+            <p>Samples acquired from a plate are placed in their wells from their keywords or names. Lay out the plate (compounds and doses, controls, standards) or import the layout, and show any statistic across it with the screen's Z′. Fit each compound's dose-response curve with its EC50 and confidence interval, and read a LEGENDplex or CBA bead assay against its standard curves, with each analyte's quantifiable range.</p>
+            <ul class="checklist">
+              <li>Four- and five-parameter curves never worse than R's drc on the same data</li>
+              <li>Bead identification identical to beadplexr's on its own LEGENDplex files</li>
+              <li><code>cytoweave run</code> applies a template to a folder of files without a window, for nightly runs and CI</li>
+            </ul>
+            <a class="more-link" href="docs/plates.html">Plates, dose-response and bead assays</a>
+          </div>
+          <figure>
+        <div class="shot"><img class="shot-dark" src="assets/img/doseresponse-dark.webp" width="2000" height="1250" loading="lazy" alt="Dose-response curves of six compounds on a 96-well screen: four inhibitors with fitted curves, a partial one, an inactive one dashed flat and one whose IC50 lies beyond the doses dashed, with EC50s and their confidence intervals" /><img class="shot-light" src="assets/img/doseresponse-light.webp" width="2000" height="1250" loading="lazy" alt="Dose-response curves of six compounds on a 96-well screen: four inhibitors with fitted curves, a partial one, an inactive one dashed flat and one whose IC50 lies beyond the doses dashed, with EC50s and their confidence intervals" /></div>
+        <figcaption>Six compounds of the drug-screen example, with the plate's Z′ from its control wells.</figcaption>
+      </figure>
+        </article>
+
         <article class="feature reverse">
           <div class="feature-text">
             <span class="kicker">Moving from FlowJo</span>
             <h3>Bring your FlowJo workspaces, and see that they match</h3>
-            <p>FlowJo 10 workspaces import with their samples, gates, compensation and scales. The import lists every population as exact, approximated or unsupported, and the migration report compares every population count with FlowJo's, with the likely cause of any difference.</p>
+            <p>FlowJo 10 workspaces and FlowJo 11 workbenches import with their samples, gates, compensation and scales, and so do FACSDiva experiments, the gates FACSChorus records in its files and SpectroFlo's reference controls. The import lists every population as exact, approximated or unsupported, and the migration report compares every population count with the source software's, with the likely cause of any difference.</p>
             <ul class="checklist">
+              <li>FlowJo 11's own counts reproduced for every population of twelve workbenches</li>
               <li>FlowJo's biexponential reproduced from its own algorithm</li>
               <li>Workspaces exported back to FlowJo, one gating tree per sample, tested in FlowJo 11</li>
               <li>De-identified FCS files for sharing, with the events untouched</li>
               <li>Gating-ML 2.0 in and out: all 190 compliance gates exact</li>
               <li>Archival Cytometry Standard containers and CLR</li>
             </ul>
-            <a class="more-link" href="docs/flowjo.html">FlowJo and Gating-ML</a>
+            <a class="more-link" href="docs/flowjo.html">FlowJo, FACSDiva and Gating-ML</a>
           </div>
           <figure>
         <div class="shot"><img class="shot-dark" src="assets/img/flowjo-dark.webp" width="2000" height="1250" loading="lazy" alt="The FlowJo migration report: 56 of 56 population counts agree exactly with FlowJo, listed by population and sample" /><img class="shot-light" src="assets/img/flowjo-light.webp" width="2000" height="1250" loading="lazy" alt="The FlowJo migration report: 56 of 56 population counts agree exactly with FlowJo, listed by population and sample" /></div>
@@ -460,6 +497,16 @@
             <h3>Cell cycle and proliferation</h3>
             <p>Dean–Jett–Fox and Watson fits of DNA content; generations of dye dilution with division and proliferation indices.</p>
           </a>
+          <a class="card" href="docs/assays.html#kinetics">
+            <span class="icon-badge mint"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 17h5l2-9 3 12 2-6h6"/></svg></span>
+            <h3>Kinetics</h3>
+            <p>A calcium flux or any signal over time: the Indo-1 ratio's baseline, peak, time to peak, area and responding cells, with tubes overlaid at their stimulus.</p>
+          </a>
+          <a class="card" href="docs/scripting.html#run">
+            <span class="icon-badge gold"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 17l6-6-6-6M12 19h8"/></svg></span>
+            <h3>Headless runs</h3>
+            <p><code>cytoweave run</code> applies a template to a folder of files without a window and writes its tables, report, workspace and methods.</p>
+          </a>
           <a class="card" href="docs/cohorts.html">
             <span class="icon-badge gold"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h10M4 12h16M4 17h7"/><circle cx="17" cy="7" r="2"/><circle cx="14" cy="17" r="2"/></svg></span>
             <h3>Batches and barcodes</h3>
@@ -477,8 +524,8 @@
           </a>
           <a class="card" href="docs/getting-started.html#examples">
             <span class="icon-badge pink"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 3h6M10 3v6l-5 9a2 2 0 0 0 1.7 3h10.6a2 2 0 0 0 1.7-3l-5-9V3"/></svg></span>
-            <h3>Ten example experiments</h3>
-            <p>Simulated with the truth of every event: a planted compensation error, a FlowJo workspace, a spectral panel, a barcoded plate, a month of bead QC and more.</p>
+            <h3>Fourteen example experiments</h3>
+            <p>Simulated with the truth of every event: a planted compensation error, a FlowJo workspace, a spectral panel, a calcium flux, a drug screen, a bead assay, a month of bead QC and more.</p>
           </a>
           <a class="card" href="docs/spectral.html#design">
             <span class="icon-badge gold"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M3 15h18M9 3v18M15 3v18"/></svg></span>
@@ -532,6 +579,9 @@
               <tr><td><strong>Gating-ML</strong></td><td>ISAC's compliance suite</td><td class="agree">190 of 190 gates exact</td></tr>
               <tr><td><strong>FlowJo</strong></td><td>FlowJo's saved counts in 14 workspaces</td><td class="agree">as close as FlowKit or closer</td></tr>
               <tr><td><strong>FlowJo export</strong></td><td>FlowJo 11.2.0 opening three exports</td><td class="agree">every population within 0.6 points</td></tr>
+              <tr><td><strong>FlowJo 11</strong></td><td>FlowJo 11.2's own counts in twelve workbenches</td><td class="agree">all 350 reproduced</td></tr>
+              <tr><td><strong>Dose-response</strong></td><td>drc in R on 8 synthetic curves, a screen and 32 standard curves</td><td class="agree">never worse; within 1e-8 from the same start</td></tr>
+              <tr><td><strong>Bead assays</strong></td><td>beadplexr on its own LEGENDplex data</td><td class="agree">beads identical on 17 of 18 files</td></tr>
               <tr><td><strong>Autogating</strong></td><td>An expert's per-donor gates in a real cytokine study</td><td class="agree">no adjustment moved away from the expert</td></tr>
               <tr><td><strong>Q and B</strong></td><td>flowQB on its own LSR II data</td><td class="agree">equal within 6e-9</td></tr>
               <tr><td><strong>Predicted spread</strong></td><td>A BD LSRFortessa's 15 bead controls</td><td class="agree">79% of pairs within 2×</td></tr>
@@ -552,7 +602,7 @@
         <div class="cta">
           <div>
             <h2 id="get-title">Get started in a minute</h2>
-            <p>Install with one command, then run <code>cytoweave</code>. It opens its own window, with eleven example experiments ready to explore.</p>
+            <p>Install with one command, then run <code>cytoweave</code>. It opens its own window, with fourteen example experiments ready to explore.</p>
             <div class="btn-row">
               <a class="btn btn-primary" href="docs/getting-started.html">Getting started</a>
               <a class="btn" href="https://github.com/robert-mcdermott/cytoweave/releases/latest">All downloads</a>

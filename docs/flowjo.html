@@ -3,12 +3,12 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>FlowJo and Gating-ML · CytoWeave</title>
-  <meta name="description" content="Import FlowJo 10 workspaces into CytoWeave with a report of what converted exactly, compare every population count with FlowJo's, export workspaces back to FlowJo, and exchange gates with Gating-ML 2.0 and CLR." />
+  <title>FlowJo, FACSDiva and Gating-ML · CytoWeave</title>
+  <meta name="description" content="Import FlowJo 10 workspaces, FlowJo 11 workbenches, FACSDiva experiments and the gates FACSChorus records in its files into CytoWeave with a report of what converted exactly, compare every population count with the source software's, export workspaces back to FlowJo, and exchange gates with Gating-ML 2.0 and CLR." />
   <link rel="canonical" href="https://robert-mcdermott.github.io/cytoweave/docs/flowjo.html" />
   <meta property="og:type" content="website" />
-  <meta property="og:title" content="FlowJo and Gating-ML" />
-  <meta property="og:description" content="Import FlowJo 10 workspaces into CytoWeave with a report of what converted exactly, compare every population count with FlowJo's, export workspaces back to FlowJo, and exchange gates with Gating-ML 2.0 and CLR." />
+  <meta property="og:title" content="FlowJo, FACSDiva and Gating-ML" />
+  <meta property="og:description" content="Import FlowJo 10 workspaces, FlowJo 11 workbenches, FACSDiva experiments and the gates FACSChorus records in its files into CytoWeave with a report of what converted exactly, compare every population count with the source software's, export workspaces back to FlowJo, and exchange gates with Gating-ML 2.0 and CLR." />
   <meta property="og:url" content="https://robert-mcdermott.github.io/cytoweave/docs/flowjo.html" />
   <meta property="og:image" content="https://robert-mcdermott.github.io/cytoweave/assets/img/og-image.jpg" />
   <meta name="twitter:card" content="summary_large_image" />
@@ -68,13 +68,14 @@
         <h4>Results</h4>
         <ul>
           <li><a href="statistics.html">Tables and comparisons</a></li>
-          <li><a href="assays.html">Cell cycle, proliferation and index sorting</a></li>
+          <li><a href="assays.html">Cell cycle, proliferation, kinetics and index sorting</a></li>
+          <li><a href="plates.html">Plates, dose-response and bead assays</a></li>
           <li><a href="figures.html">Figures, methods and checkpoints</a></li>
         </ul>
         <h4>Share and automate</h4>
         <ul>
           <li><a href="workspaces.html">Workspaces and large files</a></li>
-          <li><a href="flowjo.html" aria-current="page">FlowJo and Gating-ML</a></li>
+          <li><a href="flowjo.html" aria-current="page">FlowJo, FACSDiva and Gating-ML</a></li>
           <li><a href="agents.html">AI agents (MCP)</a></li>
           <li><a href="scripting.html">Scripting and command line</a></li>
         </ul>
@@ -87,13 +88,13 @@
     </aside>
 
     <main id="main" class="doc">
-      <h1>FlowJo and Gating-ML</h1>
-      <p class="doc-lede">Bring an analysis over from FlowJo and see, population by population, that it gives the same counts; send one back to FlowJo; exchange gates with other tools through Gating-ML.</p>
+      <h1>FlowJo, FACSDiva and Gating-ML</h1>
+      <p class="doc-lede">Bring an analysis over from FlowJo or FACSDiva and see, population by population, that it gives the same counts; send one back to FlowJo; exchange gates with other tools through Gating-ML.</p>
 
       <h2 id="import">Importing a FlowJo workspace</h2>
-      <p>CytoWeave reads FlowJo 10 workspaces (<code>.wsp</code>, also written by FlowJo 11): their samples, gates, compensation matrices and scales. FlowJo 9 workspaces and FlowJo 11's <code>.flowjo</code> format are not read; export <code>.wsp</code> from FlowJo.</p>
+      <p>CytoWeave reads FlowJo 10 workspaces (<code>.wsp</code>, also written by FlowJo 11), FlowJo 11 workbenches (<code>.flowjo</code>, <a href="#flowjo11">below</a>) and FACSDiva experiments (<a href="#diva">below</a>): their samples, gates, compensation matrices and scales. FlowJo 9 workspaces are not read.</p>
       <ol>
-        <li>Open the <code>.wsp</code> file: drop it on the window, or use <strong>Import a FlowJo workspace or Gating-ML…</strong> in the sample list's <strong>+</strong> menu.</li>
+        <li>Open the <code>.wsp</code> or <code>.flowjo</code> file: drop it on the window, or use <strong>Import a FlowJo workspace or Gating-ML…</strong> in the sample list's <strong>+</strong> menu.</li>
         <li>The import dialog lists every population as <strong>exact</strong>, <strong>approximated</strong> or <strong>not imported</strong>, and says why: a curly quadrant, for example, imports with straight dividers. Gates FlowJo drew on uncompensated data keep uncompensated values, time and linear axes with a gain are converted from FlowJo's units, and ellipses are read from FlowJo's display space.</li>
         <li>Match the FCS files: CytoWeave finds the workspace's files among the samples already open; <strong>Add the FCS files…</strong> or <strong>Add a folder…</strong> adds the rest.</li>
         <li>Choose the <strong>Options</strong>:
@@ -116,6 +117,30 @@
       <p>Small differences are expected. FlowJo evaluates gates at its display resolution, which moves events near gate boundaries: typically well under 1% of a large population, more for populations of a few dozen events. CytoWeave evaluates gates exactly. Larger differences usually mean different compensation, a different FCS file, or a population whose parent already differs.</p>
       <p>FlowJo's biexponential scale is reproduced exactly, from FlowJo's own table algorithm, and checked against BD's published lookup tables. On FlowJo's own test workspaces CytoWeave reproduces the counts FlowJo saved; on real workspaces it matches them exactly at least as often as FlowKit does, and within 0.1–0.3% for large populations.</p>
       <div class="callout"><p><strong>Limits.</strong> Curly quadrants import with straight dividers. Template group gates import as per-sample copies, merged where samples agree.</p></div>
+
+      <h2 id="flowjo11">FlowJo 11 workbenches</h2>
+      <p>A FlowJo 11 workbench (<code>.flowjo</code>) imports like a <code>.wsp</code> file, with the same dialog and report. CytoWeave reads its polygons, rectangles, ellipses, ranges and quadrant gates (including a quadrant whose arm was moved off center, which becomes the rectangles each quadrant covers), Boolean populations, gates adjusted for one sample, compensation matrices and linear, log and biexponential scales. FlowJo stores its count of every population in the workbench, so the report compares with FlowJo's own counts.</p>
+      <p>FlowJo 11 counts events on its display grid: an event is in a polygon when the grid point it falls on is, and in an ellipse when the center of its grid cell is. Evaluated that way, CytoWeave's reading of the gates gives FlowJo 11's own count for every population of twelve workbenches saved by FlowJo 11.2 (quadrants drawn in FlowJo 11 within 3 events); the validation suite checks this. CytoWeave itself evaluates the exact gate geometry, so its counts differ slightly near gate edges: well under 1% of large populations, a few percent for a small gate drawn on a dense population.</p>
+      <div class="callout"><p><strong>Limits.</strong> FlowJo 11 logicle and arcsinh axes are read but not yet checked against FlowJo 11's counts (they are marked approximated). Spectral unmixing matrices in a workbench are not applied. When FlowJo 11.2 opens a FlowJo 10 workspace it leaves out its Boolean populations, so a workbench made that way has none.</p></div>
+
+      <h2 id="diva">FACSDiva experiments</h2>
+      <p>Export the experiment from FACSDiva as XML (FACSDiva's experiment export) and open the <code>.xml</code> file in CytoWeave with the experiment's FCS files. Each tube is a sample (named after its specimen and tube, matched to its FCS file by the file name Diva recorded) and each specimen a group; Diva's count of every population is compared in the report.</p>
+      <ul>
+        <li>Rectangles, polygons, intervals and quadrant gates import, with "rest of" populations and Boolean gates. Each tube keeps its own gates: tubes of a specimen with the same gate (the same kind on the same parameters) share it, each with its own position.</li>
+        <li>Gates keep the axes they were drawn on: linear, log, or Diva's biexponential, read as the logicle it approximates (as CytoML reads it), from the axis' scale value.</li>
+        <li>Compensation comes from the experiment, where Diva records it.</li>
+        <li>When some tubes have FCS files in the workspace, the gates of the others are left out (the dialog says how many), since they would apply to no sample.</li>
+      </ul>
+      <p>On the FACSDiva experiment CytoML is tested with, CytoWeave's counts equal CytoML's for every population. FACSDiva counts events on a 256-step display grid; evaluated that way, gates on linear axes give Diva's own counts exactly, and gates on biexponential axes are within 0.3%.</p>
+
+      <h2 id="chorus">FACSChorus gates (FACSDiscover S8 and A8)</h2>
+      <p>FACSChorus records the gates of a recording in every FCS file it writes, and has no other way to export them. When such files open, CytoWeave offers <strong>Import the gates</strong> (also in the workspace menu: <strong>Import → Gates FACSChorus recorded in the files…</strong>). The same import dialog lists every population; files with the same gates share them, each with its own position.</p>
+      <ul>
+        <li>Polygons and rectangles on linear and log axes import exactly; rectangles are exact on any axis.</li>
+        <li>A polygon on a biexponential axis is approximated: FACSChorus chooses the axis' width automatically and does not record it, so the outline is straight in data values, and events near its edges may differ (GateLab measured such gates within 2.4% of FACSChorus's counts).</li>
+        <li>FACSChorus's automatic Saturated and Unsaturated gates are not imported; populations under them are kept under their parent, and CytoWeave's QC flags saturated events.</li>
+        <li>FACSChorus does not store population counts in its files, so there are none to compare. Its experiment files (<code>.cef</code>) are not read.</li>
+      </ul>
 
       <h2 id="export">Exporting to FlowJo</h2>
       <figure>

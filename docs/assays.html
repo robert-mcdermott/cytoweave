@@ -3,12 +3,12 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Cell cycle, proliferation and index sorting · CytoWeave</title>
-  <meta name="description" content="Fit the cell cycle (Dean–Jett–Fox or Watson) and dye-dilution proliferation models in CytoWeave, with division, proliferation, expansion and replication indices, and read an index-sorted plate well by well." />
+  <title>Cell cycle, proliferation, kinetics and index sorting · CytoWeave</title>
+  <meta name="description" content="Fit the cell cycle (Dean–Jett–Fox or Watson) and dye-dilution proliferation models in CytoWeave, with division, proliferation, expansion and replication indices, measure a calcium flux or any signal over time, and read an index-sorted plate well by well." />
   <link rel="canonical" href="https://robert-mcdermott.github.io/cytoweave/docs/assays.html" />
   <meta property="og:type" content="website" />
-  <meta property="og:title" content="Cell cycle, proliferation and index sorting" />
-  <meta property="og:description" content="Fit the cell cycle (Dean–Jett–Fox or Watson) and dye-dilution proliferation models in CytoWeave, with division, proliferation, expansion and replication indices, and read an index-sorted plate well by well." />
+  <meta property="og:title" content="Cell cycle, proliferation, kinetics and index sorting" />
+  <meta property="og:description" content="Fit the cell cycle (Dean–Jett–Fox or Watson) and dye-dilution proliferation models in CytoWeave, with division, proliferation, expansion and replication indices, measure a calcium flux or any signal over time, and read an index-sorted plate well by well." />
   <meta property="og:url" content="https://robert-mcdermott.github.io/cytoweave/docs/assays.html" />
   <meta property="og:image" content="https://robert-mcdermott.github.io/cytoweave/assets/img/og-image.jpg" />
   <meta name="twitter:card" content="summary_large_image" />
@@ -68,13 +68,14 @@
         <h4>Results</h4>
         <ul>
           <li><a href="statistics.html">Tables and comparisons</a></li>
-          <li><a href="assays.html" aria-current="page">Cell cycle, proliferation and index sorting</a></li>
+          <li><a href="assays.html" aria-current="page">Cell cycle, proliferation, kinetics and index sorting</a></li>
+          <li><a href="plates.html">Plates, dose-response and bead assays</a></li>
           <li><a href="figures.html">Figures, methods and checkpoints</a></li>
         </ul>
         <h4>Share and automate</h4>
         <ul>
           <li><a href="workspaces.html">Workspaces and large files</a></li>
-          <li><a href="flowjo.html">FlowJo and Gating-ML</a></li>
+          <li><a href="flowjo.html">FlowJo, FACSDiva and Gating-ML</a></li>
           <li><a href="agents.html">AI agents (MCP)</a></li>
           <li><a href="scripting.html">Scripting and command line</a></li>
         </ul>
@@ -87,8 +88,8 @@
     </aside>
 
     <main id="main" class="doc">
-      <h1>Cell cycle, proliferation and index sorting</h1>
-      <p class="doc-lede">Models for DNA content and dye dilution, and the plate view for index sorts. All three work on a population you have gated.</p>
+      <h1>Cell cycle, proliferation, kinetics and index sorting</h1>
+      <p class="doc-lede">Models for DNA content and dye dilution, kinetics for a signal over time, and the plate view for index sorts. All of them work on a population you have gated.</p>
 
       <h2 id="cell-cycle">Cell cycle</h2>
       <figure>
@@ -135,6 +136,34 @@
       </div>
       <p>On the simulated cultures, the division index is within 3% of the truth. <strong>Run on all samples</strong> fits every sample with the same settings, sharing a fixed undivided peak.</p>
 
+      <h2 id="kinetics">Kinetics and calcium flux</h2>
+      <figure>
+        <div class="shot"><img class="shot-dark" src="../assets/img/kinetics-dark.webp" width="2000" height="1250" loading="lazy" alt="Kinetics of T cells after the high anti-CD3 dose: the Indo-1 violet/blue ratio against seconds after the stimulus, with buffer, the low dose and ionomycin overlaid, and the baseline, peak, time to peak, half-max time and responding share below" /><img class="shot-light" src="../assets/img/kinetics-light.webp" width="2000" height="1250" loading="lazy" alt="Kinetics of T cells after the high anti-CD3 dose: the Indo-1 violet/blue ratio against seconds after the stimulus, with buffer, the low dose and ionomycin overlaid, and the baseline, peak, time to peak, half-max time and responding share below" /></div>
+        <figcaption>The calcium-flux example: T cells after the high anti-CD3 dose, the other tubes overlaid at their stimulus.</figcaption>
+      </figure>
+      <p>A calcium flux follows a population's calcium over a few minutes of acquisition: a baseline, the stimulus, then the response. The <strong>Calcium flux</strong> example has Indo-1-loaded PBMC with buffer, two doses of anti-CD3 (which stimulates T cells) and ionomycin (which reaches every cell).</p>
+      <ol>
+        <li>Gate the population (for example live T cells), right-click it and choose <strong>Kinetics (signal over time, calcium flux)…</strong>.</li>
+        <li>Choose what to follow: the <strong>ratio of two channels</strong> (for Indo-1, violet over blue: calcium-bound over free, which does not depend on how much dye a cell took up) or <strong>one channel</strong> (Fluo-4, or any parameter). An Indo-1 pair is chosen when the channels' names say so.</li>
+        <li>Events are binned by acquisition time (about 150 bins of at least 50 events, or the width you set), each bin gives the population's <strong>median</strong> (or mean), and a moving average smooths the curve. The events' density is drawn behind it.</li>
+        <li>The <strong>stimulus</strong> is where acquisition paused (the tube taken out to add it). With an injection that does not stop acquisition there is no pause: the response's onset is found instead and times are counted from it, so enter the stimulus time when you know it.</li>
+      </ol>
+      <p>The response is measured against the baseline before the stimulus:</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Measure</th><th>Meaning</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Baseline</strong></td><td>The median (or mean) of every event before the stimulus</td></tr>
+            <tr><td><strong>Peak</strong> and <strong>time to peak</strong></td><td>The smoothed curve's maximum after the stimulus, and when it first comes within 3% of it (the start of a plateau, which a sustained response has)</td></tr>
+            <tr><td><strong>Half-max time</strong></td><td>When the curve first reaches the baseline plus half the amplitude</td></tr>
+            <tr><td><strong>Amplitude</strong>, <strong>fold</strong></td><td>The peak above, and over, the baseline</td></tr>
+            <tr><td><strong>Area</strong></td><td>Under the curve above the baseline, from when acquisition resumed to the end of the response window (value × seconds)</td></tr>
+            <tr><td><strong>Responding</strong></td><td>The share of events above a threshold (by default the 99th percentile of the baseline events) at its maximum after the stimulus, net of the baseline's own share above it. Each cell is measured once, so this is the share responding at that moment</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>The median moves only when most cells respond: in the example, the low dose makes 38% of T cells respond, yet their median ratio barely rises; the responding share shows it. <strong>Overlay</strong> draws other samples' curves aligned at their own stimulus, and <strong>Run on all samples</strong> measures every tube with the same settings. On the simulated tubes, every response is measured within one time bin and 3% of the noise-free curve, and the responding share within 0.2 points of the cells that were responding when measured.</p>
+
       <h2 id="index-sorting">Index sorting</h2>
       <figure>
         <div class="shot"><img class="shot-dark" src="../assets/img/indexsort-dark.webp" width="2000" height="1250" loading="lazy" alt="An index-sorted 96-well plate below two plots: wells colored by the deepest population (CD27+ IgD−, CD27− IgD+, CD19−), well C3 marked, its cell circled on the FSC/SSC and CD27/IgD plots, and its values listed" /><img class="shot-light" src="../assets/img/indexsort-light.webp" width="2000" height="1250" loading="lazy" alt="An index-sorted 96-well plate below two plots: wells colored by the deepest population (CD27+ IgD−, CD27− IgD+, CD19−), well C3 marked, its cell circled on the FSC/SSC and CD27/IgD plots, and its values listed" /></div>
@@ -157,7 +186,7 @@
 
       <nav class="doc-pager" aria-label="Pages">
         <a class="prev" href="statistics.html"><span>Previous</span>Tables and comparisons</a>
-        <a class="next" href="figures.html"><span>Next</span>Figures, methods and checkpoints</a>
+        <a class="next" href="plates.html"><span>Next</span>Plates, dose-response and bead assays</a>
       </nav>
     </main>
 

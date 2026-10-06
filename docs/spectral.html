@@ -4,11 +4,11 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Spectral unmixing · CytoWeave</title>
-  <meta name="description" content="Unmix spectral cytometry data in CytoWeave: reference spectra from single-stain controls, autofluorescence signatures, panel complexity and similarity, ordinary, weighted and non-negative least squares, and a comparison of unmixing models on your own sample." />
+  <meta name="description" content="Unmix spectral cytometry data in CytoWeave: reference spectra from single-stain controls, autofluorescence signatures, panel complexity and similarity, ordinary, weighted and non-negative least squares, a comparison of unmixing models on your own sample, and the unmixing doctor, which names the cause of a poor unmixing." />
   <link rel="canonical" href="https://robert-mcdermott.github.io/cytoweave/docs/spectral.html" />
   <meta property="og:type" content="website" />
   <meta property="og:title" content="Spectral unmixing" />
-  <meta property="og:description" content="Unmix spectral cytometry data in CytoWeave: reference spectra from single-stain controls, autofluorescence signatures, panel complexity and similarity, ordinary, weighted and non-negative least squares, and a comparison of unmixing models on your own sample." />
+  <meta property="og:description" content="Unmix spectral cytometry data in CytoWeave: reference spectra from single-stain controls, autofluorescence signatures, panel complexity and similarity, ordinary, weighted and non-negative least squares, a comparison of unmixing models on your own sample, and the unmixing doctor, which names the cause of a poor unmixing." />
   <meta property="og:url" content="https://robert-mcdermott.github.io/cytoweave/docs/spectral.html" />
   <meta property="og:image" content="https://robert-mcdermott.github.io/cytoweave/assets/img/og-image.jpg" />
   <meta name="twitter:card" content="summary_large_image" />
@@ -68,13 +68,14 @@
         <h4>Results</h4>
         <ul>
           <li><a href="statistics.html">Tables and comparisons</a></li>
-          <li><a href="assays.html">Cell cycle, proliferation and index sorting</a></li>
+          <li><a href="assays.html">Cell cycle, proliferation, kinetics and index sorting</a></li>
+          <li><a href="plates.html">Plates, dose-response and bead assays</a></li>
           <li><a href="figures.html">Figures, methods and checkpoints</a></li>
         </ul>
         <h4>Share and automate</h4>
         <ul>
           <li><a href="workspaces.html">Workspaces and large files</a></li>
-          <li><a href="flowjo.html">FlowJo and Gating-ML</a></li>
+          <li><a href="flowjo.html">FlowJo, FACSDiva and Gating-ML</a></li>
           <li><a href="agents.html">AI agents (MCP)</a></li>
           <li><a href="scripting.html">Scripting and command line</a></li>
         </ul>
@@ -105,6 +106,7 @@
         <li><strong>Check the panel</strong> in the <strong>Panel quality</strong> tab (below).</li>
         <li><strong>Unmix.</strong> Choose the samples, the method and how to treat autofluorescence, then click <strong>Unmix</strong>. Each dye becomes a "(unmixed)" channel you can gate like any other, and the residual of every event becomes a channel too.</li>
       </ol>
+      <p><strong>From SpectroFlo.</strong> Open a SpectroFlo experiment (<code>.Expt</code>) with its raw control files (SpectroFlo's <code>Raw</code> folder, including the unstained control) and CytoWeave lists the experiment's reference controls: fluorochrome, marker, beads or cells, the detector SpectroFlo gated each one on, and the matching file. <strong>Mark controls</strong> sets them up as in step 1. CytoWeave then computes each spectrum from its file; it does not use the spectra stored in the experiment, which on public data do not match the controls' own events (the validation suite checks both on the AutoSpectral example: CytoWeave's spectra peak in the detectors SpectroFlo gated on).</p>
       <p>The <strong>Control quality</strong> table checks each reference: its peak detector, positive and negative signal, separation, and the similarity of the dimmest and brightest thirds of its positives. Below 0.98 suggests the control is a mixture, such as a degraded tandem.</p>
 
       <h2 id="quality">Panel quality</h2>
@@ -143,6 +145,22 @@
       <h2 id="residuals">Residuals and signatures</h2>
       <p><strong>Residuals</strong> shows where the reference set fails to explain the data: the median residual per detector and a heat strip of events binned from dim to bright. A missing dye, a degraded tandem or an unexpected autofluorescence shows as a systematic misfit in the detectors where it emits. When the residuals scatter around zero in every detector, the references explain the population well. <strong>Signature</strong> draws the raw spectral signature of the selected population: the density of its events' signal in every detector.</p>
       <p>Against the true abundances of the 25-color example, unmixed values correlate with a median r of 0.988, within 0.001 of unmixing with the true spectra.</p>
+
+      <h2 id="doctor">Diagnosing a poor unmixing</h2>
+      <figure>
+        <div class="shot"><img class="shot-dark" src="../assets/img/doctor-dark.webp" width="2000" height="1250" loading="lazy" alt="The unmixing doctor: PE-Cy7 in the sample has degraded more than its control, with the evidence, the sample's PE-Cy7 spectrum against the reference, and the fix tried on the same events" /><img class="shot-light" src="../assets/img/doctor-light.webp" width="2000" height="1250" loading="lazy" alt="The unmixing doctor: PE-Cy7 in the sample has degraded more than its control, with the evidence, the sample's PE-Cy7 spectrum against the reference, and the fix tried on the same events" /></div>
+        <figcaption>The spectral example with PE-Cy7 degraded in the samples: the doctor names it, shows the spectrum the sample has, and tries the fix.</figcaption>
+      </figure>
+      <p>The <strong>Diagnose</strong> tab goes further than the residuals: it names the likely causes of a poor unmixing of the selected sample, most likely first. Select a stained sample (ideally its live single cells in the Gate view) and click <strong>Diagnose</strong>. Each cause comes with its evidence, a chart of the spectrum at fault against the reference or library spectrum it is compared with, and a fix that was tried on the same events, with its effect (how many events were left unexplained, how far the reference departed from the sample, how much a tandem leaked into its donor). It looks for:</p>
+      <ul>
+        <li><strong>A dye without a reference.</strong> Light that no signature explains, on far more events above the noise than below it (noise is symmetric; missing light is not). Its spectrum is estimated from the events that carry it, and named when the spectral library holds a matching dye; the fix adds the library spectrum, or the estimate.</li>
+        <li><strong>A reference that does not match the dye in the sample.</strong> Where a dye is bright, the light per unit of the dye that its reference misses. When the library's spectrum of the dye fits the sample, this experiment's control is the odd one (another dye or conjugate in the tube, another lot); when the control is on capture beads and every bead spectrum misfits (or a cell spectrum fits), the dye emits differently on beads than on cells.</li>
+        <li><strong>A degraded tandem.</strong> A tandem that lost emission to its donor in the samples (light, heat, fixation, time) leaves almost no residual, because the donor is in the panel: instead the donor's negative population rises in proportion to the tandem. The doctor finds the line that most of the tandem's positive events follow through the donor's negative center; co-expression of the two markers does not line up that way. A tandem more degraded in its control than in the samples shows as the opposite slope.</li>
+        <li><strong>A cell control carrying autofluorescence.</strong> When a marker is on autofluorescent cells (CD11b on myeloid cells, Siglec F on eosinophils, F4/80 on macrophages), the control's positives carry autofluorescence its negatives do not, and the reference holds part of it. The dimmer positives then depart from the brighter ones in the shape of the unstained control's autofluorescence. A bead control, or negatives gated on the same cells, avoids it.</li>
+        <li><strong>Autofluorescence the unstained control does not describe.</strong> The sample's autofluorescent cells fitted worse than the unstained control's own (fixation changes autofluorescence), light that grows with each event's autofluorescence, or cells of the sample's scatter that the unstained control lacks (an unstained control of lymphocytes for samples with monocytes). The fix adds signatures extracted from the sample's own autofluorescence-dominated cells; an unstained control prepared as the samples were is better.</li>
+      </ul>
+      <p>A fix changes the reference library in one undoable step: a library spectrum or the spectrum the sample shows joins the panel (with the control set aside), or autofluorescence signatures are added, each event choosing its own. Diagnose again to check it, then unmix the samples again. The doctor fits ordinary least squares whatever unmixing method you chose, since the faults it looks for are the references'. <strong>What was checked</strong> lists every check and its numbers, including the dyes too dim in this sample to compare with their references.</p>
+      <p>In the validation, six faults planted by the simulator are each named first on two simulated experiments, clean samples show nothing, and each fix brings the unmixed values closer to the truth (beside a PE-Cy7 degraded in its control, PE's correlation with the truth rises from 0.04 to 0.84). On the AutoSpectral example's real controls, the cell controls of CD11b, Siglec F and F4/80 are named as carrying autofluorescence, and none of the lymphoid-marker or bead controls; its spleen fixed in PFA is named as autofluorescence the fresh unstained control does not describe, and the same spleen unfixed is not.</p>
 
       <h2 id="library">The spectral library</h2>
       <figure>

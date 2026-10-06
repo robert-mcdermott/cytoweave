@@ -68,13 +68,14 @@
         <h4>Results</h4>
         <ul>
           <li><a href="statistics.html">Tables and comparisons</a></li>
-          <li><a href="assays.html">Cell cycle, proliferation and index sorting</a></li>
+          <li><a href="assays.html">Cell cycle, proliferation, kinetics and index sorting</a></li>
+          <li><a href="plates.html">Plates, dose-response and bead assays</a></li>
           <li><a href="figures.html">Figures, methods and checkpoints</a></li>
         </ul>
         <h4>Share and automate</h4>
         <ul>
           <li><a href="workspaces.html">Workspaces and large files</a></li>
-          <li><a href="flowjo.html">FlowJo and Gating-ML</a></li>
+          <li><a href="flowjo.html">FlowJo, FACSDiva and Gating-ML</a></li>
           <li><a href="agents.html" aria-current="page">AI agents (MCP)</a></li>
           <li><a href="scripting.html">Scripting and command line</a></li>
         </ul>
@@ -98,6 +99,7 @@
         <li>rename, recolor or delete populations, and propose a compensation matrix computed from the controls;</li>
         <li>run acquisition QC, unmix spectral files, and cluster and map cells across samples;</li>
         <li>analyze an antibody titration or a detector voltage walk;</li>
+        <li>lay out a plate, fit dose-response curves, and read a bead immunoassay;</li>
         <li>save and apply <a href="templates.html">analysis templates</a> and the published OMIP-101 and OMIP-090 strategies, and name populations with Cell Ontology terms;</li>
         <li>add formula channels (a ratio of two markers) and calibrate fluorescence in MEF units with beads;</li>
         <li>compute population statistics and tables across samples (absolute counts with counting beads among them), compare samples with a control (% positive, probability binning), and report rare populations with exact intervals and detection limits, and look at plots as images;</li>
@@ -125,7 +127,7 @@ between stimulated and unstimulated samples.</code></pre></div>
     }
   }
 }</code></pre></div>
-      <p>Options go after <code>mcp</code>: <code>--port</code> (default 8770; the next free one is used), <code>--data-dir</code> (the workspace library) and <code>--window app|browser|none</code> (how the window opens when a tool needs it). Proposals and the <code>propose_compensation</code> and <code>proposals</code> tools need CytoWeave 0.2.0 or later, <code>adapt_gate</code> 0.3.0, <code>check_robustness</code> 0.4.0, and the QC, unmixing, clustering, annotation, figure, folder-watching, export, template, cell-type and titration tools 0.5.0, and <code>compare_distributions</code>, <code>rare_events</code>, <code>add_formula_channel</code>, <code>calibrate_beads</code>, <code>export_report</code>, <code>export_events</code> and <code>differential_analysis</code> 0.6.0 (as do Excel and Prism files from <code>export_table</code> and CSV files of events in <code>open_files</code>).</p>
+      <p>Options go after <code>mcp</code>: <code>--port</code> (default 8770; the next free one is used), <code>--data-dir</code> (the workspace library) and <code>--window app|browser|none</code> (how the window opens when a tool needs it). Proposals and the <code>propose_compensation</code> and <code>proposals</code> tools need CytoWeave 0.2.0 or later, <code>adapt_gate</code> 0.3.0, <code>check_robustness</code> 0.4.0, and the QC, unmixing, clustering, annotation, figure, folder-watching, export, template, cell-type and titration tools 0.5.0, and <code>compare_distributions</code>, <code>rare_events</code>, <code>add_formula_channel</code>, <code>calibrate_beads</code>, <code>export_report</code>, <code>export_events</code> and <code>differential_analysis</code> 0.6.0 (as do Excel and Prism files from <code>export_table</code> and CSV files of events in <code>open_files</code>), and <code>diagnose_unmixing</code>, <code>kinetics</code>, <code>plate</code>, <code>plate_layout</code>, <code>dose_response</code>, <code>bead_assay</code> and <code>export_workspace</code> 0.7.0.</p>
 
       <h2 id="proposals">Reviewing proposals</h2>
       <figure>
@@ -177,11 +179,16 @@ between stimulated and unstimulated samples.</code></pre></div>
             <tr><td><code>apply_template</code></td><td>Applies a template or a strategy (<code>omip-101</code>, <code>omip-090</code>) with channels matched by marker, saying how each matched and what was left out; a strategy's gates are placed on one sample's events. The gates and figures are proposed</td></tr>
             <tr><td><code>suggest_cell_types</code></td><td>A Cell Ontology term for each population from its phenotype, never its name, with a confidence and the markers it rests on; <code>propose</code> proposes the top terms for you to confirm</td></tr>
             <tr><td><code>titration</code></td><td>Analyzes an antibody titration (amounts from the file names) or a detector voltage walk (voltages from <code>$PnV</code>): each step's stain and separation index, and the recommended amount or voltage range; <code>save</code> proposes the result</td></tr>
+            <tr><td><code>diagnose_unmixing</code></td><td>Names the likely causes of a poor spectral unmixing, most likely first, each with its evidence and a fix tried on the sample's events</td></tr>
+            <tr><td><code>kinetics</code></td><td>A signal or ratio (Indo-1 violet/blue) against acquisition time: baseline, peak, time to peak, half-max time, area and the share of responding events, per sample</td></tr>
+            <tr><td><code>plate</code>, <code>plate_layout</code></td><td>The plates and their layout fields, a statistic in every well as a grid with Z′ from the control wells; a layout from CSV or plate maps, held for review</td></tr>
+            <tr><td><code>dose_response</code></td><td>EC50 or IC50 curves per compound (four or five parameters, as drc parameterizes them) with 95% CIs, Hill slope, asymptotes and flags; raw, % of controls or % inhibition</td></tr>
+            <tr><td><code>bead_assay</code></td><td>A bead immunoassay (LEGENDplex, CBA): analytes by classification level, standard curves, and each sample's concentrations with the quantifiable range and limit of detection</td></tr>
             <tr><td><code>add_formula_channel</code></td><td>Proposes a channel computed from others ([CD4] / [CD8], log([CD25])), usable at once in gates, plots and statistics</td></tr>
             <tr><td><code>calibrate_beads</code></td><td>Calibrates channels in MEF units from a multi-level bead sample, as FlowCal does, and proposes the calibrated channels for the samples acquired with the beads' settings</td></tr>
             <tr><td><code>compare_distributions</code></td><td>Each sample's population against a control sample's on a channel: % positive by SED and Overton, probability binning's T(χ), the K-S D; several channels for multivariate probability binning</td></tr>
             <tr><td><code>rare_events</code></td><td>Exact intervals of a rare population's count and frequency, the events needed for a target CV, and limits of blank, detection and quantification from blank and low-level samples</td></tr>
-            <tr><td><code>export_flowjo</code>, <code>export_fcs</code>, <code>export_figure</code>, <code>export_report</code>, <code>export_events</code>, <code>export_table</code></td><td>Write a FlowJo workspace, de-identified FCS files, a population's events in several samples (concatenated into one FCS file with SampleID and SourceEvent channels, one FCS file per sample, or AnnData .h5ad; optionally downsampled with a seed), a figure (SVG, PNG, PDF), a batch report (a figure repeated for each sample or each value of an annotation, as PDF or PowerPoint, with the pages and any notes) or statistics (CSV, TSV, an Excel workbook with its provenance sheets, a Prism project grouped by an annotation) to an absolute path; never replace a file unless told to</td></tr>
+            <tr><td><code>export_flowjo</code>, <code>export_fcs</code>, <code>export_figure</code>, <code>export_report</code>, <code>export_events</code>, <code>export_table</code>, <code>export_workspace</code></td><td>Write a FlowJo workspace, the workspace (.cwz), de-identified FCS files, a population's events in several samples (concatenated into one FCS file with SampleID and SourceEvent channels, one FCS file per sample, or AnnData .h5ad; optionally downsampled with a seed), a figure (SVG, PNG, PDF), a batch report (a figure repeated for each sample or each value of an annotation, as PDF or PowerPoint, with the pages and any notes) or statistics (CSV, TSV, an Excel workbook with its provenance sheets, a Prism project grouped by an annotation) to an absolute path; never replace a file unless told to</td></tr>
             <tr><td><code>methods</code></td><td>A methods paragraph with numbered references</td></tr>
             <tr><td><code>export_gating_ml</code></td><td>The gating strategy as Gating-ML 2.0</td></tr>
           </tbody>
@@ -201,7 +208,7 @@ between stimulated and unstimulated samples.</code></pre></div>
       </div>
 
       <nav class="doc-pager" aria-label="Pages">
-        <a class="prev" href="flowjo.html"><span>Previous</span>FlowJo and Gating-ML</a>
+        <a class="prev" href="flowjo.html"><span>Previous</span>FlowJo, FACSDiva and Gating-ML</a>
         <a class="next" href="scripting.html"><span>Next</span>Scripting and command line</a>
       </nav>
     </main>

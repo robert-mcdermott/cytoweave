@@ -4,11 +4,11 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Scripting and command line · CytoWeave</title>
-  <meta name="description" content="CytoWeave's command-line options, and remote control from R, Python, Jupyter or shell scripts with the R and Python clients or plain HTTP: open files, gate, compute statistics tables, test groups and write methods from a program, with the changes shown as proposals in the window." />
+  <meta name="description" content="CytoWeave's command-line options, headless runs of a template on a folder of FCS files (cytoweave run) for nightly runs, pipelines and CI, and remote control from R, Python, Jupyter or shell scripts with the R and Python clients or plain HTTP: open files, gate, compute statistics tables, test groups and write methods from a program, with the changes shown as proposals in the window." />
   <link rel="canonical" href="https://robert-mcdermott.github.io/cytoweave/docs/scripting.html" />
   <meta property="og:type" content="website" />
   <meta property="og:title" content="Scripting and command line" />
-  <meta property="og:description" content="CytoWeave's command-line options, and remote control from R, Python, Jupyter or shell scripts with the R and Python clients or plain HTTP: open files, gate, compute statistics tables, test groups and write methods from a program, with the changes shown as proposals in the window." />
+  <meta property="og:description" content="CytoWeave's command-line options, headless runs of a template on a folder of FCS files (cytoweave run) for nightly runs, pipelines and CI, and remote control from R, Python, Jupyter or shell scripts with the R and Python clients or plain HTTP: open files, gate, compute statistics tables, test groups and write methods from a program, with the changes shown as proposals in the window." />
   <meta property="og:url" content="https://robert-mcdermott.github.io/cytoweave/docs/scripting.html" />
   <meta property="og:image" content="https://robert-mcdermott.github.io/cytoweave/assets/img/og-image.jpg" />
   <meta name="twitter:card" content="summary_large_image" />
@@ -68,13 +68,14 @@
         <h4>Results</h4>
         <ul>
           <li><a href="statistics.html">Tables and comparisons</a></li>
-          <li><a href="assays.html">Cell cycle, proliferation and index sorting</a></li>
+          <li><a href="assays.html">Cell cycle, proliferation, kinetics and index sorting</a></li>
+          <li><a href="plates.html">Plates, dose-response and bead assays</a></li>
           <li><a href="figures.html">Figures, methods and checkpoints</a></li>
         </ul>
         <h4>Share and automate</h4>
         <ul>
           <li><a href="workspaces.html">Workspaces and large files</a></li>
-          <li><a href="flowjo.html">FlowJo and Gating-ML</a></li>
+          <li><a href="flowjo.html">FlowJo, FACSDiva and Gating-ML</a></li>
           <li><a href="agents.html">AI agents (MCP)</a></li>
           <li><a href="scripting.html" aria-current="page">Scripting and command line</a></li>
         </ul>
@@ -88,11 +89,12 @@
 
     <main id="main" class="doc">
       <h1>Scripting and command line</h1>
-      <p class="doc-lede">Start CytoWeave the way a pipeline needs, and drive it from R, Python, Jupyter or a shell script with the same actions an AI agent uses.</p>
+      <p class="doc-lede">Start CytoWeave the way a pipeline needs, run an analysis on a folder of files without a window, and drive it from R, Python, Jupyter or a shell script with the same actions an AI agent uses.</p>
 
       <h2 id="command-line">Command line</h2>
       <div class="code" data-no-copy><span class="code-label">usage</span><pre><code>cytoweave [flags] [FCS files, folders, workspaces (.cwz), Gating-ML or FlowJo .wsp files...]
-cytoweave mcp [flags]</code></pre></div>
+cytoweave mcp [flags]
+cytoweave run [flags] [FCS files or folders...]</code></pre></div>
       <div class="table-wrap">
         <table>
           <thead><tr><th>Flag</th><th>Default</th><th>Effect</th></tr></thead>
@@ -111,6 +113,75 @@ cytoweave mcp [flags]</code></pre></div>
         </table>
       </div>
       <p>CytoWeave prints the address it serves, for example <code>http://127.0.0.1:8770</code>. With <code>--window none</code>, open that address in any browser yourself. Files named when CytoWeave is already running are handed to the open window.</p>
+
+      <h2 id="run">Headless runs</h2>
+      <p><code>cytoweave run</code> applies an analysis template to FCS files without a window and writes its results to a folder. It is meant for a core's nightly runs, pipelines and continuous integration. A run:</p>
+      <ol>
+        <li>starts CytoWeave on a private port, with no workspace library;</li>
+        <li>opens it in a headless Chrome (or Chromium, Edge or Brave);</li>
+        <li>applies the analysis with the same code the window uses, writes the outputs, and stops.</li>
+      </ol>
+      <p>Save a finished analysis as a template file (<strong>Workspace → Save as a template</strong>, downloaded as a <code>.cwt</code> file; see <a href="templates.html">Templates</a>), then:</p>
+      <div class="code"><pre><code><span class="prompt">$ </span>cytoweave run --template panel.cwt --annotations samples.csv --output results/ plate-12/</code></pre></div>
+      <p>The run opens the files (each folder becomes a group) and the annotations table. It then applies the template, with its channels matched by marker. It accepts what it applied: the run stands for you, so no proposal is left open and nothing is attributed to an agent. Finally it writes:</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>File</th><th>What it holds</th></tr></thead>
+          <tbody>
+            <tr><td><code>tables.xlsx</code></td><td>Every table of the template, with the sheets that say where the numbers come from (columns, samples and their checksums, gating, methods)</td></tr>
+            <tr><td><code>&lt;table&gt;.csv</code></td><td>Each table as the Tables view's CSV button writes it</td></tr>
+            <tr><td><code>report.pdf</code></td><td>The batch report of the template's last figure, a page per sample (or per <code>--report-by</code> annotation)</td></tr>
+            <tr><td><code>workspace.cwz</code></td><td>The workspace, to open in the window beside the FCS files and review or adjust</td></tr>
+            <tr><td><code>methods.txt</code></td><td>The methods paragraph with its references</td></tr>
+            <tr><td><code>run.json</code></td><td>What the run read (each file's SHA-256), each step's outcome and message, every population's count in every sample, and what it wrote (sizes and SHA-256)</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Flag</th><th>Default</th><th>Effect</th></tr></thead>
+          <tbody>
+            <tr><td><code>--template</code></td><td></td><td>The analysis template (<code>.cwt</code>) to apply</td></tr>
+            <tr><td><code>--output</code></td><td></td><td>The folder for the outputs (made if missing)</td></tr>
+            <tr><td><code>--annotations</code></td><td></td><td>A CSV of sample annotations (the first column names the sample) or a plate layout (a <code>well</code> column, or plate maps)</td></tr>
+            <tr><td><code>--qc</code></td><td></td><td>Run acquisition QC first, with a "QC pass" population above the template's</td></tr>
+            <tr><td><code>--report</code></td><td><code>pdf</code></td><td><code>pdf</code>, <code>pptx</code> or <code>none</code></td></tr>
+            <tr><td><code>--report-by</code></td><td>the figure's</td><td><code>sample</code>, or an annotation such as <code>subject</code></td></tr>
+            <tr><td><code>--flowjo</code></td><td></td><td>Also write a FlowJo workspace (<code>workspace.wsp</code>)</td></tr>
+            <tr><td><code>--steps</code></td><td></td><td>Run the steps of a JSON file instead (below)</td></tr>
+            <tr><td><code>--overwrite</code></td><td></td><td>Replace outputs already in the folder (otherwise the run refuses before it starts)</td></tr>
+            <tr><td><code>--chrome</code></td><td><code>CHROME</code>, else one installed</td><td>The browser to run in</td></tr>
+            <tr><td><code>--timeout</code></td><td><code>2h</code></td><td>Stop a run that takes longer</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>The exit status is:</p>
+      <ul>
+        <li><strong>0</strong> when every step succeeded;</li>
+        <li><strong>1</strong> when a step failed, which <code>run.json</code> says (a failure to open the files or apply the template stops the run; any other failure is recorded and the rest still run);</li>
+        <li><strong>2</strong> for a mistake on the command line.</li>
+      </ul>
+      <p>Each step prints a line as it finishes.</p>
+      <h3 id="steps">Your own steps</h3>
+      <p><code>--steps</code> runs any of the <a href="agents.html#tools">agent actions</a> in order: a JSON list of <code>{"action": …, "args": {…}}</code>. Paths are resolved as follows:</p>
+      <ul>
+        <li><code>"$inputs"</code> in <code>open_files</code>' paths stands for the files and folders named on the command line;</li>
+        <li><code>templateFile</code> reads a template file into <code>apply_template</code>;</li>
+        <li>other relative input paths are taken from the steps file's folder;</li>
+        <li>relative output paths are taken from <code>--output</code>.</li>
+      </ul>
+      <p><code>accept_proposals</code> accepts what the steps before it proposed. Each step's result data goes into <code>run.json</code>. For example, QC, the template, a paired comparison and a table of counts:</p>
+      <div class="code"><span class="code-label">steps.json</span><pre><code>[
+  {"action": "open_files", "args": {"paths": ["$inputs", "annotations.csv"]}},
+  {"action": "run_qc", "args": {"addGate": true}},
+  {"action": "apply_template", "args": {"templateFile": "panel.cwt"}},
+  {"action": "accept_proposals"},
+  {"action": "compare", "args": {"population": "Tregs", "groupBy": "condition", "pairBy": "subject"}},
+  {"action": "export_table", "args": {"statistic": "count", "path": "counts.csv"}},
+  {"action": "methods", "args": {"path": "methods.txt"}}
+]</code></pre></div>
+      <div class="code"><pre><code><span class="prompt">$ </span>cytoweave run --steps steps.json --output results/ plate-12/</code></pre></div>
+      <p>A run gives the same results as the same analysis done in the window. The validation checks this on the PBMC example, comparing each output with what the window's own buttons export and every count with an independent computation (<a href="../science.html#validation">Validation</a>).</p>
 
       <h2 id="remote">Remote control from your programs</h2>
       <p><code>cytoweave --remote-control</code> accepts the actions of the <a href="agents.html#tools">MCP tools</a> from programs on this computer. The window must be open: it performs each action with the same code as the user interface, so you watch the script work. A script's changes are proposals too, shown in the window under the script's name, for you to accept or reject. Actions reach the window one at a time.</p>

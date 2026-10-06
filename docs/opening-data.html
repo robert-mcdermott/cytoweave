@@ -68,13 +68,14 @@
         <h4>Results</h4>
         <ul>
           <li><a href="statistics.html">Tables and comparisons</a></li>
-          <li><a href="assays.html">Cell cycle, proliferation and index sorting</a></li>
+          <li><a href="assays.html">Cell cycle, proliferation, kinetics and index sorting</a></li>
+          <li><a href="plates.html">Plates, dose-response and bead assays</a></li>
           <li><a href="figures.html">Figures, methods and checkpoints</a></li>
         </ul>
         <h4>Share and automate</h4>
         <ul>
           <li><a href="workspaces.html">Workspaces and large files</a></li>
-          <li><a href="flowjo.html">FlowJo and Gating-ML</a></li>
+          <li><a href="flowjo.html">FlowJo, FACSDiva and Gating-ML</a></li>
           <li><a href="agents.html">AI agents (MCP)</a></li>
           <li><a href="scripting.html">Scripting and command line</a></li>
         </ul>
@@ -99,9 +100,11 @@
             <tr><td>A folder</td><td>Its FCS files, as a sample group named after the folder</td></tr>
             <tr><td><code>.cwz</code></td><td>A CytoWeave workspace</td></tr>
             <tr><td><code>.acs</code>, <code>.zip</code></td><td>An Archival Cytometry Standard container: a workspace with its FCS files</td></tr>
-            <tr><td><code>.wsp</code></td><td>A FlowJo 10 workspace; see <a href="flowjo.html">FlowJo and Gating-ML</a></td></tr>
-            <tr><td><code>.xml</code></td><td>Gating-ML 2.0 gates and compensation</td></tr>
-            <tr><td><code>.csv</code>, <code>.tsv</code>, <code>.txt</code></td><td>Events, a row per event and a column per channel (<a href="#csv">below</a>); or, when the first column names samples, sample annotations: the other columns become fields</td></tr>
+            <tr><td><code>.wsp</code></td><td>A FlowJo 10 workspace; see <a href="flowjo.html">FlowJo, FACSDiva and Gating-ML</a></td></tr>
+            <tr><td><code>.flowjo</code></td><td>A FlowJo 11 workbench; see <a href="flowjo.html#flowjo11">FlowJo 11 workbenches</a></td></tr>
+            <tr><td><code>.Expt</code></td><td>A SpectroFlo experiment: its reference controls, set up in the Spectral view; see <a href="spectral.html#workflow">The workflow</a></td></tr>
+            <tr><td><code>.xml</code></td><td>Gating-ML 2.0 gates and compensation, or a FACSDiva experiment exported as XML (<a href="flowjo.html#diva">FACSDiva experiments</a>)</td></tr>
+            <tr><td><code>.csv</code>, <code>.tsv</code>, <code>.txt</code></td><td>Events, a row per event and a column per channel (<a href="#csv">below</a>); or, when the first column names samples, sample annotations: the other columns become fields; or a plate layout, by well (<a href="plates.html#layout">Plates</a>)</td></tr>
             <tr><td><code>.svg</code>, <code>.png</code>, <code>.pdf</code></td><td>A figure CytoWeave exported: where it came from, what changed since, and a rebuild; see <a href="figures.html#open-figure">Opening an exported figure</a></td></tr>
           </tbody>
         </table>

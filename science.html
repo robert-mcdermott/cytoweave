@@ -56,14 +56,18 @@
         <table>
           <thead><tr><th>Area</th><th>Checked against</th><th>Result</th></tr></thead>
           <tbody>
-            <tr><td><strong>FCS</strong></td><td>All 133 example files</td><td>Parsed without warnings; written and read back bit-exact</td></tr>
+            <tr><td><strong>FCS</strong></td><td>All 290 example files</td><td>Parsed without warnings; written and read back bit-exact</td></tr>
             <tr><td><strong>FCS fuzzing</strong></td><td>20,000 mutations of files in every layout (offsets, keywords, delimiters, flipped bytes, truncation)</td><td>Every file read consistently or refused with a message; no crash, hang or outsized allocation</td></tr>
             <tr><td><strong>Compensation</strong></td><td>The true spillover of the PBMC example</td><td>Matrices within 0.02 of the truth; the planted error found first, corrected to 0.158 (true 0.157)</td></tr>
             <tr><td><strong>Gating</strong></td><td>True cell types</td><td>Precision 91–100%, recall 96–100%</td></tr>
             <tr><td><strong>QC</strong></td><td>Known clogs, bubbles and drift</td><td>99.8–100% of anomalous events removed; ≤ 1.4% of clean events, none from clean or drifting files</td></tr>
             <tr><td><strong>Spectral</strong></td><td>True abundances of 25 fluorochromes</td><td>Median r = 0.988; within 0.001 of unmixing with the true spectra</td></tr>
+            <tr><td><strong>Unmixing doctor</strong></td><td>Six faults planted in the spectral example; real bead and cell controls and fixed spleen (AutoSpectral example)</td><td>Each fault named first on two experiments, nothing on clean samples, each fix closer to the truth; the autofluorescent cell controls and the fixed spleen named</td></tr>
             <tr><td><strong>Cell cycle</strong></td><td>True phase fractions</td><td>Dean–Jett–Fox within 1.6 points, Watson within 2</td></tr>
             <tr><td><strong>Proliferation</strong></td><td>True precursor frequencies</td><td>Division index within 3%</td></tr>
+            <tr><td><strong>Kinetics</strong></td><td>Every cell's calcium in a simulated flux (five tubes)</td><td>Peak and times within one bin and 3% of the noise-free curve; responding share within 0.2 points</td></tr>
+            <tr><td><strong>Plates and dose-response</strong></td><td>A simulated 96-well screen with known IC50s; R's drc 4.0 on 8 synthetic curves and the screen</td><td>Every well placed from keywords and from names; Z′ equal to the true shares'; each simulated IC50 inside its 95% CI; residual sums never above drc's, drc from CytoWeave's estimate within 1e-8, standard errors within 1e-5 of the exact Hessian</td></tr>
+            <tr><td><strong>Bead immunoassays</strong></td><td>A simulated LEGENDplex-like 8-plex with known concentrations; beadplexr 0.5 and drc on its curves; beadplexr's own LEGENDplex data (13-plex, 18 files)</td><td>99.6% of beads assigned to their analyte; sera in range within 20% for 97% (median 1.8%); concentrations equal to drc's within 1e-8; bead identification identical to beadplexr's on 17 files, the 18th where its clustering merged two analytes</td></tr>
             <tr><td><strong>Debarcoding</strong></td><td>True wells of a 20-sample barcoded plate</td><td>100% of assigned cells in their true well; 98.7% of cells assigned</td></tr>
             <tr><td><strong>Clustering</strong></td><td>23 true populations</td><td>FlowSOM adjusted Rand index 0.91</td></tr>
             <tr><td><strong>Normalization</strong></td><td>Same-donor anchors in two batches</td><td>Batch distance reduced 25×</td></tr>
@@ -81,6 +85,7 @@
             <tr><td><strong>Differential state</strong></td><td>diffcyt 1.32 and limma 3.68 in R on the mass cytometry examples (8 samples with a batch, 20 paired wells); limma on 11 synthetic cases; activation known in advance</td><td>Every count and median identical, every moderated t, p and adjusted p within 3e-11; the known activation changes found (15 of 15 strong ones) with 3 of 53 calls false; no call where no marker differs</td></tr>
             <tr><td><strong>Events in and out</strong></td><td>Concatenated, downsampled and per-sample FCS files against their sources; CSV files from CytoWeave, FlowJo and European locales, and a damaged one; AnnData files read by anndata 0.10 and 0.13, h5py, pyfive, fcsparser and FlowIO</td><td>Every event its source's, every population counted alike per SampleID; seeded downsampling exact and uniform; CSV values back exactly, every fault reported; X, obs and maps read exactly by every reader</td></tr>
             <tr><td><strong>Batch reports and spreadsheets</strong></td><td>A figure repeated by sample and by subject, every number recomputed; the PDF, PowerPoint, Excel and Prism files read by openpyxl, python-pptx, pypdf and R's pzfx</td><td>Every plot where the rules put it; all 171 numbers equal to their table column or gate; no untraced number in the PDF; workbook, deck and Prism values exact in every reader</td></tr>
+            <tr><td><strong>Headless runs</strong></td><td>The PBMC example's 12 samples and a template run twice with <code>cytoweave run</code>, and analyzed in the window with its own buttons; Node on the same files</td><td>The same outputs both times and as the window exports them (CSV bytes, workbook values, report text, workspace, methods); all 228 counts equal to Node's</td></tr>
             <tr><td><strong>Rare events</strong></td><td>R's exact intervals; simulated blanks and low-level samples</td><td>Intervals equal to poisson.test and binom.test, covering ≥ 95%; EP17 limits flagging 4% of new blanks and detecting 98% at the limit of detection</td></tr>
             <tr><td><strong>Robustness to analysis choices</strong></td><td>Comparisons with known answers: a real effect, a gain shift, clogs and a stale matrix in one group, and no effect</td><td>The real effect holds in 64 of 64 analyses; each artifact called fragile or traced to the choice behind it; under no effect, half of the chance findings are flagged</td></tr>
             <tr><td><strong>Accessibility</strong></td><td>Every text color on every surface, the palettes in simulated color-vision deficiencies, and axe-core in 86 pages</td><td>Contrast ≥ 4.5:1 everywhere in both themes; friendly palette ≥ 11 apart (CIEDE2000) in every kind of vision; no axe-core violations</td></tr>
@@ -153,7 +158,7 @@
       <div class="code"><span class="code-label">bibtex</span><pre><code>@software{cytoweave,
   author  = {McDermott, Robert},
   title   = {CytoWeave: a flow cytometry analysis workbench},
-  version = {0.6.1},
+  version = {0.7.0},
   url     = {https://github.com/robert-mcdermott/cytoweave},
   license = {Apache-2.0},
   year    = {2026}

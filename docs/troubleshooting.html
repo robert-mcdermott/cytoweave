@@ -68,13 +68,14 @@
         <h4>Results</h4>
         <ul>
           <li><a href="statistics.html">Tables and comparisons</a></li>
-          <li><a href="assays.html">Cell cycle, proliferation and index sorting</a></li>
+          <li><a href="assays.html">Cell cycle, proliferation, kinetics and index sorting</a></li>
+          <li><a href="plates.html">Plates, dose-response and bead assays</a></li>
           <li><a href="figures.html">Figures, methods and checkpoints</a></li>
         </ul>
         <h4>Share and automate</h4>
         <ul>
           <li><a href="workspaces.html">Workspaces and large files</a></li>
-          <li><a href="flowjo.html">FlowJo and Gating-ML</a></li>
+          <li><a href="flowjo.html">FlowJo, FACSDiva and Gating-ML</a></li>
           <li><a href="agents.html">AI agents (MCP)</a></li>
           <li><a href="scripting.html">Scripting and command line</a></li>
         </ul>
@@ -142,11 +143,19 @@
       <h2 id="agents">AI agents</h2>
       <ul>
         <li><strong>The agent cannot start CytoWeave.</strong> Give the full path to the program in the MCP configuration (<code>~/.local/bin/cytoweave</code>, or <code>%LOCALAPPDATA%\Programs\CytoWeave\cytoweave.exe</code>): agents often start programs without your shell's <code>PATH</code>.</li>
-        <li><strong>Proposals or <code>propose_compensation</code> are missing.</strong> They need CytoWeave 0.2.0 or later (<code>adapt_gate</code> 0.3.0, <code>check_robustness</code> 0.4.0, the QC, unmixing, clustering, figure, folder, export, template, cell-type and titration tools 0.5.0, <code>compare_distributions</code>, <code>rare_events</code>, <code>add_formula_channel</code>, <code>calibrate_beads</code>, <code>export_report</code>, <code>export_events</code> and <code>differential_analysis</code> 0.6.0): check <code>cytoweave --version</code>.</li>
+        <li><strong>Proposals or <code>propose_compensation</code> are missing.</strong> They need CytoWeave 0.2.0 or later (<code>adapt_gate</code> 0.3.0, <code>check_robustness</code> 0.4.0, the QC, unmixing, clustering, figure, folder, export, template, cell-type and titration tools 0.5.0, <code>compare_distributions</code>, <code>rare_events</code>, <code>add_formula_channel</code>, <code>calibrate_beads</code>, <code>export_report</code>, <code>export_events</code> and <code>differential_analysis</code> 0.6.0, <code>diagnose_unmixing</code>, <code>kinetics</code>, the plate tools and <code>export_workspace</code> 0.7.0): check <code>cytoweave --version</code>.</li>
         <li><strong>"The CytoWeave page did not answer in time."</strong> Actions run in the window: make sure it is open and not waiting in a dialog.</li>
         <li><strong>A script gets "Opening files needs the X-CytoWeave-Token header".</strong> <code>open_files</code> reads from disk, so scripts need the token CytoWeave printed at startup; see <a href="scripting.html#token">Opening files by path</a>.</li>
         <li><strong>The R or Python client cannot find CytoWeave.</strong> Start CytoWeave with <code>--remote-control</code>: it then writes <code>remote.json</code> to its data folder, where <code>cw_connect()</code> and <code>cytoweave.connect()</code> look. If CytoWeave runs with <code>--data-dir</code>, set <code>CYTOWEAVE_DATA_DIR</code> to that folder, or pass the address and token CytoWeave printed; see <a href="scripting.html#clients">the clients</a>. Use the clients of the CytoWeave version you run (<code>cw_connect()</code> prints it).</li>
         <li><strong>An export says the file exists, or the folder does not.</strong> The export tools write only into a folder that exists and never replace a file unless the call passes <code>overwrite: true</code>; scripts also need the token, as for opening files.</li>
+      </ul>
+
+      <h2 id="run">Headless runs</h2>
+      <ul>
+        <li><strong>"It needs Chrome, Chromium, Edge or Brave".</strong> <code>cytoweave run</code> runs the analysis in a headless browser. Install one of them, or name it with <code>--chrome</code> or the <code>CHROME</code> environment variable (on a server, for example <code>/usr/bin/chromium</code>).</li>
+        <li><strong>"Outputs already exist".</strong> A run refuses, before it starts, to replace files in the output folder: give <code>--overwrite</code>, or another <code>--output</code>.</li>
+        <li><strong>The run exits with status 1.</strong> A step failed. <code>run.json</code> in the output folder has each step's message. If the files could not be opened or the template could not be applied, the run stopped there; otherwise the other steps still ran.</li>
+        <li><strong>Populations are missing from the results.</strong> The template's channels are matched by marker: the <code>apply_template</code> step in <code>run.json</code> lists how each channel matched and which populations could not be applied, with the reason. Check that the files' markers are named as the template's are.</li>
       </ul>
 
       <h2 id="help">Getting help</h2>

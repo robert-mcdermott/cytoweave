@@ -68,13 +68,14 @@
         <h4>Results</h4>
         <ul>
           <li><a href="statistics.html">Tables and comparisons</a></li>
-          <li><a href="assays.html">Cell cycle, proliferation and index sorting</a></li>
+          <li><a href="assays.html">Cell cycle, proliferation, kinetics and index sorting</a></li>
+          <li><a href="plates.html">Plates, dose-response and bead assays</a></li>
           <li><a href="figures.html">Figures, methods and checkpoints</a></li>
         </ul>
         <h4>Share and automate</h4>
         <ul>
           <li><a href="workspaces.html">Workspaces and large files</a></li>
-          <li><a href="flowjo.html">FlowJo and Gating-ML</a></li>
+          <li><a href="flowjo.html">FlowJo, FACSDiva and Gating-ML</a></li>
           <li><a href="agents.html">AI agents (MCP)</a></li>
           <li><a href="scripting.html">Scripting and command line</a></li>
         </ul>
@@ -128,6 +129,9 @@
             <tr><td><strong>Spectral 25-color panel</strong></td><td>Raw data from 64 detectors, 25 single-stain references and an unstained control with lymphoid and myeloid autofluorescence.</td><td><a href="spectral.html">Unmixing</a></td></tr>
             <tr><td><strong>Cell cycle</strong></td><td>Propidium iodide DNA content of an asynchronous and a nocodazole-arrested culture, with doublets and debris.</td><td><a href="assays.html#cell-cycle">The cell-cycle model</a></td></tr>
             <tr><td><strong>T-cell proliferation</strong></td><td>CellTrace Violet dilution over four days, with and without stimulation, and a day-0 reference.</td><td><a href="assays.html#proliferation">The proliferation model</a></td></tr>
+            <tr><td><strong>Calcium flux</strong></td><td>Indo-1-loaded PBMC over four minutes: buffer, two doses of anti-CD3, ionomycin, and an injection without a pause; every cell's calcium is known.</td><td><a href="assays.html#kinetics">Kinetics</a></td></tr>
+            <tr><td><strong>Drug screen on a 96-well plate</strong></td><td>One file per well: six compounds at ten doses inhibiting T-cell activation (CD69), with stimulated and unstimulated control wells; every compound's IC50 and Hill slope are known.</td><td><a href="plates.html#dose-response">Plates and dose-response</a></td></tr>
+            <tr><td><strong>Cytokine bead assay (LEGENDplex-like)</strong></td><td>An 8-plex on two bead sizes, standards C0–C7 in duplicate and 20 sera diluted 2-fold; every serum's concentrations are known.</td><td><a href="plates.html#bead-assays">Bead immunoassays</a></td></tr>
             <tr><td><strong>Mass cytometry cohort</strong></td><td>Eight subjects in two batches with anchor samples, EQ beads and signal drift; non-classical monocytes are doubled in the case group.</td><td><a href="cohorts.html#normalize">Normalization</a>, <a href="statistics.html#screens">Screen clusters</a></td></tr>
             <tr><td><strong>Barcoded mass cytometry plate</strong></td><td>Twenty samples pooled into one file with palladium barcodes and the barcode key.</td><td><a href="cohorts.html#debarcode">Debarcoding</a></td></tr>
             <tr><td><strong>Index sort</strong></td><td>A presort and the index-sorted events of a 96-well plate.</td><td><a href="assays.html#index-sorting">The plate view</a></td></tr>

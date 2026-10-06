@@ -68,13 +68,14 @@
         <h4>Results</h4>
         <ul>
           <li><a href="statistics.html">Tables and comparisons</a></li>
-          <li><a href="assays.html">Cell cycle, proliferation and index sorting</a></li>
+          <li><a href="assays.html">Cell cycle, proliferation, kinetics and index sorting</a></li>
+          <li><a href="plates.html">Plates, dose-response and bead assays</a></li>
           <li><a href="figures.html">Figures, methods and checkpoints</a></li>
         </ul>
         <h4>Share and automate</h4>
         <ul>
           <li><a href="workspaces.html">Workspaces and large files</a></li>
-          <li><a href="flowjo.html">FlowJo and Gating-ML</a></li>
+          <li><a href="flowjo.html">FlowJo, FACSDiva and Gating-ML</a></li>
           <li><a href="agents.html">AI agents (MCP)</a></li>
           <li><a href="scripting.html">Scripting and command line</a></li>
         </ul>
@@ -127,14 +128,15 @@
             <tr><td>Report a rare population with its limits of detection and quantification</td><td><a href="statistics.html#rare-events">Rare events</a></td></tr>
             <tr><td>Test a difference between stimulated and unstimulated samples</td><td><a href="statistics.html#compare">Comparisons</a></td></tr>
             <tr><td>Find which markers change in which clusters between conditions</td><td><a href="statistics.html#states">Differential state</a></td></tr>
-            <tr><td>Fit the cell cycle or proliferation, or read an index-sorted plate</td><td><a href="assays.html">Cell cycle, proliferation and index sorting</a></td></tr>
+            <tr><td>Fit the cell cycle or proliferation, measure a calcium flux, or read an index-sorted plate</td><td><a href="assays.html">Cell cycle, proliferation, kinetics and index sorting</a></td></tr>
+            <tr><td>Lay out a plate, show a statistic across it with Z′, fit dose-response curves, or read a bead immunoassay</td><td><a href="plates.html">Plates, dose-response and bead assays</a></td></tr>
             <tr><td>Make a gating-strategy figure and write the methods</td><td><a href="figures.html">Figures, methods and checkpoints</a></td></tr>
             <tr><td>Find out where a figure came from, or redraw it</td><td><a href="figures.html#open-figure">Opening an exported figure</a></td></tr>
             <tr><td>Make the same figure for every sample or subject, as PDF or PowerPoint</td><td><a href="figures.html#batch">Batch reports</a></td></tr>
             <tr><td>Take the statistics to Excel or Prism</td><td><a href="statistics.html#excel-prism">Excel and Prism</a></td></tr>
             <tr><td>Open events from a CSV file</td><td><a href="opening-data.html#csv">Events in CSV files</a></td></tr>
             <tr><td>Concatenate or downsample samples, or take events to scanpy (AnnData)</td><td><a href="workspaces.html#events">Events for other tools</a></td></tr>
-            <tr><td>Move an analysis over from FlowJo</td><td><a href="flowjo.html">FlowJo and Gating-ML</a></td></tr>
+            <tr><td>Move an analysis over from FlowJo or FACSDiva</td><td><a href="flowjo.html">FlowJo, FACSDiva and Gating-ML</a></td></tr>
             <tr><td>Send an analysis to a colleague with its FCS files</td><td><a href="workspaces.html#export">Workspaces</a></td></tr>
             <tr><td>Give an analysis to someone who uses FlowJo</td><td><a href="flowjo.html#export">Exporting to FlowJo</a></td></tr>
             <tr><td>Share FCS files without identifying information</td><td><a href="workspaces.html#deidentify">De-identified files</a></td></tr>
@@ -146,7 +148,7 @@
 
       <h2 id="start">Start</h2>
       <div class="card-grid">
-        <a class="card" href="getting-started.html"><h3>Getting started</h3><p>Start CytoWeave, the window, the eleven example experiments, and the workflow with your own data.</p></a>
+        <a class="card" href="getting-started.html"><h3>Getting started</h3><p>Start CytoWeave, the window, the fourteen example experiments, and the workflow with your own data.</p></a>
         <a class="card" href="opening-data.html"><h3>Opening data</h3><p>FCS files and folders, groups, annotations, controls, and the repairs CytoWeave makes to unusual files.</p></a>
       </div>
 
@@ -164,14 +166,15 @@
       <h2 id="results">Results</h2>
       <div class="card-grid">
         <a class="card" href="statistics.html"><h3>Tables and comparisons</h3><p>Statistics across samples, comparisons with a control, rare events and detection limits, group comparisons with the right test, and screens of every population and cluster, including differential state.</p></a>
-        <a class="card" href="assays.html"><h3>Cell cycle, proliferation and index sorting</h3><p>DNA content models, dye dilution generations, and the plate of an index sort.</p></a>
+        <a class="card" href="assays.html"><h3>Cell cycle, proliferation, kinetics and index sorting</h3><p>DNA content models, dye dilution generations, a calcium flux over time, and the plate of an index sort.</p></a>
+        <a class="card" href="plates.html"><h3>Plates, dose-response and bead assays</h3><p>Wells as samples, plate layouts, heat maps with Z′, EC50/IC50 curves, and LEGENDplex or CBA standard curves.</p></a>
         <a class="card" href="figures.html"><h3>Figures, methods and checkpoints</h3><p>Publication pages, batch reports, the methods paragraph, MIFlowCyt, checkpoints and the change log.</p></a>
       </div>
 
       <h2 id="share">Share and automate</h2>
       <div class="card-grid">
         <a class="card" href="workspaces.html"><h3>Workspaces and large files</h3><p>The library, undo, exports, archives, and samples of ten million events.</p></a>
-        <a class="card" href="flowjo.html"><h3>FlowJo and Gating-ML</h3><p>Importing FlowJo workspaces, the migration report, Gating-ML 2.0 and CLR.</p></a>
+        <a class="card" href="flowjo.html"><h3>FlowJo, FACSDiva and Gating-ML</h3><p>Importing FlowJo workspaces and workbenches and FACSDiva experiments, the migration report, Gating-ML 2.0 and CLR.</p></a>
         <a class="card" href="agents.html"><h3>AI agents (MCP)</h3><p>Let Claude Code or another agent gate and analyze in your window, with proposals you accept or reject.</p></a>
         <a class="card" href="scripting.html"><h3>Scripting and command line</h3><p>Command-line options, and remote control from R, Python, Jupyter or shell scripts with the R and Python clients.</p></a>
       </div>
