@@ -29,6 +29,7 @@
         <a href="../docs/" aria-current="page">Documentation</a>
         <a href="../install.html">Install</a>
         <a href="../science.html">Science</a>
+        <a href="../benchmark.html">Agent benchmark</a>
       </nav>
       <div class="header-actions">
         <a class="icon-button" href="https://github.com/robert-mcdermott/cytoweave" aria-label="CytoWeave on GitHub">
@@ -53,6 +54,7 @@
         <ul>
           <li><a href="./">Overview</a></li>
           <li><a href="getting-started.html">Getting started</a></li>
+          <li><a href="teaching.html">Exercises</a></li>
           <li><a href="opening-data.html">Opening data</a></li>
         </ul>
         <h4>Analysis</h4>
@@ -70,7 +72,7 @@
           <li><a href="statistics.html">Tables and comparisons</a></li>
           <li><a href="assays.html">Cell cycle, proliferation, kinetics and index sorting</a></li>
           <li><a href="plates.html">Plates, dose-response and bead assays</a></li>
-          <li><a href="figures.html">Figures, methods and checkpoints</a></li>
+          <li><a href="figures.html">Figures, methods and certificates</a></li>
         </ul>
         <h4>Share and automate</h4>
         <ul>
@@ -119,12 +121,12 @@
       <div class="callout"><p><strong>Limits.</strong> Curly quadrants import with straight dividers. Template group gates import as per-sample copies, merged where samples agree.</p></div>
 
       <h2 id="flowjo11">FlowJo 11 workbenches</h2>
-      <p>A FlowJo 11 workbench (<code>.flowjo</code>) imports like a <code>.wsp</code> file, with the same dialog and report. CytoWeave reads its polygons, rectangles, ellipses, ranges and quadrant gates (including a quadrant whose arm was moved off center, which becomes the rectangles each quadrant covers), Boolean populations, gates adjusted for one sample, compensation matrices and linear, log and biexponential scales. FlowJo stores its count of every population in the workbench, so the report compares with FlowJo's own counts.</p>
+      <p>A FlowJo 11 workbench (<code>.flowjo</code>) imports like a <code>.wsp</code> file, with the same dialog and report. CytoWeave reads its polygons, rectangles, ellipses, ranges and quadrant gates (including a quadrant whose arm was moved off center, which becomes the rectangles each quadrant covers), Boolean populations, gates adjusted for one sample, compensation matrices and linear, log and biexponential scales. FlowJo stores its count of every population in the workbench, so the report compares with FlowJo's own counts. The FlowJo example comes with a workbench to try (<strong>Files that came with this example…</strong> in the workspace menu).</p>
       <p>FlowJo 11 counts events on its display grid: an event is in a polygon when the grid point it falls on is, and in an ellipse when the center of its grid cell is. Evaluated that way, CytoWeave's reading of the gates gives FlowJo 11's own count for every population of twelve workbenches saved by FlowJo 11.2 (quadrants drawn in FlowJo 11 within 3 events); the validation suite checks this. CytoWeave itself evaluates the exact gate geometry, so its counts differ slightly near gate edges: well under 1% of large populations, a few percent for a small gate drawn on a dense population.</p>
       <div class="callout"><p><strong>Limits.</strong> FlowJo 11 logicle and arcsinh axes are read but not yet checked against FlowJo 11's counts (they are marked approximated). Spectral unmixing matrices in a workbench are not applied. When FlowJo 11.2 opens a FlowJo 10 workspace it leaves out its Boolean populations, so a workbench made that way has none.</p></div>
 
       <h2 id="diva">FACSDiva experiments</h2>
-      <p>Export the experiment from FACSDiva as XML (FACSDiva's experiment export) and open the <code>.xml</code> file in CytoWeave with the experiment's FCS files. Each tube is a sample (named after its specimen and tube, matched to its FCS file by the file name Diva recorded) and each specimen a group; Diva's count of every population is compared in the report.</p>
+      <p>Export the experiment from FACSDiva as XML (FACSDiva's experiment export) and open the <code>.xml</code> file in CytoWeave with the experiment's FCS files. Each tube is a sample (named after its specimen and tube, matched to its FCS file by the file name Diva recorded) and each specimen a group; Diva's count of every population is compared in the report. The index-sort example comes with its sort's FACSDiva experiment to try.</p>
       <ul>
         <li>Rectangles, polygons, intervals and quadrant gates import, with "rest of" populations and Boolean gates. Each tube keeps its own gates: tubes of a specimen with the same gate (the same kind on the same parameters) share it, each with its own position.</li>
         <li>Gates keep the axes they were drawn on: linear, log, or Diva's biexponential, read as the logicle it approximates (as CytoML reads it), from the axis' scale value.</li>

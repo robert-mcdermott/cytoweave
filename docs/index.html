@@ -29,6 +29,7 @@
         <a href="../docs/" aria-current="page">Documentation</a>
         <a href="../install.html">Install</a>
         <a href="../science.html">Science</a>
+        <a href="../benchmark.html">Agent benchmark</a>
       </nav>
       <div class="header-actions">
         <a class="icon-button" href="https://github.com/robert-mcdermott/cytoweave" aria-label="CytoWeave on GitHub">
@@ -53,6 +54,7 @@
         <ul>
           <li><a href="./" aria-current="page">Overview</a></li>
           <li><a href="getting-started.html">Getting started</a></li>
+          <li><a href="teaching.html">Exercises</a></li>
           <li><a href="opening-data.html">Opening data</a></li>
         </ul>
         <h4>Analysis</h4>
@@ -70,7 +72,7 @@
           <li><a href="statistics.html">Tables and comparisons</a></li>
           <li><a href="assays.html">Cell cycle, proliferation, kinetics and index sorting</a></li>
           <li><a href="plates.html">Plates, dose-response and bead assays</a></li>
-          <li><a href="figures.html">Figures, methods and checkpoints</a></li>
+          <li><a href="figures.html">Figures, methods and certificates</a></li>
         </ul>
         <h4>Share and automate</h4>
         <ul>
@@ -108,11 +110,13 @@
             <tr><td>Open my FCS files and annotate them by condition, donor and batch</td><td><a href="opening-data.html#annotate">Opening data</a></td></tr>
             <tr><td>Gate the same way on every sample, and fix the gate on one</td><td><a href="gating.html#one-sample">Gating</a></td></tr>
             <tr><td>Find the samples where a gate does not fit</td><td><a href="gating.html#review">Review across samples</a></td></tr>
+            <tr><td>See where a marker's negative ends without staining an FMO tube</td><td><a href="gating.html#virtual-fmo">Virtual FMO controls</a></td></tr>
             <tr><td>Move a shared gate where the data have shifted, sample by sample</td><td><a href="gating.html#adapt">Adapting a gate to each sample</a></td></tr>
             <tr><td>Apply last month's analysis to a new experiment, or start from a published strategy</td><td><a href="templates.html">Templates and cell types</a></td></tr>
             <tr><td>Name populations with Cell Ontology terms</td><td><a href="templates.html#cell-types">Cell types</a></td></tr>
             <tr><td>Measure a detector's Q and B from beads and follow the instrument over time</td><td><a href="qc.html#instrument">Q, B and Levey–Jennings</a></td></tr>
             <tr><td>Keep reference spectra across experiments, or catch a degraded tandem</td><td><a href="spectral.html#library">The spectral library</a></td></tr>
+            <tr><td>Choose the dye for each marker of a new panel</td><td><a href="spectral.html#optimize">Optimizing the assignment</a></td></tr>
             <tr><td>Compute a spillover matrix from single-stain controls</td><td><a href="compensation.html#compute">Compensation</a></td></tr>
             <tr><td>Check whether a matrix from the cytometer is right</td><td><a href="compensation.html#check">Check against the controls</a></td></tr>
             <tr><td>Unmix a spectral experiment and choose the unmixing model</td><td><a href="spectral.html">Spectral unmixing</a></td></tr>
@@ -130,9 +134,11 @@
             <tr><td>Find which markers change in which clusters between conditions</td><td><a href="statistics.html#states">Differential state</a></td></tr>
             <tr><td>Fit the cell cycle or proliferation, measure a calcium flux, or read an index-sorted plate</td><td><a href="assays.html">Cell cycle, proliferation, kinetics and index sorting</a></td></tr>
             <tr><td>Lay out a plate, show a statistic across it with Z′, fit dose-response curves, or read a bead immunoassay</td><td><a href="plates.html">Plates, dose-response and bead assays</a></td></tr>
-            <tr><td>Make a gating-strategy figure and write the methods</td><td><a href="figures.html">Figures, methods and checkpoints</a></td></tr>
+            <tr><td>Make a gating-strategy figure and write the methods</td><td><a href="figures.html">Figures, methods and certificates</a></td></tr>
             <tr><td>Find out where a figure came from, or redraw it</td><td><a href="figures.html#open-figure">Opening an exported figure</a></td></tr>
             <tr><td>Make the same figure for every sample or subject, as PDF or PowerPoint</td><td><a href="figures.html#batch">Batch reports</a></td></tr>
+            <tr><td>Send an analysis to a PI or reviewer who does not have CytoWeave</td><td><a href="figures.html#review">Review reports</a></td></tr>
+            <tr><td>Let reviewers and readers confirm every number of a paper's analysis</td><td><a href="figures.html#certificate">Reproducibility certificates</a></td></tr>
             <tr><td>Take the statistics to Excel or Prism</td><td><a href="statistics.html#excel-prism">Excel and Prism</a></td></tr>
             <tr><td>Open events from a CSV file</td><td><a href="opening-data.html#csv">Events in CSV files</a></td></tr>
             <tr><td>Concatenate or downsample samples, or take events to scanpy (AnnData)</td><td><a href="workspaces.html#events">Events for other tools</a></td></tr>
@@ -148,7 +154,8 @@
 
       <h2 id="start">Start</h2>
       <div class="card-grid">
-        <a class="card" href="getting-started.html"><h3>Getting started</h3><p>Start CytoWeave, the window, the fourteen example experiments, and the workflow with your own data.</p></a>
+        <a class="card" href="getting-started.html"><h3>Getting started</h3><p>Start CytoWeave, the window, the sixteen example experiments, and the workflow with your own data.</p></a>
+        <a class="card" href="teaching.html"><h3>Exercises</h3><p>Practice an analysis on the examples and check it against the truth.</p></a>
         <a class="card" href="opening-data.html"><h3>Opening data</h3><p>FCS files and folders, groups, annotations, controls, and the repairs CytoWeave makes to unusual files.</p></a>
       </div>
 
@@ -168,7 +175,7 @@
         <a class="card" href="statistics.html"><h3>Tables and comparisons</h3><p>Statistics across samples, comparisons with a control, rare events and detection limits, group comparisons with the right test, and screens of every population and cluster, including differential state.</p></a>
         <a class="card" href="assays.html"><h3>Cell cycle, proliferation, kinetics and index sorting</h3><p>DNA content models, dye dilution generations, a calcium flux over time, and the plate of an index sort.</p></a>
         <a class="card" href="plates.html"><h3>Plates, dose-response and bead assays</h3><p>Wells as samples, plate layouts, heat maps with Z′, EC50/IC50 curves, and LEGENDplex or CBA standard curves.</p></a>
-        <a class="card" href="figures.html"><h3>Figures, methods and checkpoints</h3><p>Publication pages, batch reports, the methods paragraph, MIFlowCyt, checkpoints and the change log.</p></a>
+        <a class="card" href="figures.html"><h3>Figures, methods and certificates</h3><p>Publication pages, batch reports, the methods paragraph, MIFlowCyt, checkpoints, review reports, reproducibility certificates and the change log.</p></a>
       </div>
 
       <h2 id="share">Share and automate</h2>

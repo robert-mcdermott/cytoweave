@@ -3,12 +3,12 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Figures, methods and checkpoints · CytoWeave</title>
-  <meta name="description" content="Build publication figures from live plots in CytoWeave, export SVG, PNG or vector PDF that carry the analysis behind them, repeat a figure for every sample or subject as a PDF or PowerPoint batch report, copy a methods paragraph with numbered references and BibTeX, check the MIFlowCyt checklist, and compare versions of an analysis with checkpoints." />
+  <title>Figures, methods and certificates · CytoWeave</title>
+  <meta name="description" content="Build publication figures from live plots in CytoWeave, export SVG, PNG or vector PDF that carry the analysis behind them, repeat a figure for every sample or subject as a PDF or PowerPoint batch report, copy a methods paragraph with numbered references and BibTeX, check the MIFlowCyt checklist, compare versions of an analysis with checkpoints, share it as a review report that opens in any browser, and make a reproducibility certificate that anyone can verify." />
   <link rel="canonical" href="https://robert-mcdermott.github.io/cytoweave/docs/figures.html" />
   <meta property="og:type" content="website" />
-  <meta property="og:title" content="Figures, methods and checkpoints" />
-  <meta property="og:description" content="Build publication figures from live plots in CytoWeave, export SVG, PNG or vector PDF that carry the analysis behind them, repeat a figure for every sample or subject as a PDF or PowerPoint batch report, copy a methods paragraph with numbered references and BibTeX, check the MIFlowCyt checklist, and compare versions of an analysis with checkpoints." />
+  <meta property="og:title" content="Figures, methods and certificates" />
+  <meta property="og:description" content="Build publication figures from live plots in CytoWeave, export SVG, PNG or vector PDF that carry the analysis behind them, repeat a figure for every sample or subject as a PDF or PowerPoint batch report, copy a methods paragraph with numbered references and BibTeX, check the MIFlowCyt checklist, compare versions of an analysis with checkpoints, share it as a review report that opens in any browser, and make a reproducibility certificate that anyone can verify." />
   <meta property="og:url" content="https://robert-mcdermott.github.io/cytoweave/docs/figures.html" />
   <meta property="og:image" content="https://robert-mcdermott.github.io/cytoweave/assets/img/og-image.jpg" />
   <meta name="twitter:card" content="summary_large_image" />
@@ -29,6 +29,7 @@
         <a href="../docs/" aria-current="page">Documentation</a>
         <a href="../install.html">Install</a>
         <a href="../science.html">Science</a>
+        <a href="../benchmark.html">Agent benchmark</a>
       </nav>
       <div class="header-actions">
         <a class="icon-button" href="https://github.com/robert-mcdermott/cytoweave" aria-label="CytoWeave on GitHub">
@@ -53,6 +54,7 @@
         <ul>
           <li><a href="./">Overview</a></li>
           <li><a href="getting-started.html">Getting started</a></li>
+          <li><a href="teaching.html">Exercises</a></li>
           <li><a href="opening-data.html">Opening data</a></li>
         </ul>
         <h4>Analysis</h4>
@@ -70,7 +72,7 @@
           <li><a href="statistics.html">Tables and comparisons</a></li>
           <li><a href="assays.html">Cell cycle, proliferation, kinetics and index sorting</a></li>
           <li><a href="plates.html">Plates, dose-response and bead assays</a></li>
-          <li><a href="figures.html" aria-current="page">Figures, methods and checkpoints</a></li>
+          <li><a href="figures.html" aria-current="page">Figures, methods and certificates</a></li>
         </ul>
         <h4>Share and automate</h4>
         <ul>
@@ -88,8 +90,8 @@
     </aside>
 
     <main id="main" class="doc">
-      <h1>Figures, methods and checkpoints</h1>
-      <p class="doc-lede">Leave with what a paper needs: figures that stay true to the analysis until you export them, a methods paragraph written from what you actually did, and a record of every change.</p>
+      <h1>Figures, methods and certificates</h1>
+      <p class="doc-lede">Leave with what a paper needs: figures that stay true to the analysis until you export them, a methods paragraph written from what you actually did, a record of every change, and a certificate that lets anyone confirm every number.</p>
 
       <h2 id="figures">Publication figures</h2>
       <figure>
@@ -171,8 +173,57 @@
         <li><strong>Restore</strong> returns to the checkpoint; the current analysis stays available through undo.</li>
       </ol>
 
+      <h2 id="review">Review reports</h2>
+      <figure>
+        <div class="shot"><img class="shot-dark" src="../assets/img/review-report-dark.webp" width="2000" height="1250" loading="lazy" alt="A review report opened in a browser: every sample's gates drawn on its own events with each gate's percentage of its parent, and a clicked percentage traced to the counts behind it, the sample, its file's SHA-256, the compensation and the gates above it" /><img class="shot-light" src="../assets/img/review-report-light.webp" width="2000" height="1250" loading="lazy" alt="A review report opened in a browser: every sample's gates drawn on its own events with each gate's percentage of its parent, and a clicked percentage traced to the counts behind it, the sample, its file's SHA-256, the compensation and the gates above it" /></div>
+        <figcaption>A review report: every sample's gates, and where a number comes from.</figcaption>
+      </figure>
+      <p>A review report is the analysis as one HTML file, for a PI, a collaborator or a reviewer who does not have CytoWeave. It opens in any browser and holds:</p>
+      <ul>
+        <li>the samples, with their files' SHA-256 checksums, annotations and compensation;</li>
+        <li>the gating hierarchy, the scales, and every population's event count in every sample;</li>
+        <li>every sample's gates, each drawn on its parent population's events, with each gate's % of parent;</li>
+        <li>the workspace's figures and tables, and the comparisons saved for the report, with their tests, effect sizes and every sample's value;</li>
+        <li>the methods with their references, MIFlowCyt, and the change log with the state of its chain.</li>
+      </ul>
+      <p>Every underlined number is traced: click it to see where it comes from: its exact value, the counts behind a percentage ("100 × 89,654 / 93,452 events"), the sample and its file's checksum, the compensation, and each gate above the population. The numbers are computed from the FCS files as the report is made, with the code certificates use, so a report and a certificate of the same analysis print the same numbers.</p>
+      <p>To make one, go to <strong>Report → Review report</strong> (or <strong>Workspace → Export → Review report</strong>) and click <strong>Make a review report</strong>. Untick <strong>Draw every sample's gates</strong> for a smaller file, or tick <strong>Draw the controls' gates too</strong>. The file loads nothing from the network: its styles, plots and images are inside it, so it opens offline, in an email attachment or on a journal's review site. Runs write one with <a href="scripting.html#run"><code>cytoweave run --review</code></a>, and agents with <code>export_review_report</code>.</p>
+
+      <h2 id="certificate">Reproducibility certificates</h2>
+      <p>A certificate lets anyone confirm the numbers of an analysis, years later, from its files. It packs the analysis with everything needed to compute them again and records every number it reported; verifying computes each one again and compares.</p>
+      <ol>
+        <li>In <strong>Report → Certificate</strong>, leave <strong>Include the FCS files</strong> ticked. Untick it when the data cannot be shared: the certificate then names each file by its SHA-256 checksum, and whoever verifies it supplies the files.</li>
+        <li>Click <strong>Make a certificate</strong>. CytoWeave computes every number from the files and downloads <code>&lt;analysis&gt;.certificate.acs</code>.</li>
+        <li>Quote its <strong>fingerprint</strong> with the analysis, for example in the methods or the data availability statement, and deposit the file with the paper, for example on Zenodo. The fingerprint is the SHA-256 of what was certified: any change to the certificate changes it.</li>
+      </ol>
+      <p>The certificate is an ISAC Archival Cytometry Standard (ACS) archive, a ZIP file whose table of contents lists every file with its SHA-256. It holds:</p>
+      <ul>
+        <li>the workspace, the gates as Gating-ML 2.0, and the methods paragraph;</li>
+        <li>the FCS files, and the channels the analysis stored, such as clusters, embeddings and unmixed channels;</li>
+        <li><code>certificate.json</code>: the CytoWeave version and the browser that computed the numbers, each file's checksum, the analyses with their parameters and seeds, the head of the change log's chain, the MIFlowCyt items with what the workspace records for each, and every number reported: each population's count in each sample, each cell of each table with its detection-limit status, and each saved comparison (every sample's value, the test, the group summaries, effect sizes and post-hoc tests);</li>
+        <li>a README saying how to verify it.</li>
+      </ul>
+      <p>Clustering, embeddings and other analyses whose results are stored as channels are not run again: the channels are checked by their checksums, and every number computed from them is checked. Screens of many populations, clusters or marker states are recorded but not yet computed again. The certificate lists what it does not compute again. When a comparison you saved no longer matches the analysis, because a gate moved after you saved it, making the certificate says so: save the comparison again in Compare. Each certificate made is recorded in the change log with its fingerprint.</p>
+
+      <h3 id="verify">Verifying a certificate</h3>
+      <figure>
+        <div class="shot"><img class="shot-dark" src="../assets/img/certificate-dark.webp" width="2000" height="1250" loading="lazy" alt="A certificate verified: confirmed, all numbers of the PBMC analysis computed again from the 27 files and identical, with what was checked: certificate.json unchanged, the workspace unchanged, 27 of 27 files matching their SHA-256, the change log's chain intact, and the MIFlowCyt items" /><img class="shot-light" src="../assets/img/certificate-light.webp" width="2000" height="1250" loading="lazy" alt="A certificate verified: confirmed, all numbers of the PBMC analysis computed again from the 27 files and identical, with what was checked: certificate.json unchanged, the workspace unchanged, 27 of 27 files matching their SHA-256, the change log's chain intact, and the MIFlowCyt items" /></div>
+        <figcaption>A certificate verified: every number computed again from its files.</figcaption>
+      </figure>
+      <p>Open the certificate in CytoWeave, by dropping it on the window or with <strong>Workspace → Import</strong>, or click <strong>Verify a certificate…</strong> in <strong>Report → Certificate</strong>. CytoWeave checks every file's checksum, the workspace, the change log's chain and the fingerprint, computes every number again from the files, and compares. The result is one of:</p>
+      <ul>
+        <li><strong>Confirmed</strong>: every number computed again agrees with the certified one.</li>
+        <li><strong>Incomplete</strong>: files are missing, as in a certificate made without its data. Click <strong>Supply the FCS files…</strong>: they are recognized by their checksums, whatever their names now.</li>
+        <li><strong>Not confirmed</strong>: what differs is named, such as a file whose checksum changed, an edited <code>certificate.json</code>, a change log altered at a given entry, or numbers that differ, each with the certified value and the value now.</li>
+      </ul>
+      <p>Verifying does not change the open workspace. <strong>Open the analysis</strong> opens the certified analysis with its files, and <strong>Report (JSON)</strong> saves the result. Scripts and pipelines verify with <a href="scripting.html#verify"><code>cytoweave verify</code></a>, and AI agents with <code>verify_certificate</code>.</p>
+
+      <h3 id="last-digits">Identical, or equal to 12 digits</h3>
+      <p>Verified in the same browser version, every number is identical, bit for bit. Numbers computed with logarithms, exponentials or probability distributions, such as confidence intervals, can differ in their last digit in another browser version or in Node.js, whose versions compute these functions slightly differently. Such numbers are confirmed when they agree to 12 significant digits, and the result says how many there were and which browsers computed them. In the validation suite, counts, frequencies and test statistics were identical across Node.js and Chrome; two confidence limits differed in the 16th digit.</p>
+
       <h2 id="change-log">The change log</h2>
       <p>Every change to the analysis is recorded, newest first, and saved with the workspace: who made it (you, or which agent proposed it and what you decided), when, and what changed. Download it as <strong>JSON</strong> for an audit trail.</p>
+      <p>The log is hash-chained: each entry carries a SHA-256 that covers the entry before it, so an entry changed, removed or reordered afterward is detected. <strong>Report → Change log</strong> shows whether the chain is intact, and certificates record its head and check it. Workspaces saved by CytoWeave 0.7 and earlier are chained when next changed, and the log says how many earlier entries were chained then. Undoing a change removes its entry, as the log records how the current analysis was made.</p>
 
       <h2 id="next">Where to go next</h2>
       <div class="card-grid">

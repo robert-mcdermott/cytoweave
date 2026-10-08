@@ -29,6 +29,7 @@
         <a href="../docs/" aria-current="page">Documentation</a>
         <a href="../install.html">Install</a>
         <a href="../science.html">Science</a>
+        <a href="../benchmark.html">Agent benchmark</a>
       </nav>
       <div class="header-actions">
         <a class="icon-button" href="https://github.com/robert-mcdermott/cytoweave" aria-label="CytoWeave on GitHub">
@@ -53,6 +54,7 @@
         <ul>
           <li><a href="./">Overview</a></li>
           <li><a href="getting-started.html">Getting started</a></li>
+          <li><a href="teaching.html">Exercises</a></li>
           <li><a href="opening-data.html">Opening data</a></li>
         </ul>
         <h4>Analysis</h4>
@@ -70,7 +72,7 @@
           <li><a href="statistics.html">Tables and comparisons</a></li>
           <li><a href="assays.html">Cell cycle, proliferation, kinetics and index sorting</a></li>
           <li><a href="plates.html">Plates, dose-response and bead assays</a></li>
-          <li><a href="figures.html">Figures, methods and checkpoints</a></li>
+          <li><a href="figures.html">Figures, methods and certificates</a></li>
         </ul>
         <h4>Share and automate</h4>
         <ul>
@@ -124,9 +126,10 @@
 
       <h2 id="diagnose">Spreading and pair plots</h2>
       <ul>
-        <li><strong>Spillover spreading matrix</strong> (Nguyen et al. 2013), after computing from controls: how much each fluorochrome widens the negative population in every other detector, the price paid for compensation. Large values in a column mean that detector will have wide negatives when those fluorochromes are bright; pair dim markers with detectors that receive little spreading.</li>
+        <li><strong>Spillover spreading matrix</strong> (Nguyen et al. 2013), after computing from controls: how much each fluorochrome widens the negative population in every other detector, the price paid for compensation. Large values in a column mean that detector will have wide negatives when those fluorochromes are bright; pair dim markers with detectors that receive little spreading. The instrument's noise fitted to the controls' spread is kept with the computed matrix, for <a href="gating.html#virtual-fmo">virtual FMO controls</a>.</li>
         <li><strong>Pairs:</strong> every pair of channels of the selected population, <strong>Uncompensated</strong> or <strong>Compensated</strong>. Populations should sit square to the axes after compensation; a diagonal lean means a spillover value is off.</li>
         <li>The <strong>condition number</strong> of a matrix shows how much compensation can amplify noise.</li>
+        <li><strong>Optimize the panel…</strong>, for a matrix computed from controls: which of their dyes each marker should carry, from the spillover and the spread fitted to the controls, the unstained control's background, each marker's expression and the markers found on the same cells. It works as for <a href="spectral.html#optimize">spectral panels</a>, with each dye read in its own detector.</li>
       </ul>
 
       <h2 id="edit">Editing a matrix</h2>

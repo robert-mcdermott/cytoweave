@@ -1,0 +1,216 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Exercises · CytoWeave</title>
+  <meta name="description" content="Practice flow cytometry analysis in CytoWeave with exercises on simulated data - gating, compensation, QC, spectral unmixing, statistics, plates and assays - checked against the simulator's truth, with hints, partial credit and class codes." />
+  <link rel="canonical" href="https://robert-mcdermott.github.io/cytoweave/docs/teaching.html" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Exercises" />
+  <meta property="og:description" content="Practice flow cytometry analysis in CytoWeave with exercises on simulated data - gating, compensation, QC, spectral unmixing, statistics, plates and assays - checked against the simulator's truth, with hints, partial credit and class codes." />
+  <meta property="og:url" content="https://robert-mcdermott.github.io/cytoweave/docs/teaching.html" />
+  <meta property="og:image" content="https://robert-mcdermott.github.io/cytoweave/assets/img/og-image.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="theme-color" content="#07090e" />
+  <link rel="icon" href="../assets/img/logo.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="../assets/css/site.css" />
+  <script>try { const t = localStorage.getItem('cytoweave-theme'); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
+  <script src="../assets/js/site.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="../"><img src="../assets/img/logo.svg" alt="" width="30" height="30" /><span>Cyto<b>Weave</b></span></a>
+      <nav class="site-nav" id="site-nav" aria-label="Main">
+        <a href="../#features">Features</a>
+        <a href="../docs/" aria-current="page">Documentation</a>
+        <a href="../install.html">Install</a>
+        <a href="../science.html">Science</a>
+        <a href="../benchmark.html">Agent benchmark</a>
+      </nav>
+      <div class="header-actions">
+        <a class="icon-button" href="https://github.com/robert-mcdermott/cytoweave" aria-label="CytoWeave on GitHub">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5a11.5 11.5 0 0 0-3.64 22.41c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.37-3.88-1.37-.53-1.34-1.29-1.7-1.29-1.7-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.71 1.26 3.37.96.1-.75.4-1.26.73-1.55-2.56-.29-5.25-1.28-5.25-5.69 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.84 1.19 3.1 0 4.42-2.7 5.4-5.26 5.68.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .5Z"/></svg>
+        </a>
+        <button class="icon-button theme-toggle" type="button" aria-label="Switch between light and dark">
+          <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/></svg>
+          <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+        </button>
+        <button class="icon-button nav-toggle" type="button" aria-label="Menu" aria-controls="site-nav" aria-expanded="false">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div class="docs-layout">
+    <aside class="docs-sidebar" aria-label="Documentation">
+      <button class="btn docs-menu-toggle" type="button" aria-expanded="false">Documentation menu <span aria-hidden="true">▾</span></button>
+      <nav>
+        <h4>Start</h4>
+        <ul>
+          <li><a href="./">Overview</a></li>
+          <li><a href="getting-started.html">Getting started</a></li>
+          <li><a href="teaching.html" aria-current="page">Exercises</a></li>
+          <li><a href="opening-data.html">Opening data</a></li>
+        </ul>
+        <h4>Analysis</h4>
+        <ul>
+          <li><a href="gating.html">Gating</a></li>
+          <li><a href="templates.html">Templates and cell types</a></li>
+          <li><a href="compensation.html">Compensation</a></li>
+          <li><a href="spectral.html">Spectral unmixing</a></li>
+          <li><a href="qc.html">Acquisition QC</a></li>
+          <li><a href="cohorts.html">Normalization and debarcoding</a></li>
+          <li><a href="explore.html">Clustering and maps</a></li>
+        </ul>
+        <h4>Results</h4>
+        <ul>
+          <li><a href="statistics.html">Tables and comparisons</a></li>
+          <li><a href="assays.html">Cell cycle, proliferation, kinetics and index sorting</a></li>
+          <li><a href="plates.html">Plates, dose-response and bead assays</a></li>
+          <li><a href="figures.html">Figures, methods and certificates</a></li>
+        </ul>
+        <h4>Share and automate</h4>
+        <ul>
+          <li><a href="workspaces.html">Workspaces and large files</a></li>
+          <li><a href="flowjo.html">FlowJo, FACSDiva and Gating-ML</a></li>
+          <li><a href="agents.html">AI agents (MCP)</a></li>
+          <li><a href="scripting.html">Scripting and command line</a></li>
+        </ul>
+        <h4>Reference</h4>
+        <ul>
+          <li><a href="accessibility.html">Accessibility</a></li>
+          <li><a href="troubleshooting.html">Troubleshooting</a></li>
+        </ul>
+      </nav>
+    </aside>
+
+    <main id="main" class="doc">
+      <h1>Exercises</h1>
+      <p class="doc-lede">Exercises on the example experiments ask a question, let you answer it with CytoWeave's views, check your answer against the simulator's truth, and then show what was planted. They stay out of the way until you open one.</p>
+
+      <h2 id="start">Starting an exercise</h2>
+      <p>Open the list of exercises from the start page (<strong>Exercises</strong>, below the example experiments), with <strong>Exercises…</strong> in the workspace menu, or by searching for "exercise" (⌘K). Each one opens its example as a new workspace named after the exercise, with new data every time: a different seed gives other cells, and for many exercises another planted problem (another sample with the clog, another degraded tandem, another population that differs between groups).</p>
+      <p>To give a class the same data, type a <strong>Class code</strong> (any number) before choosing the exercise. Everyone who enters the same code gets the same data and the same planted problems, so answers can be compared. The panel shows the code of every attempt.</p>
+      <figure>
+        <div class="shot"><img class="shot-dark" src="../assets/img/exercise-dark.webp" width="2000" height="1250" loading="lazy" alt="An exercise in the Gate view: the T-cell gating path on the left and in the plots, and on the right the exercise panel with its question, two hints, the answers (the T cells population and 39.1%) and the check: 100%, with each part's score and the true values" /><img class="shot-light" src="../assets/img/exercise-light.webp" width="2000" height="1250" loading="lazy" alt="An exercise in the Gate view: the T-cell gating path on the left and in the plots, and on the right the exercise panel with its question, two hints, the answers (the T cells population and 39.1%) and the check: 100%, with each part's score and the true values" /></div>
+        <figcaption>The T-cell exercise checked: each part of the answer scored against the truth, with what was measured.</figcaption>
+      </figure>
+
+      <h2 id="panel">Working through it</h2>
+      <p>The exercise panel takes a column at the right of the window. It holds the question, the answers and the checks; the analysis itself is done in the usual views, so an exercise teaches CytoWeave as it is used. Fold the panel away with its arrow and bring it back from the tab at the bottom right.</p>
+      <ul>
+        <li><strong>Hints</strong> open one at a time, from where to start to the step that gives the answer.</li>
+        <li><strong>Answers</strong> are chosen or typed in the panel: one of your populations (the gate you drew), a sample, a channel, a choice from a list, or a number. Answers are saved with the workspace as you give them.</li>
+        <li><strong>Check my answers</strong> scores each part against the truth, with partial credit: a gate by how well it holds the true events (its F1 score, from the share of the true cells it holds and the share of its events that are true), a number by how close it is, a planted problem by naming the right sample and then the right cause. Check as often as you like; every check is kept with the workspace.</li>
+      </ul>
+
+      <h2 id="truth">Revealing the truth</h2>
+      <p><strong>Reveal the truth</strong> shows what the simulator planted and why, and the true values of every part. The <strong>Truth (simulated)</strong> channel then holds every event's true population, to plot or to color by in Explore. For a gate, the plots color the events it missed and those it took in wrongly. You can still change your answers and check them; those checks say they came after the truth was revealed.</p>
+      <figure>
+        <div class="shot"><img class="shot-dark" src="../assets/img/exercise-truth-dark.webp" width="2000" height="1250" loading="lazy" alt="An exercise with its truth revealed: a CD3 threshold set too low, with the CD3-negative events it took in colored on the plots of lymphocytes, and the panel explaining what was planted and where gates lose or gain T cells" /><img class="shot-light" src="../assets/img/exercise-truth-light.webp" width="2000" height="1250" loading="lazy" alt="An exercise with its truth revealed: a CD3 threshold set too low, with the CD3-negative events it took in colored on the plots of lymphocytes, and the panel explaining what was planted and where gates lose or gain T cells" /></div>
+        <figcaption>A CD3 threshold set too low: after the truth is revealed, the events it took in that are not T cells are colored on the plots.</figcaption>
+      </figure>
+
+      <h2 id="exercises">The exercises</h2>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Exercise</th><th>Level</th><th>Done in</th><th>What it asks</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Gate the T cells</strong></td><td>Beginner</td><td><a href="gating.html">Gate</a></td><td>Single, live, CD3+ lymphocytes of a PBMC sample, and their share of all events.</td></tr>
+            <tr><td><strong>Find the sample with an acquisition problem</strong></td><td>Beginner</td><td><a href="qc.html">QC</a></td><td>Which of twelve samples had a clog.</td></tr>
+            <tr><td><strong>Name each acquisition's problem</strong></td><td>Beginner</td><td><a href="qc.html">QC</a></td><td>Four wells: clean, a clog, drift or an air bubble, in an order that changes.</td></tr>
+            <tr><td><strong>Choose an antibody amount</strong></td><td>Beginner</td><td><a href="qc.html#titration">QC → Titration</a></td><td>The amount per test from a titration series.</td></tr>
+            <tr><td><strong>Measure cell-cycle phases</strong></td><td>Beginner</td><td><a href="assays.html#cell-cycle">Cell cycle</a></td><td>S phase and G2/M, after gating out doublets.</td></tr>
+            <tr><td><strong>Count CD4 T cells per microliter</strong></td><td>Beginner</td><td><a href="statistics.html#absolute-counts">Tables</a></td><td>A patient's CD4 count from counting beads.</td></tr>
+            <tr><td><strong>Find the regulatory T cells</strong></td><td>Intermediate</td><td><a href="gating.html">Gate</a></td><td>CD25+ CD127-low CD4 T cells, and their share of CD4 T cells.</td></tr>
+            <tr><td><strong>Find the wrong spillover value</strong></td><td>Intermediate</td><td><a href="compensation.html#check">Compensate</a></td><td>The entry of the file's matrix that is wrong, and its value.</td></tr>
+            <tr><td><strong>Test a stimulation effect</strong></td><td>Intermediate</td><td><a href="statistics.html#compare">Compare</a></td><td>The direction, a test that fits a paired design, and its p-value.</td></tr>
+            <tr><td><strong>Find the most potent compound</strong></td><td>Intermediate</td><td><a href="plates.html#dose-response">Plates</a></td><td>The most potent inhibitor, its IC50, and the inactive compounds.</td></tr>
+            <tr><td><strong>Read a cytokine concentration</strong></td><td>Intermediate</td><td><a href="plates.html#bead-assays">Bead assay</a></td><td>A serum's concentration of one cytokine, corrected for its dilution.</td></tr>
+            <tr><td><strong>Compare calcium responses</strong></td><td>Intermediate</td><td><a href="assays.html#kinetics">Kinetics</a></td><td>The strongest stimulus and the share of cells it makes respond.</td></tr>
+            <tr><td><strong>Measure T-cell proliferation</strong></td><td>Intermediate</td><td><a href="assays.html#proliferation">Proliferation</a></td><td>The percentage of the starting CD4 T cells that divided.</td></tr>
+            <tr><td><strong>Follow an instrument with daily beads</strong></td><td>Intermediate</td><td><a href="qc.html#instrument">QC → Instrument</a></td><td>Which detector is aging, from which run, and what failed on another day.</td></tr>
+            <tr><td><strong>Adjust gates for a second day</strong></td><td>Intermediate</td><td><a href="gating.html#adapt">Gate</a></td><td>A day-2 sample's T cells, without moving the day-1 samples' gates.</td></tr>
+            <tr><td><strong>Diagnose a problem in a spectral panel</strong></td><td>Advanced</td><td><a href="spectral.html#doctor">Spectral</a></td><td>The dye that is wrong in the samples, and why.</td></tr>
+            <tr><td><strong>Find what is wrong with the day-2 controls</strong></td><td>Advanced</td><td><a href="spectral.html#library">Spectral</a></td><td>Two faulty reference controls, each faulty in its own way.</td></tr>
+            <tr><td><strong>Find a population that differs between groups</strong></td><td>Advanced</td><td><a href="explore.html">Explore</a>, <a href="statistics.html#screens">Compare</a></td><td>Cleanup, normalization of two batches, clustering and differential abundance in a mass cytometry cohort.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2 id="teachers">For teachers</h2>
+      <ul>
+        <li><strong>Every learner works in their own library</strong>, on their own computer: nothing is sent anywhere. To see a learner's work, have them export the workspace (<strong>Workspace file (.cwz)</strong>) or open it on their computer: the panel shows their answers and their last check, and the workspace keeps every check with its score and time.</li>
+        <li><strong>The truth is not in the workspace.</strong> The workspace keeps the exercise and its seed; the answer key is computed again from them when answers are checked, and only if the workspace's files are the ones that seed makes (their SHA-256), so a replaced file is not checked against another attempt's answers. Opening a workspace file in a text editor shows no answer.</li>
+        <li><strong>The examples outside an exercise</strong> are the same experiments with their truth in view: a demonstration can open one from the start page and color the plots by the truth channel at once.</li>
+      </ul>
+      <p>Exercises check what the simulator knows: the true population of every cell and every planted fault. Real data are messier; the exercises teach the moves and the reasons, not every judgment a real panel needs.</p>
+
+      <h2 id="out-of-the-way">Out of the way</h2>
+      <p>Nothing about exercises shows in your own analyses: the panel appears only in a workspace an exercise made, the examples open from the start page exactly as before, and the only reminder elsewhere is one line on the start page.</p>
+
+      <h2 id="next">Where to go next</h2>
+      <div class="card-grid">
+        <a class="card" href="getting-started.html#examples"><h3>Example experiments</h3><p>Every example, and what it shows.</p></a>
+        <a class="card" href="gating.html"><h3>Gating</h3><p>Where most exercises start.</p></a>
+        <a class="card" href="../benchmark.html"><h3>Agent benchmark</h3><p>Similar tasks, given to AI agents.</p></a>
+      </div>
+
+      <nav class="doc-pager" aria-label="Pages">
+        <a class="prev" href="getting-started.html"><span>Previous</span>Getting started</a>
+        <a class="next" href="opening-data.html"><span>Next</span>Opening data</a>
+      </nav>
+    </main>
+
+    <aside class="toc" aria-label="On this page">
+      <h4>On this page</h4>
+      <ul></ul>
+    </aside>
+  </div>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-about">
+          <a class="brand" href="../"><img src="../assets/img/logo.svg" alt="" width="30" height="30" /><span>Cyto<b>Weave</b></span></a>
+          <p>A flow cytometry analysis workbench for conventional, spectral and mass cytometry. Free and open source under the Apache License 2.0.</p>
+        </div>
+        <div>
+          <h4>Product</h4>
+          <ul>
+            <li><a href="../#features">Features</a></li>
+            <li><a href="../install.html">Install</a></li>
+            <li><a href="../science.html">Science</a></li>
+            <li><a href="https://github.com/robert-mcdermott/cytoweave/blob/main/CHANGELOG.md">Changelog</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Documentation</h4>
+          <ul>
+            <li><a href="../docs/getting-started.html">Getting started</a></li>
+            <li><a href="../docs/gating.html">Gating</a></li>
+            <li><a href="../docs/agents.html">AI agents</a></li>
+            <li><a href="../docs/scripting.html">Scripting</a></li>
+            <li><a href="../docs/troubleshooting.html">Troubleshooting</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Project</h4>
+          <ul>
+            <li><a href="https://github.com/robert-mcdermott/cytoweave">GitHub</a></li>
+            <li><a href="https://github.com/robert-mcdermott/cytoweave/releases">Releases</a></li>
+            <li><a href="https://github.com/robert-mcdermott/cytoweave/issues">Issues</a></li>
+            <li><a href="../science.html#cite">Cite CytoWeave</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">CytoWeave is licensed under the Apache License 2.0. It is research software, not a medical device. The example experiments are simulated; see <a href="../science.html#credits">credits and trademarks</a>.</div>
+    </div>
+  </footer>
+</body>
+</html>

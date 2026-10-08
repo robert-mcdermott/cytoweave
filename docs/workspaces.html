@@ -29,6 +29,7 @@
         <a href="../docs/" aria-current="page">Documentation</a>
         <a href="../install.html">Install</a>
         <a href="../science.html">Science</a>
+        <a href="../benchmark.html">Agent benchmark</a>
       </nav>
       <div class="header-actions">
         <a class="icon-button" href="https://github.com/robert-mcdermott/cytoweave" aria-label="CytoWeave on GitHub">
@@ -53,6 +54,7 @@
         <ul>
           <li><a href="./">Overview</a></li>
           <li><a href="getting-started.html">Getting started</a></li>
+          <li><a href="teaching.html">Exercises</a></li>
           <li><a href="opening-data.html">Opening data</a></li>
         </ul>
         <h4>Analysis</h4>
@@ -70,7 +72,7 @@
           <li><a href="statistics.html">Tables and comparisons</a></li>
           <li><a href="assays.html">Cell cycle, proliferation, kinetics and index sorting</a></li>
           <li><a href="plates.html">Plates, dose-response and bead assays</a></li>
-          <li><a href="figures.html">Figures, methods and checkpoints</a></li>
+          <li><a href="figures.html">Figures, methods and certificates</a></li>
         </ul>
         <h4>Share and automate</h4>
         <ul>
@@ -114,7 +116,8 @@
       </div>
       <p>The dot beside the workspace name shows its state: green when saved, amber while changes wait to be saved, red if saving failed (point at it for the reason). <kbd>⌘S</kbd> saves at once. The status bar shows where the library is; <code>--data-dir</code> moves it.</p>
       <p>The library keeps each FCS file once, under its SHA-256 checksum, and workspaces refer to files by checksum. A workspace therefore keeps working when the original files are moved, renamed or deleted, and adding the same file twice stores it once.</p>
-      <p>The workspace menu (click the workspace name) has <strong>New workspace</strong>, <strong>Open…</strong> (<kbd>⇧⌘O</kbd>, every saved workspace with its sample count and date), <strong>Rename…</strong> and <strong>Save now</strong>. Deleted workspaces go to the library's <code>trash</code> folder rather than disappearing. The start page lists recent workspaces.</p>
+      <p>The workspace menu (click the workspace name) has <strong>New workspace</strong>, <strong>Open…</strong> (<kbd>⇧⌘O</kbd>, every saved workspace with its sample count and date), <strong>Rename…</strong> and <strong>Save now</strong>. Deleted workspaces go to the library's <code>trash</code> folder rather than disappearing.</p>
+      <p>CytoWeave opens on the start page with a new, empty workspace. Its recent workspaces list the ones saved, the one you had open last marked <strong>Last opened</strong>: click it to go on where you left off. Files named on the command line (<code>cytoweave *.fcs</code>) open in that new workspace rather than in the last one.</p>
       <p>With <code>--no-library</code>, workspaces are kept in the browser's own storage instead.</p>
 
       <h2 id="export">Exporting and sharing</h2>
@@ -180,7 +183,7 @@
       </div>
 
       <nav class="doc-pager" aria-label="Pages">
-        <a class="prev" href="figures.html"><span>Previous</span>Figures, methods and checkpoints</a>
+        <a class="prev" href="figures.html"><span>Previous</span>Figures, methods and certificates</a>
         <a class="next" href="flowjo.html"><span>Next</span>FlowJo, FACSDiva and Gating-ML</a>
       </nav>
     </main>

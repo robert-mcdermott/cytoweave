@@ -29,6 +29,7 @@
         <a href="../docs/" aria-current="page">Documentation</a>
         <a href="../install.html">Install</a>
         <a href="../science.html">Science</a>
+        <a href="../benchmark.html">Agent benchmark</a>
       </nav>
       <div class="header-actions">
         <a class="icon-button" href="https://github.com/robert-mcdermott/cytoweave" aria-label="CytoWeave on GitHub">
@@ -53,6 +54,7 @@
         <ul>
           <li><a href="./">Overview</a></li>
           <li><a href="getting-started.html" aria-current="page">Getting started</a></li>
+          <li><a href="teaching.html">Exercises</a></li>
           <li><a href="opening-data.html">Opening data</a></li>
         </ul>
         <h4>Analysis</h4>
@@ -70,7 +72,7 @@
           <li><a href="statistics.html">Tables and comparisons</a></li>
           <li><a href="assays.html">Cell cycle, proliferation, kinetics and index sorting</a></li>
           <li><a href="plates.html">Plates, dose-response and bead assays</a></li>
-          <li><a href="figures.html">Figures, methods and checkpoints</a></li>
+          <li><a href="figures.html">Figures, methods and certificates</a></li>
         </ul>
         <h4>Share and automate</h4>
         <ul>
@@ -124,24 +126,27 @@
         <table>
           <thead><tr><th>Example</th><th>What it shows</th><th>Try</th></tr></thead>
           <tbody>
-            <tr><td><strong>PBMC immunophenotyping, 14 colors</strong></td><td>Six donors, unstimulated and stimulated, with a full set of compensation controls. The file's spillover matrix has one wrong value, and one sample has a clog.</td><td><a href="compensation.html#check">Check the compensation</a>, <a href="qc.html">QC</a>, <a href="statistics.html#compare">Compare</a></td></tr>
-            <tr><td><strong>Moving from FlowJo</strong></td><td>Four PBMC samples with the FlowJo 10 workspace made for them. It opens in the FlowJo import dialog.</td><td><a href="flowjo.html">The migration report</a></td></tr>
-            <tr><td><strong>Spectral 25-color panel</strong></td><td>Raw data from 64 detectors, 25 single-stain references and an unstained control with lymphoid and myeloid autofluorescence.</td><td><a href="spectral.html">Unmixing</a></td></tr>
-            <tr><td><strong>Cell cycle</strong></td><td>Propidium iodide DNA content of an asynchronous and a nocodazole-arrested culture, with doublets and debris.</td><td><a href="assays.html#cell-cycle">The cell-cycle model</a></td></tr>
+            <tr><td><strong>PBMC immunophenotyping, 14 colors</strong></td><td>Six donors, unstimulated and stimulated, with a full set of compensation controls, a CD25 FMO tube and rainbow beads with their datasheet. The file's spillover matrix has one wrong value, one sample has a clog, and three donors were acquired the next day with other detector settings. A CSV table of the donors' age, sex and CMV status comes with it.</td><td><a href="compensation.html#check">Check the compensation</a>, <a href="gating.html#virtual-fmo">Virtual FMO</a>, <a href="gating.html#adapt">Adapt gates</a>, <a href="qc.html#calibration">MEF</a>, <a href="statistics.html#compare">Compare</a></td></tr>
+            <tr><td><strong>Moving from FlowJo</strong></td><td>Four PBMC samples with the FlowJo 10 workspace made for them, which opens in the FlowJo import dialog, and the same analysis as a FlowJo 11 workbench.</td><td><a href="flowjo.html">The migration report</a></td></tr>
+            <tr><td><strong>Spectral 25-color panel</strong></td><td>Raw data from 64 detectors, 25 single-stain references and an unstained control with lymphoid and myeloid autofluorescence, with the experiment as SpectroFlo saved it.</td><td><a href="spectral.html">Unmixing</a>, <a href="spectral.html#design">Panel design</a></td></tr>
+            <tr><td><strong>Spectral panel, day 2: troubleshooting</strong></td><td>The same panel on the same cytometer with new reference controls, two of them faulty. Open the 25-color example first and keep its references in the library.</td><td><a href="spectral.html#doctor">The unmixing doctor</a>, <a href="spectral.html#library">The library</a></td></tr>
+            <tr><td><strong>Cell cycle</strong></td><td>Propidium iodide DNA content of an asynchronous and a nocodazole-arrested culture, with doublets and debris, and a third culture exported from another cytometer as CSV events.</td><td><a href="assays.html#cell-cycle">The cell-cycle model</a>, <a href="opening-data.html#csv">CSV events</a></td></tr>
             <tr><td><strong>T-cell proliferation</strong></td><td>CellTrace Violet dilution over four days, with and without stimulation, and a day-0 reference.</td><td><a href="assays.html#proliferation">The proliferation model</a></td></tr>
             <tr><td><strong>Calcium flux</strong></td><td>Indo-1-loaded PBMC over four minutes: buffer, two doses of anti-CD3, ionomycin, and an injection without a pause; every cell's calcium is known.</td><td><a href="assays.html#kinetics">Kinetics</a></td></tr>
             <tr><td><strong>Drug screen on a 96-well plate</strong></td><td>One file per well: six compounds at ten doses inhibiting T-cell activation (CD69), with stimulated and unstimulated control wells; every compound's IC50 and Hill slope are known.</td><td><a href="plates.html#dose-response">Plates and dose-response</a></td></tr>
             <tr><td><strong>Cytokine bead assay (LEGENDplex-like)</strong></td><td>An 8-plex on two bead sizes, standards C0–C7 in duplicate and 20 sera diluted 2-fold; every serum's concentrations are known.</td><td><a href="plates.html#bead-assays">Bead immunoassays</a></td></tr>
             <tr><td><strong>Mass cytometry cohort</strong></td><td>Eight subjects in two batches with anchor samples, EQ beads and signal drift; non-classical monocytes are doubled in the case group.</td><td><a href="cohorts.html#normalize">Normalization</a>, <a href="statistics.html#screens">Screen clusters</a></td></tr>
             <tr><td><strong>Barcoded mass cytometry plate</strong></td><td>Twenty samples pooled into one file with palladium barcodes and the barcode key.</td><td><a href="cohorts.html#debarcode">Debarcoding</a></td></tr>
-            <tr><td><strong>Index sort</strong></td><td>A presort and the index-sorted events of a 96-well plate.</td><td><a href="assays.html#index-sorting">The plate view</a></td></tr>
+            <tr><td><strong>Index sort</strong></td><td>A presort and the index-sorted events of a 96-well plate, with the sort's FACSDiva experiment. The presort file's DATA offset is one byte off, as some writers make it.</td><td><a href="assays.html#index-sorting">The plate view</a>, <a href="flowjo.html#diva">FACSDiva</a>, <a href="opening-data.html#repairs">Repairs</a></td></tr>
             <tr><td><strong>Acquisition QC showcase</strong></td><td>Four wells: clean, a clog, gradual drift and an air bubble.</td><td><a href="qc.html">Acquisition QC</a></td></tr>
             <tr><td><strong>Daily bead QC</strong></td><td>Thirty runs of 8-peak beads with every detector's true Q and B; a PMT ages, the flow cell gets dirty and the violet laser weakens.</td><td><a href="qc.html#instrument">Q, B and Levey–Jennings</a></td></tr>
             <tr><td><strong>Antibody titration and a voltage walk</strong></td><td>CD4-PE in ten two-fold steps, and the PE detector walked from 300 V to 750 V, with the binding constant and the detector's noise and gain known.</td><td><a href="qc.html#titration">Titration and voltage walks</a></td></tr>
+            <tr><td><strong>Absolute counts: CD4 T cells in whole blood</strong></td><td>Lyse/no-wash blood from three patients in tubes of counting beads, one patient with few CD4 T cells; every patient's cells per µL are known.</td><td><a href="statistics.html#absolute-counts">Absolute counts</a></td></tr>
           </tbody>
         </table>
       </div>
       <p>When an example comes with a gating strategy, a notice offers <strong>Add suggested gates</strong>; take it to start from a finished tree, or gate it yourself. Every example is generated in your browser by a simulator that models instruments, fluorochrome spectra, spillover, autofluorescence, cell populations, dead cells, debris, doublets and acquisition problems, and keeps the true identity of every event. Plots can be colored by the <strong>Truth (simulated)</strong> channel, so you can see how well your gates agree with the truth.</p>
+      <p>Some examples come with files another program would have written: a FlowJo 11 workbench, a FACSDiva or SpectroFlo experiment, a table of sample annotations, events as CSV. A notice lists them when the example opens; <strong>Files that came with this example…</strong> in the workspace menu imports each one as if you had dropped it on the window, or saves a copy. To try CytoWeave on larger files, choose <strong>Ten times the events</strong> under <strong>Size</strong> in the <strong>Example experiments</strong> dialog. To practice an analysis and have it checked, try the <a href="teaching.html">exercises</a>.</p>
 
       <h2 id="your-data">Your own data</h2>
       <p>Drop FCS files or a folder on the window, click <strong>Add FCS files</strong> or <strong>Open a folder</strong> on the start page, or use the <strong>+</strong> button of the sample list. Each folder becomes a sample group. Then:</p>
@@ -185,7 +190,7 @@
 
       <nav class="doc-pager" aria-label="Pages">
         <a class="prev" href="./"><span>Previous</span>Overview</a>
-        <a class="next" href="opening-data.html"><span>Next</span>Opening data</a>
+        <a class="next" href="teaching.html"><span>Next</span>Exercises</a>
       </nav>
     </main>
 

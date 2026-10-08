@@ -29,6 +29,7 @@
         <a href="../docs/" aria-current="page">Documentation</a>
         <a href="../install.html">Install</a>
         <a href="../science.html">Science</a>
+        <a href="../benchmark.html">Agent benchmark</a>
       </nav>
       <div class="header-actions">
         <a class="icon-button" href="https://github.com/robert-mcdermott/cytoweave" aria-label="CytoWeave on GitHub">
@@ -53,6 +54,7 @@
         <ul>
           <li><a href="./">Overview</a></li>
           <li><a href="getting-started.html">Getting started</a></li>
+          <li><a href="teaching.html">Exercises</a></li>
           <li><a href="opening-data.html" aria-current="page">Opening data</a></li>
         </ul>
         <h4>Analysis</h4>
@@ -70,7 +72,7 @@
           <li><a href="statistics.html">Tables and comparisons</a></li>
           <li><a href="assays.html">Cell cycle, proliferation, kinetics and index sorting</a></li>
           <li><a href="plates.html">Plates, dose-response and bead assays</a></li>
-          <li><a href="figures.html">Figures, methods and checkpoints</a></li>
+          <li><a href="figures.html">Figures, methods and certificates</a></li>
         </ul>
         <h4>Share and automate</h4>
         <ul>
@@ -124,7 +126,7 @@
         <li>An event number column (1, 2, 3 …) is left out. A column of a few whole numbers is recognized as labels, such as clusters or sample numbers, and can split the file into one sample per value (a file that concatenated several samples, for example).</li>
         <li>Each column's kind (scatter, fluorescence or mass, time, other) and scale are guessed: logicle for intensities, arcsinh with cofactor 5 for mass cytometry counts, linear for scatter and time, and linear over their range for values that are already transformed (small, often negative values, as arcsinh or log values are). Change any of them before importing; a channel the workspace already has keeps its scale.</li>
       </ul>
-      <p>Each file becomes a sample, stored in the library as an FCS file of 32-bit floats (as FCS files hold values; about seven significant digits), so it is checksummed, saved and analyzed like any other. Rows with an empty or non-numeric value in an imported column are left out and counted. Several files with the same columns are imported together. The validation suite reads CytoWeave's own CSV export and FlowJo's format back exactly, and a damaged file's faults are each reported.</p>
+      <p>Each file becomes a sample, stored in the library as an FCS file of 32-bit floats (as FCS files hold values; about seven significant digits), so it is checksummed, saved and analyzed like any other. Rows with an empty or non-numeric value in an imported column are left out and counted. Several files with the same columns are imported together. The validation suite reads CytoWeave's own CSV export and FlowJo's format back exactly, and a damaged file's faults are each reported. The cell-cycle example comes with a CSV of a third culture to try.</p>
 
       <h2 id="repairs">Files that bend the standard</h2>
       <p>FCS files from real instruments often bend the standard, and CytoWeave reads them anyway. Every repair is listed in the <strong>Sample</strong> section of the inspector, so nothing is silently changed:</p>
@@ -134,6 +136,7 @@
         <li>truncated data or a missing event count;</li>
         <li>log-amplified integer data.</li>
       </ul>
+      <p>The index-sort example's presort file has a DATA offset one byte off; its inspector shows the repair.</p>
       <p>Files that cannot be read are refused with a message saying why. Spillover is read from <code>$SPILLOVER</code>, <code>SPILL</code>, <code>$SPILL</code> or <code>$COMP</code>. <strong>All keywords</strong> in the inspector shows every keyword of the file.</p>
 
       <h2 id="samples">Selecting and grouping samples</h2>
@@ -154,7 +157,7 @@
         <li>Click <strong>Suggest from file names</strong>. Each part of the names that differs between samples becomes a field (condition, subject, batch, timepoint…) filled with its values. Check and correct them.</li>
         <li>Type into any cell, or click <strong>Add field</strong> for your own (donor, dose, tissue…), then <strong>Save</strong>.</li>
       </ol>
-      <p>The suggested fields are condition, subject, batch, timepoint, tissue, treatment, replicate, plate and well. To annotate many samples at once from a spreadsheet, save it as CSV or TSV with the sample or file name in the first column and open it like any other file (or <strong>Workspace → Sample annotations (CSV)…</strong>).</p>
+      <p>The suggested fields are condition, subject, batch, timepoint, tissue, treatment, replicate, plate and well. To annotate many samples at once from a spreadsheet, save it as CSV or TSV with the sample or file name in the first column and open it like any other file (or <strong>Workspace → Sample annotations (CSV)…</strong>). The PBMC example comes with such a table, of its donors' age, sex and CMV status.</p>
       <div class="callout"><p><strong>Use <code>subject</code> for paired designs.</strong> When the same donor appears in each group, <a href="statistics.html#compare">Compare</a> pairs samples by the subject field and chooses a paired test.</p></div>
 
       <h2 id="controls">Marking controls</h2>
@@ -180,7 +183,7 @@
       </div>
 
       <nav class="doc-pager" aria-label="Pages">
-        <a class="prev" href="getting-started.html"><span>Previous</span>Getting started</a>
+        <a class="prev" href="teaching.html"><span>Previous</span>Exercises</a>
         <a class="next" href="gating.html"><span>Next</span>Gating</a>
       </nav>
     </main>

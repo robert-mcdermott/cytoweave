@@ -4,11 +4,11 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Gating · CytoWeave</title>
-  <meta name="description" content="Gate flow cytometry data in CytoWeave: plots and scales, rectangle, polygon, ellipse, quadrant, range and split gates, the magic wand, per-sample adjustments, Boolean populations, backgating, review across samples and boundary robustness." />
+  <meta name="description" content="Gate flow cytometry data in CytoWeave: plots and scales, rectangle, polygon, ellipse, quadrant, range and split gates, the magic wand, per-sample adjustments, Boolean populations, backgating, review across samples, boundary robustness, and virtual FMO controls predicted from the spread model." />
   <link rel="canonical" href="https://robert-mcdermott.github.io/cytoweave/docs/gating.html" />
   <meta property="og:type" content="website" />
   <meta property="og:title" content="Gating" />
-  <meta property="og:description" content="Gate flow cytometry data in CytoWeave: plots and scales, rectangle, polygon, ellipse, quadrant, range and split gates, the magic wand, per-sample adjustments, Boolean populations, backgating, review across samples and boundary robustness." />
+  <meta property="og:description" content="Gate flow cytometry data in CytoWeave: plots and scales, rectangle, polygon, ellipse, quadrant, range and split gates, the magic wand, per-sample adjustments, Boolean populations, backgating, review across samples, boundary robustness, and virtual FMO controls predicted from the spread model." />
   <meta property="og:url" content="https://robert-mcdermott.github.io/cytoweave/docs/gating.html" />
   <meta property="og:image" content="https://robert-mcdermott.github.io/cytoweave/assets/img/og-image.jpg" />
   <meta name="twitter:card" content="summary_large_image" />
@@ -29,6 +29,7 @@
         <a href="../docs/" aria-current="page">Documentation</a>
         <a href="../install.html">Install</a>
         <a href="../science.html">Science</a>
+        <a href="../benchmark.html">Agent benchmark</a>
       </nav>
       <div class="header-actions">
         <a class="icon-button" href="https://github.com/robert-mcdermott/cytoweave" aria-label="CytoWeave on GitHub">
@@ -53,6 +54,7 @@
         <ul>
           <li><a href="./">Overview</a></li>
           <li><a href="getting-started.html">Getting started</a></li>
+          <li><a href="teaching.html">Exercises</a></li>
           <li><a href="opening-data.html">Opening data</a></li>
         </ul>
         <h4>Analysis</h4>
@@ -70,7 +72,7 @@
           <li><a href="statistics.html">Tables and comparisons</a></li>
           <li><a href="assays.html">Cell cycle, proliferation, kinetics and index sorting</a></li>
           <li><a href="plates.html">Plates, dose-response and bead assays</a></li>
-          <li><a href="figures.html">Figures, methods and checkpoints</a></li>
+          <li><a href="figures.html">Figures, methods and certificates</a></li>
         </ul>
         <h4>Share and automate</h4>
         <ul>
@@ -219,6 +221,21 @@
       </ul>
       <p><strong>Probabilities (CLR)</strong> exports each event's probability of belonging to the adapted gate, one file per sample, for tools that read classification results. The methods paragraph describes the adaptation and how many samples were adjusted or flagged. Polygons, rectangles, ellipses, ranges, splits and quadrants can be adapted. An <a href="agents.html">AI agent</a> can run it too (<code>adapt_gate</code>); its adjustments wait in its proposal for you.</p>
       <p>How it was checked: on a simulated cohort with instrument shifts it made every shifted gate more accurate and none less; against an expert's own per-donor gates in a real cytokine study it left agreement with the expert unchanged, with no adjustment lowering it. Details are on the <a href="../science.html">science page</a>.</p>
+
+      <h2 id="virtual-fmo">Virtual FMO controls</h2>
+      <figure>
+        <div class="shot"><img class="shot-dark" src="../assets/img/virtual-fmo-dark.webp" width="2000" height="1250" loading="lazy" alt="CD25 against CD127 in T cells with the virtual FMO of CD25: a dashed line where the predicted negative ends, a curve rising with CD127 brightness, and the FMO control's line beside it; below the plot, the threshold, the FMO control's and the unstained control's, the dyes the spread comes from, and Gate above it" /><img class="shot-light" src="../assets/img/virtual-fmo-light.webp" width="2000" height="1250" loading="lazy" alt="CD25 against CD127 in T cells with the virtual FMO of CD25: a dashed line where the predicted negative ends, a curve rising with CD127 brightness, and the FMO control's line beside it; below the plot, the threshold, the FMO control's and the unstained control's, the dyes the spread comes from, and Gate above it" /></div>
+        <figcaption>A virtual FMO of CD25 in T cells, beside the real FMO control.</figcaption>
+      </figure>
+      <p>An FMO control (fluorescence minus one) shows where a population's negative ends in a channel when every dye but that channel's is present: the other dyes spread into it once compensated or unmixed, so the negative is wider than the unstained control's. A virtual FMO predicts that edge from the panel's spread model instead of staining a tube.</p>
+      <ol>
+        <li>Compute the compensation from the single-stain controls in the Compensate view, or the spreading matrix in Spectral → Panel quality. CytoWeave fits the instrument's photon and laser noise to the controls and keeps it with them.</li>
+        <li>In a plot's <strong>⋯</strong> menu, under <strong>Virtual FMO</strong>, choose the channel. The plot draws a dashed line where the predicted negative ends (its 99.5th percentile) and, on a plot of two channels, a curve along the other axis, rising where that marker's dye spreads into the channel. When the workspace has an FMO control for the channel (role <em>fmo</em>), its line is drawn too.</li>
+        <li>Below the plot, the line gives the threshold, the FMO control's and the unstained control's alone, and the dyes the spread comes from. <strong>Gate above it</strong> adds a range gate from the threshold up.</li>
+      </ol>
+      <p>Each event's value without the dye is drawn from its own brightness of every other dye: an unstained event of the population's scatter gates, plus the spread those dyes add. The setting is kept with the plot, so it follows you from sample to sample. Agents ask for it with <code>virtual_fmo</code>.</p>
+      <p>It predicts spread, not every way a negative can move: a compensation or unmixing error, a reference spectrum that does not match the dye on cells, or nonspecific binding of the left-out antibody are what a real FMO shows and a virtual one cannot. Use it as a guide where the negative ends; stain a real FMO for dim markers and for a gate a result depends on.</p>
+      <p>How it was checked: on simulated panels whose FMO tubes hold the same donor's cells, within 1% of the axis on average (0.45% spectral, 0.94% conventional), where the unstained control alone missed by 12–13% on average. On public data with real FMO controls, each tube predicting its own channel: a BD LSRFortessa panel within 5.8% of the axis on average (at most 11.6%, erring high), and a 25-color Cytek Aurora panel within 5.5% (at most 14.8%), where the unstained control alone missed by up to 20%. Details are on the <a href="../science.html#validation">science page</a>.</p>
 
       <h2 id="next">Where to go next</h2>
       <div class="card-grid">

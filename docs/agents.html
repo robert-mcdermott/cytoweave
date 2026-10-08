@@ -29,6 +29,7 @@
         <a href="../docs/" aria-current="page">Documentation</a>
         <a href="../install.html">Install</a>
         <a href="../science.html">Science</a>
+        <a href="../benchmark.html">Agent benchmark</a>
       </nav>
       <div class="header-actions">
         <a class="icon-button" href="https://github.com/robert-mcdermott/cytoweave" aria-label="CytoWeave on GitHub">
@@ -53,6 +54,7 @@
         <ul>
           <li><a href="./">Overview</a></li>
           <li><a href="getting-started.html">Getting started</a></li>
+          <li><a href="teaching.html">Exercises</a></li>
           <li><a href="opening-data.html">Opening data</a></li>
         </ul>
         <h4>Analysis</h4>
@@ -70,7 +72,7 @@
           <li><a href="statistics.html">Tables and comparisons</a></li>
           <li><a href="assays.html">Cell cycle, proliferation, kinetics and index sorting</a></li>
           <li><a href="plates.html">Plates, dose-response and bead assays</a></li>
-          <li><a href="figures.html">Figures, methods and checkpoints</a></li>
+          <li><a href="figures.html">Figures, methods and certificates</a></li>
         </ul>
         <h4>Share and automate</h4>
         <ul>
@@ -127,7 +129,7 @@ between stimulated and unstimulated samples.</code></pre></div>
     }
   }
 }</code></pre></div>
-      <p>Options go after <code>mcp</code>: <code>--port</code> (default 8770; the next free one is used), <code>--data-dir</code> (the workspace library) and <code>--window app|browser|none</code> (how the window opens when a tool needs it). Proposals and the <code>propose_compensation</code> and <code>proposals</code> tools need CytoWeave 0.2.0 or later, <code>adapt_gate</code> 0.3.0, <code>check_robustness</code> 0.4.0, and the QC, unmixing, clustering, annotation, figure, folder-watching, export, template, cell-type and titration tools 0.5.0, and <code>compare_distributions</code>, <code>rare_events</code>, <code>add_formula_channel</code>, <code>calibrate_beads</code>, <code>export_report</code>, <code>export_events</code> and <code>differential_analysis</code> 0.6.0 (as do Excel and Prism files from <code>export_table</code> and CSV files of events in <code>open_files</code>), and <code>diagnose_unmixing</code>, <code>kinetics</code>, <code>plate</code>, <code>plate_layout</code>, <code>dose_response</code>, <code>bead_assay</code> and <code>export_workspace</code> 0.7.0.</p>
+      <p>Options go after <code>mcp</code>: <code>--port</code> (default 8770; the next free one is used), <code>--data-dir</code> (the workspace library) and <code>--window app|browser|none</code> (how the window opens when a tool needs it). Proposals and the <code>propose_compensation</code> and <code>proposals</code> tools need CytoWeave 0.2.0 or later, <code>adapt_gate</code> 0.3.0, <code>check_robustness</code> 0.4.0, and the QC, unmixing, clustering, annotation, figure, folder-watching, export, template, cell-type and titration tools 0.5.0, and <code>compare_distributions</code>, <code>rare_events</code>, <code>add_formula_channel</code>, <code>calibrate_beads</code>, <code>export_report</code>, <code>export_events</code> and <code>differential_analysis</code> 0.6.0 (as do Excel and Prism files from <code>export_table</code> and CSV files of events in <code>open_files</code>), and <code>diagnose_unmixing</code>, <code>kinetics</code>, <code>plate</code>, <code>plate_layout</code>, <code>dose_response</code>, <code>bead_assay</code> and <code>export_workspace</code> 0.7.0, and <code>export_certificate</code>, <code>verify_certificate</code>, <code>export_review_report</code> and <code>virtual_fmo</code> 0.8.0.</p>
 
       <h2 id="proposals">Reviewing proposals</h2>
       <figure>
@@ -162,6 +164,7 @@ between stimulated and unstimulated samples.</code></pre></div>
             <tr><td><code>create_gate</code></td><td>Proposes a rectangle, polygon, ellipse, range, quadrant or split gate from data coordinates</td></tr>
             <tr><td><code>auto_gate</code></td><td>Proposes a gate found from the data: a density basin around a point, singlets, or the valley between two modes</td></tr>
             <tr><td><code>edit_gate</code></td><td>Renames, recolors or deletes a population (held for review unless the agent proposed it)</td></tr>
+            <tr><td><code>check_compensation</code></td><td>Check a compensation matrix against the single-stain controls, as <a href="compensation.html#check">Check against the controls</a> does: the entries that are off, each with its suggested value</td></tr>
             <tr><td><code>propose_compensation</code></td><td>Computes a spillover matrix from the single-stain controls and proposes it for the samples</td></tr>
             <tr><td><code>proposals</code></td><td>The agent's open proposal and your recent decisions</td></tr>
             <tr><td><code>review_gate</code></td><td>A gate's frequency on every sample with a robust z-score and boundary robustness, outliers first</td></tr>
@@ -189,12 +192,19 @@ between stimulated and unstimulated samples.</code></pre></div>
             <tr><td><code>compare_distributions</code></td><td>Each sample's population against a control sample's on a channel: % positive by SED and Overton, probability binning's T(χ), the K-S D; several channels for multivariate probability binning</td></tr>
             <tr><td><code>rare_events</code></td><td>Exact intervals of a rare population's count and frequency, the events needed for a target CV, and limits of blank, detection and quantification from blank and low-level samples</td></tr>
             <tr><td><code>export_flowjo</code>, <code>export_fcs</code>, <code>export_figure</code>, <code>export_report</code>, <code>export_events</code>, <code>export_table</code>, <code>export_workspace</code></td><td>Write a FlowJo workspace, the workspace (.cwz), de-identified FCS files, a population's events in several samples (concatenated into one FCS file with SampleID and SourceEvent channels, one FCS file per sample, or AnnData .h5ad; optionally downsampled with a seed), a figure (SVG, PNG, PDF), a batch report (a figure repeated for each sample or each value of an annotation, as PDF or PowerPoint, with the pages and any notes) or statistics (CSV, TSV, an Excel workbook with its provenance sheets, a Prism project grouped by an annotation) to an absolute path; never replace a file unless told to</td></tr>
+            <tr><td><code>virtual_fmo</code></td><td>Predict where a population's negative for a dye ends without it (a <a href="gating.html#virtual-fmo">virtual FMO</a>), beside the FMO and unstained controls, with the dyes the spread comes from; optionally propose a gate above it</td></tr>
+            <tr><td><code>design_panel</code></td><td><a href="spectral.html#optimize">Design a panel</a>: the dye for each marker from its expression and the markers on the same cells, with each marker's predicted stain index, what limits it, the next best dyes and pairs prone to energy transfer; from the experiment's reference or compensation controls, or an instrument's spectral library</td></tr>
+            <tr><td><code>export_review_report</code></td><td>Write a <a href="figures.html#review">review report</a>: the analysis as one self-contained HTML file, every sample's gates drawn and every number traced</td></tr>
+            <tr><td><code>export_certificate</code>, <code>verify_certificate</code></td><td>Write a <a href="figures.html#certificate">reproducibility certificate</a> of the analysis (with its FCS files, or only their checksums), and verify one: every number computed again from the files and compared, with the verdict and what differs</td></tr>
             <tr><td><code>methods</code></td><td>A methods paragraph with numbered references</td></tr>
             <tr><td><code>export_gating_ml</code></td><td>The gating strategy as Gating-ML 2.0</td></tr>
           </tbody>
         </table>
       </div>
       <p>Populations are named by name (when unique), by path (<code>Cells/Single cells/CD3+</code>) or by id; channels by detector (<code>FITC-A</code>) or marker (<code>CD3</code>). Gate coordinates are data values, as on the plot axes, on each channel's scale: a range gate on CD3 above 1,000 is <code>{"min": 1000}</code>.</p>
+
+      <h2 id="benchmark">How well agents do</h2>
+      <p>The <a href="../benchmark.html">agent benchmark</a> gives agents analysis tasks on simulated experiments whose answers are known (gate a population, find a compensation error, test a difference, name an acquisition problem, find a degraded tandem, read a dose-response plate, write a report) and grades their results against the truth. Its page shows each model's score, by task. An agent's work is still a proposal: review it as you would a colleague's.</p>
 
       <h2 id="privacy">Privacy and how it works</h2>
       <p><code>cytoweave mcp</code> starts CytoWeave with remote control on and speaks JSON-RPC on standard input and output. A tool call becomes an action that the server forwards to the open window, which performs it with the same code as the user interface and posts the result back, one action at a time. Everything stays on your computer: the server accepts requests only from this computer, and opening and writing files by path is limited to the agent connected over MCP or to scripts holding the token CytoWeave prints at startup. What the agent's model sees of your data is what the tools return: counts, statistics, gating trees and plot images.</p>

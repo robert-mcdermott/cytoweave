@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Agent benchmark · CytoWeave</title>
+  <meta name="description" content="A public benchmark of AI agents analyzing flow cytometry data with CytoWeave's tools, graded automatically against the simulated truth of each experiment." />
+  <link rel="canonical" href="https://robert-mcdermott.github.io/cytoweave/benchmark.html" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Agent benchmark" />
+  <meta property="og:description" content="A public benchmark of AI agents analyzing flow cytometry data with CytoWeave's tools, graded automatically against the simulated truth of each experiment." />
+  <meta property="og:url" content="https://robert-mcdermott.github.io/cytoweave/benchmark.html" />
+  <meta property="og:image" content="https://robert-mcdermott.github.io/cytoweave/assets/img/og-image.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="theme-color" content="#07090e" />
+  <link rel="icon" href="assets/img/logo.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="assets/css/site.css" />
+  <script>try { const t = localStorage.getItem('cytoweave-theme'); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
+  <script src="assets/js/site.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="./"><img src="assets/img/logo.svg" alt="" width="30" height="30" /><span>Cyto<b>Weave</b></span></a>
+      <nav class="site-nav" id="site-nav" aria-label="Main">
+        <a href="./#features">Features</a>
+        <a href="docs/">Documentation</a>
+        <a href="install.html">Install</a>
+        <a href="science.html">Science</a>
+        <a href="benchmark.html" aria-current="page">Agent benchmark</a>
+      </nav>
+      <div class="header-actions">
+        <a class="icon-button" href="https://github.com/robert-mcdermott/cytoweave" aria-label="CytoWeave on GitHub">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5a11.5 11.5 0 0 0-3.64 22.41c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.37-3.88-1.37-.53-1.34-1.29-1.7-1.29-1.7-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.71 1.26 3.37.96.1-.75.4-1.26.73-1.55-2.56-.29-5.25-1.28-5.25-5.69 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.84 1.19 3.1 0 4.42-2.7 5.4-5.26 5.68.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .5Z"/></svg>
+        </a>
+        <button class="icon-button theme-toggle" type="button" aria-label="Switch between light and dark">
+          <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/></svg>
+          <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+        </button>
+        <button class="icon-button nav-toggle" type="button" aria-label="Menu" aria-controls="site-nav" aria-expanded="false">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div class="page-layout">
+    <main id="main" class="doc">
+      <h1>Agent benchmark</h1>
+      <p class="doc-lede">AI agents can now drive cytometry software. This benchmark measures whether they get the analysis right: graded tasks on simulated experiments whose true answers are known, worded as a user would ask, with nothing but CytoWeave's tools.</p>
+
+      <h2 id="what">What it measures</h2>
+      <p>Each task is a request a user could make of an agent: gate a population, find an error in a compensation matrix, test whether a treatment changes a population, name what went wrong during acquisition, read a concentration from a bead assay, write a report. Every task runs on an example experiment generated with a seed of its own, so its answer cannot be recalled from the example's defaults, and is graded against the simulator's own record of that experiment: the true population of every cell, the planted fault, the true spillover, the true concentration.</p>
+      <p>Grading is deterministic: code reads the analysis the agent left in CytoWeave (its gates, results and files) and the answer line the task asks for, and gives partial credit by a fixed rubric. No model judges another.</p>
+
+      <h2 id="results">Results</h2>
+      <p>The score is the mean over tasks of each task's mean score over runs. The reference solution, scripted through the same tools without a model, scores 100% and shows that every task can be solved with CytoWeave's tools; an agent that answers nothing scores 0%. Cost is Claude Code's own estimate of each run's API cost (on a subscription, usage of the plan).</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Agent and model</th><th class="r">Score</th><th class="r">Tasks × runs</th><th class="r">Answered</th><th class="r">Tool calls per run</th><th class="r">Cost per run</th><th>Run on</th><th>CytoWeave</th></tr></thead>
+          <tbody>
+<tr><td>Reference solution (scripted, no model)</td><td class="r"><strong>100%</strong></td><td class="r">11 × 1</td><td class="r">11 of 11</td><td class="r">1.9</td><td class="r">—</td><td>2026-10-07</td><td>0.7.0 (eff402f)</td></tr>
+<tr><td>Reference solution (scripted, no model)</td><td class="r"><strong>100%</strong></td><td class="r">11 × 1</td><td class="r">11 of 11</td><td class="r">1.9</td><td class="r">—</td><td>2026-10-08</td><td>0.8.0 (fc63f56)</td></tr>
+<tr><td>Claude Code, Claude Sonnet 5.5</td><td class="r"><strong>100%</strong></td><td class="r">11 × 3</td><td class="r">33 of 33</td><td class="r">3.4</td><td class="r">$0.08</td><td>2026-10-07</td><td>0.7.0 (c581cac)</td></tr>
+<tr><td>Claude Code, Claude Haiku 5.5</td><td class="r"><strong>100%</strong></td><td class="r">11 × 3</td><td class="r">33 of 33</td><td class="r">4.8</td><td class="r">$0.01</td><td>2026-10-08</td><td>0.8.0 (fc63f56)</td></tr>
+<tr><td>Claude Code, Claude Opus 5.5</td><td class="r"><strong>100%</strong></td><td class="r">11 × 3</td><td class="r">33 of 33</td><td class="r">4.5</td><td class="r">$0.16</td><td>2026-10-08</td><td>0.8.0 (fc63f56)</td></tr>
+<tr><td>Claude Code, Claude Sonnet 5.5</td><td class="r"><strong>100%</strong></td><td class="r">11 × 3</td><td class="r">33 of 33</td><td class="r">3.2</td><td class="r">$0.08</td><td>2026-10-08</td><td>0.8.0 (fc63f56)</td></tr>
+<tr><td>Claude Code, Claude Opus 5.5</td><td class="r"><strong>99.7%</strong></td><td class="r">11 × 3</td><td class="r">33 of 33</td><td class="r">5.1</td><td class="r">$0.17</td><td>2026-10-07</td><td>0.7.0 (c581cac)</td></tr>
+<tr><td>Claude Code, Claude Haiku 4.5</td><td class="r"><strong>95.1%</strong></td><td class="r">11 × 3</td><td class="r">33 of 33</td><td class="r">3.2</td><td class="r">$0.04</td><td>2026-10-07</td><td>0.7.0 (eff402f)</td></tr>
+<tr><td>No answer (lower bound)</td><td class="r"><strong>0%</strong></td><td class="r">11 × 1</td><td class="r">0 of 11</td><td class="r">0.0</td><td class="r">—</td><td>2026-10-07</td><td>0.7.0 (eff402f)</td></tr>
+<tr><td>No answer (lower bound)</td><td class="r"><strong>0%</strong></td><td class="r">11 × 1</td><td class="r">0 of 11</td><td class="r">0.0</td><td class="r">—</td><td>2026-10-08</td><td>0.8.0 (fc63f56)</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <h3 id="by-task">By task</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Task</th><th class="r">Reference solution (scripted, no model)</th><th class="r">Reference solution (scripted, no model)</th><th class="r">Claude Sonnet 5.5</th><th class="r">Claude Haiku 5.5</th><th class="r">Claude Opus 5.5</th><th class="r">Claude Sonnet 5.5</th><th class="r">Claude Opus 5.5</th><th class="r">Claude Haiku 4.5</th></tr></thead>
+          <tbody>
+<tr><td><strong>Gate T cells and report their frequency</strong><br><span class="muted">gating</span></td><td class="r">100%</td><td class="r">100%</td><td class="r">100%</td><td class="r">100%</td><td class="r">100%</td><td class="r">100%</td><td class="r">100%</td><td class="r">76.5%</td></tr>
+<tr><td><strong>Find the wrong value in a spillover matrix</strong><br><span class="muted">compensation</span></td><td class="r">100%</td><td class="r">100%</td><td class="r">100%</td><td class="r">100%</td><td class="r">100%</td><td class="r">100%</td><td class="r">100%</td><td class="r">100%</td></tr>
+<tr><td><strong>Test whether stimulation changes CD25+ CD4 T cells</strong><br><span class="muted">statistics</span></td><td class="r">100%</td><td class="r">100%</td><td class="r">100%</td><td class="r">100%</td><td class="r">100%</td><td class="r">100%</td><td class="r">100%</td><td class="r">100%</td></tr>
+<tr><td><strong>Name each acquisition's problem</strong><br><span class="muted">quality control</span></td><td class="r">100%</td><td class="r">100%</td><td class="r">100%</td><td class="r">100%</td><td class="r">100%</td><td class="r">100%</td><td class="r">100%</td><td class="r">80%</td></tr>
+<tr><td><strong>Find the sample with an acquisition problem</strong><br><span class="muted">quality control</span></td><td class="r">100%</td><td class="r">100%</td><td class="r">100%</td><td class="r">100%</td><td class="r">100%</td><td class="r">100%</td><td class="r">100%</td><td class="r">100%</td></tr>
+<tr><td><strong>Find what is wrong with one dye in a spectral panel</strong><br><span class="muted">spectral unmixing</span></td><td class="r">100%</td><td class="r">100%</td><td class="r">100%</td><td class="r">100%</td><td class="r">100%</td><td class="r">100%</td><td class="r">100%</td><td class="r">100%</td></tr>
+<tr><td><strong>Choose an antibody amount from a titration</strong><br><span class="muted">assay setup</span></td><td class="r">100%</td><td class="r">100%</td><td class="r">100%</td><td class="r">100%</td><td class="r">100%</td><td class="r">100%</td><td class="r">100%</td><td class="r">100%</td></tr>
+<tr><td><strong>Find the most potent compound on a plate</strong><br><span class="muted">plates</span></td><td class="r">100%</td><td class="r">100%</td><td class="r">100%</td><td class="r">100%</td><td class="r">100%</td><td class="r">100%</td><td class="r">100%</td><td class="r">90%</td></tr>
+<tr><td><strong>Read a serum concentration from a bead assay</strong><br><span class="muted">immunoassay</span></td><td class="r">100%</td><td class="r">100%</td><td class="r">100%</td><td class="r">100%</td><td class="r">100%</td><td class="r">100%</td><td class="r">100%</td><td class="r">100%</td></tr>
+<tr><td><strong>Compare calcium responses to stimuli</strong><br><span class="muted">kinetics</span></td><td class="r">100%</td><td class="r">100%</td><td class="r">100%</td><td class="r">100%</td><td class="r">100%</td><td class="r">100%</td><td class="r">96.3%</td><td class="r">100%</td></tr>
+<tr><td><strong>Write a gating report as a PDF</strong><br><span class="muted">reporting</span></td><td class="r">100%</td><td class="r">100%</td><td class="r">100%</td><td class="r">100%</td><td class="r">100%</td><td class="r">100%</td><td class="r">100%</td><td class="r">100%</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2 id="how">How a run works</h2>
+      <ol>
+        <li>The harness starts CytoWeave (built from the benchmark's commit) with an empty library, opens its window, generates the task's example with the task's seed, and prepares it as the task says (for some tasks, the example's suggested gates). The example's title, the simulator's per-cell truth and any annotation naming a planted fault are removed.</li>
+        <li>The agent is started as a program of its own, in an empty folder, with CytoWeave's MCP server as its only tools: no files, shell or web. Claude Code runs with <code>--tools ""</code>, <code>--strict-mcp-config</code>, the settings of that empty folder only (not the user's hooks, plugins or defaults) and the model and effort given; each run is a fresh session.</li>
+        <li>The agent gets the task's prompt, which starts as every one does: the data are already open in CytoWeave, in the workspace "Experiment". It works through CytoWeave's tools in the window the harness watches and ends its reply with the answer line the prompt asks for. A run stops after 60 turns or 20 minutes.</li>
+        <li>The harness grades the window's state, the files in the task's output folder and the answer, and records the score, the tool calls, the tokens and the time.</li>
+      </ol>
+
+      <h2 id="tasks">Tasks</h2>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Task</th><th>Example</th><th>Graded against</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Gate T cells and report their frequency</strong></td><td>PBMC, 14 colors</td><td>The F1 of the agent's "T cells" gate against every cell's true type (full credit from 0.9), and the reported percentage of all events (within 1.5 points)</td></tr>
+            <tr><td><strong>Find the wrong value in a spillover matrix</strong></td><td>PBMC, 14 colors</td><td>The planted error (APC into Alexa Fluor 700), and the corrected value against the true spillover (within 1.5 points)</td></tr>
+            <tr><td><strong>Test whether stimulation changes CD25+ CD4 T cells</strong></td><td>PBMC, 14 colors, suggested gates</td><td>The direction (up, as simulated), significance, and a test paired by donor</td></tr>
+            <tr><td><strong>Name each acquisition's problem</strong></td><td>Acquisition QC showcase</td><td>Each of four files: clean, a clog, drift or an air bubble, as simulated</td></tr>
+            <tr><td><strong>Find the sample with an acquisition problem</strong></td><td>PBMC, 14 colors</td><td>The sample with the simulated clog, and the kind of problem</td></tr>
+            <tr><td><strong>Find what is wrong with one dye in a spectral panel</strong></td><td>Spectral 25-color, PE-Cy7 degraded by 10% in the samples</td><td>The dye and the cause (a degraded tandem)</td></tr>
+            <tr><td><strong>Choose an antibody amount from a titration</strong></td><td>Titration and voltage walk</td><td>The amount following Bonilla et al. 2024 from the true binding curve (125 ng)</td></tr>
+            <tr><td><strong>Find the most potent compound on a plate</strong></td><td>96-well drug screen, suggested gates</td><td>The most potent compound, its IC50 against the simulated one (within 2×), and the inactive compound</td></tr>
+            <tr><td><strong>Read a serum concentration from a bead assay</strong></td><td>Cytokine bead assay, suggested gates</td><td>The serum's true IL-6 concentration (within 20%)</td></tr>
+            <tr><td><strong>Compare calcium responses to stimuli</strong></td><td>Calcium flux</td><td>The strongest stimulus and the true share of responding cells (within 10 points)</td></tr>
+            <tr><td><strong>Write a gating report as a PDF</strong></td><td>PBMC, 14 colors, suggested gates</td><td>The PDF written where asked, a page per stained sample, and the gating strategy on its pages</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>Before results are published, the benchmark checks itself: every reference solution must score at least 90% (all score 100%), an agent that answers nothing must score 0, and unit tests give each grader plausible wrong answers to check its partial credit. These checks run in continuous integration with the rest of the validation.</p>
+
+      <h2 id="limits">Limits</h2>
+      <ul>
+        <li><strong>Simulated data.</strong> The truth is the simulator's. Real data are messier, and an agent good here may still be wrong on a real panel; CytoWeave's own analyses are validated on real data separately (<a href="science.html#validation">Science</a>).</li>
+        <li><strong>The examples are public.</strong> Their code is on GitHub, so a model trained on it could know where faults were planted. Seeds change every task's data, but not which fault an example carries; later versions of the benchmark will move the faults with the seed.</li>
+        <li><strong>CytoWeave's tools.</strong> The benchmark measures agents through CytoWeave. Analyses without an agent tool yet (cell-cycle and proliferation fits, index sorting, bead Q and B) are not among the tasks, and a tool's wording can mislead an agent: QC findings that call a clog "possibly a bubble" and a bubble "possibly a clog" led Claude Haiku to swap them in every run (and Sonnet and Opus in some runs of version 1). CytoWeave 0.8.0's findings name the cause from what the flow rate did at the same time, and on 0.8.0 every model named each problem right in every run; Haiku 5.5 is also a newer model than Haiku 4.5, so the two changes cannot be told apart.</li>
+        <li><strong>Prompts matter.</strong> In version 1, two prompts described their experiment in the words of an example's description, and agents opened that example, replacing the task's data with another copy of it, then answered about that. Version 2 starts every prompt by saying where the data are; a run that still analyzes another experiment is scored 0 and counted as such in the results.</li>
+        <li><strong>Few runs.</strong> Agents vary from run to run; results give the number of runs per task, and differences of a few points between models are within that variation.</li>
+      </ul>
+
+      <h2 id="run">Run it, or submit results</h2>
+      <p>The benchmark is in the repository's <a href="https://github.com/robert-mcdermott/cytoweave/tree/main/benchmark"><code>benchmark</code></a> folder. With Go, Chrome and Claude Code installed and logged in:</p>
+      <pre><code>node benchmark/run.mjs --agent claude-code --model sonnet --repeat 3</code></pre>
+      <p>writes a results file to <code>benchmark/results/</code>. Other agents that speak MCP can be added as adapters in <code>benchmark/harness.mjs</code>. To submit results, open a pull request with the results file: it records the agent's program and model, the CytoWeave commit, every run's score, tool calls, tokens and time, and the reply.</p>
+    </main>
+
+    <aside class="toc" aria-label="On this page">
+      <h4>On this page</h4>
+      <ul></ul>
+    </aside>
+  </div>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-about">
+          <a class="brand" href="./"><img src="assets/img/logo.svg" alt="" width="30" height="30" /><span>Cyto<b>Weave</b></span></a>
+          <p>A flow cytometry analysis workbench for conventional, spectral and mass cytometry. Free and open source under the Apache License 2.0.</p>
+        </div>
+        <div>
+          <h4>Product</h4>
+          <ul>
+            <li><a href="./#features">Features</a></li>
+            <li><a href="install.html">Install</a></li>
+            <li><a href="science.html">Science</a></li>
+            <li><a href="https://github.com/robert-mcdermott/cytoweave/blob/main/CHANGELOG.md">Changelog</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Documentation</h4>
+          <ul>
+            <li><a href="docs/getting-started.html">Getting started</a></li>
+            <li><a href="docs/gating.html">Gating</a></li>
+            <li><a href="docs/agents.html">AI agents</a></li>
+            <li><a href="docs/scripting.html">Scripting</a></li>
+            <li><a href="docs/troubleshooting.html">Troubleshooting</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Project</h4>
+          <ul>
+            <li><a href="https://github.com/robert-mcdermott/cytoweave">GitHub</a></li>
+            <li><a href="https://github.com/robert-mcdermott/cytoweave/releases">Releases</a></li>
+            <li><a href="https://github.com/robert-mcdermott/cytoweave/issues">Issues</a></li>
+            <li><a href="science.html#cite">Cite CytoWeave</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">CytoWeave is licensed under the Apache License 2.0. It is research software, not a medical device. The example experiments are simulated; see <a href="science.html#credits">credits and trademarks</a>.</div>
+    </div>
+  </footer>
+</body>
+</html>

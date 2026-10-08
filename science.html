@@ -29,6 +29,7 @@
         <a href="docs/">Documentation</a>
         <a href="install.html">Install</a>
         <a href="science.html" aria-current="page">Science</a>
+        <a href="benchmark.html">Agent benchmark</a>
       </nav>
       <div class="header-actions">
         <a class="icon-button" href="https://github.com/robert-mcdermott/cytoweave" aria-label="CytoWeave on GitHub">
@@ -86,6 +87,10 @@
             <tr><td><strong>Events in and out</strong></td><td>Concatenated, downsampled and per-sample FCS files against their sources; CSV files from CytoWeave, FlowJo and European locales, and a damaged one; AnnData files read by anndata 0.10 and 0.13, h5py, pyfive, fcsparser and FlowIO</td><td>Every event its source's, every population counted alike per SampleID; seeded downsampling exact and uniform; CSV values back exactly, every fault reported; X, obs and maps read exactly by every reader</td></tr>
             <tr><td><strong>Batch reports and spreadsheets</strong></td><td>A figure repeated by sample and by subject, every number recomputed; the PDF, PowerPoint, Excel and Prism files read by openpyxl, python-pptx, pypdf and R's pzfx</td><td>Every plot where the rules put it; all 171 numbers equal to their table column or gate; no untraced number in the PDF; workbook, deck and Prism values exact in every reader</td></tr>
             <tr><td><strong>Headless runs</strong></td><td>The PBMC example's 12 samples and a template run twice with <code>cytoweave run</code>, and analyzed in the window with its own buttons; Node on the same files</td><td>The same outputs both times and as the window exports them (CSV bytes, workbook values, report text, workspace, methods); all 228 counts equal to Node's</td></tr>
+            <tr><td><strong>Virtual FMO controls</strong></td><td>Simulated LSRFortessa- and Aurora-like panels with FMO tubes of the same donor's cells (15 markers); public FMO controls of a BD LSRFortessa panel (7 tubes, Zenodo 22808501) and a 25-color Cytek Aurora panel (4 tubes, Zenodo 20644656), each predicting its own channel</td><td>Simulated: within 1% of the display axis on average (worst 2.4%), against 12–13% for the unstained control; real: 5.8% (worst 11.6%) and 5.5% (worst 14.8%) of the axis. Where an FMO leans against another channel (a compensation error), it shows what spread does not predict</td></tr>
+            <tr><td><strong>Panel optimizer</strong></td><td>Simulated 8-marker T-cell panels on 10 dyes (an Aurora, unmixed, and an LSRFortessa, compensated): every assignment stainable, each marker's resolution measured on cells with its co-expressed markers; random small panels solved exhaustively; a 25-color design on 29 dyes</td><td>Predicted against measured cost: r = 0.996 and 0.999 (log) across 26 assignments; the optimum measured best, 4× and 29× less noisy than dimmest-on-brightest; local search found every exhaustive optimum; a 25-color design in about 8 s, two seeds equal to a search 4× longer</td></tr>
+            <tr><td><strong>Review reports</strong></td><td>Every example's report with every sample's gates drawn, a figure, a table and a saved comparison; a run's report opened in Chrome</td><td>All 2,892 counts, table cells and plot percentages equal to the window's own and shown as it shows them; nothing requested beyond the file; no WCAG 2.1 AA violations in either theme</td></tr>
+            <tr><td><strong>Reproducibility certificates</strong></td><td>Every example certified with its gates, a table, k-means clusters stored as a channel and a saved comparison, read back and verified; then six kinds of tampering; certificates made in Chrome verified in Node and the reverse</td><td>All 2,413 numbers identical, bit for bit; the same archive byte for byte when made twice; every change caught (a bit of a file or stored channel, a gate moved 1%, a log entry altered or removed, an edited number); across engines, confidence limits equal to 12 digits</td></tr>
             <tr><td><strong>Rare events</strong></td><td>R's exact intervals; simulated blanks and low-level samples</td><td>Intervals equal to poisson.test and binom.test, covering ≥ 95%; EP17 limits flagging 4% of new blanks and detecting 98% at the limit of detection</td></tr>
             <tr><td><strong>Robustness to analysis choices</strong></td><td>Comparisons with known answers: a real effect, a gain shift, clogs and a stale matrix in one group, and no effect</td><td>The real effect holds in 64 of 64 analyses; each artifact called fragile or traced to the choice behind it; under no effect, half of the chance findings are flagged</td></tr>
             <tr><td><strong>Accessibility</strong></td><td>Every text color on every surface, the palettes in simulated color-vision deficiencies, and axe-core in 86 pages</td><td>Contrast ≥ 4.5:1 everywhere in both themes; friendly palette ≥ 11 apart (CIEDE2000) in every kind of vision; no axe-core violations</td></tr>
@@ -103,7 +108,7 @@
             <tr><td><strong>BD FACSDiva</strong></td><td>Its spillover matrix from 15 real single-stain controls</td><td>Every entry within 0.015 (median method), with no manual gating</td></tr>
             <tr><td><strong>Autogating, against experts</strong></td><td>An expert's per-donor gates in 4 FlowJo workspaces of a cytokine study (48 wells)</td><td>Agreement with the expert unchanged (F1 0.9876 → 0.9877), no adjustment lowering it; wells gated differently sent to review 3× as often as the others</td></tr>
             <tr><td><strong>flowQB</strong></td><td>flowQB on its own LSR II data: an LED series, 8-peak and 6-peak beads</td><td>The same peaks, Q, B and standard errors in all 36 detectors (within 6e-9)</td></tr>
-            <tr><td><strong>Predicted spread, real controls</strong></td><td>A BD LSRFortessa's 15 bead controls, each predicted from the other 14</td><td>Within 2× of the observed spread for 79% of well-measured pairs (median ×1.32)</td></tr>
+            <tr><td><strong>Predicted spread, real controls</strong></td><td>A BD LSRFortessa's 15 bead controls, each predicted from the other 14; a Cytek Aurora's 25 bead references (Zenodo 20644656), a 12-dye panel predicted from the noise of the other 12 dyes' controls</td><td>Within 2× of the observed spread for 79% of well-measured pairs (median ×1.32); on the Aurora, 65% and 73% each way (r = 0.76 and 0.80; median ×1.6)</td></tr>
             <tr><td><strong>Robustness, real study</strong></td><td>4 donors of an intracellular cytokine study</td><td>Every PMA comparison holds in all analyses; one small IL-4 peptide response fragile</td></tr>
             <tr><td><strong>Cell Ontology</strong></td><td>40 populations experts named in 3 public workspaces</td><td>Every top suggestion a term the name denotes; the same with every gate renamed</td></tr>
           </tbody>
@@ -158,7 +163,7 @@
       <div class="code"><span class="code-label">bibtex</span><pre><code>@software{cytoweave,
   author  = {McDermott, Robert},
   title   = {CytoWeave: a flow cytometry analysis workbench},
-  version = {0.7.0},
+  version = {0.8.0},
   url     = {https://github.com/robert-mcdermott/cytoweave},
   license = {Apache-2.0},
   year    = {2026}

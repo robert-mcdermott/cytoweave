@@ -29,6 +29,7 @@
         <a href="../docs/" aria-current="page">Documentation</a>
         <a href="../install.html">Install</a>
         <a href="../science.html">Science</a>
+        <a href="../benchmark.html">Agent benchmark</a>
       </nav>
       <div class="header-actions">
         <a class="icon-button" href="https://github.com/robert-mcdermott/cytoweave" aria-label="CytoWeave on GitHub">
@@ -53,6 +54,7 @@
         <ul>
           <li><a href="./">Overview</a></li>
           <li><a href="getting-started.html">Getting started</a></li>
+          <li><a href="teaching.html">Exercises</a></li>
           <li><a href="opening-data.html">Opening data</a></li>
         </ul>
         <h4>Analysis</h4>
@@ -70,7 +72,7 @@
           <li><a href="statistics.html" aria-current="page">Tables and comparisons</a></li>
           <li><a href="assays.html">Cell cycle, proliferation, kinetics and index sorting</a></li>
           <li><a href="plates.html">Plates, dose-response and bead assays</a></li>
-          <li><a href="figures.html">Figures, methods and checkpoints</a></li>
+          <li><a href="figures.html">Figures, methods and certificates</a></li>
         </ul>
         <h4>Share and automate</h4>
         <ul>
@@ -134,6 +136,7 @@
         <li>the <strong>dilution factor</strong>, the same for every sample or read from a sample annotation (<code>4</code> or <code>1:4</code>).</li>
       </ul>
       <p>Cells per µL = cell events ÷ bead events × beads in the tube ÷ µL of sample × dilution (Brando et al. 2000). Its precision is set by both counts: the CV is about √(1/cell events + 1/bead events), so 1,000 beads already limit it to 3%. Instruments that record the volume they acquired (<code>$VOL</code>) give <strong>Concentration (/µL)</strong> without beads, which takes the same dilution factor.</p>
+      <p>The absolute-count example is whole blood from three patients in tubes of 50,000 counting beads, 50 µL of blood each; its suggested gates include the beads and the CD4 T cells, and every patient's true count is known.</p>
 
       <h2 id="control">Comparing with a control sample</h2>
       <figure>

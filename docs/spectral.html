@@ -29,6 +29,7 @@
         <a href="../docs/" aria-current="page">Documentation</a>
         <a href="../install.html">Install</a>
         <a href="../science.html">Science</a>
+        <a href="../benchmark.html">Agent benchmark</a>
       </nav>
       <div class="header-actions">
         <a class="icon-button" href="https://github.com/robert-mcdermott/cytoweave" aria-label="CytoWeave on GitHub">
@@ -53,6 +54,7 @@
         <ul>
           <li><a href="./">Overview</a></li>
           <li><a href="getting-started.html">Getting started</a></li>
+          <li><a href="teaching.html">Exercises</a></li>
           <li><a href="opening-data.html">Opening data</a></li>
         </ul>
         <h4>Analysis</h4>
@@ -70,7 +72,7 @@
           <li><a href="statistics.html">Tables and comparisons</a></li>
           <li><a href="assays.html">Cell cycle, proliferation, kinetics and index sorting</a></li>
           <li><a href="plates.html">Plates, dose-response and bead assays</a></li>
-          <li><a href="figures.html">Figures, methods and checkpoints</a></li>
+          <li><a href="figures.html">Figures, methods and certificates</a></li>
         </ul>
         <h4>Share and automate</h4>
         <ul>
@@ -101,7 +103,7 @@
       <p>The <strong>Workflow</strong> list on the left tracks five steps and shows what each one found.</p>
       <ol>
         <li><strong>Mark controls.</strong> Click <strong>Assign</strong> under <strong>Reference controls</strong> to choose which files are single-stain references and the unstained control, and name each reference's fluorochrome and marker. The fluorochrome names the unmixed channel; the marker labels it.</li>
-        <li><strong>Reference spectra.</strong> Click <strong>Gate all controls</strong>. Each control's positive events (the brightest above the negative on its peak detector) and negative events are found without scatter gates, and its spectrum is the difference of their medians, normalized to a peak of 1. The negative is internal (unstained events in the same tube) or the unstained control. Each control's <strong>⋯</strong> menu sets its peak detector, gates it again or excludes it from the panel.</li>
+        <li><strong>Reference spectra.</strong> Click <strong>Gate all controls</strong>. Each control's positive events (the brightest above the negative on its peak detector, leaving out any event off scale in any detector, whose spectrum is clipped) and negative events are found without scatter gates, and its spectrum is the difference of their medians, normalized to a peak of 1. The negative is internal (unstained events in the same tube) or the unstained control. Each control's <strong>⋯</strong> menu sets its peak detector, gates it again or excludes it from the panel.</li>
         <li><strong>Autofluorescence.</strong> Click <strong>Extract signatures</strong> to find one or more autofluorescence signatures in the unstained control, for example dim lymphoid and bright myeloid autofluorescence.</li>
         <li><strong>Check the panel</strong> in the <strong>Panel quality</strong> tab (below).</li>
         <li><strong>Unmix.</strong> Choose the samples, the method and how to treat autofluorescence, then click <strong>Unmix</strong>. Each dye becomes a "(unmixed)" channel you can gate like any other, and the residual of every event becomes a channel too.</li>
@@ -117,7 +119,7 @@
       <ul>
         <li><strong>Complexity index:</strong> the condition number of the reference matrix (Cytek's definition), how much unmixing can amplify measurement noise. It grows as spectra overlap, and autofluorescence signatures added to the model raise it further.</li>
         <li><strong>Similarity matrix:</strong> the cosine similarity of every pair of spectra. Pairs at 0.90 or above are hard to separate; avoid putting co-expressed markers on them.</li>
-        <li><strong>Spectral spreading matrix:</strong> computed by unmixing the controls; how much each dye widens the negatives of every other.</li>
+        <li><strong>Spectral spreading matrix:</strong> computed by unmixing the controls; how much each dye widens the negatives of every other. The noise fitted to it is kept, with the spectra, for <a href="gating.html#virtual-fmo">virtual FMO controls</a> of the unmixed channels.</li>
       </ul>
 
       <h2 id="methods">Unmixing methods</h2>
@@ -159,6 +161,7 @@
         <li><strong>A cell control carrying autofluorescence.</strong> When a marker is on autofluorescent cells (CD11b on myeloid cells, Siglec F on eosinophils, F4/80 on macrophages), the control's positives carry autofluorescence its negatives do not, and the reference holds part of it. The dimmer positives then depart from the brighter ones in the shape of the unstained control's autofluorescence. A bead control, or negatives gated on the same cells, avoids it.</li>
         <li><strong>Autofluorescence the unstained control does not describe.</strong> The sample's autofluorescent cells fitted worse than the unstained control's own (fixation changes autofluorescence), light that grows with each event's autofluorescence, or cells of the sample's scatter that the unstained control lacks (an unstained control of lymphocytes for samples with monocytes). The fix adds signatures extracted from the sample's own autofluorescence-dominated cells; an unstained control prepared as the samples were is better.</li>
       </ul>
+      <p>To see it at work, open the <strong>Spectral panel, day 2</strong> example: the 25-color panel acquired again with two faulty reference controls, which the doctor names on each donor.</p>
       <p>A fix changes the reference library in one undoable step: a library spectrum or the spectrum the sample shows joins the panel (with the control set aside), or autofluorescence signatures are added, each event choosing its own. Diagnose again to check it, then unmix the samples again. The doctor fits ordinary least squares whatever unmixing method you chose, since the faults it looks for are the references'. <strong>What was checked</strong> lists every check and its numbers, including the dyes too dim in this sample to compare with their references.</p>
       <p>In the validation, six faults planted by the simulator are each named first on two simulated experiments, clean samples show nothing, and each fix brings the unmixed values closer to the truth (beside a PE-Cy7 degraded in its control, PE's correlation with the truth rises from 0.04 to 0.84). On the AutoSpectral example's real controls, the cell controls of CD11b, Siglec F and F4/80 are named as carrying autofluorescence, and none of the lymphoid-marker or bead controls; its spleen fixed in PFA is named as autofluorescence the fresh unstained control does not describe, and the same spleen unfixed is not.</p>
 
@@ -173,6 +176,7 @@
         <li>Each control is compared with the library's latest spectrum of its fluorochrome, detector by detector with both scaled to a peak of 1. A difference above 0.03 anywhere marks it <strong>changed</strong>, in the table and in the list of controls; click it to overlay the two spectra. Independent controls of one instrument usually agree within about 0.01; a PE-Cy7 that has lost 5% of its emission to PE differs by 0.05 at the yellow-green laser's first detector. Unmixing such a dye with its old spectrum moves its PE emission into PE: in the validation, PE's correlation with the truth falls from 0.68 to 0.48.</li>
         <li><strong>Add to the panel</strong> brings in the library spectrum of a fluorochrome you have no control for. It is unmixed like any other reference (in the validation, as accurately as with its own control) but has no control events, so it is left out of the spreading matrix. The methods paragraph says which spectra came from the library.</li>
       </ul>
+      <p>To try it, open the 25-color spectral example, save its references to the library, then open <strong>Spectral panel, day 2</strong>: the same cytometer's new controls, two of which the library marks changed.</p>
       <p>A library spectrum is only valid for the same instrument, detectors and settings: CytoWeave matches entries by detector names and keeps one library per instrument.</p>
 
       <h2 id="design">Panel design: predicted spread</h2>
@@ -197,8 +201,29 @@
       <ul>
         <li><strong>Real controls.</strong> On the 15 bead controls of a BD LSRFortessa, each control's spread predicted from the other 14 was within 2× of the observed value for 79% of the pairs measured to 4 standard errors. With photon noise alone, 67%.</li>
         <li><strong>Simulated controls.</strong> On the simulated 25-color panel, 98% were within 2×. A 15-dye panel predicted with the noise of the 25-dye controls matched its own unmixed controls within 2× for every pair.</li>
+        <li><strong>A real spectral instrument.</strong> On the 25 bead reference controls of a public 25-color panel run on a 5-laser Cytek Aurora, a 12-dye panel's spread predicted with noise fitted to the other 12 dyes' controls was within 2× for 65% and 73% of the pairs (each half predicted from the other; correlation 0.76 and 0.80). Predictions run low by a median factor of about 1.6. One control, a PE-Cy7 whose dim and bright positives have different spectra, is left out: its spread is a degraded tandem's, not noise.</li>
       </ul>
-      <p>No public spectral data set with single-stain reference controls was found to repeat the real-data check on a spectral instrument.</p>
+
+      <h2 id="optimize">Optimizing the assignment</h2>
+      <figure>
+        <div class="shot"><img class="shot-dark" src="../assets/img/panel-optimizer-dark.webp" width="2000" height="1250" loading="lazy" alt="The design for the example's 25 markers in the Panel design tab: each marker's dye, predicted stain index, what limits it, the dye and stain index of this experiment's panel and the next best dye, above the pairs of dyes on the same cells that can pass light" /><img class="shot-light" src="../assets/img/panel-optimizer-light.webp" width="2000" height="1250" loading="lazy" alt="The design for the example's 25 markers in the Panel design tab: each marker's dye, predicted stain index, what limits it, the dye and stain index of this experiment's panel and the next best dye, above the pairs of dyes on the same cells that can pass light" /></div>
+        <figcaption>The example's 25 markers reassigned among its 25 dyes: dim PD-1 moves from BV750 (predicted stain index 0.1) to BV605 (1.5), CCR7 from BV421 (0.7) to PE (1.6).</figcaption>
+      </figure>
+      <p><strong>Optimize the assignment</strong>, a view of the Panel design tab, chooses the dye for each marker of a panel:</p>
+      <ol>
+        <li>List the markers. <strong>This experiment's markers</strong> fills the list from the controls. Give each one its expression: <strong>high</strong> (about 10⁵ molecules per cell, such as CD3, CD4, CD8 or CD45), <strong>medium</strong> (10⁴) or <strong>low</strong> (10³, such as CD25 on conventional T cells, PD-1 or CCR7), or a number.</li>
+        <li>In each group, tick the markers found on the same cells: T cells, NK cells, B cells, myeloid cells. Spread matters only between markers on the same cells. With a single group of every marker, everything counts as co-expressed, the most cautious assumption.</li>
+        <li>Optionally fix a marker's dye (a viability dye, a reagent sold in one color only). Under <strong>Dyes</strong>, leave dyes out or set their brightness.</li>
+        <li>Click <strong>Optimize</strong>.</li>
+      </ol>
+      <p>For every marker, the optimizer predicts its stain index on the cells of each of its groups. The signal is the marker's expression times its dye's relative brightness, as vendors' brightness charts rank dyes. The noise is the unstained control's background in the dye's channel, carried through the unmixing, plus the spread every other marker of the group adds at its own brightness: photon noise and laser fluctuations, as above. It minimizes the sum over markers of noise squared over signal squared, so dim markers co-expressed with bright ones count most. A dim marker wants a bright dye in a channel little else spreads into. A bright marker is better on a dye that spreads little into its neighbors' channels.</p>
+      <p>Which dyes are in the panel changes the unmixing, so each set of dyes tried is unmixed afresh. Similar spectra amplify noise, so a set with two similar dyes costs more. Up to 50,000 assignments, every one is tried. Beyond that, a seeded local search swaps two markers' dyes or gives a marker an unused dye, from several starts.</p>
+      <p>The design lists each marker's dye and predicted stain index, what limits it (the background, or the co-expressed marker that spreads most into it), and the next best dye: its stain index for that marker, and how much the panel's noise would grow. With an experiment open, the design is compared with the dyes the experiment used. Candidate dyes are this experiment's controls and the instrument's library spectra, which must come from the same instrument and settings.</p>
+      <p>Two kinds of dye pairs on the same cells are flagged. A <strong>tandem and the dye it is built on</strong> (PE-Cy7 and PE, BV605 and BV421): a tandem that breaks down with light, fixation or time emits as its donor, into the donor's channel. A <strong>donor whose emission falls where another dye absorbs</strong> (FITC and PE): on the same molecule or complex, within about 10 nm, the acceptor can take the donor's energy.</p>
+      <p><strong>Show in the design view</strong> opens the design's dyes in the predicted spreading matrix. <strong>Keep</strong> stores the design in the instrument's spectral library. Once the panel has been run and its spreading matrix computed, <strong>Kept designs</strong> checks the spread each design predicted against the run's controls. <strong>CSV</strong> downloads the design. Without files open, <strong>Design a panel from the spectral library</strong> offers the same view on an instrument's library spectra, with the noise and unstained background kept for it. <strong>Keep for</strong> stores both.</p>
+      <p>For a conventional panel, <strong>Optimize the panel…</strong> in the Compensate view's diagnostics does the same with the dyes of a compensation computed from single-stain controls, each read in its own detector.</p>
+      <p>The design is only as good as its inputs. Brightness values are approximate, since they depend on the antibody's degree of labeling and on the lot, and expression levels are yours. It does not predict degraded tandems, a wrong control, steric hindrance between antibodies on the same molecule, or expression that differs from the levels given.</p>
+      <p>How well it works: in simulated panels, each assignment was stained, unmixed or compensated, and every marker's resolution was measured on cells carrying its co-expressed markers. For an 8-marker T-cell panel on 10 dyes, the predicted cost matched the measured one with correlation 0.996 (spectral) and 0.999 (conventional) across 26 assignments. The optimum measured best of them, 4× and 29× less noisy than putting the dimmest markers on the brightest dyes. Local search found the exhaustive optimum of every small panel tried. A 25-color design takes about 8 seconds and two seeds land on the same optimum as a search four times longer.</p>
 
       <h2 id="next">Where to go next</h2>
       <div class="card-grid">

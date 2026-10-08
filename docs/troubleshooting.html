@@ -4,11 +4,11 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Troubleshooting · CytoWeave</title>
-  <meta name="description" content="Solutions for common CytoWeave problems: the program or window not starting, ports, unsigned downloads, files that will not open, saving, memory with very large samples, and AI agents that cannot connect." />
+  <meta name="description" content="Solutions for common CytoWeave problems: the program or window not starting, ports, unsigned downloads, files that will not open, saving, memory with very large samples, AI agents that cannot connect, headless runs and certificates." />
   <link rel="canonical" href="https://robert-mcdermott.github.io/cytoweave/docs/troubleshooting.html" />
   <meta property="og:type" content="website" />
   <meta property="og:title" content="Troubleshooting" />
-  <meta property="og:description" content="Solutions for common CytoWeave problems: the program or window not starting, ports, unsigned downloads, files that will not open, saving, memory with very large samples, and AI agents that cannot connect." />
+  <meta property="og:description" content="Solutions for common CytoWeave problems: the program or window not starting, ports, unsigned downloads, files that will not open, saving, memory with very large samples, AI agents that cannot connect, headless runs and certificates." />
   <meta property="og:url" content="https://robert-mcdermott.github.io/cytoweave/docs/troubleshooting.html" />
   <meta property="og:image" content="https://robert-mcdermott.github.io/cytoweave/assets/img/og-image.jpg" />
   <meta name="twitter:card" content="summary_large_image" />
@@ -29,6 +29,7 @@
         <a href="../docs/" aria-current="page">Documentation</a>
         <a href="../install.html">Install</a>
         <a href="../science.html">Science</a>
+        <a href="../benchmark.html">Agent benchmark</a>
       </nav>
       <div class="header-actions">
         <a class="icon-button" href="https://github.com/robert-mcdermott/cytoweave" aria-label="CytoWeave on GitHub">
@@ -53,6 +54,7 @@
         <ul>
           <li><a href="./">Overview</a></li>
           <li><a href="getting-started.html">Getting started</a></li>
+          <li><a href="teaching.html">Exercises</a></li>
           <li><a href="opening-data.html">Opening data</a></li>
         </ul>
         <h4>Analysis</h4>
@@ -70,7 +72,7 @@
           <li><a href="statistics.html">Tables and comparisons</a></li>
           <li><a href="assays.html">Cell cycle, proliferation, kinetics and index sorting</a></li>
           <li><a href="plates.html">Plates, dose-response and bead assays</a></li>
-          <li><a href="figures.html">Figures, methods and checkpoints</a></li>
+          <li><a href="figures.html">Figures, methods and certificates</a></li>
         </ul>
         <h4>Share and automate</h4>
         <ul>
@@ -143,7 +145,7 @@
       <h2 id="agents">AI agents</h2>
       <ul>
         <li><strong>The agent cannot start CytoWeave.</strong> Give the full path to the program in the MCP configuration (<code>~/.local/bin/cytoweave</code>, or <code>%LOCALAPPDATA%\Programs\CytoWeave\cytoweave.exe</code>): agents often start programs without your shell's <code>PATH</code>.</li>
-        <li><strong>Proposals or <code>propose_compensation</code> are missing.</strong> They need CytoWeave 0.2.0 or later (<code>adapt_gate</code> 0.3.0, <code>check_robustness</code> 0.4.0, the QC, unmixing, clustering, figure, folder, export, template, cell-type and titration tools 0.5.0, <code>compare_distributions</code>, <code>rare_events</code>, <code>add_formula_channel</code>, <code>calibrate_beads</code>, <code>export_report</code>, <code>export_events</code> and <code>differential_analysis</code> 0.6.0, <code>diagnose_unmixing</code>, <code>kinetics</code>, the plate tools and <code>export_workspace</code> 0.7.0): check <code>cytoweave --version</code>.</li>
+        <li><strong>Proposals or <code>propose_compensation</code> are missing.</strong> They need CytoWeave 0.2.0 or later (<code>adapt_gate</code> 0.3.0, <code>check_robustness</code> 0.4.0, the QC, unmixing, clustering, figure, folder, export, template, cell-type and titration tools 0.5.0, <code>compare_distributions</code>, <code>rare_events</code>, <code>add_formula_channel</code>, <code>calibrate_beads</code>, <code>export_report</code>, <code>export_events</code> and <code>differential_analysis</code> 0.6.0, <code>diagnose_unmixing</code>, <code>kinetics</code>, the plate tools and <code>export_workspace</code> 0.7.0, <code>export_certificate</code>, <code>verify_certificate</code>, <code>export_review_report</code>, <code>virtual_fmo</code>, <code>design_panel</code> and <code>check_compensation</code> 0.8.0): check <code>cytoweave --version</code>.</li>
         <li><strong>"The CytoWeave page did not answer in time."</strong> Actions run in the window: make sure it is open and not waiting in a dialog.</li>
         <li><strong>A script gets "Opening files needs the X-CytoWeave-Token header".</strong> <code>open_files</code> reads from disk, so scripts need the token CytoWeave printed at startup; see <a href="scripting.html#token">Opening files by path</a>.</li>
         <li><strong>The R or Python client cannot find CytoWeave.</strong> Start CytoWeave with <code>--remote-control</code>: it then writes <code>remote.json</code> to its data folder, where <code>cw_connect()</code> and <code>cytoweave.connect()</code> look. If CytoWeave runs with <code>--data-dir</code>, set <code>CYTOWEAVE_DATA_DIR</code> to that folder, or pass the address and token CytoWeave printed; see <a href="scripting.html#clients">the clients</a>. Use the clients of the CytoWeave version you run (<code>cw_connect()</code> prints it).</li>
@@ -156,6 +158,22 @@
         <li><strong>"Outputs already exist".</strong> A run refuses, before it starts, to replace files in the output folder: give <code>--overwrite</code>, or another <code>--output</code>.</li>
         <li><strong>The run exits with status 1.</strong> A step failed. <code>run.json</code> in the output folder has each step's message. If the files could not be opened or the template could not be applied, the run stopped there; otherwise the other steps still ran.</li>
         <li><strong>Populations are missing from the results.</strong> The template's channels are matched by marker: the <code>apply_template</code> step in <code>run.json</code> lists how each channel matched and which populations could not be applied, with the reason. Check that the files' markers are named as the template's are.</li>
+      </ul>
+
+      <h2 id="virtual-fmo">Virtual FMO controls</h2>
+      <ul>
+        <li><strong>"Needs the spread model".</strong> The noise is fitted when a compensation is computed from the single-stain controls, or the spreading matrix in Spectral → Panel quality; a matrix from the files or typed in has none. Compute it from the controls (CytoWeave 0.8.0 or later keeps it), and assign it to the samples.</li>
+        <li><strong>"Needs an unstained control".</strong> Mark a sample's role as unstained; for spectral data, the Spectral view's unstained control is used.</li>
+        <li><strong>The real FMO's line is far above the virtual one.</strong> The FMO control shows something besides spread: a compensation value that is off (its negative leans against another channel in a pair plot), a reference spectrum that does not match the dye on cells, or nonspecific binding. Check the compensation, or the unmixing with the Spectral view's Diagnose tab.</li>
+      </ul>
+
+      <h2 id="certificates">Certificates</h2>
+      <ul>
+        <li><strong>"Some numbers cannot be computed".</strong> Making a certificate reads every sample's file and every channel the analysis stored. Open the missing files again (they are named), or remove the samples, then make it again.</li>
+        <li><strong>"The saved comparison … no longer matches the analysis".</strong> A gate or an annotation changed after the comparison was saved. The certificate records the numbers the analysis gives now; save the comparison again in Compare so that the Report view cites the same numbers.</li>
+        <li><strong>Incomplete.</strong> The certificate was made without its FCS files, or some are missing. Supply them (<strong>Supply the FCS files…</strong>, or <code>--data</code> with <code>cytoweave verify</code>); they are recognized by their checksums, so a renamed file is found, but a file that was changed in any way is not.</li>
+        <li><strong>Numbers "equal to 12 significant digits".</strong> The certificate was made in another browser version or in Node.js, whose logarithms and exponentials can differ in the last bit; confidence limits and similar numbers then differ in their last digits. They are confirmed; the result names both engines.</li>
+        <li><strong>Not confirmed.</strong> The result names what differs: a file whose checksum changed (the data are not the ones certified), an edited <code>certificate.json</code> (its fingerprint does not match), a change log altered at an entry, or numbers that differ, with the certified value and the value now. Verifying with another CytoWeave version can also change numbers; the certificate names the version that made it, and every release is on GitHub.</li>
       </ul>
 
       <h2 id="help">Getting help</h2>

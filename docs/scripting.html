@@ -4,11 +4,11 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Scripting and command line · CytoWeave</title>
-  <meta name="description" content="CytoWeave's command-line options, headless runs of a template on a folder of FCS files (cytoweave run) for nightly runs, pipelines and CI, and remote control from R, Python, Jupyter or shell scripts with the R and Python clients or plain HTTP: open files, gate, compute statistics tables, test groups and write methods from a program, with the changes shown as proposals in the window." />
+  <meta name="description" content="CytoWeave's command-line options, headless runs of a template on a folder of FCS files (cytoweave run) for nightly runs, pipelines and CI, verifying reproducibility certificates (cytoweave verify), and remote control from R, Python, Jupyter or shell scripts with the R and Python clients or plain HTTP: open files, gate, compute statistics tables, test groups and write methods from a program, with the changes shown as proposals in the window." />
   <link rel="canonical" href="https://robert-mcdermott.github.io/cytoweave/docs/scripting.html" />
   <meta property="og:type" content="website" />
   <meta property="og:title" content="Scripting and command line" />
-  <meta property="og:description" content="CytoWeave's command-line options, headless runs of a template on a folder of FCS files (cytoweave run) for nightly runs, pipelines and CI, and remote control from R, Python, Jupyter or shell scripts with the R and Python clients or plain HTTP: open files, gate, compute statistics tables, test groups and write methods from a program, with the changes shown as proposals in the window." />
+  <meta property="og:description" content="CytoWeave's command-line options, headless runs of a template on a folder of FCS files (cytoweave run) for nightly runs, pipelines and CI, verifying reproducibility certificates (cytoweave verify), and remote control from R, Python, Jupyter or shell scripts with the R and Python clients or plain HTTP: open files, gate, compute statistics tables, test groups and write methods from a program, with the changes shown as proposals in the window." />
   <meta property="og:url" content="https://robert-mcdermott.github.io/cytoweave/docs/scripting.html" />
   <meta property="og:image" content="https://robert-mcdermott.github.io/cytoweave/assets/img/og-image.jpg" />
   <meta name="twitter:card" content="summary_large_image" />
@@ -29,6 +29,7 @@
         <a href="../docs/" aria-current="page">Documentation</a>
         <a href="../install.html">Install</a>
         <a href="../science.html">Science</a>
+        <a href="../benchmark.html">Agent benchmark</a>
       </nav>
       <div class="header-actions">
         <a class="icon-button" href="https://github.com/robert-mcdermott/cytoweave" aria-label="CytoWeave on GitHub">
@@ -53,6 +54,7 @@
         <ul>
           <li><a href="./">Overview</a></li>
           <li><a href="getting-started.html">Getting started</a></li>
+          <li><a href="teaching.html">Exercises</a></li>
           <li><a href="opening-data.html">Opening data</a></li>
         </ul>
         <h4>Analysis</h4>
@@ -70,7 +72,7 @@
           <li><a href="statistics.html">Tables and comparisons</a></li>
           <li><a href="assays.html">Cell cycle, proliferation, kinetics and index sorting</a></li>
           <li><a href="plates.html">Plates, dose-response and bead assays</a></li>
-          <li><a href="figures.html">Figures, methods and checkpoints</a></li>
+          <li><a href="figures.html">Figures, methods and certificates</a></li>
         </ul>
         <h4>Share and automate</h4>
         <ul>
@@ -94,7 +96,8 @@
       <h2 id="command-line">Command line</h2>
       <div class="code" data-no-copy><span class="code-label">usage</span><pre><code>cytoweave [flags] [FCS files, folders, workspaces (.cwz), Gating-ML or FlowJo .wsp files...]
 cytoweave mcp [flags]
-cytoweave run [flags] [FCS files or folders...]</code></pre></div>
+cytoweave run [flags] [FCS files or folders...]
+cytoweave verify [flags] certificate.acs</code></pre></div>
       <div class="table-wrap">
         <table>
           <thead><tr><th>Flag</th><th>Default</th><th>Effect</th></tr></thead>
@@ -148,6 +151,8 @@ cytoweave run [flags] [FCS files or folders...]</code></pre></div>
             <tr><td><code>--report</code></td><td><code>pdf</code></td><td><code>pdf</code>, <code>pptx</code> or <code>none</code></td></tr>
             <tr><td><code>--report-by</code></td><td>the figure's</td><td><code>sample</code>, or an annotation such as <code>subject</code></td></tr>
             <tr><td><code>--flowjo</code></td><td></td><td>Also write a FlowJo workspace (<code>workspace.wsp</code>)</td></tr>
+            <tr><td><code>--review</code></td><td></td><td>Also write a <a href="figures.html#review">review report</a> (<code>review.html</code>): the analysis as one HTML file, every number traced, for a PI or reviewer</td></tr>
+            <tr><td><code>--certificate</code></td><td></td><td>Also write a <a href="figures.html#certificate">reproducibility certificate</a> (<code>certificate.acs</code>) of the analysis with its files, which <code>cytoweave verify</code> checks</td></tr>
             <tr><td><code>--steps</code></td><td></td><td>Run the steps of a JSON file instead (below)</td></tr>
             <tr><td><code>--overwrite</code></td><td></td><td>Replace outputs already in the folder (otherwise the run refuses before it starts)</td></tr>
             <tr><td><code>--chrome</code></td><td><code>CHROME</code>, else one installed</td><td>The browser to run in</td></tr>
@@ -182,6 +187,33 @@ cytoweave run [flags] [FCS files or folders...]</code></pre></div>
 ]</code></pre></div>
       <div class="code"><pre><code><span class="prompt">$ </span>cytoweave run --steps steps.json --output results/ plate-12/</code></pre></div>
       <p>A run gives the same results as the same analysis done in the window. The validation checks this on the PBMC example, comparing each output with what the window's own buttons export and every count with an independent computation (<a href="../science.html#validation">Validation</a>).</p>
+
+      <h2 id="verify">Verifying certificates</h2>
+      <p><code>cytoweave verify</code> verifies a <a href="figures.html#certificate">reproducibility certificate</a> without a window, as a run does: it checks every file's SHA-256, the workspace, the change log's chain and the certificate's fingerprint, computes every number again from the files and compares them.</p>
+      <div class="code"><pre><code><span class="prompt">$ </span>cytoweave verify analysis.certificate.acs
+CytoWeave 0.8.0: verifying analysis.certificate.acs in Google Chrome
+Confirmed: all 468 numbers of "Panel B" were computed again from the 12 files and are identical. Fingerprint c1a6-4ec2-1429-735a.
+Files: 12 of 12 match their SHA-256. Numbers: 468 identical of 468 (1.2 s).</code></pre></div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Flag</th><th>Default</th><th>Effect</th></tr></thead>
+          <tbody>
+            <tr><td><code>--data</code></td><td></td><td>A folder (or an FCS file) with the data, for a certificate made without it; may be repeated. Files are recognized by their checksums, whatever their names.</td></tr>
+            <tr><td><code>--report</code></td><td></td><td>Also write what was found as JSON: the verdict, the files, the change log, the numbers checked and the first that differ</td></tr>
+            <tr><td><code>--overwrite</code></td><td></td><td>Replace the report file if it exists</td></tr>
+            <tr><td><code>--chrome</code></td><td><code>CHROME</code>, else one installed</td><td>The browser to verify in</td></tr>
+            <tr><td><code>--timeout</code></td><td><code>2h</code></td><td>Stop a verification that takes longer</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>The exit status is:</p>
+      <ul>
+        <li><strong>0</strong> when the certificate is confirmed;</li>
+        <li><strong>1</strong> when it is not: a file, the workspace, <code>certificate.json</code> or the change log changed, or numbers differ;</li>
+        <li><strong>2</strong> for a mistake on the command line;</li>
+        <li><strong>3</strong> when it is incomplete: files are missing (give <code>--data</code>).</li>
+      </ul>
+      <p>A run makes a certificate with <code>--certificate</code>, so a pipeline can verify its own results, for example in CI, or a core can certify each night's analysis. Agents and scripts use <code>export_certificate</code> and <code>verify_certificate</code>.</p>
 
       <h2 id="remote">Remote control from your programs</h2>
       <p><code>cytoweave --remote-control</code> accepts the actions of the <a href="agents.html#tools">MCP tools</a> from programs on this computer. The window must be open: it performs each action with the same code as the user interface, so you watch the script work. A script's changes are proposals too, shown in the window under the script's name, for you to accept or reject. Actions reach the window one at a time.</p>

@@ -29,6 +29,7 @@
         <a href="../docs/" aria-current="page">Documentation</a>
         <a href="../install.html">Install</a>
         <a href="../science.html">Science</a>
+        <a href="../benchmark.html">Agent benchmark</a>
       </nav>
       <div class="header-actions">
         <a class="icon-button" href="https://github.com/robert-mcdermott/cytoweave" aria-label="CytoWeave on GitHub">
@@ -53,6 +54,7 @@
         <ul>
           <li><a href="./">Overview</a></li>
           <li><a href="getting-started.html">Getting started</a></li>
+          <li><a href="teaching.html">Exercises</a></li>
           <li><a href="opening-data.html">Opening data</a></li>
         </ul>
         <h4>Analysis</h4>
@@ -70,7 +72,7 @@
           <li><a href="statistics.html">Tables and comparisons</a></li>
           <li><a href="assays.html">Cell cycle, proliferation, kinetics and index sorting</a></li>
           <li><a href="plates.html">Plates, dose-response and bead assays</a></li>
-          <li><a href="figures.html">Figures, methods and checkpoints</a></li>
+          <li><a href="figures.html">Figures, methods and certificates</a></li>
         </ul>
         <h4>Share and automate</h4>
         <ul>
@@ -184,6 +186,7 @@
         <li>Click <strong>Calibrate</strong>.</li>
       </ol>
       <p>CytoWeave follows FlowCal (Castillo-Hair et al. 2016). It finds the levels by clustering, takes each level's median and leaves out the levels too close to either end of the channel's range (on the logicle scale, a level's mean ± 2.5 SD must stay within 1.5–98.5% of the range: the brightest level often saturates). It then fits the bead model m·ln(x) + b = ln(MEF + MEF<sub>beads</sub>) in log space, where MEF<sub>beads</sub> is the beads' own fluorescence. The standard curve, MEF = e<sup>b</sup> × x<sup>m</sup>, converts any value without the beads' fluorescence (cells have their own). The slope m is close to 1 for a linear detector; CytoWeave warns when it is not.</p>
+      <p>When the beads came with their datasheet's values, as the PBMC example's rainbow beads do, the table is filled in with them; check the lot against your own datasheet.</p>
       <p><strong>Apply to</strong> lists the samples acquired with the same settings as the beads (the same cytometer and, where the files record them, the same voltages), all ticked; <strong>Add the calibrated channels</strong> gives each of them a new channel, <strong>FITC-A MEFL</strong> beside FITC-A, that you plot, gate and put in tables like any other. Calibrating again with other beads (another day, another voltage) gives those samples their own curve under the same channel name. The methods describe each calibration.</p>
       <p>On FlowCal's own example (8-level beads on a Cytek xP3+, two days and two gains), CytoWeave leaves out the same levels, finds each level's median within one step of the 1024-step log channel, and gives the cell samples the same MEFL as FlowCal within 1.6%. See <a href="../science.html#validation">Validation</a>.</p>
 
@@ -199,6 +202,7 @@
         <li>Samples and controls get the acquisition QC of <strong>Clean</strong>, with its settings. Files named as beads ("Beads_2026-03-31", "CS&amp;T beads") get <strong>Q and B</strong> instead, with the bead settings of <strong>Instrument</strong>. The run is added to the instrument's record, and the Levey–Jennings rules check it against all earlier runs.</li>
         <li>A file that scores below 70, or a bead run with a detector out of control, raises a notice. The Live table lists every file with its result, newest first; click one to open it in Clean or Instrument. The status bar shows the watch from any view.</li>
       </ol>
+      <p>To try it without an instrument, <strong>Try it with an example</strong> replays an example as an acquisition: the QC showcase's four wells, or thirty days of rainbow beads, land in the workspace one every few seconds and are checked as they land. This works in the browser too.</p>
       <p>The folder is only read; nothing is ever written there. Files already in the folder when watching starts are counted but not opened, unless you click <strong>Check the files already there</strong>. Hidden files, names starting with ~ and other extensions (an exporter's temporary <code>.part</code> file, say) are ignored until they are renamed to <code>.fcs</code>.</p>
       <p>Most acquisition software writes a file when a tube is finished, so this is QC per tube, not per event. Large files are checked faster because PeacoQC's per-channel work, which is almost all of its time, runs on up to four workers at once. They read the same events from shared memory and give exactly the serial result: at two million events in 20 channels, 3.4 s instead of 10.5 s.</p>
 
