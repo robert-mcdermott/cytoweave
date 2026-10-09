@@ -1172,6 +1172,10 @@ cytoweave verify [flags] certificate.acs
 | `--dev` | | Serve `web/` from the working directory (for development) |
 | `--version` | | Print the version |
 
+CytoWeave stops when its app window closes. On macOS, Chrome (and Edge, Brave) keeps running after
+its last window is closed: quit it with ⌘Q to stop CytoWeave too. If that browser is still running
+when CytoWeave starts, the new window opens in it and CytoWeave keeps serving until Ctrl+C.
+
 ### Headless runs
 
 `cytoweave run` applies an analysis template to FCS files without a window, for

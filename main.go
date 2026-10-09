@@ -192,13 +192,24 @@ func start(cfg config, out io.Writer) (*runningServer, error) {
 			// An app window with its own browser profile tells us when it closes; the
 			// default browser does not, so the server keeps running until Ctrl+C.
 			if wait != nil && !cfg.keepRunning {
+				opened := time.Now()
 				wait()
+				// A browser already running with this profile (on macOS, Chrome keeps
+				// running after its last window closes) takes the window over and the
+				// process started here exits at once: that is not the window closing.
+				if time.Since(opened) < handOffTime {
+					fmt.Fprintln(out, "The window opened in a CytoWeave browser that was already running; CytoWeave keeps serving until you press Ctrl+C (or quit that browser with Cmd+Q and start again).")
+					return
+				}
 				close(closed)
 			}
 		}()
 	}
 	return running, nil
 }
+
+// A window process that exits sooner than this handed the window to a browser already running.
+const handOffTime = 5 * time.Second
 
 func parseConfig(args []string) (config, error) {
 	var cfg config

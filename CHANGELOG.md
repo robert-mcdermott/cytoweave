@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased
+
+### Fixed
+
+- **The app window no longer stops CytoWeave as it opens.** On macOS, Chrome keeps running after its last window closes; a CytoWeave started while CytoWeave's window browser was still running handed its window to that browser, the process it had started exited at once, and CytoWeave took that for the window closing and stopped its server, leaving the new window with nothing to load. A window process that exits within 5 seconds is now treated as a hand-off: CytoWeave keeps serving until Ctrl+C.
+
 ## 0.8.0 (2026-10-08)
 
 CytoWeave 0.8 makes an analysis provable, explainable and teachable. A reproducibility certificate packs an analysis with its files and records every number it reported, so anyone can compute them again (in the window, with `cytoweave verify` or by an agent) and see each one confirmed; a review report is one HTML file a PI or reviewer opens without CytoWeave, every number traced to its source; the change log is hash-chained. Virtual FMO controls predict where a population's negative would end without a dye, and the panel optimizer chooses each marker's dye from the instrument's own noise model. A public agent benchmark grades AI agents working through CytoWeave's tools against the simulated truth. Teaching mode adds eighteen exercises that check a learner's answers against that truth, on examples that together now demonstrate every analysis, with files from FlowJo 11, FACSDiva and SpectroFlo to try the imports on.
