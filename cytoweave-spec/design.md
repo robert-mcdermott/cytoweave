@@ -66,6 +66,8 @@ these choices, see `research.md`.
 - **Network exposure.** It binds to 127.0.0.1 by default. Every request's
   Host header must name a loopback address, which blocks DNS rebinding. API
   calls must be same-origin. Responses carry a strict Content-Security-Policy
+  (pages connect only to the host and to Cirro's hosts: `*.cirro.bio`,
+  `*.amazoncognito.com`, `*.amazonaws.com`)
   and `X-Content-Type-Options`, Cross-Origin-Opener- and Resource-Policy
   `same-origin`, and Cross-Origin-Embedder-Policy `require-corp`. The last
   two make the page cross-origin isolated, which allows shared memory with
@@ -271,6 +273,21 @@ be canceled. Long loops check an abort signal and report progress.
   anything that cannot be represented is listed.
 - **CLR** (Classification Results, Spidlen 2015) export of clusters and
   gates, and **ACS** containers.
+- **Cirro.** A Cirro tenant is a source and destination of files, with no
+  dependency added and nothing required of the host. CytoWeave signs in as a
+  registered Public App (Cirro app kit) by OAuth with PKCE against the
+  tenant's Cognito user pool, keeps tokens in memory, calls the tenant's API
+  as the user, and reads and writes S3 by URLs it presigns (SigV4) with the
+  short-lived credentials the API hands out (`web/lib/cirro.js` holds what
+  needs no page; `web/ui/cirro*.js` the rest). The sign-in window returns to
+  CytoWeave's own address, `localhost` for this computer as Cognito requires,
+  and a page at `127.0.0.1` gets the code through a BroadcastChannel after
+  the return page moves to its host. Files opened from Cirro go through the
+  same import as dropped files; each sample keeps `cirro: { host, projectId,
+  datasetId, path }`, and `DataStore.sourceFor` reads a file from there when
+  the library lacks it, checking its SHA-256. An analysis saves as a new
+  dataset of the `custom_dataset` type, tagged `cirro-app: cytoweave`, with a
+  provenance note.
 
 ## Automation
 

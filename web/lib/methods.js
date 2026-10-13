@@ -314,6 +314,12 @@ export function writeMethods(ws, options = {}) {
   return { paragraphs, references: used.map((key) => ({ key, ...REFERENCES[key] })) };
 }
 
+// The methods as plain text: the paragraphs, then the numbered references.
+export function methodsText(ws, options = {}) {
+  const { paragraphs, references } = writeMethods(ws, options);
+  return `${paragraphs.join('\n\n')}\n\nReferences\n${references.map((r, i) => `${i + 1}. ${r.text}${r.doi ? ` doi:${r.doi}` : ''}`).join('\n')}`;
+}
+
 export function toBibTeX(references) {
   return references.map((ref, i) => {
     const authors = ref.text.split('.')[0];

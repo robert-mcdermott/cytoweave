@@ -9,7 +9,7 @@ CytoWeave is a flow cytometry analysis workbench for conventional, spectral
 and mass cytometry. It runs on your own computer as one self-contained
 program: a single command installs it, and it needs no license server,
 account, Python, R or plugins. Files are read and analyzed in your browser
-and never leave your machine.
+and leave your machine only if you save them to a [Cirro](#cirro) project.
 
 It covers the analysis loop a cytometry lab works through every day, and
 checks each step:
@@ -58,6 +58,7 @@ guides to every view, with screenshots.
 - [The views](#the-views)
 - [Workspaces, history and the library](#workspaces-history-and-the-library)
 - [Working with FlowJo and other tools](#working-with-flowjo-and-other-tools)
+- [Cirro](#cirro)
 - [Command-line options](#command-line-options)
 - [Scripting and AI agents](#scripting-and-ai-agents)
 - [Validation](#validation)
@@ -380,7 +381,8 @@ Press ⌘K (Ctrl+K) to search samples, populations, channels and commands, and
 | `.svg`, `.png`, `.pdf` | A figure or plot CytoWeave exported: where it came from, what changed since, and a rebuild (see [Figures](#figures)) |
 
 Drag files onto the window, use the **+** button of the sample list, or name
-them on the command line.
+them on the command line. Files in a [Cirro](#cirro) project open from
+**Open from Cirro** on the start page, the **+** button or the workspace menu.
 
 FCS files from real instruments often bend the standard, and CytoWeave reads
 them anyway. Every repair it makes is listed in the sample's diagnostics in
@@ -1148,6 +1150,51 @@ recorded):
   it came from. CytoWeave writes the HDF5 itself (uncompressed); anndata 0.10
   and 0.13, h5py and pyfive read it in the validation suite.
 
+## Cirro
+
+[Cirro](https://cirro.bio) is a research data platform where a lab keeps its
+data in projects shared by their members. Connected to a Cirro tenant,
+CytoWeave opens files from its projects and saves analyses back to them. It
+signs in as you and reaches only what your Cirro account can; every file is
+still analyzed on your computer.
+
+**Connecting.** Workspace → Cirro → **Connect to Cirro** asks for the
+tenant's address (`lab.cirro.bio`) and CytoWeave's client ID on that tenant,
+then signs you in with the tenant's own sign-in (a window of its sign-in page,
+or this window if pop-ups are blocked). The tenant's Cirro admins register
+CytoWeave once as a Public App, as the
+[Cirro app kit](https://github.com/CirroBio/Cirro-app-kit) describes: with the
+sign-in address the dialog shows (`http://localhost:8770` for the program on
+its default port) and the permissions in
+[`cirro-permissions.json`](cirro-permissions.json). The tenant and client ID
+are remembered; the sign-in lasts until the window closes.
+
+**Opening from Cirro.** **Open from Cirro** (start page, the **+** button of
+the sample list, the workspace menu or the command search) lists your
+projects, then a project's datasets (newest first, searchable, FCS datasets
+and CytoWeave analyses marked), then a dataset's files as folders. Tick files,
+or a folder to take every file CytoWeave opens in it, and **Open**. The files
+open as dropped files do: FCS files as samples in a group named after the
+dataset, workspaces, FlowJo workspaces, Gating-ML, annotation tables and the
+rest. Each FCS file is copied into the library, and its samples remember
+where in Cirro it is. The dataset's Cirro sample metadata (condition, donor,
+timepoint…) annotates the samples when the tenant lets CytoWeave read it.
+
+**Saving to Cirro.** Workspace → Cirro → **Save to Cirro** saves the analysis
+as a new dataset in a project: the workspace (`.cwz`), its gates as
+Gating-ML, the methods, the tables as an Excel workbook, the figures as PDF
+and, if chosen, a review report and a FlowJo workspace, the files
+`cytoweave run` writes to its output folder. FCS files not yet in Cirro go
+with it, so the analysis opens anywhere the project can be read. The dataset
+is tagged `cirro-app: cytoweave` and carries a note naming who saved it, the
+CytoWeave version, the datasets its FCS files came from and its files. Each
+save makes a new dataset.
+
+**Reopening.** Open a saved analysis's `.cwz` from Cirro, on any computer:
+samples whose files are not in the library are read from Cirro when first
+needed, checked against the checksum the workspace recorded (a file that
+changed in Cirro is refused) and kept in the library.
+
 ## Command-line options
 
 ```text
@@ -1338,12 +1385,16 @@ how to run it are in [validation/README.md](validation/README.md).
 
 ## Privacy and security
 
-- Files are parsed and analyzed in the browser. Nothing is uploaded, and
-  CytoWeave makes no network requests of its own.
+- Files are parsed and analyzed in the browser. CytoWeave makes no network
+  requests of its own unless you connect it to [Cirro](#cirro); then it talks
+  only to your Cirro tenant, its sign-in service (Amazon Cognito) and its
+  projects' storage (Amazon S3), and uploads only what you save to Cirro.
+  Cirro sign-in tokens are kept in memory, not on disk.
 - By default the server listens only on the loopback interface. It rejects
   requests whose `Host` header is not a local address, which blocks DNS
   rebinding. It accepts API calls only from its own pages, and serves a strict
-  Content Security Policy.
+  Content Security Policy, which lets pages connect to this server and to
+  Cirro's hosts only (`*.cirro.bio`, `*.amazoncognito.com`, `*.amazonaws.com`).
 - Remote control is off unless `--remote-control` is given (`cytoweave mcp`
   turns it on for its own session). Actions need a per-session token for
   anything that reads files from disk.
@@ -1411,6 +1462,14 @@ used for diagnosis.
   `Cross-Origin-Embedder-Policy: require-corp`. Without them, analyses in
   workers get a copy of the events, and browsers refuse copies much over a
   gigabyte (QC of ten million events).
+- Cirro: CytoWeave signs in only at the address its tenant's registration
+  lists, so the program must run on the port registered (8770 unless
+  `--port` says otherwise; when 8770 is taken, CytoWeave uses the next free
+  port, where sign-in fails until that port is registered too). The program's
+  Content Security Policy allows tenants under `cirro.bio` only. A sign-in
+  lasts until the window closes. Emailed sign-in links are not offered; sign
+  in with the tenant's other providers. Files opened from Cirro are copied
+  whole into the library, not read in place.
 
 ## Development
 

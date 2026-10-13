@@ -23,6 +23,7 @@ export class DataStore {
     this.lastUsed = new Map();
     this.session = new Map(); // sha256 → bytes or a Blob kept for this session when the library refuses them
     this.localSources = new Map(); // sha256 → URL of a file the desktop program serves
+    this.remoteSource = null; // (record) → Blob of a sample's file from where it was opened (Cirro)
     this.derived = new Map(); // sampleId → Map(name → { column, version })
     this.budget = DEFAULT_BUDGET;
     this.parser = new WorkerClient('../workers/fcs-worker.js', { max: Math.max(1, Math.min(4, (navigator.hardwareConcurrency ?? 4) - 1)) });
@@ -68,9 +69,10 @@ export class DataStore {
   }
 
   // Imports FCS files: stores each in the library and parses it, and returns sample records (one
-  // per data set). files: [{ name, size, order, folder, and the content as file (a File or Blob),
-  // bytes, or localUrl (a file the desktop program serves) }]. With the desktop program, the
-  // program stores the file and computes its SHA-256 while the worker parses it; in the browser,
+  // per data set). files: [{ name, size, order, folder, cirro (where in Cirro the file is, kept on
+  // its samples), and the content as file (a File or Blob), bytes, or localUrl (a file the desktop
+  // program serves) }]. With the desktop program, the program stores the file and computes its
+  // SHA-256 while the worker parses it; in the browser,
   // the worker hashes it as it reads it. Neither holds a whole file in memory.
   // onProgress(done, total, name), done counting fractions of files.
   async importFCS(files, onProgress) {
@@ -112,6 +114,7 @@ export class DataStore {
         }
         parsed.datasets.forEach((dataset, datasetIndex) => {
           const record = sampleFromDataset(dataset, { name: parsed.datasets.length > 1 ? `${file.name.replace(/\.(fcs|lmd)$/i, '')} [${datasetIndex + 1}].fcs` : file.name, sha256, size: file.size ?? content?.size, datasetIndex });
+          if (file.cirro) record.cirro = file.cirro;
           records.push({ record, dataset, order: file.order ?? 0, datasetIndex });
         });
       } catch (error) {
@@ -128,8 +131,8 @@ export class DataStore {
     return { records: records.map((r) => r.record), problems };
   }
 
-  // Where a sample's file can be read: this session's copy, the library, or a file the desktop
-  // program serves. Null when none has it.
+  // Where a sample's file can be read: this session's copy, the library, a file the desktop program
+  // serves, or the Cirro dataset it was opened from. Null when none has it.
   async sourceFor(record) {
     if (!record.sha256) return null;
     const kept = this.session.get(record.sha256);
@@ -141,7 +144,18 @@ export class DataStore {
       if (source) return source;
     }
     if (this.localSources.has(record.sha256)) return { kind: 'url', url: new URL(this.localSources.get(record.sha256), location.href).href };
+    if (record.cirro && this.remoteSource) return this.fetchRemote(record);
     return null;
+  }
+
+  // Reads a sample's file from Cirro, checks it is the file the workspace analyzed, and keeps it in
+  // the library so it is read from Cirro only once.
+  async fetchRemote(record) {
+    const blob = await this.remoteSource(record);
+    const sha256 = this.library.addFile ? (await this.library.addFile(blob)).sha256 : await this.parser.call('hash', { source: { kind: 'blob', blob } });
+    if (sha256 !== record.sha256) throw new Error(`The file of "${record.name}" in Cirro has changed since this workspace analyzed it.`);
+    if (!this.library.addFile) await this.library.putFile(sha256, blob).catch(() => this.session.set(sha256, blob));
+    return blob;
   }
 
   install(record, dataset) {

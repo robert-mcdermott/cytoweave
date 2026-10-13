@@ -26,7 +26,7 @@ import { createACS, readACS } from './acs.js';
 import { analyzeLevels, measureValue } from './compare.js';
 import { populationSize, workspaceView } from './engine.js';
 import { parseFCS } from './fcs.js';
-import { miflowcytChecklist, writeMethods } from './methods.js';
+import { methodsText, miflowcytChecklist } from './methods.js';
 import { sha256 } from './sha256.js';
 import { tableCells, tableSamples } from './tables.js';
 import { ROOT, canonicalJSON, gatePath, parseWorkspace, serializeWorkspace, verifyLog } from './workspace.js';
@@ -461,8 +461,7 @@ export async function buildCertificate(ws, source, options = {}) {
     notChecked: computed.notChecked,
   };
   certificate.fingerprint = certificateFingerprint(certificate);
-  const methods = writeMethods(ws, { version });
-  const methodsText = `${methods.paragraphs.join('\n\n')}\n\nReferences\n${methods.references.map((r, i) => `${i + 1}. ${r.text}${r.doi ? ` doi:${r.doi}` : ''}`).join('\n')}\n`;
+  const methods = `${methodsText(ws, { version })}\n`;
   const bytes = await createACS({
     fcsFiles,
     workspaceJSON: workspaceText,
@@ -470,7 +469,7 @@ export async function buildCertificate(ws, source, options = {}) {
     extra: [
       { name: CERTIFICATE_NAME, text: `${JSON.stringify(certificate, null, 1)}\n`, mimeType: 'application/json', description: 'CytoWeave reproducibility certificate: inputs, analyses, change log, MIFlowCyt and every reported number' },
       { name: README_NAME, text: readme(certificate, { gatingML: Boolean(options.gatingML) }), mimeType: 'text/plain', description: 'What this certificate is and how to verify it' },
-      { name: METHODS_NAME, text: methodsText, mimeType: 'text/plain', description: 'Methods paragraph with references' },
+      { name: METHODS_NAME, text: methods, mimeType: 'text/plain', description: 'Methods paragraph with references' },
       ...derivedFiles,
     ],
   }, { date, description: `Reproducibility certificate of "${ws.name}" (${shortFingerprint(certificate.fingerprint)})` });

@@ -8,10 +8,15 @@ import (
 	"strings"
 )
 
-// The page loads only its own scripts; workers may be created from blobs for compute kernels.
+// The page loads only its own scripts; workers may be created from blobs for compute kernels. It
+// connects only to this server and, when the user connects it to Cirro, to the Cirro tenant's API,
+// its sign-in service (Amazon Cognito) and its projects' storage (Amazon S3).
 const contentSecurityPolicy = "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; " +
-	"img-src 'self' data: blob:; worker-src 'self' blob:; connect-src 'self'; font-src 'self' data:; " +
+	"img-src 'self' data: blob:; worker-src 'self' blob:; " +
+	"connect-src 'self' " + cirroHosts + "; font-src 'self' data:; " +
 	"object-src 'none'; base-uri 'none'; frame-ancestors 'none'"
+
+const cirroHosts = "https://*.cirro.bio https://*.amazoncognito.com https://*.amazonaws.com"
 
 type guard struct {
 	next    http.Handler

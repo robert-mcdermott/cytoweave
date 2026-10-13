@@ -1,5 +1,16 @@
 # Changelog
 
+## Unreleased
+
+### Added
+
+- **Cirro.** CytoWeave connects to a [Cirro](https://cirro.bio) tenant, opens files from its projects and saves analyses to them (`web/lib/cirro.js`, `web/ui/cirro.js`, `web/ui/cirro-open.js`, `web/ui/cirro-save.js`). Workspace → Cirro → Connect to Cirro takes the tenant's address and CytoWeave's client ID there (the tenant registers CytoWeave as a Public App, as the Cirro app kit describes, with the sign-in address the dialog shows and the permissions in `cirro-permissions.json`), then signs in with the tenant's sign-in page by OAuth with PKCE, in a window of its own or, when pop-ups are blocked, in this window, which then reopens the workspace. Tokens stay in memory. **Open from Cirro** (start page, the sample list's **+**, the workspace menu, the command search) goes from a project to a dataset (all of a project's datasets, newest first, searchable, FCS datasets and CytoWeave analyses marked) to the dataset's files as folders; the files chosen open as dropped files do, FCS files as samples in a group named after the dataset, annotated from Cirro's sample metadata when the tenant allows it. Each sample remembers where in Cirro its file is. **Save to Cirro** makes a new dataset of the analysis: the workspace, Gating-ML, the methods, the tables, the figures as PDF and, if chosen, a review report and a FlowJo workspace, with the FCS files not yet in Cirro, tagged `cirro-app: cytoweave` and with a note saying who saved it, with which version, from which datasets. A saved workspace opened from Cirro on another computer reads its samples' files from Cirro when first needed, checks each against the checksum it recorded, and keeps it in the library. Dataset files are read and written in S3 by URLs signed in the browser (AWS Signature Version 4, checked against AWS's published example); no Cirro package or other dependency is added.
+
+### Changed
+
+- The program's Content Security Policy lets pages connect to Cirro's hosts (`*.cirro.bio`, `*.amazoncognito.com`, `*.amazonaws.com`) as well as to itself. CytoWeave still makes no network request unless you connect it to Cirro.
+- The methods as plain text are written by one function (`methodsText` in `web/lib/methods.js`) for certificates, agents and Cirro; the text is unchanged.
+
 ## 0.8.0 (2026-10-08)
 
 CytoWeave 0.8 makes an analysis provable, explainable and teachable. A reproducibility certificate packs an analysis with its files and records every number it reported, so anyone can compute them again (in the window, with `cytoweave verify` or by an agent) and see each one confirmed; a review report is one HTML file a PI or reviewer opens without CytoWeave, every number traced to its source; the change log is hash-chained. Virtual FMO controls predict where a population's negative would end without a dye, and the panel optimizer chooses each marker's dye from the instrument's own noise model. A public agent benchmark grades AI agents working through CytoWeave's tools against the simulated truth. Teaching mode adds eighteen exercises that check a learner's answers against that truth, on examples that together now demonstrate every analysis, with files from FlowJo 11, FACSDiva and SpectroFlo to try the imports on.

@@ -50,8 +50,13 @@ func TestServesTheAppWithSecurityHeaders(t *testing.T) {
 	if !strings.Contains(rec.Body.String(), "CytoWeave") {
 		t.Fatal("index.html not served")
 	}
-	if csp := rec.Header().Get("Content-Security-Policy"); !strings.Contains(csp, "script-src 'self'") {
+	csp := rec.Header().Get("Content-Security-Policy")
+	if !strings.Contains(csp, "script-src 'self';") {
 		t.Fatalf("missing CSP: %q", csp)
+	}
+	// Requests go to this server, and to Cirro only: its tenants, their sign-in and their storage.
+	if !strings.Contains(csp, "connect-src 'self' https://*.cirro.bio https://*.amazoncognito.com https://*.amazonaws.com;") {
+		t.Fatalf("connect-src is not this server and Cirro: %q", csp)
 	}
 	if rec.Header().Get("X-Content-Type-Options") != "nosniff" {
 		t.Fatal("missing nosniff")

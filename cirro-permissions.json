@@ -1,0 +1,14 @@
+{
+  "app": "cytoweave",
+  "scope": "project",
+  "required": [
+    { "permission": "VIEW_PROJECT", "reason": "List the projects the signed-in user can open" },
+    { "permission": "VIEW_DATASET", "reason": "List a project's datasets and the files in each" },
+    { "permission": "GENERATE_DOWNLOAD_TOKEN", "reason": "Read the FCS files, workspaces and tables the user opens, and the FCS files of an analysis reopened from Cirro" }
+  ],
+  "optional": [
+    { "permission": "VIEW_PROJECT_METADATA", "feature": "Annotate samples opened from a dataset with Cirro's sample metadata (condition, donor, timepoint)" },
+    { "permission": "CREATE_DATASET", "feature": "Save an analysis to a project as a new dataset (workspace, Gating-ML, methods, tables, figures, and FCS files not yet in Cirro)" },
+    { "permission": "CREATE_DISCUSSION", "feature": "Leave a note on each saved analysis saying who saved it, with which version, from which datasets" }
+  ]
+}
