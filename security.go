@@ -8,31 +8,39 @@ import (
 	"strings"
 )
 
-// The page loads only its own scripts; workers may be created from blobs for compute kernels. It
-// connects only to this server and, when the user connects it to Cirro, to the Cirro tenant's API,
-// its sign-in service (Amazon Cognito) and its projects' storage (Amazon S3).
-const contentSecurityPolicy = "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; " +
-	"img-src 'self' data: blob:; worker-src 'self' blob:; " +
-	"connect-src 'self' " + cirroHosts + "; font-src 'self' data:; " +
-	"object-src 'none'; base-uri 'none'; frame-ancestors 'none'"
-
+// A Cirro tenant's API, its sign-in service (Amazon Cognito) and its projects' storage (Amazon S3).
 const cirroHosts = "https://*.cirro.bio https://*.amazoncognito.com https://*.amazonaws.com"
+
+// The page loads only its own scripts; workers may be created from blobs for compute kernels. It
+// connects only to this server and, unless the program was started with --no-cirro, to Cirro.
+func contentSecurityPolicy(cirro bool) string {
+	connect := "'self'"
+	if cirro {
+		connect += " " + cirroHosts
+	}
+	return "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; " +
+		"img-src 'self' data: blob:; worker-src 'self' blob:; connect-src " + connect + "; font-src 'self' data:; " +
+		"object-src 'none'; base-uri 'none'; frame-ancestors 'none'"
+}
 
 type guard struct {
 	next    http.Handler
 	hosts   map[string]bool
 	port    string
 	anyHost bool
+	csp     string
 }
 
 type cspWriter struct {
 	http.ResponseWriter
+	csp         string
 	wroteHeader bool
 }
 
 // protect rejects requests whose Host header is not this server (DNS rebinding) and API
-// requests from other origins (cross-site request forgery), and sets security headers.
-func protect(next http.Handler, bindHost string, port int) http.Handler {
+// requests from other origins (cross-site request forgery), and sets security headers. cirro:
+// whether pages may connect to Cirro.
+func protect(next http.Handler, bindHost string, port int, cirro bool) http.Handler {
 	hosts := map[string]bool{"localhost": true, "127.0.0.1": true, "::1": true}
 	host := normalizeHost(bindHost)
 	if host != "" {
@@ -41,7 +49,7 @@ func protect(next http.Handler, bindHost string, port int) http.Handler {
 	// A wildcard bind is an explicit choice to serve other machines, whose Host header is
 	// any address of this machine; DNS-rebinding protection only applies to loopback binds.
 	anyHost := host == "0.0.0.0" || host == "::"
-	return &guard{next: next, hosts: hosts, port: strconv.Itoa(port), anyHost: anyHost}
+	return &guard{next: next, hosts: hosts, port: strconv.Itoa(port), anyHost: anyHost, csp: contentSecurityPolicy(cirro)}
 }
 
 func (g *guard) ServeHTTP(w http.ResponseWriter, r *http.Request) {
@@ -54,7 +62,7 @@ func (g *guard) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	// that analysis workers read without a copy (web/lib/memory.js). Everything the page loads is
 	// from this origin.
 	header.Set("Cross-Origin-Embedder-Policy", "require-corp")
-	w = &cspWriter{ResponseWriter: w}
+	w = &cspWriter{ResponseWriter: w, csp: g.csp}
 	switch {
 	case !g.anyHost && !g.hosts[requestHostname(r.Host)]:
 		writeError(w, http.StatusForbidden, "Forbidden: unrecognized Host header.")
@@ -127,7 +135,7 @@ func (w *cspWriter) WriteHeader(status int) {
 	if !w.wroteHeader {
 		w.wroteHeader = true
 		if strings.HasPrefix(w.Header().Get("Content-Type"), "text/html") {
-			w.Header().Set("Content-Security-Policy", contentSecurityPolicy)
+			w.Header().Set("Content-Security-Policy", w.csp)
 		}
 	}
 	w.ResponseWriter.WriteHeader(status)

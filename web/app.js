@@ -850,11 +850,13 @@ async function start() {
       ...(store.ws.samples.some((x) => x.acquisitionGates) ? [{ label: 'Gates FACSChorus recorded in the files…', icon: 'upload', onSelect: () => app.importAcquisitionGates() }] : []),
       { label: 'Events or sample annotations (CSV)…', icon: 'tag', onSelect: () => app.pickFiles('.csv,.tsv,.txt') },
       '-',
-      { section: 'Cirro' },
-      { label: 'Open from Cirro…', icon: 'globe', onSelect: () => app.cirro.open() },
-      { label: 'Save to Cirro…', icon: 'upload', onSelect: () => app.cirro.save() },
-      { label: app.cirro.session?.signedIn ? `Signed in to ${app.cirro.session.tenantName}…` : 'Connect to Cirro…', icon: 'link', onSelect: () => app.cirro.connect() },
-      '-',
+      ...(app.cirro.enabled ? [
+        { section: 'Cirro' },
+        { label: 'Open from Cirro…', icon: 'globe', onSelect: () => app.cirro.open() },
+        { label: 'Save to Cirro…', icon: 'upload', onSelect: () => app.cirro.save() },
+        { label: app.cirro.session?.signedIn ? `Signed in to ${app.cirro.session.tenantName}…` : 'Connect to Cirro…', icon: 'link', onSelect: () => app.cirro.connect() },
+        '-',
+      ] : []),
       { label: 'Example experiments…', icon: 'flask', onSelect: () => app.showExamples() },
       { label: 'Exercises…', icon: 'school', onSelect: () => app.showExercises() },
       ...(app.exampleFiles().length ? [{ label: 'Files that came with this example…', icon: 'file', onSelect: () => app.showExampleFiles() }] : []),
@@ -868,9 +870,11 @@ async function start() {
     ...MODES.filter((m) => m !== 'sep').map((m) => ({ label: `Go to ${m.label}`, icon: m.icon, run: () => app.setMode(m.id), keywords: m.id })),
     { label: 'Add FCS files', icon: 'file', hint: `${modKey}O`, run: () => app.pickFiles() },
     { label: 'Open a folder of FCS files', icon: 'folder', run: () => app.pickFolder() },
-    { label: 'Open files from Cirro', icon: 'globe', run: () => app.cirro.open(), keywords: 'cirro cloud project dataset download' },
-    { label: 'Save the analysis to Cirro', icon: 'upload', run: () => app.cirro.save(), keywords: 'cirro cloud project dataset upload share' },
-    { label: 'Connect to Cirro (sign in or out)', icon: 'link', run: () => app.cirro.connect(), keywords: 'cirro tenant login sign in account' },
+    ...(app.cirro.enabled ? [
+      { label: 'Open files from Cirro', icon: 'globe', run: () => app.cirro.open(), keywords: 'cirro cloud project dataset download' },
+      { label: 'Save the analysis to Cirro', icon: 'upload', run: () => app.cirro.save(), keywords: 'cirro cloud project dataset upload share' },
+      { label: 'Connect to Cirro (sign in or out)', icon: 'link', run: () => app.cirro.connect(), keywords: 'cirro tenant login sign in account' },
+    ] : []),
     { label: 'Open an example experiment', icon: 'flask', run: () => app.showExamples() },
     { label: 'Start an exercise', icon: 'school', run: () => app.showExercises(), keywords: 'teaching learn practice tutorial training exercise class course' },
     ...(app.exampleFiles().length ? [{ label: 'Files that came with this example', icon: 'file', run: () => app.showExampleFiles(), keywords: 'attachment csv diva spectroflo flowjo import' }] : []),
@@ -1228,7 +1232,7 @@ async function start() {
     for (const item of items.filter((i) => !fcs.includes(i) && !workspaces.includes(i))) await app.importFiles([asFile(item)]);
   };
   if (info?.files?.length) await app.openStartupFiles(info.files);
-  app.cirro.resumeSignIn();
+  if (app.cirro.enabled) app.cirro.resumeSignIn();
   // Programs on this computer (AI agents through "cytoweave mcp") act in this window.
   // A watched folder (cytoweave --watch, or QC → Live): files checked as they are acquired.
   app.refreshStatus = renderStatus;

@@ -202,7 +202,11 @@ class CirroSession {
       headers: { Authorization: `Bearer ${await this.accessToken()}`, ...(body ? { 'Content-Type': 'application/json' } : {}) },
       body: body ? JSON.stringify(body) : undefined,
     });
-    if (response.ok) return response.status === 204 ? null : response.json();
+    // Some calls (posting a message) succeed with an empty body.
+    if (response.ok) {
+      const text = await response.text();
+      return text ? JSON.parse(text) : null;
+    }
     const message = (await response.json().catch(() => ({}))).message || `HTTP ${response.status}`;
     if (response.status === 401) {
       this.signOut();
@@ -355,6 +359,14 @@ function waitForSignIn(state, signal) {
 
 export function installCirro(app) {
   const { store, data } = app;
+  // The program started with --no-cirro allows pages to reach only itself; Cirro is not offered.
+  if (app.info?.cirro === false) {
+    data.remoteSource = async (record) => {
+      throw new Error(`The file of "${record.name}" is in Cirro (${record.cirro.host}), and this CytoWeave was started with --no-cirro.`);
+    };
+    app.cirro = { enabled: false, session: null };
+    return;
+  }
   let session = null;
   const notify = () => store.notify(['cirro']);
 
@@ -518,6 +530,7 @@ export function installCirro(app) {
   }
 
   app.cirro = {
+    enabled: true,
     get session() {
       return session;
     },

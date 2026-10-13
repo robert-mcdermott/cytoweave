@@ -1213,6 +1213,7 @@ cytoweave verify [flags] certificate.acs
 | `--host` | `127.0.0.1` | Interface to bind. Keep the default unless you mean to serve other machines (for example `0.0.0.0` on a trusted network), which turns off the DNS-rebinding check |
 | `--data-dir` | user config dir | Folder of the workspace library |
 | `--no-library` | | Keep workspaces in the browser's own storage instead |
+| `--no-cirro` | | Do not offer [Cirro](#cirro): pages may connect only to this program, and Cirro's menus are hidden |
 | `--watch` | | Watch a folder for FCS files as they are acquired, and check each one (QC → Live). The folder is only read |
 | `--watch-interval` | `1s` | How often the watched folder is checked |
 | `--remote-control` | | Accept actions from local programs (see below) |
@@ -1395,6 +1396,8 @@ how to run it are in [validation/README.md](validation/README.md).
   rebinding. It accepts API calls only from its own pages, and serves a strict
   Content Security Policy, which lets pages connect to this server and to
   Cirro's hosts only (`*.cirro.bio`, `*.amazoncognito.com`, `*.amazonaws.com`).
+  Where data must not leave the computer, `--no-cirro` lets pages connect to
+  this server alone and hides Cirro's menus.
 - Remote control is off unless `--remote-control` is given (`cytoweave mcp`
   turns it on for its own session). Actions need a per-session token for
   anything that reads files from disk.

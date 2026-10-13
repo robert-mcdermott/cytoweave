@@ -8,7 +8,7 @@
 
 ### Changed
 
-- The program's Content Security Policy lets pages connect to Cirro's hosts (`*.cirro.bio`, `*.amazoncognito.com`, `*.amazonaws.com`) as well as to itself. CytoWeave still makes no network request unless you connect it to Cirro.
+- The program's Content Security Policy lets pages connect to Cirro's hosts (`*.cirro.bio`, `*.amazoncognito.com`, `*.amazonaws.com`) as well as to itself. CytoWeave still makes no network request unless you connect it to Cirro. `--no-cirro` keeps pages to the program alone and hides Cirro's menus, for data that must not leave the computer.
 - The methods as plain text are written by one function (`methodsText` in `web/lib/methods.js`) for certificates, agents and Cirro; the text is unchanged.
 
 ## 0.8.0 (2026-10-08)

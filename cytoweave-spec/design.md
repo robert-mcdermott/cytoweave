@@ -67,7 +67,8 @@ these choices, see `research.md`.
   Host header must name a loopback address, which blocks DNS rebinding. API
   calls must be same-origin. Responses carry a strict Content-Security-Policy
   (pages connect only to the host and to Cirro's hosts: `*.cirro.bio`,
-  `*.amazoncognito.com`, `*.amazonaws.com`)
+  `*.amazoncognito.com`, `*.amazonaws.com`; with `--no-cirro`, to the host
+  alone, and `/api/info` says so, so the page offers no Cirro)
   and `X-Content-Type-Options`, Cross-Origin-Opener- and Resource-Policy
   `same-origin`, and Cross-Origin-Embedder-Policy `require-corp`. The last
   two make the page cross-origin isolated, which allows shared memory with

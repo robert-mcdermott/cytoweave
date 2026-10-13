@@ -25,7 +25,7 @@ Status: **done**, **partial** (the gap is noted) or **planned** (see
 | --- | --- | --- |
 | P1 | One self-contained program for macOS, Linux and Windows (x64 and ARM64); a one-line install; no license server, account, Python, R or plugins | done |
 | P2 | The web application also runs from a static web server, without the Go host | done (library falls back to OPFS and IndexedDB) |
-| P3 | Files never leave the computer; no network requests of its own | done; when the user connects CytoWeave to Cirro, it reaches that tenant, its sign-in and its storage, and uploads only what the user saves there |
+| P3 | Files never leave the computer; no network requests of its own | done; when the user connects CytoWeave to Cirro, it reaches that tenant, its sign-in and its storage, and uploads only what the user saves there; `--no-cirro` restores this requirement strictly (pages connect to the program alone) |
 | P4 | Apache-2.0; no third-party runtime dependencies | done |
 | P5 | Opens as a desktop window; a second launch hands its files to the open window | done |
 

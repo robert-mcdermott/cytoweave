@@ -26,7 +26,7 @@ func testApp(t *testing.T, files ...string) (*app, http.Handler) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	return a, protect(handler, "127.0.0.1", 8770)
+	return a, protect(handler, "127.0.0.1", 8770, true)
 }
 
 func request(t *testing.T, handler http.Handler, method, target string, body io.Reader, headers map[string]string) *httptest.ResponseRecorder {
@@ -39,6 +39,29 @@ func request(t *testing.T, handler http.Handler, method, target string, body io.
 	rec := httptest.NewRecorder()
 	handler.ServeHTTP(rec, req)
 	return rec
+}
+
+func TestNoCirroKeepsPagesToThisServer(t *testing.T) {
+	a, err := newApp(config{dataDir: t.TempDir(), noCirro: true})
+	if err != nil {
+		t.Fatal(err)
+	}
+	inner, err := a.handler()
+	if err != nil {
+		t.Fatal(err)
+	}
+	handler := protect(inner, "127.0.0.1", 8770, false)
+	csp := request(t, handler, http.MethodGet, "/", nil, nil).Header().Get("Content-Security-Policy")
+	if !strings.Contains(csp, "connect-src 'self';") {
+		t.Fatalf("connect-src is not this server alone: %q", csp)
+	}
+	var body info
+	if err := json.Unmarshal(request(t, handler, http.MethodGet, "/api/info", nil, nil).Body.Bytes(), &body); err != nil {
+		t.Fatal(err)
+	}
+	if body.Cirro {
+		t.Fatal("/api/info offers Cirro with --no-cirro")
+	}
 }
 
 func TestServesTheAppWithSecurityHeaders(t *testing.T) {

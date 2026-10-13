@@ -27,7 +27,7 @@ export function mountWelcome(app, container) {
         h('div.btn-row',
           h('button.btn.primary', { type: 'button', onclick: () => app.pickFiles() }, icon('file'), 'Add FCS files'),
           h('button.btn', { type: 'button', onclick: () => app.pickFolder() }, icon('folder'), 'Open a folder'),
-          h('button.btn', { type: 'button', onclick: () => app.cirro.open() }, icon('globe'), 'Open from Cirro'),
+          app.cirro.enabled ? h('button.btn', { type: 'button', onclick: () => app.cirro.open() }, icon('globe'), 'Open from Cirro') : null,
           h('button.btn', { type: 'button', onclick: () => app.pickFiles('.cwz,.json,.wsp,.wspt,.flowjo,.xml,.acs,.zip') }, icon('upload'), 'Import a workspace'),
           h('span.muted', { style: { marginLeft: '6px' } }, 'or drop files anywhere'))),
       h('img', { src: 'favicon.svg', width: 132, height: 132, alt: '', style: { filter: 'drop-shadow(0 18px 40px rgba(91,76,230,0.35))' } })),
