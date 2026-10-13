@@ -38,7 +38,7 @@ import {
   updateSample,
 } from './lib/workspace.js';
 
-const VERSION = '0.8.0';
+const VERSION = '0.8.1';
 
 const MODES = [
   { id: 'welcome', label: 'Start', icon: 'flask', hidden: true, load: () => import('./ui/mode-welcome.js').then((m) => m.mountWelcome) },

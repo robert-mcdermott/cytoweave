@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "cytoweave"
-version = "0.8.0"
+version = "0.8.1"
 description = "Remote control of a running CytoWeave (flow, spectral and mass cytometry analysis) from Python"
 readme = "README.md"
 license = { text = "Apache-2.0" }
