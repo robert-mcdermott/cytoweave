@@ -10,10 +10,11 @@
 // UnstainedMfiColumn describes the unstained control. Values shared between objects are written
 // once (z:Id) and referred to elsewhere (z:Ref).
 //
-// The vectors are not taken as reference spectra. On the AutoSpectral example (validation
-// suite `spectroflo`) neither they nor the unstained column match the controls' own data (the
-// BUV395 control is 3.8 times brighter in UV2 than in UV1; its vector is 2.2 times higher in UV1),
-// and AutoSpectral's reader warns that they are sometimes odd. CytoWeave computes each spectrum
+// The vectors are not taken as reference spectra. On the AutoSpectral example data (Burton,
+// Dooley and Liston, Mendeley Data, doi:10.17632/ch5dnspd79.1; validation suite `spectroflo`)
+// neither they nor the unstained column match the controls' own data (the BUV395 control is 3.8
+// times brighter in UV2 than in UV1; its vector is 2.2 times higher in UV1), and AutoSpectral's
+// reader warns that they are sometimes odd. CytoWeave computes each spectrum
 // from its control file instead; the vector's 1 says which detector SpectroFlo gated it on, which
 // is where the control's own spectrum peaks.
 //

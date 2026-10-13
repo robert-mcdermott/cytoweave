@@ -3,7 +3,7 @@ title: Science
 layout: page
 heading: Methods, validation and citation
 description: How CytoWeave's analyses are validated against simulated ground truth, published reference values, FlowJo, FlowKit and the Bioconductor packages, how to cite it, and the methods it reimplements.
-lede: CytoWeave reimplements published methods. This page shows how its results are checked against answers known in advance and against the tools those methods come from, how to cite it, and whose work it builds on.
+lede: CytoWeave reimplements methods from published papers and preprints. This page shows how its results are checked against answers known in advance and against the tools those methods come from, how to cite it, and whose work it builds on.
 ---
       <h2 id="validation">Validation</h2>
       <p>The unit tests check every analysis function against hand-computed, published or reference-tool values. The validation suite runs the complete pipelines, the way they run in the app, against answers known in advance:</p>
@@ -17,7 +17,7 @@ lede: CytoWeave reimplements published methods. This page shows how its results 
             <tr><td><strong>Gating</strong></td><td>True cell types</td><td>Precision 91–100%, recall 96–100%</td></tr>
             <tr><td><strong>QC</strong></td><td>Known clogs, bubbles and drift</td><td>99.8–100% of anomalous events removed; ≤ 1.4% of clean events, none from clean or drifting files</td></tr>
             <tr><td><strong>Spectral</strong></td><td>True abundances of 25 fluorochromes</td><td>Median r = 0.988; within 0.001 of unmixing with the true spectra</td></tr>
-            <tr><td><strong>Unmixing doctor</strong></td><td>Six faults planted in the spectral example; real bead and cell controls and fixed spleen (AutoSpectral example)</td><td>Each fault named first on two experiments, nothing on clean samples, each fix closer to the truth; the autofluorescent cell controls and the fixed spleen named</td></tr>
+            <tr><td><strong>Unmixing doctor</strong></td><td>Six faults planted in the spectral example; real bead and cell controls and fixed spleen (the AutoSpectral example data of Burton, Dooley and Liston)</td><td>Each fault named first on two experiments, nothing on clean samples, each fix closer to the truth; the autofluorescent cell controls and the fixed spleen named</td></tr>
             <tr><td><strong>Cell cycle</strong></td><td>True phase fractions</td><td>Dean–Jett–Fox within 1.6 points, Watson within 2</td></tr>
             <tr><td><strong>Proliferation</strong></td><td>True precursor frequencies</td><td>Division index within 3%</td></tr>
             <tr><td><strong>Kinetics</strong></td><td>Every cell's calcium in a simulated flux (five tubes)</td><td>Peak and times within one bin and 3% of the noise-free curve; responding share within 0.2 points</td></tr>
@@ -91,7 +91,7 @@ lede: CytoWeave reimplements published methods. This page shows how its results 
       <p><code>node --expose-gc validation/bench.mjs 10000000</code> reproduces these numbers; it needs no downloads.</p>
 
       <h2 id="methods">Methods it reimplements</h2>
-      <p>CytoWeave's analyses are reimplementations of published methods. Their authors are cited in the code and in the methods paragraph CytoWeave writes for your analysis, among them:</p>
+      <p>CytoWeave's analyses are reimplementations of methods from published papers and preprints. Their authors are cited in the code and in the methods paragraph CytoWeave writes for your analysis, among them:</p>
       <ul>
         <li>Logicle: Parks, Roederer and Moore</li>
         <li>PeacoQC: Emmaneel et al.</li>
@@ -99,7 +99,8 @@ lede: CytoWeave reimplements published methods. This page shows how its results 
         <li>UMAP: McInnes et al.; t-SNE: van der Maaten and Hinton</li>
         <li>Leiden: Traag et al.; Louvain: Blondel et al.</li>
         <li>k-means++: Arthur and Vassilvitskii; Hamerly's k-means</li>
-        <li>The spillover spreading matrix: Nguyen et al.</li>
+        <li>The spillover spreading matrix: Nguyen et al.; compensation by robust regression: AutoSpill, Roca et al.</li>
+        <li>Spectral unmixing: Novo, Grégori and Rajwa; multiple autofluorescence signatures: Roet et al.; per-cell autofluorescence matching: AutoSpectral, Burton et al. (bioRxiv preprint, <a href="https://doi.org/10.1101/2025.10.27.684855">doi:10.1101/2025.10.27.684855</a>)</li>
         <li>Marker enrichment modeling (MEM): Diggins et al.</li>
         <li>Trustworthiness and continuity: Venna and Kaski; LISI: Korsunsky et al.</li>
         <li>MIFlowCyt, FCS and Gating-ML: the International Society for Advancement of Cytometry (ISAC)</li>
