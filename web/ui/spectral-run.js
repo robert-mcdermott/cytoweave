@@ -346,7 +346,8 @@ export async function unmixSamples(app, samples, options = {}) {
       detectors,
       fluorochromes: refs.map((r) => r.name),
       references: refs.map((r) => ({ fluorochrome: r.name, sampleId: r.sample.library ? null : r.sample.id, peakDetector: r.ref.peakDetector, computed: r.ref.computed, ...(r.sample.library ? { library: { file: r.ref.entry.file, date: r.ref.entry.date, workspace: r.ref.entry.workspace, sha256: r.ref.entry.sha256 } } : {}) })),
-      autofluorescence: afMode === 'none' ? [] : state.afSignatures().map((s) => s.name),
+      // The signatures the unmixing used: one signature uses the first.
+      autofluorescence: afMode === 'none' ? [] : state.afSignatures().slice(0, afMode === 'single' ? 1 : undefined).map((s) => s.name),
       referenceLibrary: SETUP_ID,
       weights: method.startsWith('wls') ? (unstained ? `background variance from ${unstained.name}` : 'background variance from the dimmest 10% of events') : null,
     },

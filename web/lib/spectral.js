@@ -297,8 +297,9 @@ export function referenceSpectrum(columns, detectors, positiveIdx, negativeIdx, 
 }
 
 // Picks the positive and negative events of a single-stain control without scatter gates, in the
-// spirit of SpectroFlo's "brightest events" positive gate and AutoSpectral's automated control
-// processing (AutoSpectral R package, O. Burton). Heuristic:
+// spirit of SpectroFlo's "brightest events" positive gate and of AutoSpectral's automated control
+// processing (Burton OT et al., bioRxiv 2025, doi:10.1101/2025.10.27.684855). CytoWeave's own
+// heuristic:
 // 1. Peak detector: the detector where the control's 99.5th percentile rises most above the
 //    unstained control's 99.5th percentile (or above the control's own median when there is no
 //    unstained control). Comparing upper tails of the same cells cancels autofluorescence.
@@ -875,7 +876,9 @@ function signatureFit(u, m, D, unitSignatures, K, assignment = null) {
 // Returns { detectors, signatures: [{ name: 'AF1', spectrum, fraction, count, brightness }],
 // k, misfitByK (non-noise misfit as a fraction of signal energy), residualByK (median relative
 // residual), medianResidual, noiseFraction, eventsUsed }, signatures by decreasing fraction.
-// The per-cell choice among signatures follows AutoSpectral (unmixWithAutofluorescence).
+// The choice among signatures for each event (unmixWithAutofluorescence, below) is the per-cell
+// autofluorescence matching of AutoSpectral (Burton OT et al., bioRxiv 2025,
+// doi:10.1101/2025.10.27.684855).
 export function extractAutofluorescence(unstainedColumns, detectors, options = {}) {
   const D = detectors?.length ?? unstainedColumns.length;
   const cols = columnsFor(unstainedColumns, detectors, D);
@@ -1003,7 +1006,8 @@ export function extractAutofluorescence(unstainedColumns, detectors, options = {
   };
 }
 
-// Unmixing with per-event autofluorescence selection (the AutoSpectral approach): every event is
+// Unmixing with per-event autofluorescence selection, the per-cell autofluorescence matching of
+// AutoSpectral (Burton OT et al., bioRxiv 2025, doi:10.1101/2025.10.27.684855): every event is
 // unmixed with the fluorochromes plus each AF signature in turn, and the signature that leaves
 // the smallest residual is kept. Its abundance becomes an extra channel "AF".
 // Rather than K separate fits, the extended fit uses the Schur complement: with the

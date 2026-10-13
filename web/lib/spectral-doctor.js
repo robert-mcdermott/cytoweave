@@ -34,7 +34,8 @@
 //
 // Controls are checked without a sample too: a cell control whose dimmer positives carry
 // relatively more autofluorescence than its brighter ones (myeloid and granulocyte markers on
-// autofluorescent cells: the AutoSpectral example's CD11b and Siglec F cell controls), and a
+// autofluorescent cells: the CD11b and Siglec F cell controls of the AutoSpectral example data,
+// Burton, Dooley and Liston, Mendeley Data, doi:10.17632/ch5dnspd79.1), and a
 // control that differs from the library's spectrum of its dye (a degraded tandem when the
 // difference has the donor's shape, the other carrier when the library's entry is on beads or
 // cells).

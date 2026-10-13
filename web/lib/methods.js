@@ -34,6 +34,7 @@ export const REFERENCES = {
   miflowcyt: { text: 'Lee JA, Spidlen J, Boyce K, et al. MIFlowCyt: the minimum information about a flow cytometry experiment. Cytometry A. 2008;73(10):926–930.', doi: '10.1002/cyto.a.20623' },
   unmixing: { text: 'Novo D, Grégori G, Rajwa B. Generalized unmixing model for multispectral flow cytometry utilizing nonsquare compensation matrices. Cytometry A. 2013;83(5):508–520.', doi: '10.1002/cyto.a.22272' },
   autofluorescence: { text: 'Roet JEG, Mikula AM, de Kok M, et al. Unbiased method for spectral analysis of cells with great diversity of autofluorescence spectra. Cytometry A. 2024;105(8):595–606.', doi: '10.1002/cyto.a.24856' },
+  autospectral: { text: 'Burton OT, Buecken L, De Vuyst L, et al. AutoSpectral improves spectral flow cytometry accuracy through optimised spectral unmixing and autofluorescence-matching at the cellular level. bioRxiv [preprint]. 2025.', doi: '10.1101/2025.10.27.684855' },
   parksQB: { text: 'Parks DR, El Khettabi F, Chase E, et al. Evaluating flow cytometer performance with weighted quadratic least squares analysis of LED and multi-level bead data. Cytometry A. 2017;91(3):232–249.', doi: '10.1002/cyto.a.23052' },
   westgard: { text: 'Westgard JO, Barry PL, Hunt MR, Groth T. A multi-rule Shewhart chart for quality control in clinical chemistry. Clin Chem. 1981;27(3):493–501.', doi: '10.1093/clinchem/27.3.493' },
   gaussNorm: { text: 'Hahne F, Khodabakhshi AH, Bashashati A, et al. Per-channel basis normalization methods for flow cytometry data. Cytometry A. 2010;77(2):121–131.', doi: '10.1002/cyto.a.20823' },
@@ -79,6 +80,34 @@ function describeTransform(spec) {
   }
 }
 
+const UNMIXING_METHODS = {
+  ols: 'ordinary least squares',
+  'wls-fixed': 'weighted least squares with fixed detector weights',
+  wls: 'weighted least squares, reweighted for each event',
+  nnls: 'non-negative least squares',
+};
+
+// The unmixing method of a recorded unmixing (params.method), or the first sentence of its
+// description in workspaces that recorded only that.
+function unmixingMethod(d) {
+  const named = UNMIXING_METHODS[d.params?.method];
+  if (named) return named;
+  const described = String(d.method ?? '').split('. ')[0].trim();
+  return described ? described.replace(/^[A-Z](?=[a-z])/, (c) => c.toLowerCase()) : 'least squares';
+}
+
+// How autofluorescence entered the unmixing (params.afMode, with params.autofluorescence the
+// names of the signatures): nothing when it was left out; one signature as an extra channel; or
+// several signatures (Roet et al.) with each event unmixed with the one that fits it best, the
+// per-cell autofluorescence matching of AutoSpectral (Burton et al.).
+function unmixingAutofluorescence(params, cite) {
+  const signatures = Array.isArray(params.autofluorescence) ? params.autofluorescence.length : 0;
+  const mode = params.afMode ?? (signatures > 1 ? 'perEvent' : signatures ? 'single' : 'none');
+  if (mode === 'none' || !signatures) return '';
+  if (mode === 'perEvent' && signatures > 1) return `, with ${signatures} autofluorescence signatures ${cite('autofluorescence')} and each event unmixed with the signature that fit it best (per-cell autofluorescence matching) ${cite('autospectral')}`;
+  return ', with an autofluorescence signature unmixed as an additional channel';
+}
+
 // Writes the methods: { paragraphs: [string], references: [{ key, text, doi }] }. Citations
 // appear in the text as [n] in the order first used.
 export function writeMethods(ws, options = {}) {
@@ -118,7 +147,7 @@ export function writeMethods(ws, options = {}) {
     // Spectra taken from the instrument's spectral library rather than this experiment's controls.
     const fromLibrary = (d.params?.references ?? []).filter((r) => r.library);
     const library = fromLibrary.length ? ` The reference spectra of ${list(fromLibrary.map((r) => `${r.fluorochrome}${r.library.date ? ` (acquired ${String(r.library.date).slice(0, 10)})` : ''}`))} came from the instrument's spectral library, measured on single-stain controls of an earlier experiment.` : '';
-    paragraphs.push(`Spectral data were unmixed by ${d.method ?? 'least squares'} ${cite('unmixing')}${d.params?.autofluorescence ? `, with ${d.params.autofluorescence === 'multiple' ? 'per-cell selection among multiple autofluorescence signatures' : 'an autofluorescence signature'} ${cite('autofluorescence')}` : ''}.${library}`);
+    paragraphs.push(`Spectral data were unmixed by ${unmixingMethod(d)} ${cite('unmixing')}${unmixingAutofluorescence(d.params ?? {}, cite)}.${library}`);
   }
 
   // Scales: channels sharing a transform family and its fixed parameters are described together,

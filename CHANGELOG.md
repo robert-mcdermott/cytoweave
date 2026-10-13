@@ -1,5 +1,14 @@
 # Changelog
 
+## Unreleased
+
+### Fixed
+
+- **Credit for per-cell autofluorescence matching.** Per-event autofluorescence in the Spectral view is the per-cell autofluorescence matching of AutoSpectral (Burton OT et al., bioRxiv preprint 2025, doi:10.1101/2025.10.27.684855), which CytoWeave did not cite. It is now cited in the methods paragraph CytoWeave writes whenever per-event autofluorescence is used, in the README, on the Science page, in the spectral documentation and in the code. The AutoSpectral example data used by the validation suite are credited to their authors (Burton, Dooley and Liston, Mendeley Data, doi:10.17632/ch5dnspd79.1).
+- The methods paragraph's sentence on spectral unmixing pasted the Spectral view's help text into the paragraph and cited Roet et al. whatever was done with autofluorescence, even when it was left out. It now names the method and how autofluorescence was unmixed, and cites Roet et al. (several signatures) and AutoSpectral (per-cell matching) only when they were used. An unmixing with one autofluorescence signature records only the signature it used.
+- The README and the Science page said CytoWeave reimplements published methods; they now say methods from published papers and preprints, and their lists of methods add spectral unmixing (Novo et al.), several autofluorescence signatures (Roet et al.), per-cell autofluorescence matching (AutoSpectral) and compensation by robust regression (AutoSpill).
+- The design notes (`cytoweave-spec/research.md`) no longer describe AutoSpectral's code, and give the preprint's authors correctly.
+
 ## 0.8.0 (2026-10-08)
 
 CytoWeave 0.8 makes an analysis provable, explainable and teachable. A reproducibility certificate packs an analysis with its files and records every number it reported, so anyone can compute them again (in the window, with `cytoweave verify` or by an agent) and see each one confirmed; a review report is one HTML file a PI or reviewer opens without CytoWeave, every number traced to its source; the change log is hash-chained. Virtual FMO controls predict where a population's negative would end without a dye, and the panel optimizer chooses each marker's dye from the instrument's own noise model. A public agent benchmark grades AI agents working through CytoWeave's tools against the simulated truth. Teaching mode adds eighteen exercises that check a learner's answers against that truth, on examples that together now demonstrate every analysis, with files from FlowJo 11, FACSDiva and SpectroFlo to try the imports on.

@@ -113,6 +113,26 @@ test('methods say which reference spectra came from the spectral library', () =>
   assert.match(text, /reference spectra of PE-Cy7 \(acquired 2026-05-20\) came from the instrument's spectral library/);
 });
 
+test('methods describe how autofluorescence was unmixed and cite per-cell matching only when it was used', () => {
+  const methods = (afMode, autofluorescence) => {
+    const ws = { ...workspace(), derived: [{ kind: 'unmixing', method: 'Ordinary least squares. Autofluorescence: help text for the view.', params: { method: 'ols', afMode, autofluorescence, references: [] } }] };
+    const { paragraphs, references } = writeMethods(ws, {});
+    return { text: paragraphs.find((p) => p.startsWith('Spectral')), keys: references.map((r) => r.key) };
+  };
+  const none = methods('none', []);
+  assert.equal(none.text, 'Spectral data were unmixed by ordinary least squares [3].');
+  assert.ok(!none.keys.includes('autofluorescence') && !none.keys.includes('autospectral'));
+  const single = methods('single', ['AF1']);
+  assert.match(single.text, /an autofluorescence signature unmixed as an additional channel\.$/);
+  assert.ok(!single.keys.includes('autospectral'));
+  const perEvent = methods('perEvent', ['AF1', 'AF2', 'AF3']);
+  assert.match(perEvent.text, /with 3 autofluorescence signatures \[4\] and each event unmixed with the signature that fit it best \(per-cell autofluorescence matching\) \[5\]\.$/);
+  assert.deepEqual(perEvent.keys.filter((k) => k === 'autofluorescence' || k === 'autospectral'), ['autofluorescence', 'autospectral']);
+  // A workspace that recorded only the description still names its method.
+  const ws = { ...workspace(), derived: [{ kind: 'unmixing', method: 'Non-negative least squares', params: {} }] };
+  assert.match(writeMethods(ws, {}).paragraphs.join(' '), /unmixed by non-negative least squares \[\d\]\./);
+});
+
 test('confirmed Cell Ontology terms are named in the methods, with the reference', async () => {
   const { writeMethods } = await import('./methods.js');
   const { createWorkspace, addGates } = await import('./workspace.js');
