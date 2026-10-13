@@ -1,6 +1,8 @@
 # Changelog
 
-## Unreleased
+## 0.8.1 (2026-10-13)
+
+CytoWeave 0.8.1 corrects its citations: the methods paragraph it writes for spectral unmixing, and the credits in the README, on the Science page and in the documentation.
 
 ### Fixed
 
