@@ -2355,7 +2355,7 @@
   "spectroflo": {
    "title": "Cytek Aurora experiment with reference controls (AutoSpectral example, Mendeley ch5dnspd79 v1)",
    "description": "From a SpectroFlo experiment on a 5-laser Cytek Aurora (mouse, 9 colors): the experiment file (.Expt), which holds the reference spectra SpectroFlo computed from its cell controls, and the raw files of four of those controls (BUV395, BV421, APC, eFluor 780) and of the unstained cell control. Each file is fetched by byte range from the dataset's 2.1 GB ZIP archive and inflated.",
-   "source": "https://data.mendeley.com/datasets/ch5dnspd79/1 (AutoSpectral: Full Workflow Example 1; doi:10.17632/ch5dnspd79.1)",
+   "source": "https://data.mendeley.com/datasets/ch5dnspd79/1 (Burton O, Dooley J, Liston A. AutoSpectral: Full Workflow Example. Mendeley Data, v1, 2025. doi:10.17632/ch5dnspd79.1)",
    "license": "CC BY 4.0. CytoWeave downloads the files for testing and does not redistribute them.",
    "base": "https://data.mendeley.com/public-files/datasets/ch5dnspd79/files/",
    "files": [
@@ -2430,7 +2430,7 @@
   "autospectral": {
    "title": "AutoSpectral example: bead and cell controls of six dyes, and unstained spleen unfixed and fixed (Mendeley ch5dnspd79 v1)",
    "description": "From the same 5-laser Cytek Aurora experiment as the spectroflo data set (mouse): the bead controls of the six dyes that also have cell controls (BUV395, BUV805, BV421, PE, PE-Cy7, APC), the three cell controls the spectroflo set lacks (CD11b BUV805, Siglec F PE, F4/80 PE-Cy7), and unstained spleen unfixed and fixed in 4% PFA. Each file is fetched by byte range from the dataset's 2.1 GB ZIP archive and inflated.",
-   "source": "https://data.mendeley.com/datasets/ch5dnspd79/1 (AutoSpectral: Full Workflow Example 1; doi:10.17632/ch5dnspd79.1)",
+   "source": "https://data.mendeley.com/datasets/ch5dnspd79/1 (Burton O, Dooley J, Liston A. AutoSpectral: Full Workflow Example. Mendeley Data, v1, 2025. doi:10.17632/ch5dnspd79.1)",
    "license": "CC BY 4.0. CytoWeave downloads the files for testing and does not redistribute them.",
    "base": "https://data.mendeley.com/public-files/datasets/ch5dnspd79/files/",
    "files": [

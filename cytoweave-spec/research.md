@@ -156,24 +156,22 @@ Notation: y ∈ R^d is the raw detector vector for one event. M ∈ R^(d×p) hol
 
 - **OLS** (default in SpectroFlo, FlowJo and the Gating-ML spec): `x = (MᵀM)⁻¹Mᵀy = M⁺y`, with M⁺ from SVD (Gating-ML §7.6.2). Precompute U = M⁺ once (p × d); unmixing is then one matrix–vector product per event. In FlowJo WSP a spectral matrix is `<transforms:spilloverMatrix spectral="1" weightOptAlgorithmType="OLS" …>` (FlowKit raises `NotImplementedError` for any other algorithm type).
 - **WLS**: `x = (MᵀWM)⁻¹MᵀWy`, with W = diag(1/σ²_d).
-  - With *global* weights it remains a single precomputed matrix. AutoSpectral's default uses `1/mean channel signal`, with the mean clamped to ≥ 125 units (`calculate_weights.R`).
+  - With *global* weights it remains a single precomputed matrix.
   - With *per-event* Poisson-like weights (σ²_d = B_d + k·signal_d), it needs a p × p solve per event.
   - BD **SpectralFX** (FlowJo ≥ 10.10, FACSDiscover S8/A8/A7) is a "system-aware" WLS whose weights come from LED-calibrated, real-time detector baseline-noise keywords written by BD instruments (BD SpectralFX flyer: https://www.bdbiosciences.com/en-us/learn/applications/BD-spectralFX-technology). The exact keyword names are unverified.
 - **NNLS** (Lawson–Hanson active set; fast variant: Bro & de Jong 1997) constrains x ≥ 0. Gating-ML names OLS and NNLS as the "basic" algorithms. NNLS removes negative spread but biases dim populations upward and destroys symmetric negative distributions. Offer it with a warning, not as the default.
-- **Poisson IRLS / generalized model**: Novo, Grégori & Rajwa 2013, Cytometry A 83A:508–520, **doi:10.1002/cyto.a.22272**. AutoSpectral implements `unmix.poisson` (IRLS with fallback) and a **GLS** variant (`unmix.gls`). The GLS covariance is built from per-fluorophore spectral-variant deltas, projected onto the orthogonal complement of the panel span before SVD (rank ≤ 6, 99% variance).
+- **Poisson IRLS / generalized model**: Novo, Grégori & Rajwa 2013, Cytometry A 83A:508–520, **doi:10.1002/cyto.a.22272**.
 - **Theoretical unmixed spread under OLS**: `Cov(x) = U Σ_y Uᵀ`, where Σ_y is the detector noise covariance (Poisson: diag(B_d + k·M x_true)). This gives a principled *predicted* spillover-spreading matrix for panel design without running controls.
   - The 2026 "Residual Model" preprint formalizes such prediction for OLS: Cai et al., bioRxiv **doi:10.64898/2026.01.27.701929**, CC-BY 4.0, R package `USERM`.
-  - **Complexity Index™** (Cytek) is the condition number of the peak-normalized reference matrix (AutoSpectral `calculate_condition_number.R`). **Similarity Index** is the cosine similarity between two normalized spectra.
+  - **Complexity Index™** (Cytek) is the condition number of the peak-normalized reference matrix. **Similarity Index** is the cosine similarity between two normalized spectra.
 - **Autofluorescence (AF) handling, in increasing sophistication**:
   1. Treat AF as one extra "fluorochrome" whose spectrum comes from the unstained control (SpectroFlo "AF as a fluorescent tag", FlowJo "Autofluorescence Subtraction").
   2. **Multiple AF signatures** included simultaneously. Roet et al. 2024 identify distinct AF spectra by unbiased dimensionality reduction plus clustering of *unstained* cells and add each cluster's spectrum as an extra AF column (Cytometry A 105:595–606, **doi:10.1002/cyto.a.24856**). Also see Pilkington et al. 2024, "Autofluorescence: from burden to benefit", **doi:10.1002/cyto.a.24885**.
-  3. **Per-cell AF assignment**: AutoSpectral (Burton, Liston, Laniewski; bioRxiv 2025-10-27, **doi:10.1101/2025.10.27.684855**; R + C++, **AGPL-3**, v1.8.3, https://github.com/DrCytometer/AutoSpectral).
-     - A 10×10 SOM on the unstained sample (raw plus unmixed) yields 100 candidate AF spectra (`get.af.spectra`).
-     - Each event gets the single AF spectrum that either brings fluorophore abundances closest to 0 (`use.dist0 = TRUE`, the default) or minimizes the per-cell residual.
-     - A fast approximation aligns each event's OLS residual with the AF candidates (`assign_af_residuals`).
-     - Optional per-cell fluorophore-variant optimization follows.
+  3. **Per-cell AF assignment (per-cell autofluorescence matching)**: AutoSpectral (Burton OT, Buecken L, De Vuyst L, Humblet-Baron S, De Leon ALM, Khan S, Cerveira J, Dooley J, Liston A; bioRxiv preprint 2025-10-27, **doi:10.1101/2025.10.27.684855**; R package, **AGPL-3**, https://github.com/DrCytometer/AutoSpectral).
+     - Each cell is paired with the autofluorescence spectrum, among several, that suits it, rather than one autofluorescence spectrum for every cell.
      - The authors report up to 9000-fold fewer incorrectly assigned cells.
-     - **License caution**: AGPL code cannot be ported into Apache-2.0 CytoWeave. Re-implement from the paper's description (clean room).
+     - **Citation:** CytoWeave cites the preprint wherever it uses per-cell matching: in the code, the documentation, the Science page and the methods paragraph it writes.
+     - **License:** AutoSpectral's code is AGPL-3 and is not copied or translated into Apache-2.0 CytoWeave; CytoWeave's implementation is its own (§3A.8).
 - **Efficient per-cell AF selection in JS (derivation, not from a paper)**:
   - Let P_S be the projector onto the fluorochrome columns, and e = (I − P_S)y the fluorochrome-only residual, computed once per event.
   - For each AF candidate a_k, precompute ã_k = (I − P_S)a_k.
@@ -184,7 +182,7 @@ Notation: y ∈ R^d is the raw detector vector for one event. M ∈ R^(d×p) hol
   - cosine similarity of each control to a library spectrum;
   - peak-channel consistency;
   - positive-population brightness, i.e. stain index (see Section 3B);
-  - AF contamination of controls (AutoSpectral `clean_controls`, `remove_af`);
+  - AF contamination of controls (as AutoSpectral's automated control processing handles);
   - residual magnitude per event (‖y − Mx‖ / ‖y‖), shown as a QC parameter;
   - condition number;
   - an NxN unmixed-pairs plot (worst-pair ranking).
@@ -1262,11 +1260,10 @@ CytoWeave's reader should implement "scalpel" (repair while preserving metadata)
   - Writes FCS **3.1**, two files per tube: *Raw* (one parameter per detector) and *Unmixed* (one per fluorochrome tag) (Cytek Aurora User's Guide).
   - Detector `$PnN` follow laser+index: `UV1-A…UV16-A`, `V1-A…V16-A`, `B1-A…B14-A`, `YG1-A…YG10-A`, `R1-A…R8-A`, with `-H`/`-W` variants; scatter is `FSC-A`, `SSC-A`, and `SSC-B-A` on 5L systems.
   - The data range is about 4,194,304 (2²²).
-  - AutoSpectral's Aurora defaults: biex `maxRange=4194304`, `pos=5.62`, `width=-1000`. The typical leukocyte AF peak is in `V7-A`.
-- **BD FACSDiscover S8/A8/A7**: detector names include the center wavelength, e.g. `V6 (515)-A`; scatter includes `SSC (Violet)-A`. Spectral detectors match the regex `[0-9]\)-A`. Ranges reach about 2×10⁸ for scatter and about 2.4×10⁷ for fluorescence (AutoSpectral `get_autospectral_param_discover.R`). FlowJo ≥ 10.10 reads BD's noise keywords for SpectralFX (names unverified).
+- **BD FACSDiscover S8/A8/A7**: detector names include the center wavelength, e.g. `V6 (515)-A`; scatter includes `SSC (Violet)-A`. Spectral detectors match the regex `[0-9]\)-A`. FlowJo ≥ 10.10 reads BD's noise keywords for SpectralFX (names unverified).
 - **Sony ID7000**: `405CH7-A`-style names, `TIME` in upper case, range about 1,048,576 (2²⁰).
 - Unmixed exports frequently carry no machine-readable reference spectra. CytoWeave should import raw files plus single-stain controls and persist the reference matrix itself, ideally as a Gating-ML `spectrumMatrix` so the work round-trips.
-- Treat SpectroFlo `.expt` and BD spectral reference libraries as optional importers. AutoSpectral has `read_spectroflo_expt.R` and `read_bd_spectra.R`, which show the formats can be parsed.
+- Treat SpectroFlo `.expt` and BD spectral reference libraries as optional importers.
 
 ## 5. Novel features: evidence and novelty assessment
 
@@ -1347,7 +1344,7 @@ Kinetics, cell cycle, proliferation and cloud collaboration already exist in shi
 
 | Dataset | Content | License | Bundle? |
 |---|---|---|---|
-| **AutoSpectral example** (Mendeley ch5dnspd79 v1, doi:10.17632/ch5dnspd79.1) | 2.12 GB; Aurora 5L, mouse 9-color; SpectroFlo .Expt; raw and unmixed; 8 bead + 8 cell raw controls; unstained spleen/lung/liver; fixative series | **CC BY 4.0** | **Yes**: bead-control subset ~12 MB (mark "subset extracted"); full set as download |
+| **AutoSpectral example** (Burton, Dooley & Liston; Mendeley ch5dnspd79 v1, doi:10.17632/ch5dnspd79.1) | 2.12 GB; Aurora 5L, mouse 9-color; SpectroFlo .Expt; raw and unmixed; 8 bead + 8 cell raw controls; unstained spleen/lung/liver; fixative series | **CC BY 4.0** | **Yes**: bead-control subset ~12 MB (mark "subset extracted"); full set as download |
 | **CELeidoscope ZAM47** (Zenodo 19221995) | BD FACSDiscover S8, **FCS 3.2, 440 parameters**; single-color controls 18.3 MB each; FlowJo .wsp; C. elegans | **CC BY 4.0** | Optional (one 18 MB control); the only real FCS 3.2 files found |
 | CLL 42-color OMIP (Zenodo 19485511) | Raw 2.17 GB, refs 2.98 GB, unmixed 1.58 GB; human | CC BY 4.0 | Download |
 | 41-color whole-blood OMIP (Zenodo 19452540) | 2.48 GB + refs 6.32 GB | CC BY 4.0 | Download |
@@ -1495,7 +1492,7 @@ The ordering principle is **trust first** (numbers that match the standards, Flo
     - clean controls: positive/negative selection, AF contamination removal, cosine to library;
     - offer **OLS (default) and WLS** (global weights), with NNLS optional and warned;
     - **multi-AF discovery** by clustering unstained cells (Roet 2024);
-    - **per-cell AF assignment** using the O(d)-per-candidate residual-projection method (§3A.8), clean-room from AutoSpectral's paper because of the AGPL;
+    - **per-cell AF assignment**, the per-cell autofluorescence matching of AutoSpectral (Burton et al. 2025, cited), with CytoWeave's own O(d)-per-candidate residual-projection method (§3A.8); AutoSpectral's AGPL code is not used;
     - a residual-norm QC parameter;
     - similarity, complexity, hotspot and SSM matrices;
     - a correction matrix layered over the original;

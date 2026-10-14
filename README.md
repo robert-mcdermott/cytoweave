@@ -108,9 +108,11 @@ guides to every view, with screenshots.
     miscompensated.
 - **Spectral unmixing.**
   - Reference spectra from single-stain controls, gated automatically.
-  - Several autofluorescence signatures extracted from the unstained control.
+  - Several autofluorescence signatures extracted from the unstained control
+    (Roet et al. 2024).
   - Least-squares, weighted (fixed or per event) and non-negative unmixing,
-    with per-event autofluorescence.
+    with per-event autofluorescence: AutoSpectral's per-cell autofluorescence
+    matching (Burton et al., bioRxiv 2025).
   - Panel complexity index, similarity and spreading matrices, a residual
     check, and a side-by-side **comparison of unmixing models** on your own
     sample.
@@ -674,14 +676,16 @@ ID7000, BD FACSDiscover and others), a five-step workflow:
    positive and negative events are found without scatter gates, and its
    spectrum is the difference of their medians.
 3. **Autofluorescence.** Extract one or more autofluorescence signatures from
-   the unstained control.
+   the unstained control, following Roet et al. (2024).
 4. **Check the panel.** See the complexity index, the most similar pair of
    spectra, the similarity matrix and the spreading matrix.
 5. **Unmix.** Choose a method: ordinary, weighted (fixed or per-event
    weights) or non-negative least squares. Autofluorescence can be left out,
-   treated as one signature, or assigned per event. Unmixed channels become
-   ordinary channels to gate on, and the residual of every event is a
-   channel too.
+   treated as one signature, or assigned per event: each event is unmixed
+   with the signature that fits it best, the per-cell autofluorescence
+   matching introduced by AutoSpectral (Burton et al., bioRxiv 2025). Unmixed
+   channels become ordinary channels to gate on, and the residual of every
+   event is a channel too.
 
 **Compare models** unmixes one population of your sample with seven
 combinations of method and autofluorescence model. For every dye it shows the
@@ -1331,7 +1335,7 @@ pipelines, as the app does, against answers known in advance:
 | Gating | True cell types | Precision 91–100%, recall 96–100% |
 | QC | Known clogs, bubbles and drift | 99.8–100% of anomalous events removed; ≤ 1.4% of clean events, none from clean or drifting files |
 | Spectral | True abundances of 25 fluorochromes | Median r = 0.988; within 0.001 of unmixing with the true spectra |
-| Unmixing doctor | Six faults planted in the spectral example; real bead and cell controls and fixed spleen (AutoSpectral example) | Each fault named first on two experiments, nothing on clean samples, each fix closer to the truth; the autofluorescent cell controls and the fixed spleen named |
+| Unmixing doctor | Six faults planted in the spectral example; real bead and cell controls and fixed spleen (the AutoSpectral example data of Burton, Dooley and Liston) | Each fault named first on two experiments, nothing on clean samples, each fix closer to the truth; the autofluorescent cell controls and the fixed spleen named |
 | Cell cycle | True phase fractions | Dean–Jett–Fox within 1.6 points, Watson within 2 |
 | Proliferation | True precursor frequencies | Division index within 3% |
 | Kinetics | Every cell's calcium in a simulated flux (five tubes) | Peak and times within one bin and 3% of the noise-free curve; responding share within 0.2 points |
@@ -1577,8 +1581,8 @@ CytoWeave is licensed under the [Apache License 2.0](LICENSE). If you use it
 in published work, please cite it (see [CITATION.cff](CITATION.cff)), together
 with the methods listed in its Report view.
 
-CytoWeave reimplements published methods. Their authors are cited in the
-code and in the methods text it writes, among them:
+CytoWeave reimplements methods from published papers and preprints. Their
+authors are cited in the code and in the methods text it writes, among them:
 - Logicle (Parks, Roederer & Moore);
 - PeacoQC (Emmaneel et al.);
 - FlowSOM (Van Gassen et al.);
@@ -1587,6 +1591,11 @@ code and in the methods text it writes, among them:
 - k-means++ (Arthur & Vassilvitskii) and Hamerly's k-means;
 - CytoNorm (Van Gassen et al.);
 - the spillover spreading matrix (Nguyen et al.);
+- compensation by robust regression: AutoSpill (Roca et al. 2021);
+- spectral unmixing (Novo, Grégori & Rajwa 2013), multiple autofluorescence
+  signatures (Roet et al. 2024) and per-cell autofluorescence matching:
+  AutoSpectral (Burton et al., bioRxiv preprint 2025,
+  doi:10.1101/2025.10.27.684855);
 - MEM (Diggins et al.);
 - diffcyt (Weber et al. 2019) and limma's moderated t-statistics (Smyth 2004;
   Ritchie et al. 2015; Chen et al. 2025);

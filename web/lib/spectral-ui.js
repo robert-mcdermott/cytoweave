@@ -233,5 +233,5 @@ export const METHODS = [
 export const AF_MODES = [
   { id: 'none', label: 'None', text: 'Autofluorescence is left in the fluorochrome channels (raises their background, most in violet and UV dyes).' },
   { id: 'single', label: 'One signature', text: 'The main autofluorescence signature is unmixed as an extra channel, AF (unmixed).' },
-  { id: 'perEvent', label: 'Per event', text: 'Each event uses the autofluorescence signature that fits it best (AutoSpectral-style); its abundance goes to AF (unmixed) and its choice to AF signature (unmixed).' },
+  { id: 'perEvent', label: 'Per event', text: 'Each event uses the autofluorescence signature that fits it best (per-cell autofluorescence matching, as in AutoSpectral by Burton et al.); its abundance goes to AF (unmixed) and its choice to AF signature (unmixed).' },
 ];
