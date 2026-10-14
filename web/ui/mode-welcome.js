@@ -12,7 +12,7 @@ const FEATURES = [
   ['qc', 'Quality control', 'PeacoQC-style acquisition cleaning, flow-rate checks and saturation, as reversible masks with explanations.'],
   ['compare', 'Statistics that respect the design', 'Per-sample comparisons with paired and nonparametric tests, effect sizes, multiple-testing correction and differential abundance.'],
   ['history', 'Reproducible by construction', 'Every edit is recorded; undo anything, keep provenance, export Gating-ML and a methods paragraph.'],
-  ['lock', 'Private and local', 'Files are read on this computer and never uploaded. Free and open source (Apache-2.0).'],
+  ['lock', 'Private and local', 'Files are read on this computer, and uploaded only when you save them to Cirro. Free and open source (Apache-2.0).'],
 ];
 
 export function mountWelcome(app, container) {
@@ -27,6 +27,7 @@ export function mountWelcome(app, container) {
         h('div.btn-row',
           h('button.btn.primary', { type: 'button', onclick: () => app.pickFiles() }, icon('file'), 'Add FCS files'),
           h('button.btn', { type: 'button', onclick: () => app.pickFolder() }, icon('folder'), 'Open a folder'),
+          app.cirro.enabled ? h('button.btn', { type: 'button', onclick: () => app.cirro.open() }, icon('globe'), 'Open from Cirro') : null,
           h('button.btn', { type: 'button', onclick: () => app.pickFiles('.cwz,.json,.wsp,.wspt,.flowjo,.xml,.acs,.zip') }, icon('upload'), 'Import a workspace'),
           h('span.muted', { style: { marginLeft: '6px' } }, 'or drop files anywhere'))),
       h('img', { src: 'favicon.svg', width: 132, height: 132, alt: '', style: { filter: 'drop-shadow(0 18px 40px rgba(91,76,230,0.35))' } })),

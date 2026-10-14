@@ -51,19 +51,25 @@ export async function ensureTableSamples(app, tables) {
 }
 
 // Every table in one Excel workbook, with the sheets that say where the numbers come from.
-export async function exportTablesWorkbook(app) {
+// The workspace's tables as an Excel workbook (a Blob), with their columns, samples and gating.
+export async function tablesWorkbookBlob(app) {
   const { store, data } = app;
   const tables = store.ws.tables;
-  if (!tables.length) {
-    toast('Make a table in Tables first.');
-    return;
-  }
   await ensureTableSamples(app, tables);
   const { tablesWorkbook } = await import('../lib/spreadsheets.js');
   const { writeXLSX } = await import('../lib/xlsx.js');
   const { sheets } = tablesWorkbook(store.ws, tables, (id) => data.view(id), { version: app.version });
   const bytes = await writeXLSX(sheets, { title: `${store.ws.name} tables` });
-  downloadBlob(new Blob([bytes], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' }), `${(store.ws.name || 'tables').replace(/[^\w.-]+/g, '_')}.xlsx`);
+  return new Blob([bytes], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+}
+
+export async function exportTablesWorkbook(app) {
+  const tables = app.store.ws.tables;
+  if (!tables.length) {
+    toast('Make a table in Tables first.');
+    return;
+  }
+  downloadBlob(await tablesWorkbookBlob(app), `${(app.store.ws.name || 'tables').replace(/[^\w.-]+/g, '_')}.xlsx`);
   toast(`Wrote ${tables.length} table${tables.length === 1 ? '' : 's'} with their columns, samples and gating.`, { kind: 'ok' });
 }
 

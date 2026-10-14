@@ -126,7 +126,7 @@ lede: CytoWeave reimplements methods from published papers and preprints. This p
 
       <h2 id="privacy">Privacy and security</h2>
       <ul>
-        <li>Files are parsed and analyzed in the browser. Nothing is uploaded, and CytoWeave makes no network requests of its own.</li>
+        <li>Files are parsed and analyzed in the browser. CytoWeave makes no network requests of its own unless you connect it to Cirro, and uploads only what you save there.</li>
         <li>By default the server listens only on the loopback interface, rejects requests whose <code>Host</code> header is not a local address (which blocks DNS rebinding), accepts API calls only from its own pages, and serves a strict Content Security Policy.</li>
         <li>Remote control is off unless <code>--remote-control</code> is given (<code>cytoweave mcp</code> turns it on for its own session). Actions that read or write files need a per-session token, which CytoWeave also writes to a file in its data folder that only you can read, for the R and Python clients.</li>
       </ul>

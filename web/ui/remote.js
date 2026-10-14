@@ -2010,9 +2010,8 @@ export function installRemote(app) {
     },
 
     async methods() {
-      const { writeMethods } = await import('../lib/methods.js');
-      const { paragraphs, references } = writeMethods(ws(), { version: app.version });
-      return { message: `${paragraphs.join('\n\n')}\n\nReferences\n${references.map((r, i) => `${i + 1}. ${r.text}${r.doi ? ` doi:${r.doi}` : ''}`).join('\n')}` };
+      const { methodsText } = await import('../lib/methods.js');
+      return { message: methodsText(ws(), { version: app.version }) };
     },
 
     async export_gating_ml() {

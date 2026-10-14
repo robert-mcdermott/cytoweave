@@ -102,6 +102,7 @@ export function mountSidebar(app) {
     showMenu(anchor, [
       { label: 'Add FCS files…', icon: 'file', hint: `${navigator.platform.includes('Mac') ? '⌘' : 'Ctrl+'}O`, onSelect: () => app.pickFiles() },
       { label: 'Add a folder of FCS files…', icon: 'folder', onSelect: () => app.pickFolder() },
+      ...(app.cirro.enabled ? [{ label: 'Open from Cirro…', icon: 'globe', onSelect: () => app.cirro.open() }] : []),
       '-',
       { label: 'Open an example experiment…', icon: 'flask', onSelect: () => app.showExamples() },
       { label: 'Import a FlowJo workspace or Gating-ML…', icon: 'upload', onSelect: () => app.pickFiles('.wsp,.wspt,.flowjo,.xml') },

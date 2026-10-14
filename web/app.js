@@ -16,6 +16,7 @@ import { installFigureProvenance } from './ui/figure-provenance-dialog.js';
 import { installAutogating } from './ui/autogate-dialog.js';
 import { installLiveQC } from './ui/live-qc.js';
 import { installExercises } from './ui/exercises.js';
+import { installCirro, finishCirroSignIn } from './ui/cirro.js';
 import { colorVisionFriendly, setColorVisionFriendly } from './lib/colormaps.js';
 import { openPalette } from './ui/palette.js';
 import { GATE_TOOL_KEYS } from './ui/mode-gate.js';
@@ -100,6 +101,7 @@ async function start() {
   installChannelDialogs(app);
   installFigureProvenance(app);
   installAutogating(app);
+  installCirro(app);
   app.applySpectroFloImport = (result, fileName) => import('./ui/import-spectroflo.js').then((m) => m.applySpectroFloImport(app, result, fileName));
   app.applyFlowJoImport = (result, fileName) => import('./ui/import-flowjo.js').then((m) => m.applyFlowJoImport(app, result, fileName));
   app.exportCLR = () => import('./ui/import-flowjo.js').then((m) => m.exportCLRDialog(app));
@@ -250,11 +252,12 @@ async function start() {
   fileInput.addEventListener('change', () => app.importFiles([...fileInput.files]));
   folderInput.addEventListener('change', () => app.importFiles([...folderInput.files]));
 
-  // Imports dropped or picked files by type. Entries: File objects or { name, bytes, folder }.
+  // Imports dropped or picked files by type. Entries: File objects or { name, bytes, folder }; a
+  // File opened from Cirro also carries cirro (where in Cirro it is).
   // options.interactive (default true): false imports CSV events with the guessed settings (agents).
   // Returns { csv: the CSV event imports }.
   app.importFiles = async (files, options = {}) => {
-    const items = files.map((file, order) => ({ file, name: file.name, folder: file.webkitRelativePath ? file.webkitRelativePath.split('/').slice(-2, -1)[0] : file.folder ?? null, order }));
+    const items = files.map((file, order) => ({ file, name: file.name, folder: file.webkitRelativePath ? file.webkitRelativePath.split('/').slice(-2, -1)[0] : file.folder ?? null, cirro: file.cirro ?? null, order }));
     const fcs = items.filter((item) => /\.(fcs|lmd)$/i.test(item.name) || (!/\.\w+$/.test(item.name) && item.file.size > 256));
     const workspaces = items.filter((item) => /\.(cwz|json)$/i.test(item.name));
     const flowjo = items.filter((item) => /\.(wspt?|flowjo)$/i.test(item.name));
@@ -295,7 +298,7 @@ async function start() {
     const progress = progressToast(`Reading ${items.length} FCS file${items.length > 1 ? 's' : ''}…`);
     const sameWorkspace = store.sameWorkspace();
     // Files are handed over as they are (a File is read in parts by the worker), not read here.
-    const files = items.map((item) => ({ name: item.name, file: item.bytes ? null : item.file instanceof Blob ? item.file : null, bytes: item.bytes ?? null, localUrl: item.localUrl ?? null, size: item.file?.size ?? item.size, order: item.order, folder: item.folder }));
+    const files = items.map((item) => ({ name: item.name, file: item.bytes ? null : item.file instanceof Blob ? item.file : null, bytes: item.bytes ?? null, localUrl: item.localUrl ?? null, size: item.file?.size ?? item.size, order: item.order, folder: item.folder, cirro: item.cirro ?? null }));
     const { records, problems } = await data.importFCS(files, (done, total, name) => progress.update(done / total, `Reading ${name} (${Math.min(total, Math.floor(done) + 1)}/${total})`));
     if (!records.length) {
       progress.fail(problems[0] ?? 'No FCS data could be read.');
@@ -847,6 +850,13 @@ async function start() {
       ...(store.ws.samples.some((x) => x.acquisitionGates) ? [{ label: 'Gates FACSChorus recorded in the files…', icon: 'upload', onSelect: () => app.importAcquisitionGates() }] : []),
       { label: 'Events or sample annotations (CSV)…', icon: 'tag', onSelect: () => app.pickFiles('.csv,.tsv,.txt') },
       '-',
+      ...(app.cirro.enabled ? [
+        { section: 'Cirro' },
+        { label: 'Open from Cirro…', icon: 'globe', onSelect: () => app.cirro.open() },
+        { label: 'Save to Cirro…', icon: 'upload', onSelect: () => app.cirro.save() },
+        { label: app.cirro.session?.signedIn ? `Signed in to ${app.cirro.session.tenantName}…` : 'Connect to Cirro…', icon: 'link', onSelect: () => app.cirro.connect() },
+        '-',
+      ] : []),
       { label: 'Example experiments…', icon: 'flask', onSelect: () => app.showExamples() },
       { label: 'Exercises…', icon: 'school', onSelect: () => app.showExercises() },
       ...(app.exampleFiles().length ? [{ label: 'Files that came with this example…', icon: 'file', onSelect: () => app.showExampleFiles() }] : []),
@@ -860,6 +870,11 @@ async function start() {
     ...MODES.filter((m) => m !== 'sep').map((m) => ({ label: `Go to ${m.label}`, icon: m.icon, run: () => app.setMode(m.id), keywords: m.id })),
     { label: 'Add FCS files', icon: 'file', hint: `${modKey}O`, run: () => app.pickFiles() },
     { label: 'Open a folder of FCS files', icon: 'folder', run: () => app.pickFolder() },
+    ...(app.cirro.enabled ? [
+      { label: 'Open files from Cirro', icon: 'globe', run: () => app.cirro.open(), keywords: 'cirro cloud project dataset download' },
+      { label: 'Save the analysis to Cirro', icon: 'upload', run: () => app.cirro.save(), keywords: 'cirro cloud project dataset upload share' },
+      { label: 'Connect to Cirro (sign in or out)', icon: 'link', run: () => app.cirro.connect(), keywords: 'cirro tenant login sign in account' },
+    ] : []),
     { label: 'Open an example experiment', icon: 'flask', run: () => app.showExamples() },
     { label: 'Start an exercise', icon: 'school', run: () => app.showExercises(), keywords: 'teaching learn practice tutorial training exercise class course' },
     ...(app.exampleFiles().length ? [{ label: 'Files that came with this example', icon: 'file', run: () => app.showExampleFiles(), keywords: 'attachment csv diva spectroflo flowjo import' }] : []),
@@ -973,6 +988,7 @@ async function start() {
       h('span.item', `${store.ws.samples.length} sample${store.ws.samples.length === 1 ? '' : 's'} · ${store.ws.gates.length} gate${store.ws.gates.length === 1 ? '' : 's'}`),
       h('span.item', `${data.views.size} loaded · ${formatBytes(data.totalBytes())}`),
       watch ? h('button.item.statusbar-link', { type: 'button', title: `Watching ${watch.folder}: open QC → Live`, onclick: () => app.openLiveQC() }, icon('play'), `Watching ${watch.name} · ${app.live.queue.length} file${app.live.queue.length === 1 ? '' : 's'}`) : null,
+      app.cirro.session?.signedIn ? h('button.item.statusbar-link', { type: 'button', title: `Signed in to ${app.cirro.session.host}${app.cirro.session.userName ? ` as ${app.cirro.session.userName}` : ''}`, onclick: () => app.cirro.connect() }, icon('globe'), `Cirro: ${app.cirro.session.tenantName}`) : null,
       h('span.spacer'),
       store.ui.editScope === 'sample' ? h('span.item', h('span.badge.warn', 'Editing this sample only')) : null,
       h('span.item', `CytoWeave ${VERSION}${info ? '' : ' · web'}`),
@@ -1216,6 +1232,7 @@ async function start() {
     for (const item of items.filter((i) => !fcs.includes(i) && !workspaces.includes(i))) await app.importFiles([asFile(item)]);
   };
   if (info?.files?.length) await app.openStartupFiles(info.files);
+  if (app.cirro.enabled) app.cirro.resumeSignIn();
   // Programs on this computer (AI agents through "cytoweave mcp") act in this window.
   // A watched folder (cytoweave --watch, or QC → Live): files checked as they are acquired.
   app.refreshStatus = renderStatus;
@@ -1254,7 +1271,10 @@ async function start() {
   window.cytoweave = app;
 }
 
-start().catch((error) => {
-  console.error(error);
-  document.getElementById('workbench').append(h('div.empty', h('h3', 'CytoWeave could not start'), h('p', error.message)));
-});
+// The Cirro sign-in window returns to this page; there it hands over the sign-in instead.
+if (!finishCirroSignIn()) {
+  start().catch((error) => {
+    console.error(error);
+    document.getElementById('workbench').append(h('div.empty', h('h3', 'CytoWeave could not start'), h('p', error.message)));
+  });
+}

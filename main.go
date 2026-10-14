@@ -36,6 +36,7 @@ type config struct {
 	dataDir     string
 	noStore     bool
 	dev         bool
+	noCirro     bool
 	showVersion bool
 	files       []string
 	watch       string
@@ -46,6 +47,7 @@ type app struct {
 	session  string
 	control  *remoteHub
 	dev      bool
+	cirro    bool
 	assetDir string
 	assets   fs.FS
 	files    *localFiles
@@ -174,7 +176,7 @@ func start(cfg config, out io.Writer) (*runningServer, error) {
 	a.printBanner(out, url, connection)
 	base, cancel := context.WithCancel(context.Background())
 	server := &http.Server{
-		Handler:           protect(handler, cfg.host, actualPort),
+		Handler:           protect(handler, cfg.host, actualPort, !cfg.noCirro),
 		ReadHeaderTimeout: 10 * time.Second,
 		BaseContext:       func(net.Listener) context.Context { return base },
 	}
@@ -210,6 +212,7 @@ func parseConfig(args []string) (config, error) {
 	flags.StringVar(&cfg.dataDir, "data-dir", "", "folder for the workspace library (default: <user config dir>/CytoWeave)")
 	flags.BoolVar(&cfg.noStore, "no-library", false, "do not keep a workspace library on disk (the browser's own storage is used)")
 	flags.BoolVar(&cfg.dev, "dev", false, "serve web/ from the working directory instead of the embedded copy")
+	flags.BoolVar(&cfg.noCirro, "no-cirro", false, "do not connect to Cirro: pages reach only this program, and Cirro's menus are hidden")
 	flags.BoolVar(&cfg.showVersion, "version", false, "print the version and exit")
 	flags.StringVar(&cfg.watch, "watch", "", "watch a folder for FCS files as they are acquired (QC → Live), for example the instrument's export folder; it is only read")
 	flags.DurationVar(&cfg.watchEvery, "watch-interval", defaultWatchInterval, "how often the watched folder is checked")
@@ -263,6 +266,7 @@ func newApp(cfg config) (*app, error) {
 	a := &app{
 		session: strconv.FormatInt(time.Now().UnixNano(), 36),
 		dev:     cfg.dev,
+		cirro:   !cfg.noCirro,
 		assets:  content,
 		files:   newLocalFiles(),
 	}
@@ -357,11 +361,12 @@ type info struct {
 	Files         []localFile `json:"files"`
 	Platform      string      `json:"platform"`
 	Watching      string      `json:"watching,omitempty"`
+	Cirro         bool        `json:"cirro"`
 }
 
 func (a *app) registerAPI(mux *http.ServeMux) {
 	mux.HandleFunc("GET /api/info", func(w http.ResponseWriter, r *http.Request) {
-		body := info{Name: "CytoWeave", Session: a.session, RemoteControl: a.control != nil, Version: version, Mode: "desktop", Files: a.files.opened(), Platform: platformName(), Watching: a.watch.status(0).Folder}
+		body := info{Name: "CytoWeave", Session: a.session, RemoteControl: a.control != nil, Version: version, Mode: "desktop", Files: a.files.opened(), Platform: platformName(), Watching: a.watch.status(0).Folder, Cirro: a.cirro}
 		if a.store != nil {
 			body.Library = true
 			body.DataDir = a.store.dir
